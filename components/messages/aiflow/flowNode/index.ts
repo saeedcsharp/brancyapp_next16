@@ -5,6 +5,11 @@ export {
   imageNodeClassName,
 } from "brancy/components/messages/aiflow/flowNode/ImageNode";
 export {
+  ImageGalleryNode,
+  getImageGalleryNodeHeight,
+  imagegalleryNodeClassName,
+} from "brancy/components/messages/aiflow/flowNode/ImageGalleryNode";
+export {
   VoiceNode,
   getVoiceNodeHeight,
   voiceNodeClassName,
@@ -14,6 +19,11 @@ export {
   getQuickReplyNodeHeight,
   quickreplyNodeClassName,
 } from "brancy/components/messages/aiflow/flowNode/QuickReplyNode";
+export {
+  ButtonGroupNode,
+  getButtonGroupNodeHeight,
+  buttongroupNodeClassName,
+} from "brancy/components/messages/aiflow/flowNode/ButtonGroupNode";
 export {
   GenericNode,
   getGenericNodeHeight,
@@ -34,6 +44,7 @@ export {
   getPhoneNumberGrabberNodeHeight,
   phonenumbergrabberNodeClassName,
 } from "brancy/components/messages/aiflow/flowNode/PhoneNumberGrabberNode";
+export { AiNode, getAiNodeHeight, aiNodeClassName } from "brancy/components/messages/aiflow/flowNode/AiNode";
 export {
   OnMessageNode,
   getOnMessageNodeHeight,

@@ -1,3 +1,7 @@
+.nodeContainer {
+  /* node wrapper hook; layout lives in .container */
+}
+
 .container {
   display: flex;
   flex-direction: column;

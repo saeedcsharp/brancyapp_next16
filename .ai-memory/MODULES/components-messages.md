@@ -1,6 +1,6 @@
 # components/messages
 
-The AI Flow editor shows a localized private-reply warning beside the back and save controls when an `node_onmessage` connection targets a node with a non-null output while `checkFollower` is disabled. Output-less nodes such as quick replies do not trigger the warning. The warning condition is display-only: Save continues through the existing API flow, including after changing The user must follow the page in `settingModal`.
+The AI Flow editor shows a localized private-reply warning beside the back and save controls when an `node_onmessage` connection targets a node with a non-null output while `checkFollower` is disabled. Output-less nodes such as quick replies do not trigger the warning. For `buttongroup` and `generic` (gallery) targets, only an actual connection from the regular `output` socket triggers it; button outputs and gallery-item (sub-block) outputs, in any number, are ignored. The warning condition is display-only: Save continues through the existing API flow, including after changing The user must follow the page in `settingModal`.
 
 ## Purpose
 
@@ -123,6 +123,14 @@ The same component keeps the continued new flow in `userslist` as a local `newFl
 
 `aiflow/flowNode/GenericItemNode.tsx` and `aiflow/flowNode/WeblinkNode.tsx` validate web links on blur. A valid HTTP(S) link must have a non-empty final hostname segment after a dot (for example, `.com` or `.ir`); the suffix is not restricted to a fixed list. Invalid non-empty links set the shared `InputBox` danger status and replay its shake animation once; editing the value clears the error state.
 
+`aiflow/flowNode/PhoneNumberGrabberNode.tsx` exports an empty `nodeContainer` class as the node wrapper hook (like the other blocks) and keeps its centered flex layout on the inner `container`, so the node header is not affected. In Live Test (`aiflow/flowNode/livetest.tsx`) reaching this block shows no prompt and silently pauses the flow (`awaitingPhoneNodeIdRef`); the next sent message is validated (7–15 digits), an invalid value gets `Notify_InvalidPhoneNumber`, and a valid one continues through the block's outgoing connections. `aiflow/flowTest.tsx` is a legacy, unused tester and does not support this block.
+
+`aiflow/flowNode/ButtonGroupNode.tsx` implements the `buttongroup` Flow block, modeled on `quickreply`: a `TextArea` message title limited to 640 characters (counted by code point) and a hard maximum of three buttons (20 characters each) stored in `data.buttons` with matching `buttonOutputs` sockets; it also has one regular `output` socket (index 0, ahead of the button sockets) that continues the flow independently of the buttons; the add control is hidden at three buttons and removing the last button deletes the node. Its button outputs may connect to the Link (`weblink`) block, which otherwise only accepts `genericitem`; its regular `output` socket cannot (validation receives the source socket id); like `quickreply`, it cannot feed `phonenumbergrabber`. Its tutorial uses the `New_Flow_Tutorials_buttongroup_*` keys (no connections list).
+
+`aiflow/flowNode/AiNode.tsx` implements the `ai` Flow block (registered in `types.ts`, `flowNode/index.ts`, and `aiflow/flow.tsx`: node type unions, empty `ai` rows in the connection matrices, class/translation/color maps, height switches, desktop toolbar, mobile menu, and node body). It has an input and no output socket (`addNode` sets `outputs = []`). On mount it loads the account's prompts from `/api/ai/GetPrompts`, following `nextMaxId` for at most `MAX_PAGES` (10) pages in one pass (no scroll-based loading), and renders them in a native `<select>`; the choice is stored in `data.promptId` and `data.promptTitle`, and a saved prompt missing from the loaded list is still shown as the current option. Connection validation applies the default rule except that the message input block cannot feed it directly (`validateConnection` in `flow.tsx`; it cannot be the first block). Labels use `New_Flow_ai_block`/`New_Flow_ai_select`; the tutorial uses `New_Flow_Tutorials_ai_*` (no connections list; `limitation_3` states it cannot be the first block). Live Test (`livetest.tsx`) posts the localized `New_Flow_ai_livetest` message for it and ends that branch.
+
+`aiflow/flowNode/ImageGalleryNode.tsx` implements the `imagegallery` Flow block, modeled on `image` (same compression, 50 MB per-file limit, auto-opening file picker on add) but images only. It accepts multiple files per pick and stores each uploaded item (`imageUrl`, `tempUrl`, `fileName`, `fileSize`, `fileType`) in `data.images`, capped by the exported `IMAGE_GALLERY_MAX_ITEMS` (currently 7); the tutorial and limit messages interpolate that constant as `{{max}}`, so raising the limit needs only that one change (plus backend support). It uses the standard single input/output sockets and the same connection rules as `image`.
+
 `popups/sendFile.tsx` and `popups/sendVideoFile.tsx` use the shared `UploadFile` helper for progress-aware uploads, so direct-message image and video URLs are released only after the global one-second media-availability delay.
 
 `direct/directInbox.tsx` waits one second before inserting SignalR audio messages into the inbox, allowing the audio URL to become available on the server before `ChatAudio` renders it.
@@ -153,6 +161,8 @@ In the media auto-reply Live quick-reply control, the must-follow-page toggle up
 Live media quick-reply payloads force `sendPr` to `false`, including when an existing auto-reply contains a stale `sendPr` value.
 
 The selected Flow action in `popups/editAutoReplyForMedia.tsx` uses the localized `AIFlow_show_graph` label and opens `/Ai/FlowandAgent` with the selected `masterFlowId` as the `id` query.
+
+The custom quick-reply response in `popups/editAutoReplyForMedia.tsx` is capped at `MAX_QUICK_REPLY_BYTES` (800 UTF-8 bytes, so Persian letters count as two). The counter shows `getTextByteLength`, and typed input and clipboard paste pass through `truncateTextToBytes`; the `TextArea` has no character-based `maxLength`.
 
 For message-delivery modes, the confirmation-message and must-follow-page options are omitted from the editor and both corresponding save payload flags are forced to `false`; same-comment delivery retains the existing controls and values.
 

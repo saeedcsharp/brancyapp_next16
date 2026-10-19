@@ -1,3 +1,7 @@
+- Confirm backend support for the AI Flow `buttongroup` (`data.title`, `data.buttons`, regular `output` plus `buttonOutputs`), `imagegallery` (`data.images`, up to `IMAGE_GALLERY_MAX_ITEMS`), and `ai` (`data.promptId`, `data.promptTitle`, no outputs) node types.
+- Decide whether the `ai` block should load prompts incrementally (scroll/`useInfiniteScroll`) instead of the current 10-page one-pass fetch, and implement AI replies in Live Test; optionally add a connections list to the `ai` and `buttongroup` tutorials.
+- Verify in the browser that the estimated heights from `getButtonGroupNodeHeight` and `getImageGalleryNodeHeight` align connection lines with the output sockets, and add component coverage for the button limit, 640-character title limit, and 7-image limit when a UI test harness is introduced.
+
 - Add component/browser coverage for the phone-number download icon and modal's direct Export action (localized date/time, six-month boundary plus one calendar day at both picker and request clamp), omitted `masterFlowId`, timezone offset, download link, duplicate-request guard, and failure notification when a UI test harness is available.
 
 - Add component/browser coverage confirming AI video history pagination triggers when the initial video result does not fill the workspace and appends the next cursor page when a UI test harness is introduced.
@@ -117,6 +121,7 @@
 - # Add component coverage for comment inbox Post/Story cursor pagination, including non-null `oldestCursor`, media append, duplicate-page handling, and terminal `null` cursor behavior when a UI test harness is introduced.
 - Add component coverage confirming the auto-reply AI and Flow Create Automation actions appear with populated unselected DragDrop lists and remain hidden after selecting or retaining an existing prompt/flow when a UI test harness is introduced.
 - Extend the auto-reply Create Automation action coverage to `EditAutoReplyForMedia` and its retained media prompt/flow state when a UI test harness is introduced.
+- Add component coverage for the `EditAutoReplyForMedia` 800-byte quick-reply limit (Persian typing and paste truncation, byte counter) when a UI test harness is introduced.
 
 - Add browser coverage for AI Flow zooming and panning, confirming SVG connection paths remain aligned with Socket DOM positions across wheel zoom, toolbar zoom, reset, RTL, and mobile viewports when a UI test harness is introduced.
 

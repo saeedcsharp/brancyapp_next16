@@ -16,12 +16,15 @@ export interface NodeData {
   type:
     | "text"
     | "image"
+    | "imagegallery"
     | "voice"
     | "quickreply"
+    | "buttongroup"
     | "generic"
     | "genericitem"
     | "weblink"
     | "phonenumbergrabber"
+    | "ai"
     | "onmessage";
   label: string;
   position: Position;

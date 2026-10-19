@@ -22,6 +22,7 @@ import { MethodType } from "brancy/helper/api";
 import { getClientMediaBaseUrl, redirectHostUrl } from "brancy/helper/apiBaseUrl";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { RoleAccess } from "brancy/helper/loadingStatus";
+import { getTextByteLength, truncateTextToBytes } from "brancy/helper/textByteLength";
 import { LanguageKey } from "brancy/i18n";
 import { AutoReplyPayLoadType, MediaProductType, PartnerRole, ShopMediaProductType } from "brancy/models/enums";
 import {
@@ -159,6 +160,7 @@ const loadingReducer = (state: LoadingState, action: LoadingAction) => {
   }
 };
 const basePictureUrl = getClientMediaBaseUrl();
+const MAX_QUICK_REPLY_BYTES = 800;
 const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
   setShowQuickReplyPopup,
   handleSaveAutoReply,
@@ -1154,7 +1156,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
       if (!text) return;
       setReplyMethod((prev) => ({
         ...prev!,
-        response: (prev?.response ?? "") + text,
+        response: truncateTextToBytes((prev?.response ?? "") + text, MAX_QUICK_REPLY_BYTES),
       }));
     } catch (err) {
       console.error("Clipboard read failed", err);
@@ -1418,7 +1420,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                           <div className="headerparent">
                             <div className="headertext">{t(LanguageKey.Answer)}</div>
                             <div className="counter">
-                              ({replyMethod?.response?.length ?? 0}/800)
+                              ({getTextByteLength(replyMethod?.response ?? "")}/{MAX_QUICK_REPLY_BYTES})
                               <img
                                 style={{
                                   cursor: "pointer",
@@ -1442,11 +1444,10 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                             handleInputChange={(e) => {
                               setReplyMethod((prev) => ({
                                 ...prev!,
-                                response: e.target.value,
+                                response: truncateTextToBytes(e.target.value, MAX_QUICK_REPLY_BYTES),
                               }));
                             }}
                             value={(replyMethod && replyMethod.response) ?? ""}
-                            maxLength={800}
                             name="auto-reply-message"
                             role="textbox"
                             aria-label="Auto-reply message content"

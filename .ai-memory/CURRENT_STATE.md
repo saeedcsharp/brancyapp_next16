@@ -2,6 +2,12 @@ The bulk product individual editors now render as a free horizontal slider using
 
 # Current State
 
+The AI Flow editor also has an `ai` block: input only (no output socket), with a dropdown of the account's created AI prompts loaded from `/api/ai/GetPrompts` (up to 10 pages) and the selection stored in `data.promptId`/`data.promptTitle`. It appears in the desktop toolbar, mobile menu, and tutorial modal; Live Test shows a localized `New_Flow_ai_livetest` bot message ("Your AI block is being executed here") when it reaches it and stops there. The `buttongroup` block now has its tutorial too. All new tutorial and label keys exist in all eight locales.
+
+The AI Flow editor has two new blocks. `buttongroup` has a 640-character title, at most three buttons, one regular output plus three button outputs, and its button outputs may connect to the Link block. `imagegallery` mirrors the image block but accepts images only, up to `IMAGE_GALLERY_MAX_ITEMS` (7) per block. Both appear in the desktop toolbar, mobile menu, Live Test, and (for `imagegallery`) the tutorial modal, with localized keys in all eight locales. The Phone Number Grabber node wrapper no longer inherits the inner content layout, matching the other blocks' header style. See `MODULES/components-messages.md`.
+
+The AI Flow private-reply follower warning treats `buttongroup` and `generic` (gallery) first blocks specially: only a connection from their regular `output` socket triggers it; button and gallery-item outputs are ignored.
+
 The Message Properties phone-number card now has a small download icon beside its heading. It opens a body-portalled `SetTimeAndDate` modal where the selected date and time (from six calendar months ago plus one calendar day through now) is submitted directly with the Export button to `GetExportPhoneNumbers` for all Flows. The request uses the same buffered lower bound, avoiding backend errors on the oldest day. It sends the browser timezone offset in seconds and downloads the returned file from the media host; the `/feature` catalog includes this capability.
 The card's Flow Graph navigation uses the custom `/flow-redirect.svg` icon beside each Flow name or the empty-state message, replacing the large text buttons, font-dependent arrow glyph, and unrelated statistics graph artwork while retaining their routes and localized accessible labels. No icon dependency is needed.
 
@@ -141,6 +147,7 @@ The global App Router error boundary displays the received error message. Direct
 
 The shared `helper/textByteLength.ts` utility now owns UTF-8 byte counting and Unicode-safe truncation used by AI flow text input.
 The direct-message composer applies the same 1,000-byte UTF-8 limit to drafts, typing, emoji insertion, and outgoing messages.
+The media auto-reply editor (`popups/editAutoReplyForMedia.tsx`) limits the custom quick-reply response to 800 UTF-8 bytes with the same helper.
 
 AI tool parameter placeholders now select the localized `completeDescription*` model field for the active locale, with German used for `gr` and English fallback for French or missing values.
 AI prompt tool options now select each tool's localized `displayName*` field from the active i18next locale, with German used for `gr` and English/name fallbacks.

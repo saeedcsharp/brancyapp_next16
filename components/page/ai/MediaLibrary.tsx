@@ -1,16 +1,14 @@
-import DotLoaders from "brancy/components/design/loader/dotLoaders";
-import RingLoader from "brancy/components/design/loader/ringLoder";
-import Loading from "brancy/components/notOk/loading";
+import AIWithPrompt from "brancy/components/design/ai/AIWithPrompt";
 import DragDrop from "brancy/components/design/dragDrop/dragDrop";
+import DotLoaders from "brancy/components/design/loader/dotLoaders";
+import Loading from "brancy/components/notOk/loading";
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import initialzedTime from "brancy/helper/manageTimer";
 import { IGetMedia, PendingGeneration, PendingMediaType } from "brancy/models/interfaces";
-import { DateObject } from "react-multi-date-picker";
-import { useTranslation } from "react-i18next";
-import styles from "./MediaLibrary.module.css";
-import { AIIcon } from "brancy/components/design/textEditor/icons";
-import AIWithPrompt from "brancy/components/design/ai/AIWithPrompt";
 import type { RefObject } from "react";
+import { useTranslation } from "react-i18next";
+import { DateObject } from "react-multi-date-picker";
+import styles from "./MediaLibrary.module.css";
 type MediaLibraryProps = {
   filter: PendingMediaType;
   onFilterChange: (filter: PendingMediaType) => void;

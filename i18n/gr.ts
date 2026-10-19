@@ -2887,6 +2887,39 @@ export default {
     New_Flow_quick_reply_block: "Schnellantwort-Block",
     New_Flow_weblink_block: "Link-Block",
     New_Flow_phonenumbergrabber_block: "Telefonnummer-Erfassung",
+    New_Flow_ai_block: "KI",
+    New_Flow_ai_select: "KI auswählen",
+    New_Flow_ai_livetest: "Ihr KI-Block wird hier ausgeführt",
+    New_Flow_Tutorials_buttongroup_title: "Schaltflächengruppen-Block",
+    New_Flow_Tutorials_buttongroup_description:
+      "Dieser Block sendet eine Nachricht mit bis zu drei Schaltflächen; jede Schaltfläche hat einen eigenen Ausgang, und der Block hat zusätzlich einen normalen Ausgang, der den Flow fortsetzt.",
+    New_Flow_Tutorials_buttongroup_usageType:
+      "Geeignet, um wenige klare Optionen, Menüs und schnelle Navigation anzubieten und Nutzer zu Links oder zum nächsten Schritt zu führen.",
+    New_Flow_Tutorials_buttongroup_feature_1: "Nachrichtentext mit bis zu 640 Zeichen",
+    New_Flow_Tutorials_buttongroup_feature_2: "Bis zu 3 Schaltflächen, jede mit eigenem Ausgang",
+    New_Flow_Tutorials_buttongroup_feature_3:
+      "Ein normaler Ausgang setzt den Flow fort, ohne auf einen Klick zu warten",
+    New_Flow_Tutorials_buttongroup_tip_1: "Formulieren Sie Nachricht und Beschriftungen klar und kurz",
+    New_Flow_Tutorials_buttongroup_tip_2:
+      "Verbinden Sie jede Schaltfläche mit dem Block, der auf ihre Auswahl folgen soll",
+    New_Flow_Tutorials_buttongroup_tip_3:
+      "Nur die Schaltflächen-Ausgänge können mit einem Weblink-Block verbunden werden",
+    New_Flow_Tutorials_buttongroup_limitation_1: "Maximal 3 Schaltflächen",
+    New_Flow_Tutorials_buttongroup_limitation_2: "Nachrichtentext: max. 640 Zeichen",
+    New_Flow_Tutorials_buttongroup_limitation_3: "Schaltflächentitel: max. 20 Zeichen",
+    New_Flow_Tutorials_buttongroup_limitation_4: "Das Löschen der letzten Schaltfläche entfernt den Block",
+    New_Flow_Tutorials_ai_title: "KI-Block",
+    New_Flow_Tutorials_ai_description:
+      "Dieser Block übergibt das Gespräch an eine der von Ihnen erstellten KIs; wählen Sie die KI aus der Liste im Block aus.",
+    New_Flow_Tutorials_ai_usageType:
+      "Geeignet, um offene Kundenfragen, Support, Beratung und Verkaufsgespräche automatisch zu beantworten.",
+    New_Flow_Tutorials_ai_feature_1: "Listet alle von Ihnen erstellten KIs zur Auswahl auf",
+    New_Flow_Tutorials_ai_feature_2: "Die gewählte KI übernimmt das Gespräch ab dieser Stelle im Flow",
+    New_Flow_Tutorials_ai_tip_1: "Erstellen und konfigurieren Sie Ihre KI zuerst, damit sie in der Liste erscheint",
+    New_Flow_Tutorials_ai_tip_2: "Platzieren Sie ihn nach einem Nachrichtenblock, der das Gespräch einleitet",
+    New_Flow_Tutorials_ai_limitation_1: "Hat nur einen Eingang und keinen Ausgang, beendet also den Flow",
+    New_Flow_Tutorials_ai_limitation_2: "Pro Block kann nur eine KI ausgewählt werden",
+    New_Flow_Tutorials_ai_limitation_3: "Kann nicht der erste Block des Flows sein",
     New_Flow_generic_block: "Galerie-Block (Karussell)",
     New_Flow_add_general_block: "Galerieblock hinzufügen",
     New_Flow_add_text_block: "Textblock hinzufügen",
@@ -2910,6 +2943,20 @@ export default {
     New_Flow_generic_sub: "Unterblock",
     New_Flow_add_button: "Button hinzufügen",
     New_Flow_quick_reply_title_placeholder: "Titel der Schnellantwort-Option",
+    New_Flow_buttongroup_block: "Schaltflächengruppen-Block",
+    New_Flow_add_buttongroup_block: "Schaltflächengruppe hinzufügen",
+    New_Flow_buttongroup_title_placeholder: "Nachrichtentext der Schaltflächengruppe",
+    New_Flow_imagegallery_block: "Bildergalerie-Block",
+    New_Flow_add_imagegallery_block: "Bildergalerie hinzufügen",
+    New_Flow_imagegallery_max_reached: "Sie können diesem Block bis zu {{max}} Bilder hinzufügen",
+    New_Flow_Tutorials_imagegallery_title: "Bildergalerie-Block",
+    New_Flow_Tutorials_imagegallery_description:
+      "Dieser Block dient zum Hochladen und Senden mehrerer Bilder (bis zu {{max}}) per Direktnachricht an Nutzer.",
+    New_Flow_Tutorials_imagegallery_usageType:
+      "Geeignet für die Präsentation mehrerer Produkte, Fotoalben, Vorher-Nachher-Bilder und Bildersammlungen.",
+    New_Flow_Tutorials_imagegallery_feature_1: "Akzeptiert bis zu {{max}} Bilder in einem Block",
+    New_Flow_Tutorials_imagegallery_limitation_1:
+      "Maximal {{max}} Bilder pro Block (dieses Limit kann in Zukunft erhöht werden)",
     New_Flow_message_title: "Nachrichtentitel",
     New_Flow_message_description: "Nachrichtenbeschreibung",
     New_Flow_live_test_block: "Live-Flow-Test",

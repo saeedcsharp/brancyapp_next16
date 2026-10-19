@@ -627,7 +627,12 @@ html[dir="rtl"] .contextMenu {
   width: fit-content;
   display: flex;
   padding: 8px;
+  max-height: 55vh;
+  max-height: 55dvh;
   overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  flex-shrink: 0;
   gap: 10px;
   bottom: 43px;
   position: relative;

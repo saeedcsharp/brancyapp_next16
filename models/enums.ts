@@ -485,7 +485,7 @@ export enum MediaProductType {
   Unknow = 4,
   Live = 5,
   AllMedia = -1,
-  All = -2,
+  Direct = -2,
 }
 
 export enum MediaProductTypeText {
