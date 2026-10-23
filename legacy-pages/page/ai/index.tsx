@@ -326,6 +326,7 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
       const pendingGeneration = pendingGenerationsRef.current.find(
         (item) => item.clientContext.toLowerCase() === generatedClientContext.toLowerCase(),
       );
+      console.log("TEMP signalR result", notifObj.ResponseType, generatedImage);
       if (notifObj.ResponseType === PushResponseType.AIImageSuccess) {
         console.log("generatedImage", generatedImage);
         setCreateMediaLoading(false);
@@ -369,10 +370,11 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
           (item) => item.clientContext !== generatedClientContext,
         );
         setPendingGenerations(pendingGenerationsRef.current);
+        const failedMetaData = (generatedImage as IGetMedia & { metaData?: { Error?: string | null } }).metaData;
         internalNotify(
           InternalResponseType.InvalidMetaData,
           NotifType.Warning,
-          generatedImage.metadata || t(", Media generation failed."),
+          failedMetaData?.Error || generatedImage.metadata || t(", Media generation failed."),
         );
       }
     } catch (error) {

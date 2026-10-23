@@ -10,7 +10,7 @@
 - `eslint.config.mjs`: ESLint 9 flat config extending `eslint-config-next` core-web-vitals and TypeScript presets with every rule downgraded to `warn`; used by `npm run lint` (`eslint .`).
 - `.gitignore`: excludes dependencies, build outputs, env locals, editor/runtime files.
 - `.dockerignore`: excludes node_modules, .next, git metadata, markdown files, Docker files, iisnode.
-- `Dockerfile`: multi-stage Node 22 Alpine standalone build.
+- `Dockerfile`: multi-stage Node 24 Alpine standalone build.
 - `web.config`: IIS/iisnode rewrite to `server.js`.
 - `.env`: local environment file, values intentionally undocumented.
 

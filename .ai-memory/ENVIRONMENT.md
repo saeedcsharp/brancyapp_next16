@@ -2,7 +2,7 @@
 
 ## Node And Build
 
-Docker uses Node 22 Alpine. Local scripts rely on npm.
+Docker uses Node 24 Alpine. Local scripts rely on npm.
 
 ## Environment Variables
 
