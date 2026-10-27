@@ -16,6 +16,8 @@ The AI page caches its per-account `hasFeature` entitlement result in `sessionSt
 
 The `/page/tools` lottery creation flow checks its entitlement with `checkPackageFeature` and does not request package feature details. Selecting a start time no longer shows the package-time-window warning.
 
+PhoneInput removes one leading `0` from numbers typed or pasted into the national-number field before formatting and emitting the phone value.
+
 <<<<<<< HEAD
 The `/user` customer entry route now waits for NextAuth to finish loading before redirecting, performs only one `router.replace` decision, and treats an unset `currentIndex` as `-1`, preventing the production route from remaining at `/user`.
 

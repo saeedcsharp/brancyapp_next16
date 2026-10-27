@@ -1,3 +1,4 @@
+- 2026-10-27: PhoneInput removes a leading `0` from the national-number field when a number is typed or pasted.
 - 2026-09-30: Added type-specific Advanced reference slots for Human, Product, Object, Animal, and Custom subjects while preserving the 14-image local limit and general Auto uploader.
 - 2026-09-30: Replaced Character Sheet select-based attribute options with the shared DragDrop component, including disabled behavior for locked attributes.
 - 2026-09-30: Removed Character Sheet Expand all/Collapse all and Attribute search controls; added per-attribute locks with faded non-editable fields and exact-preservation reference instructions in the local prompt payload.
