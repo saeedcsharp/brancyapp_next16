@@ -4424,8 +4424,8 @@ export default function Flow({
                     width="24px"
                     height="24px"
                     fill="none"
-                    viewBox="0 0 24 25">
-                    <path d="M6 1.5h12M4.5 2.5h15M5.5 17.3 7 15.8q.9-.9 1.9 0h0l.9.8q1 .9 2 0L14 14c.5-.7 1.6-.8 2.3-.2l2.1 2.2M21 11v6c0 3-1.8 5-4.8 5H7.8c-3 0-4.8-2-4.8-5v-6c0-3 1.8-5 4.8-5h8.4c3 0 4.8 2 4.8 5" />
+                    viewBox="0 0 24 24">
+                    <path d="m4 17 4.8-4.3q2.2-2.2 3.5-2.4c1 0 2 .6 3.9 1.9l1.3.9M7.4 7.3h-.2m.3 0a.3.3 0 1 1-.5 0 .3.3 0 0 1 .5 0M6 18q.1 2 1 2.8C8.4 22 10.3 22 14 22s5.6 0 6.8-1.2 1.2-3 1.2-6.9c0-3.7 0-5.6-1.2-6.8Q20 6 18 6M2 10c0-3.8 0-5.7 1.2-6.8C4.3 2 6.2 2 10 2s5.7 0 6.8 1.2C18 4.3 18 6.2 18 10s0 5.7-1.2 6.8C15.7 18 13.8 18 10 18s-5.7 0-6.8-1.2C2 15.7 2 13.8 2 10Z" />
                   </svg>
                 </button>
               </Tooltip>
@@ -4755,127 +4755,126 @@ export default function Flow({
                   stroke="var(--text-h1)"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  strokeWidth="3"
+                  strokeWidth="1.5"
                   width="24px"
                   height="24px"
                   fill="none"
-                  viewBox="0 0 48 48">
-                  <path
-                    d="M22 34.3q0-.71.47-1.2.5-.5 1.23-.5.76 0 1.24.47.47.5.47 1.23 0 .72-.47 1.2-.48.5-1.24.5a1.66 1.66 0 0 1-1.7-1.7m0-10.37q0-.72.47-1.2.5-.5 1.23-.5.76 0 1.23.47.48.5.48 1.23 0 .72-.48 1.2-.46.5-1.23.5a1.66 1.66 0 0 1-1.7-1.7m0-10.23q0-.7.47-1.2.5-.5 1.23-.5.76 0 1.23.48.48.5.48 1.22 0 .74-.48 1.2-.46.5-1.23.5a1.66 1.66 0 0 1-1.7-1.7"
-                    fill="var(--text-h1)"
-                  />
+                  viewBox="0 0 24 24">
+                  <path d="M2.5 12c0-4.5 0-6.7 1.4-8.1S7.5 2.5 12 2.5s6.7 0 8.1 1.4 1.4 3.6 1.4 8.1 0 6.7-1.4 8.1-3.6 1.4-8.1 1.4-6.7 0-8.1-1.4-1.4-3.6-1.4-8.1Z M12 8v8m4-4H8" />
                 </svg>
               </button>
             </div>
-            <div className={styles.toolbardesktopgroup}>
-              <Tooltip tooltipValue={t(LanguageKey.undo)} position="top">
-                <button className={styles.toolbarmobileitem} title="Ctrl+Z">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    stroke="var(--text-h1)"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.5"
-                    width="24px"
-                    height="24px"
-                    fill="none"
-                    viewBox="0 0 24 25">
-                    <path d="m15.5 19 .8-.9A6 6 0 0 0 12 8H7m0 0 4 4M7 8l4-4" />
-                  </svg>
-                </button>
-              </Tooltip>
+            <div className={styles.toolbardesktopgrouptop}>
+              <div className={styles.toolbardesktopgroup}>
+                <Tooltip tooltipValue={t(LanguageKey.undo)} position="top">
+                  <button className={styles.toolbarmobileitem} title="Ctrl+Z">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      stroke="var(--text-h1)"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="1.5"
+                      width="24px"
+                      height="24px"
+                      fill="none"
+                      viewBox="0 0 24 25">
+                      <path d="m15.5 19 .8-.9A6 6 0 0 0 12 8H7m0 0 4 4M7 8l4-4" />
+                    </svg>
+                  </button>
+                </Tooltip>
 
-              <Tooltip tooltipValue={t(LanguageKey.redo)} position="top">
-                <button className={styles.toolbarmobileitem} title="Ctrl+Y">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    stroke="var(--text-h1)"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.5"
-                    width="24px"
-                    height="24px"
-                    fill="none"
-                    viewBox="0 0 24 25">
-                    <path d="m9.5 19-.8-.9A6 6 0 0 1 13 8h5m0 0-4 4m4-4-4-4" />
-                  </svg>
-                </button>
-              </Tooltip>
+                <Tooltip tooltipValue={t(LanguageKey.redo)} position="top">
+                  <button className={styles.toolbarmobileitem} title="Ctrl+Y">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      stroke="var(--text-h1)"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="1.5"
+                      width="24px"
+                      height="24px"
+                      fill="none"
+                      viewBox="0 0 24 25">
+                      <path d="m9.5 19-.8-.9A6 6 0 0 1 13 8h5m0 0-4 4m4-4-4-4" />
+                    </svg>
+                  </button>
+                </Tooltip>
 
-              <Tooltip tooltipValue={t(LanguageKey.New_Flow_live_test_block)} position="top">
-                <button className={styles.toolbarmobileitem} onClick={() => onOpenLiveTest?.()}>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    stroke="var(--text-h1)"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.5"
-                    width="24px"
-                    height="24px"
-                    fill="none"
-                    viewBox="0 0 24 25">
-                    <path d="M6.4 14.6h12.2M4.5 17.2l3.6-5q.4-.6.4-1.3V7q.1-.8.8-.8h6.4q.7 0 .8.8v4q0 .7.4 1.2l3.6 5.2A3 3 0 0 1 18 22H7a3 3 0 0 1-2.5-4.7m6.2-14q0 .2-.2.2t-.2-.2.2-.2.2.2m4.2-1q0 .2-.2.2l-.2-.2.2-.2q.2 0 .2.2" />
-                  </svg>
-                </button>
-              </Tooltip>
+                <Tooltip tooltipValue={t(LanguageKey.New_Flow_live_test_block)} position="top">
+                  <button className={styles.toolbarmobileitem} onClick={() => onOpenLiveTest?.()}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      stroke="var(--text-h1)"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="1.5"
+                      width="24px"
+                      height="24px"
+                      fill="none"
+                      viewBox="0 0 24 25">
+                      <path d="M6.4 14.6h12.2M4.5 17.2l3.6-5q.4-.6.4-1.3V7q.1-.8.8-.8h6.4q.7 0 .8.8v4q0 .7.4 1.2l3.6 5.2A3 3 0 0 1 18 22H7a3 3 0 0 1-2.5-4.7m6.2-14q0 .2-.2.2t-.2-.2.2-.2.2.2m4.2-1q0 .2-.2.2l-.2-.2.2-.2q.2 0 .2.2" />
+                    </svg>
+                  </button>
+                </Tooltip>
 
-              <Tooltip tooltipValue={t(LanguageKey.AutoLayout_block)} position="top">
-                <button title="Auto Layout (Ctrl+L)" onClick={applyAutoLayout} className={styles.toolbarmobileitem}>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    stroke="var(--text-h1)"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.5"
-                    width="24px"
-                    height="24px"
-                    fill="none"
-                    viewBox="0 0 24 25">
-                    <path d="M8 6.3h8M12 7v9c0 2.3 3.5 1.8 3.5 1.8m2-7.8h2q1.4-.1 1.5-1.5v-4q-.1-1.3-1.5-1.5h-2q-1.4.2-1.5 1.5v4q.1 1.4 1.5 1.5Zm-13 0h2Q7.8 9.9 8 8.5v-4Q7.8 3.2 6.5 3h-2Q3.2 3.2 3 4.5v4q.2 1.4 1.5 1.5Zm13 11h2q1.4-.1 1.5-1.5v-4q-.1-1.4-1.5-1.5h-2q-1.4.1-1.5 1.5v4q.1 1.4 1.5 1.5Z" />
-                  </svg>
-                </button>
-              </Tooltip>
-            </div>
-            <div className={styles.toolbardesktopgroup}>
-              <Tooltip tooltipValue={t(LanguageKey.zoomout)} position="top">
-                <button onClick={() => handleZoom(-0.1)} className={styles.toolbarmobileitem}>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    stroke="var(--text-h1)"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.5"
-                    width="24px"
-                    height="24px"
-                    fill="none"
-                    viewBox="0 0 24 25">
-                    <path d="m17.1 17.6 3.5 3.4M9.2 11.4h4.4m6.2 0a8.4 8.4 0 1 0-16.8 0 8.4 8.4 0 0 0 16.8 0" />
-                  </svg>
-                </button>
-              </Tooltip>
+                <Tooltip tooltipValue={t(LanguageKey.AutoLayout_block)} position="top">
+                  <button title="Auto Layout (Ctrl+L)" onClick={applyAutoLayout} className={styles.toolbarmobileitem}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      stroke="var(--text-h1)"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="1.5"
+                      width="24px"
+                      height="24px"
+                      fill="none"
+                      viewBox="0 0 24 25">
+                      <path d="M8 6.3h8M12 7v9c0 2.3 3.5 1.8 3.5 1.8m2-7.8h2q1.4-.1 1.5-1.5v-4q-.1-1.3-1.5-1.5h-2q-1.4.2-1.5 1.5v4q.1 1.4 1.5 1.5Zm-13 0h2Q7.8 9.9 8 8.5v-4Q7.8 3.2 6.5 3h-2Q3.2 3.2 3 4.5v4q.2 1.4 1.5 1.5Zm13 11h2q1.4-.1 1.5-1.5v-4q-.1-1.4-1.5-1.5h-2q-1.4.1-1.5 1.5v4q.1 1.4 1.5 1.5Z" />
+                    </svg>
+                  </button>
+                </Tooltip>
+              </div>
+              <div className={styles.toolbardesktopgroup}>
+                <Tooltip tooltipValue={t(LanguageKey.zoomout)} position="top">
+                  <button onClick={() => handleZoom(-0.1)} className={styles.toolbarmobileitem}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      stroke="var(--text-h1)"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="1.5"
+                      width="24px"
+                      height="24px"
+                      fill="none"
+                      viewBox="0 0 24 25">
+                      <path d="m17.1 17.6 3.5 3.4M9.2 11.4h4.4m6.2 0a8.4 8.4 0 1 0-16.8 0 8.4 8.4 0 0 0 16.8 0" />
+                    </svg>
+                  </button>
+                </Tooltip>
 
-              <Tooltip tooltipValue={t(LanguageKey.fitscreen)} position="top">
-                <button onClick={fitToScreen} title="Fit to Screen (Ctrl+1)" className={styles.toolbarmobileitem}>
-                  {Math.round(editorState.scale * 100)}%
-                </button>
-              </Tooltip>
+                {/* <Tooltip tooltipValue={t(LanguageKey.fitscreen)} position="top">
+                  <button onClick={fitToScreen} title="Fit to Screen (Ctrl+1)" className={styles.toolbarmobileitem}>
+                    {Math.round(editorState.scale * 100)}%
+                  </button>
+                </Tooltip> */}
 
-              <Tooltip tooltipValue={t(LanguageKey.zoomin)} position="top">
-                <button onClick={() => handleZoom(0.1)} className={styles.toolbarmobileitem}>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    stroke="var(--text-h1)"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.5"
-                    width="24px"
-                    height="24px"
-                    fill="none"
-                    viewBox="0 0 24 25">
-                    <path d="m17.1 17.6 3.5 3.4M9.2 11.4h4.4m-2.2-2.2v4.4m8.4-2.2a8.4 8.4 0 1 0-16.8 0 8.4 8.4 0 0 0 16.8 0" />
-                  </svg>
-                </button>
-              </Tooltip>
+                <Tooltip tooltipValue={t(LanguageKey.zoomin)} position="top">
+                  <button onClick={() => handleZoom(0.1)} className={styles.toolbarmobileitem}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      stroke="var(--text-h1)"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="1.5"
+                      width="24px"
+                      height="24px"
+                      fill="none"
+                      viewBox="0 0 24 25">
+                      <path d="m17.1 17.6 3.5 3.4M9.2 11.4h4.4m-2.2-2.2v4.4m8.4-2.2a8.4 8.4 0 1 0-16.8 0 8.4 8.4 0 0 0 16.8 0" />
+                    </svg>
+                  </button>
+                </Tooltip>
+              </div>
             </div>
 
             {showMobileMenu && (
@@ -5001,7 +5000,7 @@ export default function Flow({
                       height="20px"
                       fill="none"
                       viewBox="0 0 24 25">
-                      <path d="M6 1.5h12M4.5 2.5h15M5.5 17.3 7 15.8q.9-.9 1.9 0h0l.9.8q1 .9 2 0L14 14c.5-.7 1.6-.8 2.3-.2l2.1 2.2M21 11v6c0 3-1.8 5-4.8 5H7.8c-3 0-4.8-2-4.8-5v-6c0-3 1.8-5 4.8-5h8.4c3 0 4.8 2 4.8 5" />
+                      <path d="m4 17 4.8-4.3q2.2-2.2 3.5-2.4c1 0 2 .6 3.9 1.9l1.3.9M7.4 7.3h-.2m.3 0a.3.3 0 1 1-.5 0 .3.3 0 0 1 .5 0M6 18q.1 2 1 2.8C8.4 22 10.3 22 14 22s5.6 0 6.8-1.2 1.2-3 1.2-6.9c0-3.7 0-5.6-1.2-6.8Q20 6 18 6M2 10c0-3.8 0-5.7 1.2-6.8C4.3 2 6.2 2 10 2s5.7 0 6.8 1.2C18 4.3 18 6.2 18 10s0 5.7-1.2 6.8C15.7 18 13.8 18 10 18s-5.7 0-6.8-1.2C2 15.7 2 13.8 2 10Z" />
                     </svg>
                     <span>{t(LanguageKey.New_Flow_add_imagegallery_block)}</span>
                   </button>

@@ -182,7 +182,7 @@ export const ImageGalleryNode: React.FC<ImageGalleryNodeProps> = ({ node, setEdi
                 className={styles.removeIcon}
                 role="button"
                 title="ℹ️ delete"
-                src="/delete-red.svg"
+                src="/false.svg"
                 onClick={(e) => {
                   e.stopPropagation();
                   removeImage(index);
