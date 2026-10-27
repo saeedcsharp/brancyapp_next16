@@ -497,6 +497,30 @@ html[dir="rtl"] .rightAI {
   background: var(--color-gray10);
 }
 
+.flowDetails {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.connectPostButton {
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  margin-inline-start: auto;
+  padding: 0;
+}
+
+.connectPostButton:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.connectPostButton:focus-visible {
+  outline: 2px solid var(--color-dark-blue);
+  outline-offset: 2px;
+}
+
 /* ___dragDropSidebar___ */
 
 .showDiv {

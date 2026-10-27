@@ -2684,6 +2684,18 @@ export default {
     AIFlow_block_title_required: "Zəhmət olmasa blok başlığını daxil edin (məcburi)",
     AIFlow_item_title: "Element Başlığı:",
     AIFlow_show_graph: "Axın Qrafikini Göstər",
+    AIFlow_connect_post: "Paylaşıma qoş",
+    AIFlow_connect_post_access: "Instagram şərh və mesaj icazələri, həmçinin Avtomatlaşdırma və Şərh girişləri tələb olunur.",
+    AIFlow_connect_post_save_first: "Paylaşıma qoşmazdan əvvəl bu axını yadda saxlayın.",
+    AIFlow_connect_post_confirm:
+      "Bu axın paylaşımın cari avtomatik cavabını əvəz edir və aktivləşdirilir. Açar sözlər və uyğunlaşdırma ayarları saxlanılır; açar söz yoxdursa, axın bütün şərhlərə cavab verir.",
+    AIFlow_connect_post_resume: "Axın bağlantısı yadda saxlanıldı, lakin aktivləşdirmə alınmadı. Yenidən aktivləşdirməyə cəhd edin.",
+    AIFlow_connect_post_incompatible: "Bu axın şərhlərə şəxsi cavab verməklə uyğun deyil. Qoşmazdan əvvəl redaktə edib yadda saxlayın.",
+    AIFlow_retry: "Yenidən cəhd et",
+    AIPrompt_connect_post_access: "Instagram şərh icazəsi, həmçinin Avtomatlaşdırma və Şərh girişləri tələb olunur.",
+    AIPrompt_connect_post_confirm:
+      "Bu süni intellekt paylaşımın cari avtomatik cavabını əvəz edir və aktivləşdirilir. Açar sözlər və uyğunlaşdırma ayarları saxlanılır; açar söz yoxdursa, bütün şərhlər cavablandırılır. Şəxsi göndəriş yalnız mesaj icazəsi olduqda saxlanılır; əks halda cavablar şərh kimi göndərilir.",
+    AIPrompt_connect_post_resume: "Süni intellekt bağlantısı yadda saxlanıldı, lakin aktivləşdirmə alınmadı. Yenidən aktivləşdirməyə cəhd edin.",
     messagesetting_PhoneNumbers: "Telefon nömrələri",
     messagesetting_PhoneNumbersExplain: "Axınlar vasitəsilə müştərilərinizdən toplanan telefon nömrələri",
     messagesetting_PhoneNumbersEmpty: "Hələ heç bir telefon nömrəsi toplanmayıb",

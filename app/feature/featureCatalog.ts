@@ -195,9 +195,9 @@ export const featureCatalog: FeatureRecord[] = [
     access: "package",
     prerequisites: ["instagramConnection", "activePackage", "messagePermission", "automaticRole"],
     limitation: "backendDefined",
-    contentIdea: "featureAnnouncement",
+    contentIdea: "workflow",
     routes: ["/Ai/FlowandAgent"],
-    sourceKinds: ["route", "component", "api", "permission", "enum"],
+    sourceKinds: ["route", "component", "api", "permission", "enum", "translation"],
     isAi: true,
   },
   {

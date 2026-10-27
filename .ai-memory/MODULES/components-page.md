@@ -62,6 +62,8 @@ React components are present when the folder contains `.tsx` UI files.
 
 `tools/popups/lottery/selectPost.tsx` applies `useInfiniteScroll`'s `hasMore` result for every page response. An empty final post page therefore disables further automatic container fetches while retaining the already rendered thumbnails.
 
+The same selector is reused by the Flow/AI-card Connect to a post modal (`connectAutomationToPost`), with an optional localized title and the existing post-selection callbacks. Thumbnails are native keyboard-accessible buttons with selected-state semantics, and Select is disabled until a post is chosen. Initial/paginated failures notify and expose Retry instead of silently appearing as an exhausted list; empty successful responses show the localized empty state. Reset/retry clears selection and cursor availability, and returned cards are de-duplicated by `postId`. The original lottery callers and cancellation behavior are preserved.
+
 `legacy-pages/page/tools.tsx` checks the Lottery entitlement before opening `ScoreLottery` and owns the `NotFeature` modal when unavailable; its Upgrade action targets `/upgrade?section=winnerpicker`. `ScoreLottery` retains its Automatics role guard and no longer owns the feature-unavailable redirect.
 
 `posts/postContent.tsx` displays a compact, non-interactive, accessible shopping-bag SVG badge beside the top post number when its `shopMediaProductType` is `ShopMediaProductType.Instance`, identifying posts that represent a shop product without changing the card's navigation or overflow-menu behavior.

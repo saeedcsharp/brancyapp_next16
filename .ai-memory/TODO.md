@@ -1,3 +1,4 @@
+- Verify Flow/AI-card post connections against an authenticated backend, including desktop/mobile RTL, normal/search cards in both toggles, incompatible Flows, permission-denied partners, AI comment replies without message permission, permitted private delivery, keyword preservation, replacement confirmation, and partial activation failure/retry. TypeScript and 23 AI/Flow synthetic cases currently pass; add durable component/browser coverage when a UI test harness is introduced.
 - Add component coverage confirming Character Sheet Undo/Redo restores serializable editor state without persisting or mutating reference object URLs when a UI test harness is introduced.
 
 - Add component/browser coverage for Character Sheet dynamic section numbering with hidden Advanced attributes, per-attribute locking, and reset-all local draft behavior when a UI test harness is introduced.

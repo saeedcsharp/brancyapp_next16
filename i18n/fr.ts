@@ -2807,6 +2807,18 @@ export default {
     AIFlow_block_title_required: "Veuillez saisir le titre du bloc (obligatoire)",
     AIFlow_item_title: "Titre de l’Élément:",
     AIFlow_show_graph: "Afficher le graphique du flux",
+    AIFlow_connect_post: "Associer à une publication",
+    AIFlow_connect_post_access: "Les autorisations Instagram de commentaires et de messages et les accès Automatisation et Commentaires sont requis.",
+    AIFlow_connect_post_save_first: "Enregistrez ce flux avant de l'associer à une publication.",
+    AIFlow_connect_post_confirm:
+      "Ce flux remplace la réponse automatique actuelle de la publication et est activé. Les mots-clés et leur mode de correspondance sont conservés ; sans mots-clés, le flux répond à tous les commentaires.",
+    AIFlow_connect_post_resume: "L'association du flux est enregistrée, mais l'activation a échoué. Réessayez de l'activer.",
+    AIFlow_connect_post_incompatible: "Ce flux est incompatible avec les réponses privées aux commentaires. Modifiez-le et enregistrez-le avant de l'associer.",
+    AIFlow_retry: "Réessayer",
+    AIPrompt_connect_post_access: "L'autorisation de commentaires Instagram et les accès Automatisation et Commentaires sont requis.",
+    AIPrompt_connect_post_confirm:
+      "Cette IA remplace la réponse automatique actuelle de la publication et est activée. Les mots-clés et leur mode de correspondance sont conservés ; sans mots-clés, tous les commentaires reçoivent une réponse. L'envoi privé est conservé uniquement si l'autorisation de messages est disponible ; sinon, les réponses sont envoyées en commentaires.",
+    AIPrompt_connect_post_resume: "L'association de l'IA est enregistrée, mais l'activation a échoué. Réessayez de l'activer.",
     messagesetting_PhoneNumbers: "Numéros de téléphone",
     messagesetting_PhoneNumbersExplain: "Numéros de téléphone collectés auprès de vos clients via les flux",
     messagesetting_PhoneNumbersEmpty: "Aucun numéro de téléphone n'a encore été collecté",

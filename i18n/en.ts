@@ -2732,6 +2732,18 @@ export default {
     AIFlow_block_title_required: "Please Enter Block Title (Required)",
     AIFlow_item_title: "Item Title:",
     AIFlow_show_graph: "Show Flow Graph",
+    AIFlow_connect_post: "Connect to a post",
+    AIFlow_connect_post_access: "Comment and message permissions, plus Automation and Comment access, are required.",
+    AIFlow_connect_post_save_first: "Save this flow before connecting it to a post.",
+    AIFlow_connect_post_confirm:
+      "This replaces the post's current automatic reply with this flow and activates it. Existing keywords and matching settings are kept; without keywords, the flow responds to all comments.",
+    AIFlow_connect_post_resume: "The flow connection was saved, but activation failed. Try activating it again.",
+    AIFlow_connect_post_incompatible: "This flow is not compatible with private comment replies. Edit and save the flow before connecting it.",
+    AIFlow_retry: "Try again",
+    AIPrompt_connect_post_access: "Instagram comment permission and Automation and Comment access are required.",
+    AIPrompt_connect_post_confirm:
+      "This replaces the post's current automatic reply with this AI prompt and activates it. Existing keywords and matching settings are kept; without keywords, all comments receive a reply. Private delivery is kept only when message permission is available; otherwise replies are sent as comments.",
+    AIPrompt_connect_post_resume: "The AI connection was saved, but activation failed. Try activating it again.",
     messagesetting_PhoneNumbers: "Phone Numbers",
     messagesetting_PhoneNumbersExplain: "Phone numbers collected from your customers through Flows",
     messagesetting_PhoneNumbersEmpty: "No phone numbers have been collected yet",

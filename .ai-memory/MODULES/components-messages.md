@@ -6,6 +6,14 @@ The AI Flow editor shows a localized private-reply warning beside the back and s
 
 Component module for messages UI and feature concerns.
 
+`aiflow/flowAndAIInBox.tsx` exposes a native, propagation-isolated Connect to a post button on saved Flow cards in FirstToggle and saved AI prompt cards in SecondToggle, including both searched lists. The local `newFlow` draft has a disabled save-first action. The selected automation is a typed Flow/AI discriminated union; button clicks do not open the editor.
+
+`aiflow/popup/connectAutomationToPost.tsx` owns the shared connection modal (formerly `connectFlowToPost`) and reuses the lottery post picker. Both modes require `PartnerRole.Automatics`, `PartnerRole.Comment`, and Instagram comment permission, and load the selected post's existing `commentMedia.automaticCommentReply` through `GetPostInfo`. Flow additionally requires message permission and verifies `GetMasterFlow.privateReplyCompability`. Explicit confirmation replaces the reply with `AutoReplyPayLoadType.Flow`/`masterFlowId` or `AutoReplyPayLoadType.AI`/`promptId` through `UpdateAutoReply`, clears references for the other mode plus obsolete product/custom-response data, and preserves keyword strings and `isContain` (legacy default `true`).
+
+Flow payloads force `sendPr` and `shouldFollower` to `false` and preserve successful-delivery confirmation settings. AI forces `shouldFollower` to `false`, preserves existing `sendPr` only with message permission, and retains confirmation-message settings only for private delivery; otherwise it replies in comments with those settings cleared. This matches the media auto-reply editor's AI delivery rules. AI connections do not request `GetMasterFlow` or Flow compatibility.
+
+The popup resumes the saved reply only if `UpdateAutoReply` returns it paused. A failed activation leaves a mode-specific partial-success explanation and retries only `ResumeAutoReply`; API failures notify rather than report success. A synchronous ref blocks duplicate submissions. An already-submitted save/activation finishes even if the modal is dismissed; obsolete selection/compatibility reads do not update a dismissed popup. The button and popup labels are localized in all eight locales.
+
 The general and media auto-reply editors apply the inactive `fadeDiv` state only to settings, leaving the activation switch interactive so paused replies can be re-enabled.
 
 Both auto-reply keyword editors expose a localized `Contain` switch. `isContain: true` matches a keyword anywhere in the comment; `false` requests exact whole-comment matching. Legacy responses without the field default to `true`, and both save payloads include the boolean.

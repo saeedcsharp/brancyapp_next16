@@ -13,6 +13,9 @@ import { LiveTestModal } from "brancy/components/messages/aiflow/flowNode";
 import { TutorialModalContent } from "brancy/components/messages/aiflow/flowNode/NodeTutorials";
 import { SettingModal } from "brancy/components/messages/aiflow/flowNode/settingmodal";
 import AIToolsSettings from "brancy/components/messages/aiflow/popup/AIToolsSettings";
+import ConnectAutomationToPost, {
+  PostAutomation,
+} from "brancy/components/messages/aiflow/popup/connectAutomationToPost";
 import LiveChat from "brancy/components/messages/aiflow/popup/liveChat";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
@@ -20,9 +23,10 @@ import NotFeature from "brancy/components/notOk/notFeature";
 import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { getThumbnailStyle } from "brancy/helper/getThumbnailColor";
-import { LoginStatus } from "brancy/helper/loadingStatus";
+import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import initialzedTime, { convertToMilliseconds } from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
+import { PartnerRole } from "brancy/models/enums";
 import {
   IAITools,
   ICreatePrompt,
@@ -198,6 +202,64 @@ const FlowAndAIInbox = () => {
     editorState?: any;
   } | null>(null);
   const [newFlowDraft, setNewFlowDraft] = useState<ITotalMasterFlow | null>(null);
+  const [connectingAutomation, setConnectingAutomation] = useState<PostAutomation | null>(null);
+  const canConnectPost =
+    RoleAccess(session, PartnerRole.Automatics) &&
+    RoleAccess(session, PartnerRole.Comment) &&
+    !!session?.user.commentPermission;
+
+  function renderConnectPostButton(automation: PostAutomation) {
+    const isFlow = automation.type === "flow";
+    const isDraft = automation.type === "flow" && automation.flow.masterFlowId === "newFlow";
+    const hasAccess = canConnectPost && (!isFlow || !!session?.user.messagePermission);
+    const label = t(
+      isDraft
+        ? LanguageKey.AIFlow_connect_post_save_first
+        : hasAccess
+          ? LanguageKey.AIFlow_connect_post
+          : isFlow
+            ? LanguageKey.AIFlow_connect_post_access
+            : LanguageKey.AIPrompt_connect_post_access,
+    );
+    return (
+      <button
+        type="button"
+        className={`cancelButton ${styles.connectPostButton}`}
+        disabled={isDraft || !hasAccess}
+        title={label}
+        aria-label={label}
+        onMouseDown={(event) => event.stopPropagation()}
+        onMouseUp={(event) => event.stopPropagation()}
+        onTouchEnd={(event) => event.stopPropagation()}
+        onClick={(event) => {
+          event.stopPropagation();
+          setConnectingAutomation(automation);
+        }}>
+        {/* <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            d="m10 13 4-4m-6 7-1 1a4 4 0 0 1-6-6l4-4a4 4 0 0 1 6 0m2 2 1-1a4 4 0 0 1 6 6l-4 4a4 4 0 0 1-6 0"
+            transform="translate(1 0)"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+          />
+        </svg> */}
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          color="currentColor"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24">
+          <path d="m9.1 10.7.3-.2a5 5 0 1 1 7.1 7.1l-2.9 3a5 5 0 1 1-7.1-7.2l.4-.5" />
+          <path d="m17 11.1.5-.5a5 5 0 1 0-7.1-7.1l-3 2.9a5 5 0 1 0 7.2 7.1l.3-.2" />
+        </svg>
+      </button>
+    );
+  }
   const [searchLocked, setSearchLocked] = useState<boolean>(false);
   const [displayRight, setDisplayRight] = useState("");
   const [displayLeft, setDisplayLeft] = useState("");
@@ -805,6 +867,7 @@ const FlowAndAIInbox = () => {
                     </div>
                     <div className={styles.chattime}>{new Date(newFlowDraft.createdTime).toLocaleString()}</div>
                   </div>
+                  {renderConnectPostButton({ type: "flow", flow: newFlowDraft })}
                 </div>
               )}
               {toggleOrder === ToggleOrder.FirstToggle &&
@@ -839,7 +902,7 @@ const FlowAndAIInbox = () => {
                         </div>
                       );
                     })()}
-                    <div className="instagramprofiledetail">
+                    <div className={`instagramprofiledetail ${styles.flowDetails}`}>
                       <div className="instagramusername" title={v.title}>
                         {v.title}
                       </div>
@@ -854,6 +917,7 @@ const FlowAndAIInbox = () => {
                         }).format("YYYY/MM/DD - h:mm a")}
                       </div>
                     </div>
+                    {renderConnectPostButton({ type: "flow", flow: v })}
                   </div>
                 ))}
               {toggleOrder === ToggleOrder.SecondToggle &&
@@ -887,7 +951,7 @@ const FlowAndAIInbox = () => {
                       );
                     })()}
 
-                    <div className="instagramprofiledetail">
+                    <div className={`instagramprofiledetail ${styles.flowDetails}`}>
                       <div className="instagramusername" title={v.title}>
                         {v.title}
                       </div>
@@ -902,6 +966,7 @@ const FlowAndAIInbox = () => {
                         }).format("YYYY/MM/DD - h:mm a")}
                       </div>
                     </div>
+                    {renderConnectPostButton({ type: "ai", prompt: v })}
                   </div>
                 ))}
               {showSearchThread.searchMode &&
@@ -942,7 +1007,7 @@ const FlowAndAIInbox = () => {
                               </div>
                             );
                           })()}
-                          <div className="instagramprofiledetail">
+                          <div className={`instagramprofiledetail ${styles.flowDetails}`}>
                             <div className="instagramusername" title={v.title}>
                               {v.title}
                             </div>
@@ -957,6 +1022,7 @@ const FlowAndAIInbox = () => {
                               }).format("YYYY/MM/DD - h:mm a")}
                             </div>
                           </div>
+                          {renderConnectPostButton({ type: "flow", flow: v })}
                         </div>
                       ))}
                   </>
@@ -995,7 +1061,7 @@ const FlowAndAIInbox = () => {
                           );
                         })()}
 
-                        <div className="instagramprofiledetail">
+                        <div className={`instagramprofiledetail ${styles.flowDetails}`}>
                           <div className="instagramusername" title={v.title}>
                             {v.title}
                           </div>
@@ -1010,6 +1076,7 @@ const FlowAndAIInbox = () => {
                             }).format("YYYY/MM/DD - h:mm a")}
                           </div>
                         </div>
+                        {renderConnectPostButton({ type: "ai", prompt: v })}
                       </div>
                     ))}
                 </>
@@ -1097,6 +1164,17 @@ const FlowAndAIInbox = () => {
             }}
           />
         </Modal>
+      )}
+      {connectingAutomation && (
+        <ConnectAutomationToPost
+          key={
+            connectingAutomation.type === "flow"
+              ? `flow-${connectingAutomation.flow.masterFlowId}`
+              : `ai-${connectingAutomation.prompt.promptId}`
+          }
+          automation={connectingAutomation}
+          onClose={() => setConnectingAutomation(null)}
+        />
       )}
       <NewFlowModal
         open={showNewFlowModal && toggleOrder === ToggleOrder.FirstToggle && !loading}

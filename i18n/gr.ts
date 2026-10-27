@@ -2789,6 +2789,18 @@ export default {
     AIFlow_block_title_required: "Bitte geben Sie den Blocktitel ein (erforderlich)",
     AIFlow_item_title: "Elementtitel:",
     AIFlow_show_graph: "Flow-Diagramm anzeigen",
+    AIFlow_connect_post: "Mit Beitrag verbinden",
+    AIFlow_connect_post_access: "Instagram-Berechtigungen für Kommentare und Nachrichten sowie Zugriff auf Automatisierung und Kommentare sind erforderlich.",
+    AIFlow_connect_post_save_first: "Speichern Sie diesen Flow, bevor Sie ihn mit einem Beitrag verbinden.",
+    AIFlow_connect_post_confirm:
+      "Dieser Flow ersetzt die aktuelle automatische Antwort des Beitrags und wird aktiviert. Schlüsselwörter und Abgleichseinstellungen bleiben erhalten; ohne Schlüsselwörter antwortet der Flow auf alle Kommentare.",
+    AIFlow_connect_post_resume: "Die Flow-Verknüpfung wurde gespeichert, aber die Aktivierung ist fehlgeschlagen. Versuchen Sie die Aktivierung erneut.",
+    AIFlow_connect_post_incompatible: "Dieser Flow ist nicht mit privaten Kommentarantworten kompatibel. Bearbeiten und speichern Sie ihn vor dem Verbinden.",
+    AIFlow_retry: "Erneut versuchen",
+    AIPrompt_connect_post_access: "Die Instagram-Kommentarberechtigung sowie Zugriff auf Automatisierung und Kommentare sind erforderlich.",
+    AIPrompt_connect_post_confirm:
+      "Diese KI ersetzt die aktuelle automatische Antwort des Beitrags und wird aktiviert. Schlüsselwörter und Abgleichseinstellungen bleiben erhalten; ohne Schlüsselwörter werden alle Kommentare beantwortet. Private Zustellung bleibt nur mit Nachrichtenberechtigung erhalten; andernfalls werden Antworten als Kommentare gesendet.",
+    AIPrompt_connect_post_resume: "Die KI-Verknüpfung wurde gespeichert, aber die Aktivierung ist fehlgeschlagen. Versuchen Sie die Aktivierung erneut.",
     messagesetting_PhoneNumbers: "Telefonnummern",
     messagesetting_PhoneNumbersExplain: "Telefonnummern, die über Flows von Ihren Kunden gesammelt wurden",
     messagesetting_PhoneNumbersEmpty: "Es wurden noch keine Telefonnummern gesammelt",

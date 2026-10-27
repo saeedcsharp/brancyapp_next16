@@ -42,6 +42,10 @@ Use this doc when the requested work is described as an Instagramer capability i
 The `/page/tools` hashtag capability is presented in one collapsible `hashtagManager` card with a shared toggle for saved hashtags and trend/search hashtags. Its shared header hides the manager content and reduces the card height while closed.
 Lottery creation on `/page/tools` checks its entitlement directly with `/api/feature/hasFeature` through `checkPackageFeature` and does not call `GetPackageFeatureDetails`. Selecting a start time no longer shows a package-time-window warning.
 
+Flow-to-post connection is available in the reverse direction from `/Ai/FlowandAgent`: use the connection icon on a saved Flow card (also in search results), choose a post from the paginated thumbnail list, and confirm replacement/activation of its automatic comment reply. The existing keywords/matching and delivery-confirmation settings are preserved; with no keywords, all comments trigger the Flow. Saved Flows must support private replies, and the action requires Instagram comment/message permissions plus Automatics and Comment partner roles. Unsaved drafts cannot connect. If activation fails after saving, the modal offers activation-only retry without duplicating the configuration save.
+
+The AI tab's saved prompt cards, including search results, expose the same post-connection icon and picker. Confirmation saves the selected prompt as the post's AI auto reply and activates it, preserving keyword matching. AI connections require comment permission and Automatics/Comment access but not message permission for comment delivery; existing private delivery is preserved only with message permission, and AI never enables follower checks. The shared modal sends `promptId` rather than `masterFlowId`, skips Flow compatibility requests, and retains activation-only retry.
+
 Live media auto-replies do not expose the must-follow-page option for AI and Flow modes.
 
 General and media auto-replies do not expose the must-follow-page option for AI mode, and AI replies save that setting as disabled.

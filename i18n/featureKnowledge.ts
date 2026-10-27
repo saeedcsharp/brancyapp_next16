@@ -57,7 +57,7 @@ const recordsEn = {
   aiFlows: {
     title: "AI prompts and visual flows",
     description:
-      "Build AI prompts, connect available tools, mention the sender with a manual-prompt placeholder, analyze prompts, test conversations, and compose node-based message flows for automated interactions.",
+      "Build AI prompts, connect available tools, mention the sender with a manual-prompt placeholder, analyze prompts, test conversations, and compose node-based message flows. From a saved Flow or AI prompt card, including search results in either tab, select a post and confirm to replace its automatic reply and activate it, preserving existing keywords and matching settings. Post connections require Instagram comment permission and Automation/Comment partner access. Flow connections also require message permission and private-reply compatibility. AI can reply in comments without message permission; existing private delivery is preserved only when that permission is available.",
   },
   flowPhoneExport: {
     title: "Export phone numbers collected by Flows",
@@ -628,9 +628,9 @@ export const featureKnowledgeFa = {
     },
     aiFlows: {
       title: "دستورها و جریان‌های هوش مصنوعی",
-      description: "با هوش مصنوعی گفت‌وگو بسازید، ابزار اضافه کنید و روند پاسخ‌گویی را تنظیم کنید.",
+      description: "با هوش مصنوعی گفت‌وگو بسازید و از روی کارت فلو یا هوش مصنوعی، آن را به پست دلخواهتان وصل کنید.",
       descriptionDetail:
-        "برای پاسخ‌گویی هوشمند، دستورهای دلخواهتان را بنویسید و ابزارهای در دسترس را به آن‌ها وصل کنید. گفت‌وگو را آزمایش کنید و با کنار هم گذاشتن مرحله‌ها، روندی بسازید که پاسخ‌ها و مسیر تعامل با مخاطب را منظم‌تر و قابل کنترل‌تر کند.",
+        "برای پاسخ‌گویی هوشمند، دستورهای دلخواهتان را بنویسید، ابزار اضافه کنید و گفت‌وگو را آزمایش کنید. در هر دو تب فلو و هوش مصنوعی، از روی کارت‌های ذخیره‌شده و نتایج جست‌وجو، اتصال به پست را بزنید، پست را انتخاب و اتصال را تأیید کنید. گزینه انتخاب‌شده جایگزین پاسخ خودکار پست و فعال می‌شود؛ کلمات کلیدی و روش تطبیق قبلی حفظ می‌شوند و اگر کلمه‌ای نباشد، به همه کامنت‌ها پاسخ می‌دهد. دسترسی کامنت اینستاگرام و مجوز بخش‌های خودکارسازی و کامنت لازم است. فلو به دسترسی پیام و سازگاری با پاسخ خصوصی هم نیاز دارد؛ هوش مصنوعی بدون دسترسی پیام می‌تواند در کامنت پاسخ دهد و ارسال خصوصی قبلی فقط با داشتن دسترسی پیام حفظ می‌شود.",
     },
     flowPhoneExport: {
       title: "دانلود شماره‌های جمع‌آوری‌شده از فلوها",
