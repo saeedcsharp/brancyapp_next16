@@ -680,3 +680,4 @@ After modifying related code:
 Keep documentation synchronized with the implementation.
 
 ---
+- 2026-10-27: Added project-scoped, pinned, documentation-only Patran Swagger MCP configuration and Copilot API-contract verification instructions. Reviewed SmartBear and community alternatives before selecting `@emreyc/swagger-mcp@0.2.1`; unignored only the shareable editor configuration and documented startup, security, cache, and missing-response-schema limitations. Fresh-process stdio initialization, nine-tool discovery, three endpoint searches/details, and related schemas passed; actual Patran MCP tools were then invoked successfully in the active Copilot session. No operational API or business-logic changes.

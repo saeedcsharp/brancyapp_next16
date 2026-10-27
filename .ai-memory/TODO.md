@@ -279,3 +279,4 @@ After modifying related code:
 Keep documentation synchronized with the implementation.
 
 ---
+- Patran Swagger MCP onboarding: fresh-process protocol tests and actual Copilot tool calls passed on 2026-10-27. On a teammate's machine or after changing the Copilot host, confirm startup/trust and tool availability using `CONFIGURATIONS.md`; a full VS Code close/reopen was not tested here. Restart the server after backend schema changes because the specification cache lasts for the process lifetime.

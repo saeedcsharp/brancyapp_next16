@@ -2,6 +2,17 @@ The bulk product individual editors now render as a free horizontal slider using
 
 # Current State
 
+Project-scoped Patran Swagger MCP configuration now exists in `.vscode/mcp.json`,
+using the reviewed, pinned `@emreyc/swagger-mcp@0.2.1` community server and the
+public online OpenAPI source. Copilot instructions require MCP-backed contract
+inspection and prohibit inventing undocumented response models. Fresh-process
+MCP initialization and discovery of nine read-only tools passed; actual tools
+also became available and executed successfully in this Copilot session.
+Three real operations were searched, parameters/request fields inspected, and
+`CreatePartnerInfo` plus `PartnerRole` resolved without executing API operations.
+The shareable configuration persists; a complete VS Code restart was not tested.
+See `CONFIGURATIONS.md` for evidence and startup/cache limitations.
+
 Saved Flow cards on `/Ai/FlowandAgent`, including searched cards, now have a Connect to a post action. The existing paginated post picker leads to an explicit replacement/activation confirmation. The connection uses `GetPostInfo`, `UpdateAutoReply`, and, for paused replies, `ResumeAutoReply`; existing keyword matching and confirmation responses are preserved. Drafts cannot connect, the saved Flow must report `privateReplyCompability`, and Instagram comment/message permissions plus Automatics/Comment partner access are required. Failed activation remains retryable without resaving the connection. TypeScript and 18 focused synthetic behavioral cases pass; authenticated browser/backend verification remains pending.
 
 The AI (`SecondToggle`) saved-prompt cards now expose the same Connect to a post action in both normal and searched lists. Both modes reuse `aiflow/popup/connectAutomationToPost.tsx`: AI connections save `AutoReplyPayLoadType.AI` and the selected `promptId`, clear old Flow/product/response references, preserve keyword matching, and disable follower checks. AI comment delivery only requires comment permission and Automatics/Comment partner access; existing private delivery and its confirmation settings are retained only with message permission, otherwise replies use comments with confirmation-only settings cleared. AI does not request Flow compatibility. Activation-only retry and duplicate-save protection remain shared. TypeScript and 23 focused AI/Flow synthetic cases pass; authenticated browser/backend verification remains pending. Connected-post thumbnail lists are not part of this change.
