@@ -7,12 +7,12 @@ import styles from "./package.module.css";
 // ============================================================
 
 const STATS = [
-  { label: "کل وابستگی مستقیم", value: "41", color: "colorPurple" },
-  { label: "استفاده می‌شوند", value: "34", color: "colorGreen" },
-  { label: "یتیم یا نیازمند بررسی", value: "7", color: "colorRed" },
-  { label: "تأثیر bundle (حذف تخمینی)", value: "~675KB+", color: "colorOrange" },
-  { label: "devDependencies", value: "9", color: "colorBlue" },
-  { label: "کل پکیج‌های manifest", value: "50", color: "colorYellow" },
+  { label: "کل وابستگی مستقیم", value: "37", color: "colorPurple" },
+  { label: "استفاده می‌شوند", value: "35", color: "colorGreen" },
+  { label: "یتیم یا نیازمند بررسی", value: "2", color: "colorRed" },
+  { label: "تأثیر bundle (حذف تخمینی)", value: "~150KB", color: "colorOrange" },
+  { label: "devDependencies", value: "8", color: "colorBlue" },
+  { label: "کل پکیج‌های manifest", value: "45", color: "colorYellow" },
 ];
 
 type TierKey = 1 | 2 | 3 | 4 | 5 | 6 | 7;
@@ -205,6 +205,24 @@ const DEPS: DepRow[] = [
     bundleLabel: "~8KB",
   },
   { name: "react-slider", tier: 4, used: true, usedLabel: "Production", stars: 2, safe: "no", bundleLabel: "~10KB" },
+  {
+    name: "clsx",
+    tier: 4,
+    used: true,
+    usedLabel: "Production",
+    stars: 2,
+    safe: "no",
+    bundleLabel: "shared (transitive)",
+  },
+  {
+    name: "react-date-object",
+    tier: 4,
+    used: true,
+    usedLabel: "Production",
+    stars: 2,
+    safe: "no",
+    bundleLabel: "shared (transitive)",
+  },
   // Tier 5
   {
     name: "@types/react",
@@ -227,16 +245,6 @@ const DEPS: DepRow[] = [
     note: "⚠️ باید devDeps باشد",
   },
   {
-    name: "@types/wavesurfer.js",
-    tier: 5,
-    used: true,
-    usedLabel: "Type-only",
-    stars: 2,
-    safe: "no",
-    bundleLabel: "type-only",
-    note: "⚠️ باید devDeps باشد",
-  },
-  {
     name: "braces",
     tier: 5,
     used: true,
@@ -247,38 +255,6 @@ const DEPS: DepRow[] = [
   },
   // Tier 7 (Unused)
   { name: "ws", tier: 7, used: false, usedLabel: "Unused", stars: 1, safe: "yes", bundleLabel: "~150KB" },
-  { name: "jotai", tier: 7, used: false, usedLabel: "Unused", stars: 1, safe: "yes", bundleLabel: "~8KB" },
-  {
-    name: "pdf-lib",
-    tier: 7,
-    used: false,
-    usedLabel: "Unused",
-    stars: 1,
-    safe: "yes",
-    bundleLabel: "~450KB+",
-    note: "🔴 بیشترین بار اضافه",
-  },
-  { name: "react-select", tier: 7, used: false, usedLabel: "Unused", stars: 1, safe: "yes", bundleLabel: "~28KB" },
-  {
-    name: "lodash.throttle",
-    tier: 7,
-    used: false,
-    usedLabel: "Unused",
-    stars: 1,
-    safe: "yes",
-    bundleLabel: "~2KB",
-    note: "جایگزین: پیاده‌سازی دستی",
-  },
-  {
-    name: "react-leaflet",
-    tier: 7,
-    used: false,
-    usedLabel: "احتمالاً Unused",
-    stars: 1,
-    safe: "maybe",
-    bundleLabel: "~25KB",
-    note: "leaflet خام استفاده می‌شود",
-  },
 ];
 
 const DEV_DEPS = [
@@ -286,35 +262,17 @@ const DEV_DEPS = [
   { name: "@types/node", used: true, note: "لازم — type-only" },
   { name: "@types/pako", used: true, note: "لازم — type-only" },
   { name: "@types/react-color", used: true, note: "لازم — type-only" },
-  { name: "@types/react-i18next", used: true, note: "لازم — type-only" },
   { name: "@types/react-slider", used: true, note: "لازم — type-only" },
-  { name: "next-router-mock", used: true, note: "لازم — compat layer" },
+  { name: "eslint", used: true, note: "لازم — npm run lint" },
+  { name: "eslint-config-next", used: true, note: "لازم — eslint.config.mjs" },
   { name: "patch-package", used: true, note: "postinstall آن را اجرا می‌کند؛ با حذف کامل پچ‌ها قابل حذف است" },
-  { name: "@types/react-beautiful-dnd", used: false, note: "🔴 یتیم — پکیج اصلی نصب نیست" },
 ];
 
 const ORPHANS = [
-  { name: "pdf-lib", reason: "هیچ import در کدبیس یافت نشد. کاملاً بلااستفاده است.", saving: "صرفه‌جویی ~450KB+" },
-  { name: "jotai", reason: "هیچ import در کدبیس یافت نشد. State management استفاده نشده.", saving: "صرفه‌جویی ~8KB" },
-  {
-    name: "react-select",
-    reason: "هیچ import در کدبیس یافت نشد. Select پیشرفته بلااستفاده.",
-    saving: "صرفه‌جویی ~28KB",
-  },
-  {
-    name: "lodash.throttle",
-    reason: "throttle به‌صورت دستی (native setTimeout) پیاده‌سازی شده.",
-    saving: "صرفه‌جویی ~2KB",
-  },
   {
     name: "ws",
-    reason: "socket.ts از native browser WebSocket استفاده می‌کند. signalR نسخه خود ws را دارد.",
+    reason: "هیچ import مستقیمی در سورس وجود ندارد؛ به‌صورت pinned نگه داشته شده است. signalR نسخه خود ws را دارد.",
     saving: "صرفه‌جویی ~150KB",
-  },
-  {
-    name: "react-leaflet",
-    reason: "mainLeaftlet.jsx از leaflet خام استفاده می‌کند. هیچ import از react-leaflet یافت نشد.",
-    saving: "⚠️ نیاز به تأیید نهایی",
   },
 ];
 
@@ -329,7 +287,6 @@ interface BundleBar {
 
 const BUNDLE_BARS: BundleBar[] = [
   { name: "heic2any", kb: 2500, maxKb: 3000, label: "~2.5MB", type: "warn", tag: "lazy" },
-  { name: "pdf-lib (UNUSED)", kb: 450, maxKb: 3000, label: "~450KB", type: "danger", tag: undefined },
   { name: "@microsoft/signalr", kb: 110, maxKb: 3000, label: "~110KB", type: "ok", tag: undefined },
   { name: "leaflet", kb: 150, maxKb: 3000, label: "~150KB", type: "ok", tag: undefined },
   { name: "wavesurfer.js", kb: 150, maxKb: 3000, label: "~150KB", type: "ok", tag: undefined },
@@ -340,8 +297,6 @@ const BUNDLE_BARS: BundleBar[] = [
   { name: "react-color", kb: 55, maxKb: 3000, label: "~55KB", type: "ok", tag: undefined },
   { name: "react-i18next", kb: 55, maxKb: 3000, label: "~55KB", type: "ok", tag: undefined },
   { name: "date-fns", kb: 60, maxKb: 3000, label: "~60KB", type: "lazy", tag: "lazy" },
-  { name: "react-select (UNUSED)", kb: 28, maxKb: 3000, label: "~28KB", type: "danger", tag: undefined },
-  { name: "jotai (UNUSED)", kb: 8, maxKb: 3000, label: "~8KB", type: "danger", tag: undefined },
 ];
 
 const RISKS = [
@@ -351,19 +306,9 @@ const RISKS = [
     desc: "چند نسخهٔ pako در درخت transitive دیده می‌شود. ابتدا با npm ls pako علت و مسیرهای واقعی را بررسی کنید؛ گزارش فعلی آن را به pdf-lib نسبت نمی‌دهد.",
   },
   {
-    title: "@types/react-beautiful-dnd یتیم",
-    level: "red",
-    desc: "پروژه به @dnd-kit مهاجرت کرده اما type package قدیمی react-beautiful-dnd باقی مانده.",
-  },
-  {
     title: "ws override",
     level: "yellow",
     desc: "ws در dependencies مستقیم است اما import مستقیمی در سورس گزارش پیدا نشد. حذف آن فقط پس از npm ls ws و npm audit انجام شود.",
-  },
-  {
-    title: "react-leaflet بدون استفاده",
-    level: "yellow",
-    desc: "mainLeaftlet.jsx از leaflet خام استفاده می‌کند. react-leaflet نصب است اما import نمی‌شود.",
   },
   {
     title: "postcss مستقل",
@@ -373,7 +318,7 @@ const RISKS = [
   {
     title: "@types/* در dependencies",
     level: "yellow",
-    desc: "@types/react، @types/react-dom، @types/wavesurfer.js و typescript در dependencies هستند نه devDependencies. انتقال به devDependencies باید با pipeline build بررسی شود.",
+    desc: "@types/react، @types/react-dom و typescript در dependencies هستند نه devDependencies. انتقال به devDependencies باید با pipeline build بررسی شود.",
   },
   {
     title: "react-color قدیمی",
@@ -395,8 +340,8 @@ const RISKS = [
 const DUPLICATES = [
   {
     pkg: "pako",
-    versions: "v0.2.5 / v1.0.x / v2.1.0",
-    cause: "pdf-lib، @pdf-lib/standard-fonts، @pdf-lib/upng، wavesurfer.js",
+    versions: "v0.2.9 / v2.1.0",
+    cause: "satori → linebreak → unicode-trie",
     impact: "+150KB اضافه",
   },
   {
@@ -456,24 +401,19 @@ const PKG_DESC: Record<string, string> = {
   "react-slider": "اسلایدر عددی/مقداری برای رابط‌های کاربری.",
   "@types/react": "تعاریف TypeScript برای React (type-only).",
   "@types/react-dom": "تعاریف TypeScript برای react-dom (type-only).",
-  "@types/wavesurfer.js": "تعاریف TypeScript برای wavesurfer (type-only).",
   "patch-package": "ابزار اعمال پچ محلی روی node_modules بعد از نصب.",
-  "next-router-mock": "ابزار شبیه‌سازی router در تست‌ها برای Next.js.",
   braces: "کتابخانهٔ کمکی پردازش الگوهای رشته‌ای — وابستهٔ فرعی.",
   ws: "کتابخانهٔ WebSocket برای Node.js (معمولاً سمت سرور).",
-  jotai: "کتابخانهٔ سبک state management برای React.",
-  "pdf-lib": "کتابخانهٔ ایجاد/ویرایش فایل‌های PDF در جاوااسکریپت.",
-  "react-select": "کامپوننت select پیشرفته برای فرم‌ها.",
+  clsx: "ابزار کوچک ترکیب classNameهای شرطی.",
+  "react-date-object": "شیء تاریخ چندتقویمی مورد استفادهٔ react-multi-date-picker.",
+  eslint: "ابزار lint برای JavaScript/TypeScript.",
+  "eslint-config-next": "پیکربندی ESLint رسمی Next.js.",
   "react-infinite-scroll-component": "کامپوننت پیمایش بی‌نهایت ساده برای لیست‌ها.",
-  "lodash.throttle": "تابع throttle برای محدود کردن فراخوانی توابع.",
-  "react-leaflet": "بایندینگ React برای کتابخانهٔ Leaflet (نقشه).",
   "@types/i18next": "تعاریف TypeScript برای i18next.",
   "@types/node": "تعاریف TypeScript برای محیط Node.js.",
   "@types/pako": "تعاریف TypeScript برای pako.",
   "@types/react-color": "تعاریف TypeScript برای react-color.",
-  "@types/react-i18next": "تعاریف TypeScript برای react-i18next.",
   "@types/react-slider": "تعاریف TypeScript برای react-slider.",
-  "@types/react-beautiful-dnd": "تعاریف قدیمی برای react-beautiful-dnd (احتمالاً یتیم).",
 };
 
 // ============================================================
@@ -542,7 +482,7 @@ export default function DependencyReport() {
       <div className={styles.header}>
         <div className={styles.headerBadge}>Dependency Analysis Report</div>
         <h1 className={styles.headerTitle}>گزارش تحلیل وابستگی‌های پروژه</h1>
-        <p className={styles.headerSub}>brancyui-next-app · Next.js 16 · تاریخ: ۲۹ ژوئیه ۲۰۲۶</p>
+        <p className={styles.headerSub}>brancyui-next-app · Next.js 16 · تاریخ: ۳۰ سپتامبر ۲۰۲۶</p>
       </div>
 
       {/* STATS */}
@@ -790,34 +730,15 @@ export default function DependencyReport() {
             <div className={styles.finalBoxTitle}>🗑 اقدام پیشنهادی — حذف ایمن</div>
             <ul className={styles.finalBoxList}>
               <li>
-                <span className={`${styles.dot} ${styles.dotRed}`} />
-                <strong>pdf-lib</strong> — هیچ استفاده‌ای ندارد، ~450KB صرفه‌جویی
-              </li>
-              <li>
-                <span className={`${styles.dot} ${styles.dotRed}`} />
-                <strong>jotai</strong> — state manager بلااستفاده
-              </li>
-              <li>
-                <span className={`${styles.dot} ${styles.dotRed}`} />
-                <strong>react-select</strong> — هیچ import ندارد
-              </li>
-              <li>
-                <span className={`${styles.dot} ${styles.dotRed}`} />
-                <strong>lodash.throttle</strong> — دستی پیاده‌سازی شده
-              </li>
-              <li>
-                <span className={`${styles.dot} ${styles.dotYellow}`} />
-                <strong>@types/react-beautiful-dnd</strong> — پکیج اصلی نصب نیست
+                <span className={`${styles.dot} ${styles.dotGreen}`} />
+                pdf-lib، jotai، react-select، lodash.throttle، react-leaflet، @types/react-beautiful-dnd — در ۳۰ سپتامبر
+                ۲۰۲۶ حذف شدند
               </li>
             </ul>
           </div>
           <div>
             <div className={styles.finalBoxTitle}>⚠️ نیاز به بررسی بیشتر</div>
             <ul className={styles.finalBoxList}>
-              <li>
-                <span className={`${styles.dot} ${styles.dotYellow}`} />
-                <strong>react-leaflet</strong> — تأیید کنید هیچ import پنهانی ندارد
-              </li>
               <li>
                 <span className={`${styles.dot} ${styles.dotYellow}`} />
                 <strong>ws</strong> — آیا برای security override است؟ npm audit بررسی شود
@@ -834,10 +755,6 @@ export default function DependencyReport() {
               <li>
                 <span className={`${styles.dot} ${styles.dotBlue}`} />
                 @types/react، @types/react-dom، typescript → devDeps
-              </li>
-              <li>
-                <span className={`${styles.dot} ${styles.dotBlue}`} />
-                @types/wavesurfer.js → devDeps
               </li>
               <li>
                 <span className={`${styles.dot} ${styles.dotBlue}`} />

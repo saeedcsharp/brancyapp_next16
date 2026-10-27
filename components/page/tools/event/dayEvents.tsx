@@ -57,7 +57,6 @@ const DayEvents = (props: { removeMask: () => void; backButton?: () => void }) =
     setLoading(true);
     setHasSearched(true);
     try {
-      console.log("Fetching events with params:", { minTime, maxTime, languageId });
       const res = await clientFetchApi<null, IDayEvent[]>("/api/dayevent/getEvents", {
         methodType: MethodType.get,
         session: session,

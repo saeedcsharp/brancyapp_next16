@@ -250,7 +250,7 @@ const Properties = () => {
           />
         </Modal>
         <Modal closePopup={handleRemoveMask} classNamePopup="popupSendFile" showContent={showNotFeature}>
-          <NotFeature onClose={() => setShowNotFeature(false)} />
+          <NotFeature onClose={() => setShowNotFeature(false)} upgradeQuery={{ section: "domain" }} />
         </Modal>
       </>
     )

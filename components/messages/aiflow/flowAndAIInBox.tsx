@@ -613,7 +613,6 @@ const FlowAndAIInbox = () => {
         setUserSelectedId(String(fid));
       }
     }
-    console.log(" ✅ Console ⋙ Session", session, session?.user.username);
     if (session === undefined || session?.user.username === undefined || !LoginStatus(session)) return;
     fetchFirstData();
     const handleMouseMove = (event: { clientX: number; clientY: number }) => {
@@ -1230,7 +1229,7 @@ const FlowAndAIInbox = () => {
         </Modal>
       )}
       <Modal closePopup={() => setShowNotFeature(false)} classNamePopup="popupSendFile" showContent={showNotFeature}>
-        <NotFeature onClose={() => setShowNotFeature(false)} />
+        <NotFeature onClose={() => setShowNotFeature(false)} upgradeQuery={{ section: "ai" }} />
       </Modal>
     </>
   );

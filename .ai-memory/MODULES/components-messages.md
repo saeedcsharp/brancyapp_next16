@@ -1,10 +1,14 @@
 # components/messages
 
-The AI Flow editor shows a localized private-reply warning beside the back and save controls when an `node_onmessage` connection targets a node with a non-null output while `checkFollower` is disabled. Output-less nodes such as quick replies do not trigger the warning. The warning condition is display-only: Save continues through the existing API flow, including after changing The user must follow the page in `settingModal`.
+The AI Flow editor shows a localized private-reply warning beside the back and save controls when an `node_onmessage` connection targets a node with a non-null output while `checkFollower` is disabled. Output-less nodes such as quick replies do not trigger the warning. For `buttongroup` and `generic` (gallery) targets, only an actual connection from the regular `output` socket triggers it; button outputs and gallery-item (sub-block) outputs, in any number, are ignored. The warning condition is display-only: Save continues through the existing API flow, including after changing The user must follow the page in `settingModal`.
 
 ## Purpose
 
 Component module for messages UI and feature concerns.
+
+The general and media auto-reply editors apply the inactive `fadeDiv` state only to settings, leaving the activation switch interactive so paused replies can be re-enabled.
+
+Both auto-reply keyword editors expose a localized `Contain` switch. `isContain: true` matches a keyword anywhere in the comment; `false` requests exact whole-comment matching. Legacy responses without the field default to `true`, and both save payloads include the boolean.
 
 The Message Properties panel no longer renders the automatic/bot reply filtering toggle; its related parent callback and `ToggleHideCommentAutoReply` request were removed while the remaining reply settings continue to use the existing backend model.
 
@@ -106,24 +110,38 @@ The automatic-reply Flow Graph action uses the localized `AIFlow_show_graph` key
 
 The Flow entries in `properties/persistentMenu.tsx` and `properties/iceBreaker.tsx` use the same localized Flow Graph action and open `/Ai/FlowandAgent?id=<masterFlowId>` when activated.
 
+`properties/phoneNumbers.tsx` is the fifth card on the message properties page. It renders the phone numbers collected by Flows (`IFlowPhoneNumber`) in the shared `Slider` (2 items per slide), shows profile, phone number, flow title, and creation date, and opens `/Ai/FlowandAgent?id=<masterFlowId>` from the Flow Graph action. It requests the next page through `handleGetNextPhoneNumbers` on slider reach-end only while `hasMore` is true.
+The Flow Graph action uses the dedicated `/flow-redirect.svg` external-navigation icon immediately beside each Flow title, rather than the unrelated statistics graph artwork or a full-width button. Its localized name is available on hover and to assistive technology.
+
+The same card exposes a compact `/download.svg` icon beside its heading, including while collapsed. Activating it opens the shared `SetTimeAndDate` calendar in a body-portalled modal; the calendar's confirmation button is labelled Export and starts the request directly for a chosen localized date and time from six calendar months ago plus one calendar day through now. The portal keeps the animated `pinContainer` grid from trapping the popup beneath the backdrop. Its Excel action requests `/api/flow/getExportPhoneNumbers` with a Unix-seconds `fromTime` clamped to that same boundary and the browser's timezone offset in signed seconds. `masterFlowId` is omitted until filtering by a particular Flow is supported. On success the returned media path is opened with `/download`; while requesting, duplicate exports are disabled. The action is available even when the paginated list is empty.
+
+When no phone numbers have been collected, the card shows its localized empty-state message and the same redirect-arrow action, which opens `/Ai/FlowandAgent` without an `id`, leaving the user on the Flow list.
+
 The selected Flow action in `popups/specialPayLoad.tsx` also uses `AIFlow_show_graph` and opens `/Ai/FlowandAgent?id=<masterFlowId>`.
 
 The same component keeps the continued new flow in `userslist` as a local `newFlow` Draft item. A successful manual save removes that item and prepends the backend-returned `ITotalMasterFlow`; `aiflow/flow.tsx` treats a new flow as unsaved until that save succeeds.
 
 `aiflow/flowNode/GenericItemNode.tsx` and `aiflow/flowNode/WeblinkNode.tsx` validate web links on blur. A valid HTTP(S) link must have a non-empty final hostname segment after a dot (for example, `.com` or `.ir`); the suffix is not restricted to a fixed list. Invalid non-empty links set the shared `InputBox` danger status and replay its shake animation once; editing the value clears the error state.
 
+`aiflow/flowNode/PhoneNumberGrabberNode.tsx` exports an empty `nodeContainer` class as the node wrapper hook (like the other blocks) and keeps its centered flex layout on the inner `container`, so the node header is not affected. In Live Test (`aiflow/flowNode/livetest.tsx`) reaching this block shows no prompt and silently pauses the flow (`awaitingPhoneNodeIdRef`); the next sent message is validated (7–15 digits), an invalid value gets `Notify_InvalidPhoneNumber`, and a valid one continues through the block's outgoing connections. `aiflow/flowTest.tsx` is a legacy, unused tester and does not support this block.
+
+`aiflow/flowNode/ButtonGroupNode.tsx` implements the `buttongroup` Flow block, modeled on `quickreply`: a `TextArea` message title limited to 640 characters (counted by code point) and a hard maximum of three buttons (20 characters each) stored in `data.buttons` with matching `buttonOutputs` sockets; it also has one regular `output` socket (index 0, ahead of the button sockets) that continues the flow independently of the buttons; the add control is hidden at three buttons and removing the last button deletes the node. Its button outputs may connect to the Link (`weblink`) block, which otherwise only accepts `genericitem`; its regular `output` socket cannot (validation receives the source socket id); like `quickreply`, it cannot feed `phonenumbergrabber`. Its tutorial uses the `New_Flow_Tutorials_buttongroup_*` keys (no connections list).
+
+`aiflow/flowNode/AiNode.tsx` implements the `ai` Flow block (registered in `types.ts`, `flowNode/index.ts`, and `aiflow/flow.tsx`: node type unions, empty `ai` rows in the connection matrices, class/translation/color maps, height switches, desktop toolbar, mobile menu, and node body). It has an input and no output socket (`addNode` sets `outputs = []`). On mount it loads the account's prompts from `/api/ai/GetPrompts`, following `nextMaxId` for at most `MAX_PAGES` (10) pages in one pass (no scroll-based loading), and renders them in a native `<select>`; the choice is stored in `data.promptId` and `data.promptTitle`, and a saved prompt missing from the loaded list is still shown as the current option. Connection validation applies the default rule except that the message input block cannot feed it directly (`validateConnection` in `flow.tsx`; it cannot be the first block). Labels use `New_Flow_ai_block`/`New_Flow_ai_select`; the tutorial uses `New_Flow_Tutorials_ai_*` (no connections list; `limitation_3` states it cannot be the first block). Live Test (`livetest.tsx`) posts the localized `New_Flow_ai_livetest` message for it and ends that branch.
+
+`aiflow/flowNode/ImageGalleryNode.tsx` implements the `imagegallery` Flow block, modeled on `image` (same compression, 50 MB per-file limit, auto-opening file picker on add) but images only. It accepts multiple files per pick and stores each uploaded item (`imageUrl`, `tempUrl`, `fileName`, `fileSize`, `fileType`) in `data.images`, capped by the exported `IMAGE_GALLERY_MAX_ITEMS` (currently 7); the tutorial and limit messages interpolate that constant as `{{max}}`, so raising the limit needs only that one change (plus backend support). It uses the standard single input/output sockets and the same connection rules as `image`.
+
 `popups/sendFile.tsx` and `popups/sendVideoFile.tsx` use the shared `UploadFile` helper for progress-aware uploads, so direct-message image and video URLs are released only after the global one-second media-availability delay.
 
 `direct/directInbox.tsx` waits one second before inserting SignalR audio messages into the inbox, allowing the audio URL to become available on the server before `ChatAudio` renders it.
 
-<<<<<<< HEAD
 `direct/directInbox.tsx` returns the fetched thread page from its `fetchData` pagination callback. This is required by `useInfiniteScroll`; returning an empty array would make the hook mark pagination as exhausted even when the inbox API returns a non-null `nextMaxId`. `IInbox.nextMaxId` is nullable because the backend uses `null` to indicate the final page.
 
 `direct/directInbox.tsx` keeps HTTP/API and initial-load failures local to the inbox so an unavailable category does not crash the whole route. Notifications retain the HTTP status and backend-provided reason when available.
 
 `direct/directInbox.tsx` resolves a `threadId` deep link from the browser URL after either inbox category has loaded. Reading `window.location.search` avoids the mixed App Router/legacy-router query timing issue; matching General and Business threads select their category and conversation, so links from the home Last Messages card open the requested chat.
 
-# Direct inbox rendering tolerates terminal pages containing threads with an empty `items` array. Message previews, timestamps, and unread counts use empty fallbacks instead of reading `sentByOwner`, `text`, or `createdTime` from an absent first item.
+Direct inbox rendering tolerates terminal pages containing threads with an empty `items` array. Message previews, timestamps, and unread counts use empty fallbacks instead of reading `sentByOwner`, `text`, or `createdTime` from an absent first item.
 
 `popups/editAutoReply.tsx` and `popups/editAutoReplyForMedia.tsx` show the Create Automation AI and Create Automation Flow actions whenever the active AI prompt or flow has not been selected, even when the corresponding `DragDrop` list contains options. Existing saved prompts and flows count as selected and keep the actions hidden.
 
@@ -144,9 +162,9 @@ Live media quick-reply payloads force `sendPr` to `false`, including when an exi
 
 The selected Flow action in `popups/editAutoReplyForMedia.tsx` uses the localized `AIFlow_show_graph` label and opens `/Ai/FlowandAgent` with the selected `masterFlowId` as the `id` query.
 
-For message-delivery modes, the confirmation-message and must-follow-page options are omitted from the editor and both corresponding save payload flags are forced to `false`; same-comment delivery retains the existing controls and values.
+The custom quick-reply response in `popups/editAutoReplyForMedia.tsx` is capped at `MAX_QUICK_REPLY_BYTES` (800 UTF-8 bytes, so Persian letters count as two). The counter shows `getTextByteLength`, and typed input and clipboard paste pass through `truncateTextToBytes`; the `TextArea` has no character-based `maxLength`.
 
-> > > > > > > sepehr
+For message-delivery modes, the confirmation-message and must-follow-page options are omitted from the editor and both corresponding save payload flags are forced to `false`; same-comment delivery retains the existing controls and values.
 
 ## Hooks
 

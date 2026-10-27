@@ -11,30 +11,6 @@ const TwoMonth = (props: { data: IAdMonth[] }) => {
   const numberToFormattedString = (number: { toLocaleString: () => any }) => {
     return number.toLocaleString();
   };
-  // const [data, setData] = useState<IAdMonth[]>([
-  //   {
-  //     monthGraph: {
-  //       dayList: [],
-  //       month: 0,
-  //       plusCount: 0,
-  //       totalCount: 3800,
-  //       users: [],
-  //       year: 2024,
-  //     },
-  //     totalIncom: 18500,
-  //   },
-  //   {
-  //     monthGraph: {
-  //       dayList: [],
-  //       month: 1,
-  //       plusCount: 0,
-  //       totalCount: 3699,
-  //       users: [],
-  //       year: 2024,
-  //     },
-  //     totalIncom: 900000000,
-  //   },
-  // ]);
   const roundToDecimal = (number: number, decimalPlaces: number) => {
     const factor = Math.pow(10, decimalPlaces);
     return Math.round(number * factor) / factor;

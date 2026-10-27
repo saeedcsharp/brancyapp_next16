@@ -78,8 +78,6 @@ const LotteryHistory = (props: {
         }),
       ]);
       if (doneRes.succeeded) {
-        // const id = res.value.items.find((x) => x.id === props.lotteryId);
-        // if (id) setToggleValue(ToggleOrder.SecondToggle);
         setDoneLotteries({
           items: doneRes.value.items.filter((x) => x.status === LotteryStatus.Ended),
           nextMaxId: doneRes.value.nextMaxId,
@@ -110,11 +108,6 @@ const LotteryHistory = (props: {
   async function loadMoreData() {
     if (loadingMore) return;
 
-    console.log("loadMoreData called, toggleValue:", toggleValue);
-    console.log("hasMorePending:", hasMorePending, "pendingLotteries.nextMaxId:", pendingLotteries.nextMaxId);
-    console.log("hasMoreDone:", hasMoreDone, "doneLotteries.nextMaxId:", doneLotteries.nextMaxId);
-    console.log("hasMoreAbort:", hasMoreAbort, "abortLotteries.nextMaxId:", abortLotteries.nextMaxId);
-
     setLoadingMore(true);
     try {
       let nextMaxId = "";
@@ -123,7 +116,6 @@ const LotteryHistory = (props: {
       // Determine which tab is active and get the appropriate nextMaxId
       if (toggleValue === ToggleOrder.FirstToggle) {
         if (!hasMorePending || !pendingLotteries.nextMaxId) {
-          console.log("No more pending data to load");
           setLoadingMore(false);
           return;
         }
@@ -131,7 +123,6 @@ const LotteryHistory = (props: {
         lotteryStatus = LotteryStatus.Upcoming;
       } else if (toggleValue === ToggleOrder.SecondToggle) {
         if (!hasMoreDone || !doneLotteries.nextMaxId) {
-          console.log("No more done data to load");
           setLoadingMore(false);
           return;
         }
@@ -139,15 +130,12 @@ const LotteryHistory = (props: {
         lotteryStatus = LotteryStatus.Ended;
       } else {
         if (!hasMoreAbort || !abortLotteries.nextMaxId) {
-          console.log("No more abort data to load");
           setLoadingMore(false);
           return;
         }
         nextMaxId = abortLotteries.nextMaxId;
         lotteryStatus = LotteryStatus.Failed;
       }
-
-      console.log("Making API call with nextMaxId:", nextMaxId, "lotteryStatus:", lotteryStatus);
 
       const response = await clientFetchApi<boolean, IShortLotteriesInfo>("/api/lottery/GetShortLotteries", {
         methodType: MethodType.get,
@@ -160,12 +148,8 @@ const LotteryHistory = (props: {
         onUploadProgress: undefined,
       });
 
-      console.log("API response:", response);
-
       if (response.succeeded) {
         const newItems = response.value.items.filter((x) => x.status === lotteryStatus);
-
-        console.log("New items received:", newItems.length);
 
         // Update the appropriate state based on current tab
         if (toggleValue === ToggleOrder.FirstToggle) {
@@ -205,22 +189,8 @@ const LotteryHistory = (props: {
     const listContainer = listContainerRef.current;
     if (!listContainer) return;
 
-    console.log("Setting up scroll listener, container:", listContainer);
-    console.log("Container styles:", {
-      height: listContainer.style.height,
-      overflow: listContainer.style.overflow,
-      scrollHeight: listContainer.scrollHeight,
-      clientHeight: listContainer.clientHeight,
-    });
-
     const handleScroll = () => {
       const { scrollTop, scrollHeight, clientHeight } = listContainer;
-      // console.log("Scroll event:", {
-      //   scrollTop,
-      //   scrollHeight,
-      //   clientHeight,
-      //   atBottom: scrollTop + clientHeight >= scrollHeight - 10,
-      // });
 
       // Check if user scrolled to bottom (with 10px threshold)
       if (scrollTop + clientHeight >= scrollHeight - 10) {
@@ -230,10 +200,7 @@ const LotteryHistory = (props: {
           (toggleValue === ToggleOrder.SecondToggle && hasMoreDone) ||
           (toggleValue === ToggleOrder.ThirdToggle && hasMoreAbort);
 
-        console.log("At bottom, hasMore:", hasMore, "loadingMore:", loadingMore, "toggleValue:", toggleValue);
-
         if (hasMore && !loadingMore) {
-          console.log("Triggering loadMoreData");
           loadMoreData();
         }
       }

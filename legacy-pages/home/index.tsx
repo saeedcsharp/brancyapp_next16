@@ -244,7 +244,6 @@ const Home = () => {
       console.log("Waiting for session to be fully loaded...");
       return;
     }
-    console.log("Session loaded, checking package status...", session);
     if (!packageStatus(session) && session?.user?.loginByInsta) {
       router.push("/upgrade");
       return;

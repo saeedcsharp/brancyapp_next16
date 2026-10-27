@@ -20,7 +20,6 @@ function Advertise(props: { data: IMarketInfo[] | undefined; fetchAdvertiseData:
     }
   };
   useEffect(() => {
-    // if (props.data.length < 10) props.fetchAdvertiseData("");
     if (props.data) {
       setLoadingStatus(false);
     }

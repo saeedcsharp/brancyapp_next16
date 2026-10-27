@@ -186,7 +186,7 @@ export const featureCatalog: FeatureRecord[] = [
     limitation: "persistentMenu",
     contentIdea: "workflow",
     routes: ["/message/Properties"],
-    sourceKinds: ["route", "component", "api", "permission", "enum"],
+    sourceKinds: ["route", "component", "api", "permission", "enum", "translation"],
   },
   {
     id: "aiFlows",
@@ -199,6 +199,17 @@ export const featureCatalog: FeatureRecord[] = [
     routes: ["/Ai/FlowandAgent"],
     sourceKinds: ["route", "component", "api", "permission", "enum"],
     isAi: true,
+  },
+  {
+    id: "flowPhoneExport",
+    category: "messaging",
+    roles: ["instagramer"],
+    access: "package",
+    prerequisites: ["instagramConnection", "activePackage", "messagePermission"],
+    limitation: "backendDefined",
+    contentIdea: "workflow",
+    routes: ["/message/Properties"],
+    sourceKinds: ["route", "component", "api", "permission", "translation"],
   },
   {
     id: "postCaptionAi",

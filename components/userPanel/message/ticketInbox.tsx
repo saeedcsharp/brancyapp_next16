@@ -107,7 +107,6 @@ const UserPanelDirectInbox = () => {
     constUserSelected = null;
     let newTime = new Date().getTime();
     if (newTime - firstTime <= 110) {
-      console.log("userSelectedId ", userSelectedId);
       //  console.log("First click");
       if (ticket.ticketId === showDivIndex) {
         setMoreSettingClassName("hideDiv");
@@ -226,7 +225,6 @@ const UserPanelDirectInbox = () => {
     }
   };
   async function handleHideDiv(ticketId: number) {
-    console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
     setShowDivIndex(null);
     setUserSelectedId(null);
     setShowMoreSettingDiv(false);
@@ -314,7 +312,6 @@ const UserPanelDirectInbox = () => {
         ],
         onUploadProgress: undefined,
       });
-      console.log("generalResssssssssssss", tRes);
       if (tRes.succeeded && !query) {
         setTicketInbox((prev) => ({
           nextMaxId: tRes.value.nextMaxId,
@@ -360,7 +357,6 @@ const UserPanelDirectInbox = () => {
         ],
         onUploadProgress: undefined,
       });
-      console.log(" ✅ Console ⋙ Hide", res.value);
       if (res.succeeded) setHideInbox(res.value);
       else notify(res.info.responseType, NotifType.Warning);
     } catch (error) {
@@ -378,7 +374,6 @@ const UserPanelDirectInbox = () => {
         onUploadProgress: undefined,
       });
       setTicketInbox(res.value);
-      console.log("res.value ", res.value);
       uniqueTicket = res.value.tickets;
     } catch (error) {}
     setLoading(false);
@@ -403,7 +398,6 @@ const UserPanelDirectInbox = () => {
   };
   let onLoading = false;
   const fetchItemData = async (ticket: ITicket) => {
-    console.log("oldestCursor", ticket.nextMaxId);
     if (onLoading) return;
     onLoading = true;
     try {
@@ -420,7 +414,6 @@ const UserPanelDirectInbox = () => {
         ],
         onUploadProgress: undefined,
       });
-      console.log("newThreadFetch", newTicket);
       if (newTicket.succeeded) {
         // updateInboxFromChatBox(
         //   chatBox.threadId,
@@ -442,8 +435,6 @@ const UserPanelDirectInbox = () => {
             ),
           }));
         }
-        console.log("newItemsssssssssssssssssss", newTicket.value.items);
-        console.log("nextmaxid", newTicket.value.nextMaxId);
       } else notify(newTicket.info.responseType, NotifType.Warning);
     } catch (error) {
       notify(ResponseType.Unexpected, NotifType.Warning);
@@ -455,7 +446,6 @@ const UserPanelDirectInbox = () => {
     // console.log("newThread", newThread);1
   };
   async function handleSendMessage(message: ISendTicketMessage) {
-    console.log("IIsSendingMessage", message);
     var mainTicket = ticketInbox?.tickets.find((x) => x.ticketId === message.ticketId);
     var hideTicket = hideInbox?.tickets.find((x) => x.ticketId === message.ticketId);
     setSendingMessages((prev) => [...prev, message]);
@@ -513,12 +503,10 @@ const UserPanelDirectInbox = () => {
     setFileContent(null);
   };
   const handleSendFile = (sendFile: { file: File; threadId: string; igid: string }) => {
-    console.log("sendFile", sendFile);
     setFileContent(sendFile);
     setShowSendFile(true);
   };
   async function handleSendRead(ticketId: number) {
-    console.log("readdddddddddddddddddddddddddddddddd");
     try {
       const res = await clientFetchApi<boolean, boolean>("/api/systemticket/SeenSystemTicket", {
         methodType: MethodType.get,
@@ -629,7 +617,6 @@ const UserPanelDirectInbox = () => {
       let timeOutId = setTimeout(() => {
         if (query && query.length > 0) {
           if (searchLocked) return;
-          console.log("searchhhchhhhhhh");
           setSearchLocked(true);
           fetchData(activeHideInbox, null, query);
           setTimeout(() => {
@@ -657,7 +644,6 @@ const UserPanelDirectInbox = () => {
     } else setTempTicketIds((prev) => [...prev, { ticketId: ticket.ticketId }]);
   };
   useEffect(() => {
-    console.log("tempThreadIds", tempTicketIds);
     refTempTicket.current = tempTicketIds;
   }, [tempTicketIds]);
   function handleSpecifyUnread(items: IUserTicketItem[], ticket: ITicket) {
@@ -676,7 +662,6 @@ const UserPanelDirectInbox = () => {
   }
   /* ___SingnalR start ___ */
   useEffect(() => {
-    console.log(" ✅ Console ⋙ Session", session, session?.user.username);
     if (session === undefined) return;
     fetchHides();
     fetchTicket();

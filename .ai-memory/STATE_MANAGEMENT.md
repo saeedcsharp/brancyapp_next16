@@ -6,7 +6,7 @@
 
 ## Local State
 
-Most page and component state uses React `useState`, `useReducer`, `useRef`, and `useEffect`. Some dependency support exists for Jotai, but no broad centralized atom architecture was discovered in this pass.
+Most page and component state uses React `useState`, `useReducer`, `useRef`, and `useEffect`. No centralized atom/store library is installed (the unused `jotai` dependency was removed on 2026-09-30).
 
 ## Browser State
 

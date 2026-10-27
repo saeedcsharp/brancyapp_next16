@@ -13,7 +13,7 @@ Supports multilingual and RTL/LTR product usage.
 Owns the folder/module concerns described by its file tree and exports.
 Maintains aligned `Notify_*` translations for backend response notifications across `en`, `fa`, `ar`, `fr`, `ru`, `tr`, `gr`, and `az`. Instagramer navbar notifications also use aligned `Notification_*` keys with i18next interpolation for dynamic message values.
 Maintains equal coverage of all 2,971 direct string translation keys across the eight locale files.
-The Meta direct-login setup flow uses the existing localized language, theme, calendar, and setup guidance keys across all eight locale resources. The legacy `LanguageKey.metaRedirect_aiAnalysisNotice` translations remain aligned for compatibility.
+The Meta direct-login flow (`app/metaReDirect/page.tsx`) displays `LanguageKey.metaRedirect_aiAnalysisNotice`, whose translations remain aligned across all eight locale resources.
 The home profile status map uses `syncingAccountTitle`, `syncingAccountDescription`, `subscriptionExpiringTitle`, and `subscriptionExpiringDescription`; these keys are present in all eight locale resources.
 
 ## Architecture
@@ -23,7 +23,7 @@ Follows existing Next/React/TypeScript project conventions.
 ## Folder Structure
 
 `i18n.ts`, `i18n/`, `context/directionContext.tsx`, `helper/detectLocaleFromTimezone.ts`, `helper/checkRtl.ts`.
-`scripts/sync-i18n-keys.cjs` maintains locale key alignment and updates `LanguageKey` for direct string keys.
+`scripts/sync-i18n-keys.cjs` is referenced by earlier changes but is not present in the repository (verified 2026-09-30); `LanguageKey` and locale key alignment are currently maintained manually.
 
 ## Execution Flow
 

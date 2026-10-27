@@ -217,8 +217,6 @@ const ScheduledStory = (props: { data: IScheduledStoryServer[] | null; totalCoun
   //test mode for styling
 
   //original code
-  //  }, [props.data, session, context]);
-  //original code
 
   useEffect(() => {
     const container = scrollContainerRef.current;
@@ -340,7 +338,6 @@ const ScheduledStory = (props: { data: IScheduledStoryServer[] | null; totalCoun
                             //test mode for styling
 
                             //original code
-                            //src={basePictureUrl + v.mediaUrl}
                             //original code
                           />
                           <div className={styles.cover} />

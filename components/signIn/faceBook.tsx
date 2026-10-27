@@ -4,7 +4,6 @@ import { useState } from "react";
 
 export default function FaceBook(props: {
   preInstaToken: string;
-  // redirectType: RedirectType;
   backToInstaId: () => void;
   removeMask: () => void;
   sendInstaId: () => void;

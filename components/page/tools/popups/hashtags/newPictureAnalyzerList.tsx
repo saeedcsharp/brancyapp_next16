@@ -69,7 +69,6 @@ const NewPictureAnalyzerList = (props: {
     if (inputRef.current?.files?.length) {
       setAnalizeProcessing(true);
       const file = inputRef.current.files[0];
-      console.log(file);
       const formData = new FormData();
       formData.append("image", file);
 
@@ -86,7 +85,6 @@ const NewPictureAnalyzerList = (props: {
           onUploadProgress: setProgress,
         });
         if (serverResult.statusCode == 200) {
-          console.log("Image uploaded successfully");
           setHashtags(serverResult.value);
           // Clear the selected image and input field.
           setSelectedImage(null);

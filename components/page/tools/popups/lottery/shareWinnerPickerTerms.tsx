@@ -4,7 +4,6 @@ import { LanguageKey } from "brancy/i18n";
 import styles from "./shareWinnerPickerTerms.module.css";
 const basePictureUrl = getClientMediaBaseUrl();
 const ShareTermsAndCondition = (props: {
-  // data: ITermsAndConditionProps;
   shareTermsInfo: { lotteryId: string; backgroundUrl: string };
   removeMask: () => void;
   backButton: () => void;

@@ -178,18 +178,13 @@ const UserPanelDirectChatBox = (props: {
   useEffect(() => {
     setLock(false);
     if (!props.chatBox.items.find((x) => x.timeStampUnix > props.chatBox.userLastSeenUnix)) {
-      console.log("lockkkkkkkkkk");
       setLock(true);
     }
     return () => {
-      console.log("timeStampUnix", props.chatBox.items[0].timeStampUnix);
-      console.log("userLastSeenUnix", props.chatBox.userLastSeenUnix);
       if (
         props.chatBox.items.find((x) => x.sentByFb) &&
         props.chatBox.items.find((x) => x.sentByFb)!.timeStampUnix > props.chatBox.userLastSeenUnix
       ) {
-        console.log("handleSendReaddddd");
-
         props.handleSendRead(props.chatBox.ticketId);
       }
     };

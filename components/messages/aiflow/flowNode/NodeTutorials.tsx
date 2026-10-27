@@ -1,6 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
+import { IMAGE_GALLERY_MAX_ITEMS } from "brancy/components/messages/aiflow/flowNode/ImageGalleryNode";
 
 export interface TutorialContent {
   title?: string;
@@ -77,6 +78,38 @@ export const getNodeTutorials = (t: any): Record<string, TutorialContent> => ({
     limitations: [
       t(LanguageKey.New_Flow_Tutorials_image_limitation_1),
       t(LanguageKey.New_Flow_Tutorials_image_limitation_2),
+      t(LanguageKey.New_Flow_Tutorials_image_limitation_3),
+    ],
+    connections: [
+      t(LanguageKey.New_Flow_Tutorials_image_connection_1),
+      t(LanguageKey.New_Flow_Tutorials_image_connection_2),
+      t(LanguageKey.New_Flow_Tutorials_image_connection_3),
+      t(LanguageKey.New_Flow_Tutorials_image_connection_4),
+      t(LanguageKey.New_Flow_Tutorials_image_connection_5),
+      t(LanguageKey.New_Flow_Tutorials_image_connection_6),
+      t(LanguageKey.New_Flow_Tutorials_image_connection_7),
+      t(LanguageKey.New_Flow_Tutorials_image_connection_8),
+    ],
+  },
+
+  imagegallery: {
+    title: t(LanguageKey.New_Flow_Tutorials_imagegallery_title),
+    description: t(LanguageKey.New_Flow_Tutorials_imagegallery_description, { max: IMAGE_GALLERY_MAX_ITEMS }),
+    usageType: t(LanguageKey.New_Flow_Tutorials_imagegallery_usageType),
+    features: [
+      t(LanguageKey.New_Flow_Tutorials_imagegallery_feature_1, { max: IMAGE_GALLERY_MAX_ITEMS }),
+      t(LanguageKey.New_Flow_Tutorials_image_feature_1),
+      t(LanguageKey.New_Flow_Tutorials_image_feature_3),
+    ],
+    tips: [
+      t(LanguageKey.New_Flow_Tutorials_image_tip_1),
+      t(LanguageKey.New_Flow_Tutorials_image_tip_2),
+      t(LanguageKey.New_Flow_Tutorials_image_tip_3),
+      t(LanguageKey.New_Flow_Tutorials_image_tip_5),
+    ],
+    limitations: [
+      t(LanguageKey.New_Flow_Tutorials_imagegallery_limitation_1, { max: IMAGE_GALLERY_MAX_ITEMS }),
+      t(LanguageKey.New_Flow_Tutorials_image_limitation_1),
       t(LanguageKey.New_Flow_Tutorials_image_limitation_3),
     ],
     connections: [
@@ -237,6 +270,72 @@ export const getNodeTutorials = (t: any): Record<string, TutorialContent> => ({
     connections: [
       t(LanguageKey.New_Flow_Tutorials_weblink_connection_1),
       t(LanguageKey.New_Flow_Tutorials_weblink_connection_2),
+    ],
+  },
+
+  buttongroup: {
+    title: t(LanguageKey.New_Flow_Tutorials_buttongroup_title),
+    description: t(LanguageKey.New_Flow_Tutorials_buttongroup_description),
+    usageType: t(LanguageKey.New_Flow_Tutorials_buttongroup_usageType),
+    features: [
+      t(LanguageKey.New_Flow_Tutorials_buttongroup_feature_1),
+      t(LanguageKey.New_Flow_Tutorials_buttongroup_feature_2),
+      t(LanguageKey.New_Flow_Tutorials_buttongroup_feature_3),
+    ],
+    tips: [
+      t(LanguageKey.New_Flow_Tutorials_buttongroup_tip_1),
+      t(LanguageKey.New_Flow_Tutorials_buttongroup_tip_2),
+      t(LanguageKey.New_Flow_Tutorials_buttongroup_tip_3),
+    ],
+    limitations: [
+      t(LanguageKey.New_Flow_Tutorials_buttongroup_limitation_1),
+      t(LanguageKey.New_Flow_Tutorials_buttongroup_limitation_2),
+      t(LanguageKey.New_Flow_Tutorials_buttongroup_limitation_3),
+      t(LanguageKey.New_Flow_Tutorials_buttongroup_limitation_4),
+    ],
+  },
+
+  ai: {
+    title: t(LanguageKey.New_Flow_Tutorials_ai_title),
+    description: t(LanguageKey.New_Flow_Tutorials_ai_description),
+    usageType: t(LanguageKey.New_Flow_Tutorials_ai_usageType),
+    features: [t(LanguageKey.New_Flow_Tutorials_ai_feature_1), t(LanguageKey.New_Flow_Tutorials_ai_feature_2)],
+    tips: [t(LanguageKey.New_Flow_Tutorials_ai_tip_1), t(LanguageKey.New_Flow_Tutorials_ai_tip_2)],
+    limitations: [
+      t(LanguageKey.New_Flow_Tutorials_ai_limitation_1),
+      t(LanguageKey.New_Flow_Tutorials_ai_limitation_2),
+      t(LanguageKey.New_Flow_Tutorials_ai_limitation_3),
+    ],
+  },
+
+  phonenumbergrabber: {
+    title: t(LanguageKey.New_Flow_Tutorials_phonenumbergrabber_title),
+    description: t(LanguageKey.New_Flow_Tutorials_phonenumbergrabber_description),
+    usageType: t(LanguageKey.New_Flow_Tutorials_phonenumbergrabber_usageType),
+    features: [
+      t(LanguageKey.New_Flow_Tutorials_phonenumbergrabber_feature_1),
+      t(LanguageKey.New_Flow_Tutorials_phonenumbergrabber_feature_2),
+    ],
+    tips: [
+      t(LanguageKey.New_Flow_Tutorials_phonenumbergrabber_tip_1),
+      t(LanguageKey.New_Flow_Tutorials_phonenumbergrabber_tip_2),
+      t(LanguageKey.New_Flow_Tutorials_phonenumbergrabber_tip_3),
+    ],
+    limitations: [
+      t(LanguageKey.New_Flow_Tutorials_phonenumbergrabber_limitation_1),
+      t(LanguageKey.New_Flow_Tutorials_phonenumbergrabber_limitation_2),
+      t(LanguageKey.New_Flow_Tutorials_phonenumbergrabber_limitation_3),
+    ],
+    // Allowed inputs match the text block except Message Input (cannot be first)
+    connections: [
+      t(LanguageKey.New_Flow_Tutorials_phonenumbergrabber_connection_1),
+      t(LanguageKey.New_Flow_Tutorials_text_connection_2),
+      t(LanguageKey.New_Flow_Tutorials_text_connection_3),
+      t(LanguageKey.New_Flow_Tutorials_text_connection_4),
+      t(LanguageKey.New_Flow_Tutorials_phonenumbergrabber_connection_2),
+      t(LanguageKey.New_Flow_Tutorials_text_connection_6),
+      t(LanguageKey.New_Flow_Tutorials_text_connection_7),
+      t(LanguageKey.New_Flow_Tutorials_phonenumbergrabber_connection_3),
     ],
   },
 });

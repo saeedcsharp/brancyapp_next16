@@ -94,7 +94,6 @@ export function StatusBar() {
       const result = exportDoc(format);
       setExportResult(result);
       setShowExport(true);
-      console.log("[TextEditor Export]", format, result);
     },
     [exportDoc],
   );
@@ -104,7 +103,6 @@ export function StatusBar() {
       e.preventDefault();
       flushAutoSave();
       const json = exportDoc("json");
-      console.log("[TextEditor JSON Output]", json);
     },
     [flushAutoSave, exportDoc],
   );

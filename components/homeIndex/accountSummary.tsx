@@ -60,14 +60,10 @@ const AccountSummary = memo(({ data }: AccountSummaryProps) => {
   const paragraphIcons = ["/icon-page.svg", "/Icon_follower.svg", "/edit-1.svg", "/calendar-wait.svg", "/msg-like.svg"];
 
   return (
-    // <section
-    // className={`${styles.tooBigCard} ${isHidden ? styles.toobigcardclose : ""} tooBigCard`}
-    //   role="region"
     //   aria-label="Account Summary">
     <>
       <header
         className={styles.headersection}
-        // onClick={handleCircleClick}
         role="button"
         tabIndex={0}
         onKeyDown={(e) => e.key === "Enter" && handleCircleClick()}
@@ -168,7 +164,6 @@ const AccountSummary = memo(({ data }: AccountSummaryProps) => {
         )}
       </div>
     </>
-    // </section>
   );
 });
 AccountSummary.displayName = "AccountSummary";

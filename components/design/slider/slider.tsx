@@ -350,8 +350,6 @@ const Slider: React.FC<SliderProps> = ({
 
               gap: "10px",
               width: "100%",
-              //         justifyContent: "space-between",
-              // height: "100%",
             }}>
             {group}
           </div>,

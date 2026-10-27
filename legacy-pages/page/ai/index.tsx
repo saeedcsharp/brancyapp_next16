@@ -7,10 +7,10 @@ import {
   ResponseType,
 } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
+import NotFeature from "brancy/components/notOk/notFeature";
 import MediaLibrary from "brancy/components/page/ai/MediaLibrary";
 import MediaCreator, { type MediaTab } from "brancy/components/page/ai/mediaCreator";
 import { MethodType } from "brancy/helper/api";
-import { fetchAndCheckFeature } from "brancy/helper/checkFeature";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import convertFirstLetterToLowerCase from "brancy/helper/convertFirstLetterToLowerCase";
 import { LoginStatus } from "brancy/helper/loadingStatus";
@@ -71,6 +71,7 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
   const [pendingGenerations, setPendingGenerations] = useState<PendingGeneration[]>([]);
   const pendingGenerationsRef = useRef<PendingGeneration[]>([]);
   const initialLibrary = initialType === "2" ? "video" : "image";
+  const [libraryTab, setLibraryTab] = useState<PendingGeneration["mediaType"]>(initialLibrary);
   const [initialLibraryLoading, setInitialLibraryLoading] = useState(true);
   const [showImagePrompts, setShowImagePrompts] = useState(false);
   const [selectedImagePrompt, setSelectedImagePrompt] = useState<IImagePrompt | null>(null);
@@ -149,6 +150,7 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
     pendingGenerationsRef.current = [...pendingGenerationsRef.current, pendingGeneration];
     setPendingGenerations(pendingGenerationsRef.current);
     setActiveTab(mediaType);
+    setLibraryTab(mediaType);
     const response = await clientFetchApi<IGetImageUsageRequest, number>(
       `/api/mediaai/${creatorTab === "createvideo" ? "CreateVideo" : "CreateImage"}`,
       {
@@ -208,6 +210,7 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
   useEffect(() => {
     if (initialType) {
       setActiveTab(initialLibrary);
+      setLibraryTab(initialLibrary);
       return;
     }
     if (!router.isReady) return;
@@ -215,8 +218,10 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
     const type = Array.isArray(queryType) ? queryType[0] : queryType;
     if (type === "1") {
       setActiveTab("image");
+      setLibraryTab("image");
     } else if (type === "2") {
       setActiveTab("video");
+      setLibraryTab("video");
     }
   }, [initialLibrary, initialType, router.isReady, router.query?.type]);
   useEffect(() => {
@@ -229,7 +234,7 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
       router.push("/");
       return;
     }
-    if (loadedImages) return;
+    if (libraryTab !== "image" || loadedImages) return;
     setLoadedImages(true);
     setImageHistoryLoading(true);
     fetchImages(null)
@@ -237,9 +242,9 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
       .finally(() => {
         setImageHistoryLoading(false);
       });
-  }, [fetchImages, loadedImages, session]);
+  }, [fetchImages, libraryTab, loadedImages, session]);
   useEffect(() => {
-    if (!session || loadedVideos) return;
+    if (!session || libraryTab !== "video" || loadedVideos) return;
     setLoadedVideos(true);
     setVideoHistoryLoading(true);
     fetchVideos(null)
@@ -247,12 +252,11 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
       .finally(() => {
         setVideoHistoryLoading(false);
       });
-  }, [fetchVideos, loadedVideos, session]);
+  }, [fetchVideos, libraryTab, loadedVideos, session]);
+  const libraryHistoryLoading = libraryTab === "image" ? imageHistoryLoading : videoHistoryLoading;
   useEffect(() => {
-    if (!imageHistoryLoading && !videoHistoryLoading) {
-      setInitialLibraryLoading(false);
-    }
-  }, [imageHistoryLoading, videoHistoryLoading]);
+    if (!libraryHistoryLoading) setInitialLibraryLoading(false);
+  }, [libraryHistoryLoading]);
   const fetchMoreImages = useCallback(() => fetchImages(nextMaxId), [fetchImages, nextMaxId]);
   const handleImagesFetched = useCallback((newImages: IGetMedia[]) => {
     setImages((current) => [...current, ...newImages]);
@@ -264,7 +268,7 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
     getItemId: (image) => image.id,
     currentData: images,
     isLoading: imageHistoryLoading,
-    enabled: true,
+    enabled: libraryTab === "image",
     useContainerScroll: true,
     fetchDelay: 0,
   });
@@ -282,23 +286,15 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
     getItemId: (video) => video.id,
     currentData: videos,
     isLoading: videoHistoryLoading,
-    enabled: true,
+    enabled: libraryTab === "video",
     useContainerScroll: true,
     containerRef,
     fetchDelay: 0,
   });
   const openImageCreator = async () => {
-    if (!(await fetchAndCheckFeature(PsgFeatureType.AI, session))) {
-      setShowFeaturePopup(true);
-      return;
-    }
     await loadCreators();
   };
   const openVideoCreator = async () => {
-    if (!(await fetchAndCheckFeature(PsgFeatureType.AI, session))) {
-      setShowFeaturePopup(true);
-      return;
-    }
     await loadVideoCreators();
   };
   useEffect(() => {
@@ -430,9 +426,11 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
       <main className={styles.aiWorkspace}>
         <div className={styles.left}>
           <MediaLibrary
+            filter={libraryTab}
+            onFilterChange={setLibraryTab}
             images={images}
             videos={videos}
-            loading={imageHistoryLoading || videoHistoryLoading}
+            loading={libraryHistoryLoading}
             isLoadingMore={isLoadingMore}
             isLoadingMoreVideos={isLoadingMoreVideos}
             setSelectedImage={setSelectedImage}
@@ -454,12 +452,17 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
             modelSelection={modelSelection}
             onModelSelectionChange={handleModelSelectionChange}
             onOpenModelList={openModelList}
-            featureUnavailable={showFeaturePopup}
             onOpenImagePrompts={() => setShowImagePrompts(true)}
             promptToUse={promptToUse}
           />
         )}
       </main>
+      <Modal
+        closePopup={() => setShowFeaturePopup(false)}
+        classNamePopup="popupSendFile"
+        showContent={showFeaturePopup}>
+        <NotFeature onClose={() => setShowFeaturePopup(false)} upgradeQuery={{ section: "ai" }} />
+      </Modal>
       <Modal closePopup={() => setShowModelList(false)} classNamePopup="popupLarge" showContent={showModelList}>
         <AiModelListContent
           creators={modelCreators}

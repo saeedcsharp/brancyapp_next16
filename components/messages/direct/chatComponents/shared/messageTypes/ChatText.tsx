@@ -76,6 +76,7 @@ const ChatTextComponent: React.FC<BaseChatProps> = ({
 
   // #region رندرهای فرعی (پاسخ/متن) — کامپوننت‌های کوچک برای نمایش متن و پاسخ به استوری
   const renderStoryReply = useCallback(() => {
+    console.log("Rendering story reply:", item.replyStory);
     if (!item.replyStory || !baseMediaUrl) {
       return (
         <div className={classes.repliedMsg}>
@@ -87,7 +88,7 @@ const ChatTextComponent: React.FC<BaseChatProps> = ({
       );
     }
     // ساخت URL واقعی استوری
-    const storyUrl = item.replyStory.externalUrl || baseMediaUrl + item.replyStory.link;
+    const storyUrl = baseMediaUrl + item.replyStory.link;
     return (
       <div className={classes.repliedMsg}>
         <div className={classes.repliedMsgDescription}>Reply to story</div>

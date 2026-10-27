@@ -24,6 +24,7 @@ export async function getPackageFeatureDetails(session: Session | null | undefin
     return null;
   }
 }
+
 export async function getTotalFeatureCount(
   session: Session | null | undefined,
   featureId: PsgFeatureType,
@@ -115,6 +116,7 @@ export default function checkFeature(featureId: PsgFeatureType, featureInfo: IPs
     return false;
   }
 }
+
 export function checkRemainingTimeFeature(
   featureId: PsgFeatureType,
   unixTime: number,

@@ -371,7 +371,6 @@ const TermsAndConditionWinnerPicker = (props: {
     saveTerms.termsType = activeType;
     saveTerms.includeTerms = toggleCheckBoxButton;
     saveTerms.publishTerms = publishAsStory;
-    console.log("saveTerms", saveTerms);
     props.saveTermsAndCondition(saveTerms, termsBackGroundFile, termsUrlJpeg);
   };
   const GetSvg = async () => {
@@ -442,14 +441,12 @@ const TermsAndConditionWinnerPicker = (props: {
             border: "none",
             fontFamily: "YekanBakh, Montserrat",
             fontWeight: "400",
-            //fontSize: "50.4px",
             fontSize: "60px",
             overflow: "hidden",
             textAlign: "center",
             alignItems: "center",
             display: "flex",
             flexDirection: "column",
-            // justifyContent: "center",
 
             color: `${rgbaToHex({
               rgb: fontBoxColor.rgb,
@@ -469,20 +466,15 @@ const TermsAndConditionWinnerPicker = (props: {
                     flexWrap: "wrap",
                     justifyContent: "center",
                   }}>
-                  {v.split(" ").map(
-                    (v2, i2) =>
-                      i2 != 0 ? (
-                        <div style={{ paddingLeft: 9 }}>{v2}</div>
-                      ) : v2 == "" ? (
-                        <div style={{ paddingLeft: 9 }}></div>
-                      ) : (
-                        //  v2.length < 27 ?
-                        <div style={{}}>{v2}</div>
-                      ),
-                    //  : chunkSubstr(v2, 26).map((v3, i3) => (
-                    //   <div>{v3}</div>
-                    // )
-                    // )
+                  {v.split(" ").map((v2, i2) =>
+                    i2 != 0 ? (
+                      <div style={{ paddingLeft: 9 }}>{v2}</div>
+                    ) : v2 == "" ? (
+                      <div style={{ paddingLeft: 9 }}></div>
+                    ) : (
+                      //  v2.length < 27 ?
+                      <div style={{}}>{v2}</div>
+                    ),
                   )}
                 </div>
               </>
@@ -507,7 +499,6 @@ const TermsAndConditionWinnerPicker = (props: {
         onUploadProgress: undefined,
       });
       if (res.succeeded) {
-        console.log("dataaaaaaaaa", data);
         if (res.value.length > 0) {
           const newBackgrounds: any[] = [];
           res.value.forEach((element) => {
@@ -528,7 +519,6 @@ const TermsAndConditionWinnerPicker = (props: {
               existedBackgroundTerms.type === terms.background.type &&
               existedBackgroundTerms.textBoxOpacity === terms.background.textBoxOpacity
             ) {
-              // setSelectedSlide(terms.background.backgroundId);
             } else {
               const newBackgroundId = 1000 + res.value.indexOf(element);
               // Check if this new background is already in the current data
@@ -567,11 +557,7 @@ const TermsAndConditionWinnerPicker = (props: {
             setSliderList(updatedSliderList);
           }
         } else {
-          console.log("termsInfooooooo", data);
         }
-
-        // setLastTermsUi(termsInfo);
-        // setShowTermsAndConditionWinnerPicker(true);
       } else notify(res.info.responseType, NotifType.Warning);
     } catch (error) {
       notify(ResponseType.Unexpected, NotifType.Error);
@@ -579,7 +565,6 @@ const TermsAndConditionWinnerPicker = (props: {
   }
   async function fetchData() {
     await handleGetLastTermsUri();
-    console.log("props.data.termsUIInfo", props.data.termsUIInfo);
     if (props.data.termsUIInfo) {
       const termsUIInfo: ICreateTermsAndConditionInfo = JSON.parse(props.data.termsUIInfo!);
       setUpdatedUiInfo(termsUIInfo);
@@ -589,7 +574,6 @@ const TermsAndConditionWinnerPicker = (props: {
       setActiveType(termsUIInfo.background.type);
       const list = filterTypeSlide(data, termsUIInfo.background.type);
       setSliderList(list);
-      // setReverseThumb(false);
       setFirstHexBackgroung(termsUIInfo.background.firstHexBackground);
       setSecondHexBackgroung(termsUIInfo.background.secondHexBackground);
       setFirstPercentageColor(termsUIInfo.background.firstPercentageColor);
@@ -627,11 +611,6 @@ const TermsAndConditionWinnerPicker = (props: {
                   name=""
                   checked={toggleCheckBoxButton}
                   handleToggle={() => {
-                    // if (session?.user.loginStatus !== 0)
-                    //   internalNotify(
-                    //     InternalResponseType.InstagramLoginRequired,
-                    //     NotifType.Warning
-                    //   );
                     setToggleCheckBoxButton(!toggleCheckBoxButton);
                   }}
                   title={""}

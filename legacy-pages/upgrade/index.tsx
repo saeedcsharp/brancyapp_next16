@@ -79,6 +79,7 @@ type UpgradeAction =
       payload: Partial<UpgradeState["expandedSections"]>;
     }
   | { type: "TOGGLE_YOUR_PLAN" };
+type UpgradeSection = "packages" | "tokens" | "domain" | "winnerpicker";
 const initialState: UpgradeState = {
   packageExtensions: [],
   tokenPackages: [],
@@ -95,6 +96,15 @@ const initialState: UpgradeState = {
     winnerpicker: false,
   },
   yourPlanExpanded: typeof window !== "undefined" && window.innerWidth >= 1024,
+};
+// A null remaining value means unlimited; 0 means exhausted.
+const getSliderPercentage = (
+  pkg: { sliderRemainingValue: number | null; sliderTotalValue: number } | null | undefined,
+): number => {
+  if (!pkg) return 0;
+  if (pkg.sliderRemainingValue === null) return 100;
+  if (!pkg.sliderTotalValue) return 0;
+  return Math.max(0, Math.min(100, (pkg.sliderRemainingValue / pkg.sliderTotalValue) * 100));
 };
 const upgradeReducer = (state: UpgradeState, action: UpgradeAction): UpgradeState => {
   switch (action.type) {
@@ -141,6 +151,14 @@ const Upgrade = memo(function Upgrade() {
   const router = useRouter();
   const { data: session } = useSession();
   const abortControllerRef = useRef<AbortController | null>(null);
+  const sectionRefs = useRef<Record<UpgradeSection, HTMLElement | null>>({
+    packages: null,
+    tokens: null,
+    domain: null,
+    winnerpicker: null,
+  });
+  const pendingSectionFocusRef = useRef<UpgradeSection | null>(null);
+  const [highlightedSection, setHighlightedSection] = useState<UpgradeSection | null>(null);
   const skipNextSessionLoadRef = useRef(false);
   const isClosingRef = useRef(false);
   const [isPending, startTransition] = useTransition();
@@ -229,6 +247,7 @@ const Upgrade = memo(function Upgrade() {
   }, [session]);
   const handleTokenPurchase = useCallback(
     async (tokenPackageId: number) => {
+      if ((state.userPackageInfo?.packageRemainingTime ?? 0) <= 0) return;
       try {
         const res = await clientFetchApi<boolean, string>("/api/psg/GetRedirectReserveFeaturePrice", {
           methodType: MethodType.get,
@@ -248,7 +267,7 @@ const Upgrade = memo(function Upgrade() {
         notify(ResponseType.Unexpected, NotifType.Error);
       }
     },
-    [session, router, host],
+    [session, router, host, state.userPackageInfo],
   );
   const handlePackageExtension = useCallback(
     async (monthCount: number) => {
@@ -273,13 +292,6 @@ const Upgrade = memo(function Upgrade() {
     },
     [session, router, host],
   );
-  const winnerPickerWarningLevel = useMemo(() => {
-    if (!state.userPackageInfo) return "normal";
-    if (!state.userPackageInfo.lotteryPackage) return "normal";
-    if (state.userPackageInfo.lotteryPackage.sliderRemainingValue === 0) return "danger";
-    if (state.userPackageInfo.lotteryPackage.sliderRemainingValue === 1) return "attention";
-    return "normal";
-  }, [state.userPackageInfo]);
 
   const formatTimeRemaining = useCallback(
     (timestamp: number | null) => {
@@ -305,70 +317,30 @@ const Upgrade = memo(function Upgrade() {
     },
     [t],
   );
-  const aiTokenProgressPercentage = useMemo(() => {
-    if (!state.userPackageInfo || !state.userPackageInfo.aiPackage) return 0;
-    if (!state.userPackageInfo.aiPackage.sliderRemainingValue) return 100;
-    return (
-      (state.userPackageInfo.aiPackage.sliderRemainingValue / state.userPackageInfo.aiPackage.sliderTotalValue) * 100
-    );
-  }, [state.userPackageInfo]);
-  const aiReserveTokenProgressPercentage = useMemo(() => {
-    if (!state.userPackageInfo || !state.userPackageInfo.aiReservePackage) return 0;
-    if (!state.userPackageInfo.aiReservePackage.sliderRemainingValue) return 100;
-    return (
-      (state.userPackageInfo.aiReservePackage.sliderRemainingValue /
-        state.userPackageInfo.aiReservePackage.sliderTotalValue) *
-      100
-    );
-  }, [state.userPackageInfo]);
-  const customDomainTokenProgressPercentage = useMemo(() => {
-    if (!state.userPackageInfo || !state.userPackageInfo.customDomainPackage) return 0;
-    if (!state.userPackageInfo.customDomainPackage.sliderRemainingValue) return 100;
-    return (
-      (state.userPackageInfo.customDomainPackage.sliderRemainingValue /
-        state.userPackageInfo.customDomainPackage.sliderTotalValue) *
-      100
-    );
-  }, [state.userPackageInfo]);
-  const reverseCustomDomainTokenProgressPercentage = useMemo(() => {
-    if (!state.userPackageInfo || !state.userPackageInfo.customDomainReservePackage) return 0;
-    if (!state.userPackageInfo.customDomainReservePackage.sliderRemainingValue) return 100;
-    return (
-      (state.userPackageInfo.customDomainReservePackage.sliderRemainingValue /
-        state.userPackageInfo.customDomainReservePackage.sliderTotalValue) *
-      100
-    );
-  }, [state.userPackageInfo]);
-  const lotteryTokenProgressPercentage = useMemo(() => {
-    if (
-      !state.userPackageInfo ||
-      !state.userPackageInfo.lotteryPackage ||
-      state.userPackageInfo.lotteryPackage.sliderRemainingValue === null
-    )
-      return 0;
-
-    const percentage =
-      (state.userPackageInfo.lotteryPackage.sliderRemainingValue /
-        state.userPackageInfo.lotteryPackage.sliderTotalValue) *
-      100;
-
-    return percentage;
-  }, [state.userPackageInfo]);
-  const reverseLotteryTokenProgressPercentage = useMemo(() => {
-    if (
-      !state.userPackageInfo ||
-      !state.userPackageInfo.lotteryReservePackage ||
-      state.userPackageInfo.lotteryReservePackage.sliderRemainingValue === null
-    )
-      return 0;
-
-    const percentage =
-      (state.userPackageInfo.lotteryReservePackage.sliderRemainingValue /
-        state.userPackageInfo.lotteryReservePackage.sliderTotalValue) *
-      100;
-
-    return percentage;
-  }, [state.userPackageInfo]);
+  const aiTokenProgressPercentage = useMemo(
+    () => getSliderPercentage(state.userPackageInfo?.aiPackage),
+    [state.userPackageInfo],
+  );
+  const aiReserveTokenProgressPercentage = useMemo(
+    () => getSliderPercentage(state.userPackageInfo?.aiReservePackage),
+    [state.userPackageInfo],
+  );
+  const customDomainTokenProgressPercentage = useMemo(
+    () => getSliderPercentage(state.userPackageInfo?.customDomainPackage),
+    [state.userPackageInfo],
+  );
+  const reverseCustomDomainTokenProgressPercentage = useMemo(
+    () => getSliderPercentage(state.userPackageInfo?.customDomainReservePackage),
+    [state.userPackageInfo],
+  );
+  const lotteryTokenProgressPercentage = useMemo(
+    () => getSliderPercentage(state.userPackageInfo?.lotteryPackage),
+    [state.userPackageInfo],
+  );
+  const reverseLotteryTokenProgressPercentage = useMemo(
+    () => getSliderPercentage(state.userPackageInfo?.lotteryReservePackage),
+    [state.userPackageInfo],
+  );
   const packageTimeProgressPercentage = useMemo(() => {
     if (!state.userPackageInfo) return 0;
     if (state.userPackageInfo.packageRemainingTime <= 0) return 0;
@@ -377,9 +349,14 @@ const Upgrade = memo(function Upgrade() {
       Math.min(100, (state.userPackageInfo.packageRemainingTime / state.userPackageInfo.packageTotalDuration) * 100),
     );
   }, [state.userPackageInfo]);
-  const toggleSection = useCallback((section: "packages" | "tokens" | "domain" | "winnerpicker") => {
-    dispatch({ type: "TOGGLE_SECTION", payload: section });
-  }, []);
+  const isMainPackageActive = (state.userPackageInfo?.packageRemainingTime ?? 0) > 0;
+  const toggleSection = useCallback(
+    (section: "packages" | "tokens" | "domain" | "winnerpicker") => {
+      if (!isMainPackageActive) return;
+      dispatch({ type: "TOGGLE_SECTION", payload: section });
+    },
+    [isMainPackageActive],
+  );
   const toggleYourPlan = useCallback(() => {
     dispatch({ type: "TOGGLE_YOUR_PLAN" });
   }, []);
@@ -434,7 +411,8 @@ const Upgrade = memo(function Upgrade() {
         </svg>
       );
 
-      if (percentage < 1) {
+      // Warn only when neither the main nor the reserve package has anything left.
+      if (percentage <= 0) {
         let message = t(LanguageKey.subscriptionExpired);
         if (sectionType === "winnerpicker") {
           message = t(LanguageKey.winnerpickerexpired);
@@ -448,33 +426,15 @@ const Upgrade = memo(function Upgrade() {
           </span>
         );
       }
-      if (percentage < 20) {
-        let message = t(LanguageKey.subscriptionExpireSoon);
-        if (sectionType === "winnerpicker") {
-          message = t(LanguageKey.winnerpickerexpiresoon);
-        } else if (sectionType === "ai") {
-          message = t(LanguageKey.Aiexpiresoon);
-        }
-        return (
-          <span style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-            {svgIcon}
-            {message}
-          </span>
-        );
-      }
       return null;
     },
     [t],
   );
   const getWarningStyle = useCallback((percentage: number) => {
-    if (percentage < 5) return styles.danger;
-    if (percentage < 20) return styles.attention;
-    return "";
+    return percentage <= 0 ? styles.danger : "";
   }, []);
   const getSectionIconClass = useCallback((percentage: number) => {
-    if (percentage < 5) return `${styles.sectionIcon} ${styles.danger}`;
-    if (percentage < 20) return `${styles.sectionIcon} ${styles.attention}`;
-    return styles.sectionIcon;
+    return percentage <= 0 ? `${styles.sectionIcon} ${styles.danger}` : styles.sectionIcon;
   }, []);
   const calculateOriginalPrice = useCallback((currentPrice: number, discount: number) => {
     const originalPrice = Math.round(currentPrice / (1 - discount / 100));
@@ -538,6 +498,14 @@ const Upgrade = memo(function Upgrade() {
 
   useEffect(() => {
     if (!state.userPackageInfo) return;
+    if (!isMainPackageActive) {
+      dispatch({
+        type: "SET_EXPANDED_SECTIONS",
+        payload: { packages: true, tokens: false, domain: false, winnerpicker: false },
+      });
+      return;
+    }
+
     const packageProgress = packageTimeProgressPercentage;
     const tokenProgress = effectiveAiPercentage;
     const domainProgress = effectiveDomainPercentage;
@@ -554,11 +522,56 @@ const Upgrade = memo(function Upgrade() {
     });
   }, [
     state.userPackageInfo,
+    isMainPackageActive,
     packageTimeProgressPercentage,
     effectiveAiPercentage,
     effectiveDomainPercentage,
     effectiveLotteryPercentage,
   ]);
+
+  useEffect(() => {
+    if (!router.isReady) return;
+    const querySection = router.query.section;
+    if (!state.userPackageInfo || typeof querySection !== "string") {
+      pendingSectionFocusRef.current = null;
+      setHighlightedSection(null);
+      return;
+    }
+    const requestedSection =
+      querySection === "ai"
+        ? "tokens"
+        : querySection === "domain" || querySection === "winnerpicker"
+          ? querySection
+          : null;
+    if (!requestedSection) {
+      pendingSectionFocusRef.current = null;
+      setHighlightedSection(null);
+      return;
+    }
+
+    const targetSection = isMainPackageActive ? requestedSection : "packages";
+    pendingSectionFocusRef.current = targetSection;
+    dispatch({
+      type: "SET_EXPANDED_SECTIONS",
+      payload: {
+        packages: targetSection === "packages",
+        tokens: targetSection === "tokens",
+        domain: targetSection === "domain",
+        winnerpicker: targetSection === "winnerpicker",
+      },
+    });
+  }, [router.isReady, router.query.section, state.userPackageInfo, isMainPackageActive]);
+
+  useEffect(() => {
+    const targetSection = pendingSectionFocusRef.current;
+    if (!targetSection || !state.expandedSections[targetSection]) return;
+    pendingSectionFocusRef.current = null;
+
+    requestAnimationFrame(() => {
+      sectionRefs.current[targetSection]?.scrollIntoView({ behavior: "smooth", block: "center" });
+      setHighlightedSection(targetSection);
+    });
+  }, [state.expandedSections]);
 
   // مدیریت وضعیت yourPlanExpanded بر اساس عرض صفحه
   useEffect(() => {
@@ -824,7 +837,11 @@ const Upgrade = memo(function Upgrade() {
               </div>
               <div className={styles.contentArea}>
                 {/* Section 1: Main Package */}
-                <section className={styles.section}>
+                <section
+                  ref={(element) => {
+                    sectionRefs.current.packages = element;
+                  }}
+                  className={`${styles.section} ${highlightedSection === "packages" ? styles.sectionHighlighted : ""}`}>
                   <div
                     className={styles.sectionHeader}
                     tabIndex={0}
@@ -976,7 +993,11 @@ const Upgrade = memo(function Upgrade() {
                 </section>
 
                 {/* Section 2: AI Services */}
-                <section className={styles.section}>
+                <section
+                  ref={(element) => {
+                    sectionRefs.current.tokens = element;
+                  }}
+                  className={`${styles.section} ${highlightedSection === "tokens" ? styles.sectionHighlighted : ""}`}>
                   <div
                     className={styles.sectionHeader}
                     tabIndex={0}
@@ -986,6 +1007,7 @@ const Upgrade = memo(function Upgrade() {
                     <div
                       className="headerparent"
                       role="button"
+                      aria-disabled={!isMainPackageActive}
                       onClick={() => toggleSection("tokens")}
                       onKeyDown={(e) => {
                         if (e.key === "Enter" || e.key === " ") {
@@ -1141,6 +1163,7 @@ const Upgrade = memo(function Upgrade() {
                           <button
                             key={pkg.reserveFeatureId}
                             className={styles.packageOption}
+                            disabled={!isMainPackageActive}
                             onClick={() => handleTokenPurchase(pkg.reserveFeatureId)}
                             onKeyDown={(e) => handleKeyDown(e, () => handleTokenPurchase(pkg.reserveFeatureId))}
                             aria-label={`${pkg.count ? pkg.count.toLocaleString() : ""} tokens package`}>
@@ -1201,7 +1224,11 @@ const Upgrade = memo(function Upgrade() {
                   </div>
                 </section>
 
-                <section className={styles.section}>
+                <section
+                  ref={(element) => {
+                    sectionRefs.current.domain = element;
+                  }}
+                  className={`${styles.section} ${highlightedSection === "domain" ? styles.sectionHighlighted : ""}`}>
                   <div
                     className={styles.sectionHeader}
                     tabIndex={0}
@@ -1211,6 +1238,7 @@ const Upgrade = memo(function Upgrade() {
                     <div
                       className="headerparent"
                       role="button"
+                      aria-disabled={!isMainPackageActive}
                       onClick={() => toggleSection("domain")}
                       onKeyDown={(e) => {
                         if (e.key === "Enter" || e.key === " ") {
@@ -1335,6 +1363,7 @@ const Upgrade = memo(function Upgrade() {
                           <button
                             key={pkg.reserveFeatureId}
                             className={styles.packageOption}
+                            disabled={!isMainPackageActive}
                             onClick={() => handleTokenPurchase(pkg.reserveFeatureId)}
                             onKeyDown={(e) => handleKeyDown(e, () => handleTokenPurchase(pkg.reserveFeatureId))}
                             aria-label={`${pkg.seconds} domain package`}>
@@ -1391,7 +1420,11 @@ const Upgrade = memo(function Upgrade() {
                   </div>
                 </section>
                 {/* Section 4: Winner Picker */}
-                <section className={styles.section}>
+                <section
+                  ref={(element) => {
+                    sectionRefs.current.winnerpicker = element;
+                  }}
+                  className={`${styles.section} ${highlightedSection === "winnerpicker" ? styles.sectionHighlighted : ""}`}>
                   <div
                     className={styles.sectionHeader}
                     tabIndex={0}
@@ -1415,7 +1448,8 @@ const Upgrade = memo(function Upgrade() {
                           prevElement?.focus();
                         }
                       }}
-                      role="button">
+                      role="button"
+                      aria-disabled={!isMainPackageActive}>
                       <div className={styles.titlebody}>
                         <div className="headerandinput">
                           <div className="title" id={`${componentId}-winnerpicker-title`}>
@@ -1521,6 +1555,7 @@ const Upgrade = memo(function Upgrade() {
                           <button
                             key={pkg.reserveFeatureId}
                             className={styles.packageOption}
+                            disabled={!isMainPackageActive}
                             onClick={() => handleTokenPurchase(pkg.reserveFeatureId)}
                             onKeyDown={(e) => handleKeyDown(e, () => handleTokenPurchase(pkg.reserveFeatureId))}
                             aria-label={`${pkg.count} winner picker package`}>

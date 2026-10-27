@@ -29,7 +29,6 @@ export const ChatMedia: React.FC<BaseChatProps> = ({
   // #region هوک‌ها و بازگشت زودهنگام — شناسه کانتینر، تشخیص جهت و بازگشت در صورت نبود رسانه
   const mediaContainerId = useId();
   const isLeft = direction === "left";
-  if (!item.medias || item.medias.length === 0) return null;
   // #endregion
 
   // #region توابع کمکی — تولید URL رسانه و هندل‌کردن خطاهای تصویر/ویدیو
@@ -170,7 +169,7 @@ export const ChatMedia: React.FC<BaseChatProps> = ({
       <div className={styles.leftchat} role="article" aria-label="Received message">
         <div className={styles.multiChatRow}>
           <div className={styles.multiChatRow} role="list" aria-label="Shared media list">
-            {item.medias.map((media, i) => (
+            {item.medias?.map((media, i) => (
               <div className={styles.leftchat} key={`${mediaContainerId}-left-${i}`} role="listitem">
                 <div
                   className={styles.multimedia}
@@ -240,7 +239,7 @@ export const ChatMedia: React.FC<BaseChatProps> = ({
       <div role="article" aria-label="Sent message">
         <div className={styles.rightchat}>
           <div className={styles.multiChatRow} role="list" aria-label="Shared media list">
-            {item.medias.map((media, i) => (
+            {item.medias?.map((media, i) => (
               <div
                 key={`${mediaContainerId}-right-${i}`}
                 onClick={() => handleMediaClick(media, i)}
@@ -305,6 +304,7 @@ export const ChatMedia: React.FC<BaseChatProps> = ({
   // #endregion
 
   // #region خروجی — بازگرداندن JSX نهایی برای نمایش رسانه‌ها
+  if (!item.medias || item.medias.length === 0) return null;
   return <>{isLeft ? renderLeftMedia : renderRightMedia}</>;
   // #endregion
 };

@@ -352,6 +352,7 @@ const ShowStory = () => {
               sendCount: contentRes.value.autoReplyCommentInfo.sendCount,
               sendPr: contentRes.value.autoReplyCommentInfo.sendPr,
               productId: contentRes.value.autoReplyCommentInfo.productId,
+              isContain: contentRes.value.autoReplyCommentInfo.isContain ?? true,
               customRepliesSuccessfullyDirected:
                 contentRes.value.autoReplyCommentInfo.customRepliesSuccessfullyDirected || [],
             });

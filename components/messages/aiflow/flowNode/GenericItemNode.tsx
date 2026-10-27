@@ -11,6 +11,9 @@ import { UploadFile } from "brancy/helper/api";
 import styles from "./GenericItemNode.module.css";
 import { BaseNodeProps, NodeData } from "brancy/components/messages/aiflow/flowNode/types";
 const baseMediaUrl = getClientMediaBaseUrl();
+const MAX_TEXT_LENGTH = 80;
+const getTextLength = (text: string) => Array.from(text).length;
+const truncateText = (text: string) => Array.from(text).slice(0, MAX_TEXT_LENGTH).join("");
 
 interface GenericItemNodeProps extends BaseNodeProps {
   setEditorState: React.Dispatch<React.SetStateAction<any>>;
@@ -132,25 +135,6 @@ export const GenericItemNode: React.FC<GenericItemNodeProps> = ({
     },
     [node.id, updateNodeData, setEditorState, t, session],
   );
-  const handlePaste = async (field: string) => {
-    try {
-      let text = await navigator.clipboard.readText();
-      // محدودیت کاراکتر: title و subtitle حداکثر 140، weblink بدون محدودیت
-      if (field === "title" || field === "subtitle") {
-        text = text.substring(0, 140);
-      }
-      if (field === "weblink") {
-        const formattedUrl = formatUrl(text);
-        updateNodeData(node.id, { weblink: formattedUrl });
-        extractTitle(formattedUrl);
-      } else {
-        updateNodeData(node.id, { [field]: text });
-      }
-    } catch (err) {
-      console.error("Failed to read clipboard:", err);
-    }
-  };
-
   const extractTitle = (url: string) => {
     if (!url) {
       setDisplayTitle("");
@@ -278,8 +262,16 @@ export const GenericItemNode: React.FC<GenericItemNodeProps> = ({
   React.useEffect(() => {
     if (!node.data?.title || node.data.title === "") {
       updateNodeData(node.id, { title: defaultTitlePlaceholder });
+    } else if (node.data.title !== defaultTitlePlaceholder && getTextLength(node.data.title) > MAX_TEXT_LENGTH) {
+      updateNodeData(node.id, { title: truncateText(node.data.title) });
+    }
+    if (node.data?.subtitle && getTextLength(node.data.subtitle) > MAX_TEXT_LENGTH) {
+      updateNodeData(node.id, { subtitle: truncateText(node.data.subtitle) });
     }
   }, []);
+
+  const titleText = node.data?.title === defaultTitlePlaceholder ? "" : node.data?.title || "";
+  const subtitleText = node.data?.subtitle || "";
 
   return (
     <div className={styles.container}>
@@ -287,21 +279,16 @@ export const GenericItemNode: React.FC<GenericItemNodeProps> = ({
       <div className="headerandinput">
         <div className="headerparent" style={{ paddingInline: "10px" }}>
           <label className={styles.label}>{t(LanguageKey.New_Flow_message_title)}</label>
-          <img
-            onClick={() => handlePaste("title")}
-            style={{ cursor: "pointer", width: "20px", height: "20px" }}
-            title="ℹ️ paste"
-            role="button"
-            src="/copy.svg"
-          />
+          <span className="counter">
+            {getTextLength(titleText)}/{MAX_TEXT_LENGTH}
+          </span>
         </div>
         <div onClick={(e) => e.stopPropagation()}>
           <InputBox
             className="textinputbox"
-            value={node.data?.title === defaultTitlePlaceholder ? "" : node.data?.title || ""}
-            maxLength={140}
+            value={titleText}
             handleInputChange={(e) => {
-              updateNodeData(node.id, { title: e.target.value });
+              updateNodeData(node.id, { title: truncateText(e.target.value) });
             }}
             handleInputonFocus={(e) => {
               setIsTitleFocused(true);
@@ -324,21 +311,16 @@ export const GenericItemNode: React.FC<GenericItemNodeProps> = ({
       <div className="headerandinput">
         <div className="headerparent" style={{ paddingInline: "10px" }}>
           <label className={styles.label}>{t(LanguageKey.New_Flow_message_description)}</label>
-          <img
-            onClick={() => handlePaste("subtitle")}
-            style={{ cursor: "pointer", width: "20px", height: "20px" }}
-            title="ℹ️ paste"
-            role="button"
-            src="/copy.svg"
-          />
+          <span className="counter">
+            {getTextLength(subtitleText)}/{MAX_TEXT_LENGTH}
+          </span>
         </div>
         <div onClick={(e) => e.stopPropagation()} style={{ height: "150px", minHeight: "150px", maxHeight: "150px" }}>
           <TextArea
             className="TextArea"
-            value={node.data?.subtitle || ""}
-            maxLength={140}
+            value={subtitleText}
             handleInputChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-              updateNodeData(node.id, { subtitle: e.target.value })
+              updateNodeData(node.id, { subtitle: truncateText(e.target.value) })
             }
             placeHolder={t(LanguageKey.New_Flow_message_description)}
             role="textbox"
@@ -366,13 +348,6 @@ export const GenericItemNode: React.FC<GenericItemNodeProps> = ({
             )}
             {!displayTitle && t(LanguageKey.linkURL)}
           </label>
-          <img
-            onClick={() => handlePaste("weblink")}
-            style={{ cursor: "pointer", width: "20px", height: "20px" }}
-            title="ℹ️ paste"
-            role="button"
-            src="/copy.svg"
-          />
         </div>
         <div onClick={(e) => e.stopPropagation()}>
           <InputBox

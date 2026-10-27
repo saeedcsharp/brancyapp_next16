@@ -233,7 +233,7 @@ const PostContent = (props: PostContentProps) => {
 
   const navigateToPostInfo = useCallback(
     (postId: number) => {
-      (console.log("navigating to post info with id:", postId), router.push(`/page/posts/postinfo/${postId}`));
+      router.push(`/page/posts/postinfo/${postId}`);
     },
     [router],
   );

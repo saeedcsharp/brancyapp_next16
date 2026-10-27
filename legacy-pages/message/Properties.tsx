@@ -6,6 +6,7 @@ import AutoReply from "brancy/components/messages/properties/autoreply";
 import IceBreaker from "brancy/components/messages/properties/iceBreaker";
 import MessagePanel from "brancy/components/messages/properties/messagePanel";
 import PersistentMenu from "brancy/components/messages/properties/persistentMenu";
+import PhoneNumbers from "brancy/components/messages/properties/phoneNumbers";
 import PopupComment from "brancy/components/messages/properties/popupComment";
 import PopupDirect from "brancy/components/messages/properties/popupDirect";
 import {
@@ -26,6 +27,8 @@ import { AutoReplyPayLoadType, IceOrPersistent, Language, MediaProductType, Spec
 import {
   IAutoReplySetting,
   ICreateGeneralAutoReply,
+  IFlowPhoneNumber,
+  IFlowPhoneNumbers,
   IGeneralAutoReply,
   IIceBreaker,
   IMessagePanel,
@@ -508,6 +511,32 @@ const Properties = () => {
     }
   }
   //-----------General Message----------------------//
+  //-----------Phone Numbers----------------------//
+  const [phoneNumbers, setPhoneNumbers] = useState<IFlowPhoneNumber[]>([]);
+  const [phoneNumbersNextMaxId, setPhoneNumbersNextMaxId] = useState<string | null>(null);
+  const isFetchingPhoneNumbersRef = useRef(false);
+  async function handleGetNextPhoneNumbers() {
+    if (!phoneNumbersNextMaxId || isFetchingPhoneNumbersRef.current) return;
+    isFetchingPhoneNumbersRef.current = true;
+    try {
+      const res = await clientFetchApi<boolean, IFlowPhoneNumbers>("/api/flow/GetPhoneNumbers", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "nextMaxId", value: phoneNumbersNextMaxId }],
+        onUploadProgress: undefined,
+      });
+      if (res.succeeded) {
+        setPhoneNumbers((prev) => [...prev, ...res.value.items]);
+        setPhoneNumbersNextMaxId(res.value.nextMaxId);
+      } else notify(res.info.responseType, NotifType.Warning);
+    } catch (error) {
+      notify(ResponseType.Unexpected, NotifType.Error);
+    } finally {
+      isFetchingPhoneNumbersRef.current = false;
+    }
+  }
+  //-----------Phone Numbers----------------------//
   function removeMask() {
     changePositionToRelative();
     setIsPopupCOMMENT(false);
@@ -532,7 +561,7 @@ const Properties = () => {
     isFetchingRef.current = true;
 
     try {
-      const [iceRes, persistentRes, replySettingRes, generalMsgRes] = await Promise.all([
+      const [iceRes, persistentRes, replySettingRes, generalMsgRes, phoneNumbersRes] = await Promise.all([
         clientFetchApi<boolean, IIceBreaker>("/api/message/GetIceBreaker", {
           methodType: MethodType.get,
           session: session,
@@ -555,6 +584,13 @@ const Properties = () => {
           onUploadProgress: undefined,
         }),
         clientFetchApi<boolean, IGeneralAutoReply[]>("/api/message/GetGeneralAutoReplies", {
+          methodType: MethodType.get,
+          session: session,
+          data: undefined,
+          queries: undefined,
+          onUploadProgress: undefined,
+        }),
+        clientFetchApi<boolean, IFlowPhoneNumbers>("/api/flow/GetPhoneNumbers", {
           methodType: MethodType.get,
           session: session,
           data: undefined,
@@ -596,6 +632,10 @@ const Properties = () => {
       }
       if (generalMsgRes.succeeded) {
         setAutoReplies(generalMsgRes.value);
+      }
+      if (phoneNumbersRes.succeeded) {
+        setPhoneNumbers(phoneNumbersRes.value.items);
+        setPhoneNumbersNextMaxId(phoneNumbersRes.value.nextMaxId);
       }
 
       setIsDataLoaded(true);
@@ -800,6 +840,7 @@ const Properties = () => {
               handleChangeDragDrop={() => {}}
               handleSaveLanguage={() => {}}
             />
+            <PhoneNumbers phoneNumbers={[]} hasMore={false} handleGetNextPhoneNumbers={() => {}} />
             {/* <GhostFollower /> */}
           </main>
         )}
@@ -837,6 +878,11 @@ const Properties = () => {
               handleSaveFollowerTemplate={handleSaveFollowerTemplate}
               handleChangeDragDrop={handleChangeDragDrop}
               handleSaveLanguage={handleSaveLanguage}
+            />
+            <PhoneNumbers
+              phoneNumbers={phoneNumbers}
+              hasMore={phoneNumbersNextMaxId !== null}
+              handleGetNextPhoneNumbers={handleGetNextPhoneNumbers}
             />
             {/* <GhostFollower /> */}
           </main>

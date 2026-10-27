@@ -19,7 +19,6 @@ const ReactPhoneInput = (prop: {
   const [preferredCountries, setPreferredCountries] = useState<string[] | undefined>(undefined);
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      console.log("Enter pressed - Trigger Send Verification Code");
       (document.querySelector(".saveButton") as HTMLElement)?.click();
     }
   };
@@ -29,7 +28,6 @@ const ReactPhoneInput = (prop: {
   useLayoutEffect(() => {
     // Use centralized timezone detection
     const detectedCountry = getCountryCodeFromTimezone();
-    console.log("prop.countryCode", prop.countryCode);
     setDefaultCountry(detectedCountry);
     prop.onDetectedCountry?.(detectedCountry);
   }, []);

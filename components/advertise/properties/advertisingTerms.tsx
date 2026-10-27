@@ -41,7 +41,6 @@ function AdvertisingTerms(props: { advertisinfTerms: IAdvertisingTerms }) {
   };
 
   function submit() {
-    console.log(advertisinfTerms);
     setIsFormChanged(false); // Reset the form change state after submitting
   }
 

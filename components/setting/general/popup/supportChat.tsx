@@ -53,7 +53,6 @@ export default function SupportChat({
         text: firstMessage,
         username: username,
       };
-      console.log("createPromptInfo", createPromptInfo);
       const res = await clientFetchApi<ICreateLiveChat, ILiveChat>("/api/ai/SendTestMessage", {
         methodType: MethodType.post,
         session: session,
@@ -89,7 +88,6 @@ export default function SupportChat({
         text: message,
         username: username,
       };
-      console.log("resume chat", createPromptInfo);
       const res = await clientFetchApi<ICreateLiveChat, ILiveChat>("/api/ai/SendTestMessage", {
         methodType: MethodType.post,
         session: session,

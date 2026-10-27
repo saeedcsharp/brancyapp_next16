@@ -287,9 +287,7 @@ const Page1 = ({ handleShowVerification }: Page1Props) => {
                       )}&response_type=code&scope=${encodeURIComponent(
                         "openid email profile",
                       )}&access_type=offline&prompt=consent`}
-                      onSuccess={() => {
-                        console.log("Google login successful");
-                      }}
+                      onSuccess={() => {}}
                       onError={(error) => {
                         console.error("Google login error:", error);
                       }}>

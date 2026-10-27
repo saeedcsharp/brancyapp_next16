@@ -26,7 +26,6 @@ export default function SignIn(props: {
   removeMaskWithNotif: () => void;
 }) {
   const { t } = useTranslation();
-  // const [phone, setPhone] = useState("");
   const [dialCode, setDialCode] = useState("");
   const [countryCode, setCountryCode] = useState("");
   const [nationalNumber, setNationalNumber] = useState("");
@@ -85,7 +84,6 @@ export default function SignIn(props: {
     console.log(error);
   }
   const handleBackClickToPhonenumber = (nationalNumber: string, countryCode: string) => {
-    console.log("Back to phone number input", nationalNumber, countryCode);
     setCountryCode(countryCode);
     setNationalNumber(nationalNumber);
     setSignInType(SignInType.Phonenumber);
@@ -106,7 +104,6 @@ export default function SignIn(props: {
     setIsIranCountry(countryCode === "ir");
   };
   useEffect(() => {
-    console.log("signinnnnnnnnnnnnnnnnnnnnnnnnnn");
     let session = window.localStorage.getItem("sessionId");
     setSessionId(session);
   }, []);
@@ -169,7 +166,6 @@ export default function SignIn(props: {
                     "openid email profile",
                   )}&access_type=offline&prompt=consent`}
                   onSuccess={() => {
-                    console.log("Google login successful");
                     props.removeMaskWithNotif();
                   }}
                   onError={(error) => {

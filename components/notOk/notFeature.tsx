@@ -2,13 +2,15 @@ import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 interface NotFeatureProps {
   onClose: () => void;
+  upgradeQuery?: Record<string, string>;
 }
-export default function NotFeature({ onClose }: NotFeatureProps) {
+export default function NotFeature({ onClose, upgradeQuery }: NotFeatureProps) {
   const router = useRouter();
   const { t } = useTranslation();
   const handleUpgrade = () => {
     onClose();
-    router.push("/upgrade");
+    const query = upgradeQuery ? new URLSearchParams(upgradeQuery).toString() : "";
+    router.push(query ? `/upgrade?${query}` : "/upgrade");
   };
   return (
     <>

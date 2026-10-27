@@ -288,7 +288,7 @@ const DirectChatBox = memo(
         await navigator.mediaDevices.getUserMedia({ audio: true });
         setShowVoiceRecorder(true);
       } catch (error) {
-        internalNotify(InternalResponseType.UnexpectedError, NotifType.Error);
+        internalNotify(InternalResponseType.NotFoundDevice, NotifType.Warning);
       }
     }, []);
 

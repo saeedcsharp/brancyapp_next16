@@ -26,7 +26,6 @@ function UserReport() {
 
   const submit = () => {
     if (isFormValid) {
-      console.log("Form submitted with:", inputText, textArea);
     }
   };
 

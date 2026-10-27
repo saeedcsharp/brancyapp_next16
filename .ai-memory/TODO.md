@@ -5,6 +5,11 @@
 - Add component coverage confirming locked attributes become non-editable and appear in the final local prompt payload with exact-preservation reference instructions when a UI test harness is introduced.
 - Add component coverage for Character Sheet prompt preview Readable/JSON mode switching, copy/download actions, and safe localStorage draft persistence/restore excluding reference image object URLs when a UI test harness is introduced.
 - Add component coverage confirming Character Sheet Auto mode hides the identity attributes accordion, Advanced mode renders it, and the selected mode is included in the local JSON preview when a UI test harness is introduced.
+- Confirm backend support for the AI Flow `buttongroup` (`data.title`, `data.buttons`, regular `output` plus `buttonOutputs`), `imagegallery` (`data.images`, up to `IMAGE_GALLERY_MAX_ITEMS`), and `ai` (`data.promptId`, `data.promptTitle`, no outputs) node types.
+- Decide whether the `ai` block should load prompts incrementally (scroll/`useInfiniteScroll`) instead of the current 10-page one-pass fetch, and implement AI replies in Live Test; optionally add a connections list to the `ai` and `buttongroup` tutorials.
+- Verify in the browser that the estimated heights from `getButtonGroupNodeHeight` and `getImageGalleryNodeHeight` align connection lines with the output sockets, and add component coverage for the button limit, 640-character title limit, and 7-image limit when a UI test harness is introduced.
+
+- Add component/browser coverage for the phone-number download icon and modal's direct Export action (localized date/time, six-month boundary plus one calendar day at both picker and request clamp), omitted `masterFlowId`, timezone offset, download link, duplicate-request guard, and failure notification when a UI test harness is available.
 
 - Add component/browser coverage confirming AI video history pagination triggers when the initial video result does not fill the workspace and appends the next cursor page when a UI test harness is introduced.
 
@@ -36,7 +41,20 @@
 
 # TODO
 
+- Add component coverage confirming `/page/tools` checks lottery access through `checkPackageFeature`, makes no `GetPackageFeatureDetails` request, opens the feature-unavailable state when entitlement is false, and saves a selected start time without the package-time-window warning when a UI test harness is introduced.
+
+- Add component coverage for general and media auto-reply `isContain` defaults, toggle behavior, change detection, and save payloads when a UI test harness is introduced.
+- Add component/browser coverage confirming the AI page reuses the account-scoped `hasFeature` result after reload and deduplicates concurrent initial creator checks when a UI test harness is introduced.
+
+<<<<<<< HEAD
+
+- Add component coverage confirming the AI library offers only Images and Videos, requests only `GetImages` or `GetVideos` for the selected filter, and loads each history once when a UI test harness is introduced.
+- Add component coverage confirming malformed, non-finite, and out-of-range AI media `createdTime` values keep their history rows visible, avoid ISO serialization errors, and show the localized Not available fallback when a UI test harness is introduced.
+
+=======
+
 - Add a route smoke test confirming the Dev Panel Character Sheet button navigates to `/dev/characterSheet` and that the AI creator exposes only Image and Video tabs when a UI test harness is introduced.
+  > > > > > > > sepehr
 - Add component/browser coverage confirming the constrained AI `MediaLibrary` requests the next image and video cursors when its internal list reaches the end, including independent cursors and duplicate prevention, when a UI test harness is introduced.
 - Add component coverage for the AI generated-media helper, including localized null/boolean metadata values, invalid JSON fallback, shared timestamp output, and image/video modal close ownership when a UI test harness is introduced.
 - Add component coverage confirming the image prompt suggestions category buttons select All Categories and load prompts for the selected category when a UI test harness is introduced.
@@ -110,6 +128,7 @@
 - # Add component coverage for comment inbox Post/Story cursor pagination, including non-null `oldestCursor`, media append, duplicate-page handling, and terminal `null` cursor behavior when a UI test harness is introduced.
 - Add component coverage confirming the auto-reply AI and Flow Create Automation actions appear with populated unselected DragDrop lists and remain hidden after selecting or retaining an existing prompt/flow when a UI test harness is introduced.
 - Extend the auto-reply Create Automation action coverage to `EditAutoReplyForMedia` and its retained media prompt/flow state when a UI test harness is introduced.
+- Add component coverage for the `EditAutoReplyForMedia` 800-byte quick-reply limit (Persian typing and paste truncation, byte counter) when a UI test harness is introduced.
 
 - Add browser coverage for AI Flow zooming and panning, confirming SVG connection paths remain aligned with Socket DOM positions across wheel zoom, toolbar zoom, reset, RTL, and mobile viewports when a UI test harness is introduced.
 

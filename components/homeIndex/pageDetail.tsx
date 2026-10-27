@@ -98,16 +98,6 @@ const PageDetail = (props: { data: IDemographicInsight; items: IInstagramerHomeT
     }
 
     // Add cities (if you want to show cities separately, uncomment this)
-    // if (props.data?.followerCity?.length > 0) {
-    //   props.data.followerCity.forEach(city => {
-    //     locations.push({
-    //       country: "Unknown", // You might need to map city to country
-    //       city: city.name,
-    //       count: city.count,
-    //       countryCode: "unknown" // You might need to determine this
-    //     });
-    //   });
-    // }
 
     // Fallback data if no real data exists
 
@@ -338,33 +328,6 @@ const PageDetail = (props: { data: IDemographicInsight; items: IInstagramerHomeT
               </div>
               <span className={styles.ageRangeparent}>
                 {props.data?.followerAge?.length > 0 ? (
-                  // (() => {
-                  //   const sortedAges = props.data.followerAge.sort((a, b) => a.from - b.from);
-                  //   const labels: JSX.Element[] = [];
-
-                  //   sortedAges.forEach((ageGroup, index) => {
-                  //     // Add original label
-                  //     labels.push(
-                  //       <span key={`original-${index}`}>{index === 0 ? `-${ageGroup.from}` : ageGroup.from}</span>
-                  //     );
-
-                  //     // Add interpolated label between current and next item
-                  //     if (index < sortedAges.length - 1) {
-                  //       const midFrom = ageGroup.to;
-                  //       labels.push(<span key={`interpolated-${index}`}>{midFrom}</span>);
-                  //     }
-                  //   });
-
-                  //   // Add final label
-                  //   const lastAge = sortedAges[sortedAges.length - 1];
-                  //   if (lastAge.to >= 70) {
-                  //     labels.push(<span key="final">{lastAge.to}+</span>);
-                  //   } else {
-                  //     labels.push(<span key="final">{lastAge.to}</span>);
-                  //   }
-
-                  //   return labels;
-                  // })()
                   <>
                     <span>10</span>
                     <span>15</span>

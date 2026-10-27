@@ -66,7 +66,6 @@ const AddPartner = React.memo(
           userId: partner?.userId || 0,
           name: createPartner.name,
         };
-        console.log("updatePartner", updatePartner);
         handleUpdatePartner(updatePartner);
       } else {
         const addPartner: ICreatePartner = {
@@ -76,7 +75,6 @@ const AddPartner = React.memo(
           roles: rolesForSave,
           name: createPartner.name,
         };
-        console.log("addPartner", addPartner);
         handleSavePartner(addPartner);
       }
     }, [checkBox, createPartner, handleSavePartner, handleUpdatePartner, rolesForSave]);
@@ -102,7 +100,6 @@ const AddPartner = React.memo(
       }
     }
     function handleSaveDateAndTime(date: string | undefined) {
-      // setRecTimeSelect(-1);
       if (date !== undefined) {
         let dateInt = parseInt(date);
         setCreatePartner((prev) => ({ ...prev, expireTime: dateInt }));
@@ -120,8 +117,6 @@ const AddPartner = React.memo(
     function handleInputChange(e: ChangeEvent<HTMLInputElement>): void {
       const newValue = e.target.value;
       // For example, if you had a local state for the partner's name you could update it:
-      // setPartnerName(newValue);
-      console.log("Partner name input changed to:", newValue);
       setCreatePartner((prev) => ({ ...prev, name: newValue }));
     }
 
@@ -509,7 +504,6 @@ const AddPartner = React.memo(
             saveDateAndTime={handleSaveDateAndTime}
             backToNormalPicker={() => setShowSetDateAndTime(false)}
             startDay={createPartner.expireTime || Date.now() + 3960000}
-            // fromUnix={Date.now() + 86400000}
           />
         )}
       </>

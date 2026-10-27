@@ -4,9 +4,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import CommentInbox from "brancy/components/messages/comment/commentInbox";
-import NotPermission, {
-  PermissionType,
-} from "brancy/components/notOk/notPermission";
+import NotPermission, { PermissionType } from "brancy/components/notOk/notPermission";
 import { LoginStatus, packageStatus } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
 const Comments = () => {
@@ -23,10 +21,8 @@ const Comments = () => {
     if (session.user.currentIndex === -1) router.push("/user");
     if (session && !packageStatus(session)) router.push("/upgrade");
     if (!LoginStatus(session)) router.push("/");
-    console.log("session?.user.commentPermission", session?.user);
   }, [session]);
-  if (session && !session?.user.commentPermission)
-    return <NotPermission permissionType={PermissionType.Comments} />;
+  if (session && !session?.user.commentPermission) return <NotPermission permissionType={PermissionType.Comments} />;
   return (
     session &&
     session.user.currentIndex !== -1 && (
@@ -34,15 +30,9 @@ const Comments = () => {
         {/* head for SEO */}
         <Head>
           {" "}
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
-          />
+          <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
           <title>Bran.cy ▸ {t(LanguageKey.navbar_Comments)}</title>
-          <meta
-            name="description"
-            content="Advanced Instagram post management tool"
-          />
+          <meta name="description" content="Advanced Instagram post management tool" />
           <meta name="theme-color"></meta>
           <meta
             name="keywords"

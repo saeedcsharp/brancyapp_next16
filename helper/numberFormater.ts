@@ -51,7 +51,6 @@ export function numbToAmAndPmTime(number: number | undefined): string {
   var hour = Math.floor(number / 3600);
   var residual = Math.floor((number % 3600) / 60);
   var minStr: string = residual < 10 ? `0${residual}` : residual.toString();
-  // hourStr = hour < 10 || hour - 12 < 10 ? `0${hour}:` : hour.toString() + ":";
   if (hour < 10) {
     result = `0${hour}:` + minStr + " AM";
   } else if (hour < 12) {

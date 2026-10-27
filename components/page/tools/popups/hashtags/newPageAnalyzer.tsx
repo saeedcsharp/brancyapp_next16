@@ -77,7 +77,6 @@ const NewPageAnalyzer = (props: {
   const handleApiPeopleSearch = async (query: string) => {
     try {
       var instagramerId = session?.user.instagramerIds[session.user.currentIndex];
-      console.log("start searched people ", query);
       var res = await clientFetchApi<boolean, IPageInfo[]>("Instagramer" + "/searchPeople", {
         methodType: MethodType.get,
         session: session,

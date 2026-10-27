@@ -57,7 +57,6 @@ export default function InstagramerGroupLayout({ children }: { children: React.R
   };
 
   const handleShowProfile = (event: MouseEvent) => {
-    console.log("show profile");
     event.stopPropagation();
     setShowProfile((prev) => {
       const next = !prev;

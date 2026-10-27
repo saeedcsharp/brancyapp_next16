@@ -193,7 +193,6 @@ const VideoAndMusic = (props: { removeMask: () => void }) => {
           notFound: false,
         },
       });
-      console.log("=== handleSearchChannel ===", selectedEmbed);
       dispatch({
         type: "SET_CHANNEL_SEARCH",
         payload: { [selectedEmbed]: query },
@@ -285,16 +284,10 @@ const VideoAndMusic = (props: { removeMask: () => void }) => {
     props.removeMask();
   }, [channelSearch, updateYoutube, updateAparat, updateTwitch, session, props]);
   const handleSelectYoutubeChannel = useCallback((v: IChannelInfo) => {
-    console.log("=== handleSelectYoutubeChannel ===");
-    console.log("Selected channel:", v);
-    console.log("Channel title:", v.channelTitle);
-    console.log("Thumbnail URL:", v.lastVideoThumbnail);
-
     const payload = {
       searchYoutubePage: v.channelTitle || v.lastVideoTitle || "",
       youTubeThumbnailUrl: v.lastVideoThumbnail || v.profilePicture || "",
     };
-    console.log("Dispatching payload:", payload);
 
     dispatch({
       type: "SET_CHANNEL_SEARCH",
@@ -320,16 +313,10 @@ const VideoAndMusic = (props: { removeMask: () => void }) => {
     });
   }, []);
   const handleSelectTwitchChannel = useCallback((v: IChannelInfo) => {
-    console.log("=== handleSelectTwitchChannel ===");
-    console.log("Selected channel:", v);
-    console.log("Channel title:", v.channelTitle);
-    console.log("Thumbnail URL:", v.lastVideoThumbnail);
-
     const payload = {
       searchTwitchPage: v.channelTitle || v.lastVideoTitle || "",
       twitchThumbnailUrl: v.lastVideoThumbnail || v.profilePicture || "",
     };
-    console.log("Dispatching payload:", payload);
 
     dispatch({
       type: "SET_CHANNEL_SEARCH",

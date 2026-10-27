@@ -55,10 +55,7 @@ function SwitchAccount(props: {
         await getPartners(res.value);
         if (res.value.length > 0) setInstagramers(res.value);
         else handleSwitchToUser();
-      }
-      // if (res.succeeded && res.value.length > 0) setInstagramers(res.value);
-      // else if (res.succeeded && res.value.length === 0) handleSwitchToUser();
-      else notify(res.info.responseType, NotifType.Warning);
+      } else notify(res.info.responseType, NotifType.Warning);
     } catch (error) {
       notify(ResponseType.Unexpected, NotifType.Error);
     } finally {
@@ -78,7 +75,6 @@ function SwitchAccount(props: {
       });
       if (res.succeeded) {
         const newIns = res.value.filter((x) => !instagramers.map((i) => i.username).includes(x.username));
-        console.log("instagramersss", newIns);
         setPartners(newIns);
       } else notify(res.info.responseType, NotifType.Warning);
     } catch (error) {

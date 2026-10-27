@@ -3,65 +3,38 @@ The bulk product individual editors now render as a free horizontal slider using
 # Current State
 
 The local-only Character Sheet Visual Identity prototype is available at `/dev/characterSheet` from the Dev Panel button and is no longer part of the AI creator tabs. It renders `components/page/ai/CharacterSheet.tsx` as one page with a subject-type section, up to 14 browser-local reference images, type-specific Advanced reference slots, an Auto/Advanced attribute mode, dynamic section numbering, type-driven local prompt templates, local Undo/Redo for serializable editor state, type-specific identity attributes in Advanced mode, per-attribute lock controls with faded non-editable fields, completion/reset controls, an editable prompt with negative prompt and identity/consistency rules, and output settings. Human, Product, Object, Animal, and Custom schemas expose their restored structure, appearance, material, dimension, branding, and distinctive-feature options. Reference slot metadata and locked attributes are included in the local final prompt payload; locked attributes also carry exact-preservation and reference-image instructions. The prompt preview supports Readable and JSON modes with local copy/download actions. It performs no API requests, uploads, AI analysis, generation, publishing, or server work; safe localStorage draft persistence is limited to serializable fields and excludes reference image binaries/object URLs.
+The AI Flow editor also has an `ai` block: input only (no output socket), with a dropdown of the account's created AI prompts loaded from `/api/ai/GetPrompts` (up to 10 pages) and the selection stored in `data.promptId`/`data.promptTitle`. It appears in the desktop toolbar, mobile menu, and tutorial modal; Live Test shows a localized `New_Flow_ai_livetest` bot message ("Your AI block is being executed here") when it reaches it and stops there. The `buttongroup` block now has its tutorial too. All new tutorial and label keys exist in all eight locales.
 
-The selected image prompt detail initially shows the first ten non-empty newline-delimited prompt lines and provides localized Show more/Show less controls when additional lines exist; expanding reveals the complete prompt without changing the copy or Use in prompt actions. The visible prompt is rendered as a numbered, scrollable code block with JSON token colors, bold markdown labels, and highlighted `[xxx]` bracket placeholders, including placeholders inside JSON strings, while preserving the raw prompt for copying and use. The complete prompt code block, line filtering, tokenization, rendering, layout styles, and reusable inline token styles now live in `components/page/ai/popup/generatedMediaHelpers.ts`; the suggestions CSS module retains only surrounding UI layout styles. Prompt suggestions and prompt detail now share one modal, so the detail back button clears only the selected prompt and returns to the suggestions list; closing the modal clears both states.
+The AI Flow editor has two new blocks. `buttongroup` has a 640-character title, at most three buttons, one regular output plus three button outputs, and its button outputs may connect to the Link block. `imagegallery` mirrors the image block but accepts images only, up to `IMAGE_GALLERY_MAX_ITEMS` (7) per block. Both appear in the desktop toolbar, mobile menu, Live Test, and (for `imagegallery`) the tutorial modal, with localized keys in all eight locales. The Phone Number Grabber node wrapper no longer inherits the inner content layout, matching the other blocks' header style. See `MODULES/components-messages.md`.
 
-The selected image prompt detail preview opens in a body-portal fullscreen image overlay when clicked. The overlay supports a close button, backdrop click, and Escape-key dismissal without changing the parent prompt modal state.
+The AI Flow private-reply follower warning treats `buttongroup` and `generic` (gallery) first blocks specially: only a connection from their regular `output` socket triggers it; button and gallery-item outputs are ignored.
 
-Generated image and video result modals now share neutral timestamp and JSON metadata parsing through `components/page/ai/popup/generatedMediaHelpers.ts`; the same helper also exports reusable prompt token rendering and inline syntax styles. Modal visibility and close state remain exclusively page-owned. The video modal file now follows PascalCase component naming, and pending library cards use the presentation-only shared `RingLoader` instead of an interactive AI prompt control.
+The Message Properties phone-number card now has a small download icon beside its heading. It opens a body-portalled `SetTimeAndDate` modal where the selected date and time (from six calendar months ago plus one calendar day through now) is submitted directly with the Export button to `GetExportPhoneNumbers` for all Flows. The request uses the same buffered lower bound, avoiding backend errors on the oldest day. It sends the browser timezone offset in seconds and downloads the returned file from the media host; the `/feature` catalog includes this capability.
+The card's Flow Graph navigation uses the custom `/flow-redirect.svg` icon beside each Flow name or the empty-state message, replacing the large text buttons, font-dependent arrow glyph, and unrelated statistics graph artwork while retaining their routes and localized accessible labels. No icon dependency is needed.
 
-The AI media creator token-usage control now uses `tokenBalance` and `tokenBalanceDisable` CSS-module states. After a successful estimate, the control is replaced by the requested-token progress panel, which includes an accessible refresh icon that rotates during recalculation and stops when it completes; changing prompt or inputs clears the estimate and restores the button.
+The AI page caches its per-account `hasFeature` entitlement result in `sessionStorage` and reuses an in-flight check during mount, preventing the feature API from being called again solely because the page was reloaded.
 
-The image prompt suggestions category filter now renders the All Categories option and backend categories as adjacent accessible tag buttons. Each backend category tag displays its returned prompt count, and the All Categories tag displays the sum of those counts. The tag row supports native touch scrolling and mouse drag scrolling; pointer capture starts only after actual mouse movement so normal category clicks still load their prompt list. Selecting a category clears the prior list and ignores stale prompt responses so the selected category's list remains authoritative.
+The `/page/tools` lottery creation flow checks its entitlement with `checkPackageFeature` and does not request package feature details. Selecting a start time no longer shows the package-time-window warning.
 
-Image prompt suggestion thumbnails now render in a responsive CSS-column masonry layout that preserves each image's natural aspect ratio rather than cropping every image to a fixed height.
+<<<<<<< HEAD
+The `/user` customer entry route now waits for NextAuth to finish loading before redirecting, performs only one `router.replace` decision, and treats an unset `currentIndex` as `-1`, preventing the production route from remaining at `/user`.
 
-The selected image prompt detail now places its preview image in the left column, descriptive information and metadata in the right column, and the copyable prompt body in a full-width section below both columns; narrow screens stack the top section vertically.
+Forced API sign-out now stays on the browser's current origin: both direct and proxied 401 handlers await NextAuth logout with redirects disabled and replace the location with `/`. Ten synthetic cases cover production, staging, local development, logout ordering, and unchanged non-logout responses. Deployed browser verification remains pending.
 
-The selected image prompt detail now includes a localized back button that clears the selected prompt and returns to the suggestions list without browser-history navigation.
+Selected-account `GetInfo` now runs on every client pathname transition, bypassing the same-route 20-second throttle. Dashboard/upgrade readiness is navigation-specific; a transition during a pending request is checked after completion. Query/hash-only changes are excluded. Focused synthetic navigation tests pass; live browser verification remains pending.
 
-The selected image prompt detail now provides a Use in prompt action. It closes the detail modal and transfers the prompt body into the controlled AI media creator textarea, invalidating the previous token estimate; keyed transfers also support selecting the same prompt again.
+Dashboard and upgrade client children now wait in `InstaProvider` for selected-account initialization and session persistence before mounting. Expired protected accounts remain behind the loader until upgrade navigation completes; initialization errors expose reload retry. Public/customer routes and server middleware remain outside this gate. Deferred-promise synthetic checks pass; live browser verification is pending.
 
-The AI media creator stylesheet now contains only selectors consumed by `mediaCreator.tsx`; copied prompt-suggestion, provider/model, field, and upload-label styles were removed without changing the creator UI.
+`InstaProvider` now fetches selected-account data on every document reload despite a recent session `lastUpdate`, chains account/title loading after routine token renewal, and redirects expired packages from protected Instagramer routes after persisting fresh account data. Focused synthetic checks pass; authenticated browser verification remains pending.
 
-The AI media library stylesheet now contains only selectors used by `MediaLibrary.tsx` for loading, history items, pending generations, pagination loading, and the empty state; obsolete layout and duplicate declarations were removed without changing library behavior.
-
-AI media history pagination now listens to the scrollable `.Medialist` container for both independent image and video cursors; reaching its end requests and appends the next backend page.
-
-The AI media creator's primary Create image/Create video action now submits through an actual `<form>`, so its existing submit handler reaches the page-owned media-generation callback. After the create API accepts a request, the creator resets its prompt, dynamic inputs, uploads, and token estimate, and the submit action becomes available for another generation while the accepted request remains visible as a pending library card until SignalR completes it.
-
-The AI media creator now renders the existing `NotFeature` upgrade state inline inside its empty creator panel when the AI feature check fails; the feature-unavailable `Modal` is no longer mounted. Normal creator loading still uses the shared `Loading` component.
-
-The AI workspace is responsive at the `840px` breakpoint: wider screens keep the history panel at or below `400px` beside a flexible creator panel, while narrower screens place the creator panel above the full-width history panel.
-
-General and media auto-replies no longer show the must-follow-page option for AI mode, and AI saves force it off. Live media auto-replies also hide it for Flow mode; other reply modes retain their existing behavior.
-
-Ice Breaker deletion now sends the filtered `profileButtons.items` list to `UpdateIceBreaker`, so the removed button is not persisted again.
-
-The Message Properties panel no longer exposes the automatic/bot reply filtering toggle or calls `ToggleHideCommentAutoReply`; the backend reply-setting shape remains intact for the other message settings.
-
-The Message Properties FollowUp template setting uses the `Custom FollowUp Template` label and the requested Persian explanation in all eight locales.
-
-The message response-rule smart default list shows View Store and Products only for authenticated Shop and VShoper business types; other business types cannot select that store-specific payload.
-
-Adding an Ice Breaker or Persistent Menu button on the message Properties page immediately removes the chosen special payload from the smart default picker: after saving, `handleSaveSpecialPayLoad` re-filters the special payload lists from the refetched menu items, so no page reload is needed for the picker to reflect the used item.
-
-The home dashboard no longer remains on its full-page loader after authentication. `IngageInfo` derives loading from `props.data === null`, and a live browser refresh confirmed the five home tile sections render with the authenticated demo session.
-
-The home dashboard total-tile area now presents reserve tokens and remaining subscription days in one upgrade slideshow, while active stories, last likes, reach, and unread comments are grouped in a separate statistics slideshow. Both slideshows advance automatically every 10 seconds and remain manually navigable. The four statistic slides use purple, light green, firoze, and light red in that order.
-
-The home dashboard tile component now memoizes status and slideshow data, validates the session login timestamp, prevents late AI-count responses from updating an unmounted component, and initializes subscription time without a zero-time flash. Slide content animates on change with reduced-motion support and Arrow/Home/End keyboard navigation. Story links have accessible labels and stable thumbnail dimensions. The authenticated home route now emits `noindex, nofollow, noarchive` metadata without a public canonical or social preview URL.
-
-Instagramer AI navigation is now grouped under `/Ai`: the creator workspace is `/Ai/creator`, the Flow and Agent workspace is `/Ai/FlowandAgent`, and `/Ai` redirects to the creator workspace. The former `/page/ai` and `/message/AIAndFlow` route wrappers were removed, and desktop/mobile navigation no longer places these destinations under Page or Message.
-
-`/Ai/FlowandAgent` accepts an optional `id` query. `FlowAndAIInbox` validates it against the fetched `GetMasterFlows` list by `masterFlowId`; only a matching flow is selected and mounted, allowing `Flow` to fetch that flow with `GetMasterFlow`. Missing or unmatched `id` values leave the normal flow list view open.
-
-The Instagramer and user desktop sidebars now include a localized Support button at the bottom of their menus. Each opens the shared Goftino chat panel beside the sidebar while retaining the global website support control.
+# The middleware redirects selected Instagramer accounts with missing or expired packages to `/upgrade` regardless of `loginByFb` or `loginByInsta`; it no longer logs full JWT tokens.
 
 Wallet invoice order details now load automatically when the `Order` tab is selected and render inside the existing invoice popup. The request still uses `/api/wallet/getInvoice`, but the returned invoice is passed to `OrderDetailPopup` inline instead of requiring a button or opening a second modal.
 
 Sub-invoice history labels now use the shared `IDblue`, `IDpurple`, `IDgreen`, `IDred`, and `IDgray` styles for unsettled, awaiting-settlement, settled, failed, and unknown statuses.
 Sub-invoice detail rows support horizontal native scrolling and pointer-captured mouse/touch dragging with vertical touch scrolling preserved.
+
+> > > > > > > sepehr
 
 The direct Meta redirect route is available at `/metaRedirect`; its App Router directory no longer has a trailing space, so the route is discovered correctly by Next.js.
 
@@ -89,27 +62,13 @@ The Iranian/local Footer branch now publishes source-backed LocalBusiness JSON-L
 
 ## Current Architecture
 
+General and media keyword auto-replies now expose a localized `Contain` switch across all eight locales. Both save payloads send `isContain`; missing values from older saved replies default to `true` (keyword may appear anywhere), while `false` requests an exact whole-comment match.
+
 The media quick-reply popup now renders the reusable `components/notOk/commentPermissionState.tsx` localized comment-permission state with an inline SVG and an Instagram permission redirect when `session.user.commentPermission === false`. Its Enable Permission action checks `/api/user/ip` and opens `InvalidIpModalContent` for Iranian IPs; authorized users continue to see the existing auto-reply editor. The media auto-reply editor preserves same-comment, AI, and keyword workflows without message permission, while direct response, Flow, Product, and Connect Product selections show the localized message-permission state and reuse the Instagram permission redirect.
 
-The AI media creator prompt now has an accessible paste button that reads clipboard text into its controlled `TextArea` and clears a previous token-usage estimate. Aspect Ratio enum options also show proportional inline SVG outline icons capped at 15 pixels when their labels use the supported `width:height` format.
+The media auto-reply editor now requires `PartnerRole.Automatics` for AI and Flow data access. Missing-role partners see `NotAllowed` in the selected AI/Flow panel, and prompt/flow list, search, pagination, selection, and saved-item enrichment APIs are skipped.
 
-The AI media creator model section now uses an `AiModelList` trigger while `PageAI` owns the shared modal, so the model picker opens at the page's full-screen modal size. The page also owns the selected creator/model state; the modal content lists expandable creator branches, reveals models for the active branch, and updates the selection used by prompt settings and generation requests.
-
-Each AI model row now shows the localized, de-duplicated input-feature titles in its existing `IDgray` metadata label, with long lists truncated visually and exposed through the label tooltip.
-
-AI model operation labels such as text-to-video, image-to-video, text-to-image, edit, extend, and reference-to-video now render as compact inline SVG icons in card and table views. The original operation label remains available through the icon group's accessible name and tooltip; unknown operation labels retain their text fallback.
-
-The AI model modal header now provides an animated Features toggle that reveals or hides the independent feature-label groups for all model rows.
-
-The AI model modal header also provides a Table toggle. It switches each expanded creator's model cards to a responsive semantic table while preserving model selection and the optional feature details.
-
-Each table header sorts its model rows in ascending or descending order on repeated activation; keyboard activation is supported for sortable headers.
-
-Expanded AI creator branches in card view now show unique category buttons above the model cards. The active category filters cards and defaults to the selected model's category when available; table view remains unfiltered, and model selection keeps the existing page-owned callback behavior.
-
-AI model cost labels now use level-specific colors: light green, light yellow, light red, and dark red for one through four dollar signs.
-
-The comment inbox de-duplicates every Post, Story, hidden-inbox, search, deep-link, pagination, and SignalR media list by `mediaId`, preserving the first item's order when the backend returns repeated media.
+The media auto-reply editor now requires `PartnerRole.Products` for Product and Connect Product modes. Missing-role partners see `NotAllowedCard`, and those modes cannot be saved while product access is unavailable.
 
 The former icon-specific toggle control has been removed. Toggle tabs now use the shared `components/design/toggleButton/ToggleButton.tsx` control across wallet, event ideas, follower analysis, and the system-design showcase.
 
@@ -135,8 +94,6 @@ The desktop product list now keeps its table header inside the scrollable list, 
 The repository is a single Next.js 16 application using React 19, TypeScript strict mode, Sass, CSS modules, NextAuth, next-pwa, and a mixed App Router plus legacy-page bridge. App routes in `app/` commonly import pages from `legacy-pages/` while shared components live in `components/`.
 
 The global App Router error boundary displays the received error message. DirectInbox keeps failed initial inbox requests and pagination/API failures local to the inbox, preserving the HTTP status and backend reason in notifications without crashing the whole route.
-
-`clientFetchApi` now redirects both direct backend requests and `/api/user/*` proxy requests to `/upgrade` when the response status is 402, while returning a normalized `Payment Required` result.
 
 ## Active Features
 
@@ -191,6 +148,7 @@ The global App Router error boundary displays the received error message. Direct
 
 The shared `helper/textByteLength.ts` utility now owns UTF-8 byte counting and Unicode-safe truncation used by AI flow text input.
 The direct-message composer applies the same 1,000-byte UTF-8 limit to drafts, typing, emoji insertion, and outgoing messages.
+The media auto-reply editor (`popups/editAutoReplyForMedia.tsx`) limits the custom quick-reply response to 800 UTF-8 bytes with the same helper.
 
 AI tool parameter placeholders now select the localized `completeDescription*` model field for the active locale, with German used for `gr` and English fallback for French or missing values.
 AI prompt tool options now select each tool's localized `displayName*` field from the active i18next locale, with German used for `gr` and English/name fallbacks.
@@ -211,12 +169,6 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 - Cross-browser visual regression coverage is not yet automated; feature-level overflow and viewport rules remain candidates for incremental audit.
 
 ## Recent Changes
-
-- The home smart page-analysis tile now opens the current account summary in the shared modal, with mouse and keyboard activation plus close controls.
-
-- The home dashboard token tile now loads the direct AI total from `Instagramer/Feature/GetTotalFeatureCount` with `PsgFeatureType.AI`; numeric results, including zero, are displayed directly and unavailable results use the localized upgrade fallback.
-
-- The home dashboard upgrade tile now provides accessible pagination between the remaining AI token balance and remaining subscription days; the tile's main click and keyboard action still opens the upgrade route.
 
 <<<<<<< HEAD
 
@@ -258,13 +210,12 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 - AI creator provider and model selection now share one tree-like panel: each provider branch expands to show its models underneath, replacing the separate provider panel.
 - Removed unused legacy AI creator styles for the old standalone header, back link, section heading, and provider-panel layout while preserving selectors shared by generated-media modals.
 - AI provider branches now use the public down-arrow asset with a 180-degree open-state rotation, and nested model lists animate open/closed with reduced-motion support.
-- AI media tabs, provider branches, and model selection now render inside one settings panel. If the selected media type has no creator/model, the settings panel retains only the tabs and the localized empty/error state below them.
-- AI image and video history now render in one `createdTime`-descending library with All, Images, and Videos filters. Both histories load independently with separate cursor pagination, and pending generations follow the selected filter.
+- AI media tabs now render inside the creator model panel. If the selected media type has no creator/model, the model panel retains only the tabs and the localized empty/error state is rendered in the settings panel.
 - AI creator enum inputs now use the shared button-based `optionGrid` presentation for both enum input variants instead of a native select.
 - AI creator multiple range inputs now render as one fixed `250px` square with a centered fixed `100px` inner square; mouse/touch handles define one shared hatched frame, including its corners, while each backend range key remains separate in submitted requests.
-- AI creator `IntRange` inputs render as standard integer-step sliders and are never included in the square expansion control. `AudioArray` inputs use the shared file-upload flow with audio acceptance and native playback controls. The square expansion control is used only when exactly the four backend `Range` keys `topExpantionRatio`, `buttonExpantionRatio`, `rightExpantionRatio`, and `leftExpantionRatio` are present; single, incomplete, or differently named ranges remain standard sliders.
+- AI creator range inputs use the square expansion control only when top, right, bottom, and left ranges are all present; single or incomplete ranges remain standard sliders.
 - AI creator footers now show separate, independent token-usage and media-creation buttons on opposite sides; creation only requires a valid prompt and required inputs, and uses zero for the parent feature check when no estimate exists.
-- AI image/video creation controls ignore duplicate submits while the create request is in progress, then reset the creator and become available again after the create API accepts the request; the matching pending card remains until SignalR reports success or failure.
+- AI image/video creation controls now remain disabled for the full pending request and the form ignores duplicate submit events while creation is in progress.
 - The AI page now owns and passes the media-creation loading state, enabling it before feature validation and clearing it only after the correlated image/video SignalR success or failure notification.
 - AI image/video success notifications are now accepted after leaving and revisiting the AI page, even without a local pending-generation ref; duplicate library entries are ignored.
 - AI media tabs now use the shared `ToggleButton`; the former dedicated content-creator header component and stylesheet were removed.
@@ -300,8 +251,6 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 - AI image and video creation now returns to the matching library immediately after request submission, shows one loading card per pending `clientContext`, and replaces or removes each card when its correlated SignalR success or failure notification arrives. Successful video results wait one second before replacing the loading card so the thumbnail URL has time to become available. Concurrent generations remain independently tracked.
 
 - The active AI workspace is localized across all eight supported locales. Creator states, model guidance, prompt validation, token usage actions, result metadata fallback values, request notifications, and the page description use the active i18next locale.
-- AI creator model lists remove duplicate model names returned by a provider before rendering, preventing duplicate React keys while preserving name-based model selection.
-- The AI media creator now renders all dynamic input JSX directly inside the main settings-panel return. Upload preview/progress state and square-range drag state are owned by `MediaCreator`; the separate `RangeSquareInput`, `FileInput`, and `DynamicInput` renderer components were removed without changing the request contract.
 
 - The AI library supports optional deep links: the App Router wrapper reads `/page/ai?type=1` or `/page/ai?type=2` with `useSearchParams` and passes the selected tab into the legacy page. Missing or unsupported values preserve the default image tab.
 

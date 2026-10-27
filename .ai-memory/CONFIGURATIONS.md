@@ -7,6 +7,7 @@
 - `tsconfig.json`: strict TypeScript, `brancy/*` alias, Next plugin, JS allowed.
 - `next.config.js`: PWA, standalone output, Sass include paths, image domains, cache headers, rewrites, webpack alias, Terser minification.
 - `postcss.config.js`: autoprefixer.
+- `eslint.config.mjs`: ESLint 9 flat config extending `eslint-config-next` core-web-vitals and TypeScript presets with every rule downgraded to `warn`; used by `npm run lint` (`eslint .`).
 - `.gitignore`: excludes dependencies, build outputs, env locals, editor/runtime files.
 - `.dockerignore`: excludes node_modules, .next, git metadata, markdown files, Docker files, iisnode.
 - `Dockerfile`: multi-stage Node 22 Alpine standalone build.

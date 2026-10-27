@@ -18,7 +18,7 @@ Follows existing Next/React/TypeScript project conventions.
 
 ## Folder Structure
 
-`models/enums.ts`, `models/interfaces.ts`, `models/mockData.ts`, `models/ServerToggle.tsx`, and related files.
+`models/enums.ts`, `models/interfaces.ts`, `models/mockData.ts`, and related files.
 
 ## Execution Flow
 
@@ -90,7 +90,7 @@ The image-creator API contract uses `IImageCreator`, `IImageCreatorModel`, and `
 
 Enums are in local files or shared `models/enums.ts`.
 
-`InputType` mirrors the backend values in order: `Text`, `EnumV1`, `Number`, `Range`, `EnumV2`, `Boolean`, `ImageArray`, and `VideoArray`.
+`InputType` mirrors the backend values in order: `Text`, `EnumV1`, `Number`, `Range`, `EnumV2`, `Boolean`, `ImageArray`, `VideoArray`, `IntRange`, and `AudioArray`.
 
 ## Configuration
 
@@ -130,7 +130,7 @@ No module-specific env vars documented unless related files read them.
 
 ## Related Files
 
-`models/enums.ts`, `models/interfaces.ts`, `models/mockData.ts`, `models/ServerToggle.tsx`, and related files.
+`models/enums.ts`, `models/interfaces.ts`, `models/mockData.ts`, and related files.
 
 ## Related Modules
 

@@ -364,42 +364,6 @@ export const generateMockFeaturesList = (t: (key: string) => string): PlanFeatur
 // These functions simulate API calls and return mock data
 // Replace these with actual API calls when connecting to server
 
-// export const generateMockUserPackageInfo = (
-//   t: (key: string) => string
-// ): UserPackageInfo => {
-//   // Domain: 365 days purchased, 10 days remaining
-//   const totalDomainDays = 365;
-//   const domainDaysRemaining = 10;
-//   const domainDaysPassed = totalDomainDays - domainDaysRemaining;
-//   const domainPurchaseDate =
-//     Date.now() - domainDaysPassed * 24 * 60 * 60 * 1000;
-//   const domainExpiryTime =
-//     Date.now() + domainDaysRemaining * 24 * 60 * 60 * 1000;
-
-//   // Calculate package expire time: 365 days total, 60 days passed = 305 days remaining
-//   const totalPackageDays = 365;
-//   const daysPassed = 300;
-//   const daysRemaining = totalPackageDays - daysPassed;
-//   const packageExpireTime = Math.floor(
-//     (Date.now() + daysRemaining * 24 * 60 * 60 * 1000) / 1000
-//   ); // Convert to seconds
-
-//   return {
-//     packageExpireTime: packageExpireTime,
-//     packageType: t(LanguageKey.mainSubscriptionPlan),
-//     packageTotalDuration: totalPackageDays, // 365 days total for main package
-//     aiTokensRemaining: 50, // 50 tokens remaining out of 10000
-//     aiTokensTotal: 10000, // 10000 tokens purchased
-//     aiExpiryTime: packageExpireTime * 1000, // Same as main package (in milliseconds)
-//     aiTotalDuration: totalPackageDays, // Same as main package - 365 days
-//     hasCustomDomain: true, // For demo purposes
-//     domainExpiryTime: domainExpiryTime,
-//     domainPurchasedDuration: Math.ceil(totalDomainDays / 30), // Convert days to months (365/30 ≈ 12 months)
-//     domainPurchaseDate: domainPurchaseDate,
-//     winnerPickerActive: 2, // 1 active winner picker for testing attention state
-//     winnerPickerTotal: 5, // 5 total purchased
-//   };
-// };
 export const generateMockUserPackageInfo = (
   t: (key: string) => string,
   featureInfo: IPsgFeatureInfo,

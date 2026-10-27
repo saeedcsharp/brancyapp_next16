@@ -13,7 +13,19 @@ export interface Socket {
 
 export interface NodeData {
   id: string;
-  type: "text" | "image" | "voice" | "quickreply" | "generic" | "genericitem" | "weblink" | "onmessage";
+  type:
+    | "text"
+    | "image"
+    | "imagegallery"
+    | "voice"
+    | "quickreply"
+    | "buttongroup"
+    | "generic"
+    | "genericitem"
+    | "weblink"
+    | "phonenumbergrabber"
+    | "ai"
+    | "onmessage";
   label: string;
   position: Position;
   inputs: Socket[];

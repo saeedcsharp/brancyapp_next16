@@ -104,6 +104,12 @@ function getConnectionForOutput(conns: Connection[], nodeId: string, socketId: s
   return conns.find((c) => c.sourceNodeId === nodeId && c.sourceSocketId === socketId);
 }
 
+function isValidPhoneNumber(value: string) {
+  if (!/^\+?[\d\s\-()]+$/.test(value)) return false;
+  const digits = value.replace(/\D/g, "");
+  return digits.length >= 7 && digits.length <= 15;
+}
+
 function isVideoUrl(url?: string | null) {
   if (!url) return false;
   return /(\.mp4|\.webm|\.ogg|\.mov|\.avi|\.mkv)($|\?)/i.test(url) || url.startsWith("data:video/");
@@ -116,6 +122,8 @@ export const LiveTestModal: React.FC<LiveTestModalProps> = ({ isOpen, onClose, e
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState(false);
   const lastUserIdRef = useRef<string | null>(null);
+  // Node id of the phonenumbergrabber block currently waiting for a phone number
+  const awaitingPhoneNodeIdRef = useRef<string | null>(null);
   const [seenUserId, setSeenUserId] = useState<string | null>(null);
   const [deliveredUserId, setDeliveredUserId] = useState<string | null>(null);
   const [clickedQuickReplies, setClickedQuickReplies] = useState<Set<string>>(new Set());
@@ -132,6 +140,7 @@ export const LiveTestModal: React.FC<LiveTestModalProps> = ({ isOpen, onClose, e
     setMessages([]);
     setInput("");
     setTyping(false);
+    awaitingPhoneNodeIdRef.current = null;
   }, [isOpen]);
 
   useEffect(() => {
@@ -231,6 +240,19 @@ export const LiveTestModal: React.FC<LiveTestModalProps> = ({ isOpen, onClose, e
           await cont();
           break;
         }
+        case "imagegallery": {
+          const images: Array<{ imageUrl?: string; tempUrl?: string }> = node.data?.images || [];
+          for (const image of images) {
+            const url = image.tempUrl || (image.imageUrl ? baseMediaUrl + image.imageUrl : "");
+            if (!url) continue;
+            setTyping(true);
+            await delay(400);
+            setTyping(false);
+            appendBot({ kind: "image", url });
+          }
+          await cont();
+          break;
+        }
         case "voice": {
           const url = node.data?.tempVoiceUrl || baseMediaUrl + node.data.voiceUrl;
           if (url) {
@@ -264,6 +286,24 @@ export const LiveTestModal: React.FC<LiveTestModalProps> = ({ isOpen, onClose, e
           }
           appendBot({ kind: "quickreply", options, nodeId: node.id });
           // Wait for user action; do not auto-continue
+          break;
+        }
+        case "buttongroup": {
+          const title = node.data?.title as string | undefined;
+          const options: string[] = Array.isArray(node.data?.buttons) ? node.data.buttons : [];
+          if (title) {
+            setTyping(true);
+            await delay(Math.min(1200, Math.max(300, title.length * 20)));
+            setTyping(false);
+            appendBot({ kind: "text", text: title });
+          }
+          if (options.length) {
+            appendBot({ kind: "quickreply", options, nodeId: node.id });
+          }
+          // The regular output continues the flow without waiting for a button click
+          for (const out of getOutgoing(connections, node.id).filter((c) => c.sourceSocketId === "output")) {
+            await runFromNode(out.targetNodeId, visited);
+          }
           break;
         }
         case "generic": {
@@ -326,12 +366,21 @@ export const LiveTestModal: React.FC<LiveTestModalProps> = ({ isOpen, onClose, e
           // Wait for click on button
           break;
         }
+        case "phonenumbergrabber": {
+          // Wait for the user's phone number; handleSend resumes the flow
+          awaitingPhoneNodeIdRef.current = node.id;
+          break;
+        }
+        case "ai": {
+          appendBot({ kind: "text", text: t(LanguageKey.New_Flow_ai_livetest) });
+          break;
+        }
         default: {
           await cont();
         }
       }
     },
-    [nodes, connections, appendBot],
+    [nodes, connections, appendBot, t],
   );
 
   const handleSend = useCallback(async () => {
@@ -339,10 +388,24 @@ export const LiveTestModal: React.FC<LiveTestModalProps> = ({ isOpen, onClose, e
     if (!text) return;
     setInput("");
     appendUser(text);
+
+    const phoneNodeId = awaitingPhoneNodeIdRef.current;
+    if (phoneNodeId) {
+      if (!isValidPhoneNumber(text)) {
+        appendBot({ kind: "text", text: t(LanguageKey.Notify_InvalidPhoneNumber) });
+        return;
+      }
+      awaitingPhoneNodeIdRef.current = null;
+      for (const out of getOutgoing(connections, phoneNodeId)) {
+        await runFromNode(out.targetNodeId);
+      }
+      return;
+    }
+
     if (startNode) {
       await runFromNode(startNode.id);
     }
-  }, [input, appendUser, startNode, runFromNode]);
+  }, [input, appendUser, appendBot, startNode, runFromNode, connections, t]);
 
   const handlePickQuickReply = useCallback(
     async (nodeId: string, index: number, label: string, messageId: string) => {
@@ -364,9 +427,11 @@ export const LiveTestModal: React.FC<LiveTestModalProps> = ({ isOpen, onClose, e
       const allConnsFromNode = connections.filter((c) => c.sourceNodeId === nodeId);
       console.log("All connections from this node:", allConnsFromNode);
 
-      // Try to find connection by index
-      // Method 1: If connections are in order, use index directly
-      const conn = allConnsFromNode[index];
+      // Resolve by button socket so a regular output on the same node does not shift the index
+      const buttonSocketId = node?.buttonOutputs?.[index]?.id;
+      const conn = buttonSocketId
+        ? allConnsFromNode.find((c) => c.sourceSocketId === buttonSocketId)
+        : allConnsFromNode[index];
       console.log("Connection at index", index, ":", conn);
 
       if (conn) {
@@ -424,6 +489,7 @@ export const LiveTestModal: React.FC<LiveTestModalProps> = ({ isOpen, onClose, e
     setClickedQuickReplies(new Set());
     setClickedGenericButtons(new Set());
     lastUserIdRef.current = null;
+    awaitingPhoneNodeIdRef.current = null;
     if (seenTimerRef.current) clearTimeout(seenTimerRef.current);
   }, []);
 

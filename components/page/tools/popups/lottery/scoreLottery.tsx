@@ -10,30 +10,17 @@ import { MethodType } from "brancy/helper/api";
 import { useSession } from "next-auth/react";
 import router from "next/router";
 import { useTranslation } from "react-i18next";
-import {
-  InternalResponseType,
-  NotifType,
-  ResponseType,
-  internalNotify,
-  notify,
-} from "brancy/components/notifications/notificationBox";
+import { NotifType, ResponseType, notify } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
 import NotAllowed from "brancy/components/notOk/notAllowed";
-import checkFeature from "brancy/helper/checkFeature";
 import { RoleAccess } from "brancy/helper/loadingStatus";
 import initialzedTime, { convertToMilliseconds } from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
 
 import styles from "./scoreLottery.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-import { ILotteryInfo, IPageInfo, IPsgFeatureInfo, IShortPostInfo } from "brancy/models/interfaces";
-import {
-  ShowScoreLotteryType,
-  lotterySpecificationType,
-  LotteryType,
-  PartnerRole,
-  PsgFeatureType,
-} from "brancy/models/enums";
+import { ILotteryInfo, IPageInfo, IShortPostInfo } from "brancy/models/interfaces";
+import { ShowScoreLotteryType, lotterySpecificationType, LotteryType, PartnerRole } from "brancy/models/enums";
 
 const basePictureUrl = getClientMediaBaseUrl();
 const ScoreLottery = (props: {
@@ -42,7 +29,6 @@ const ScoreLottery = (props: {
   lotteryInfo: ILotteryInfo;
   shortPost: IShortPostInfo | null;
   unixData: number | null;
-  featureInfo: IPsgFeatureInfo | null;
   saveScoreLottery: (scoreLottery: ILotteryInfo) => Promise<void>;
   showSpecification: (scoreLottery: ILotteryInfo, lotterySpecification: lotterySpecificationType) => void;
 }) => {
@@ -56,7 +42,6 @@ const ScoreLottery = (props: {
       noResult: false,
     });
     setPageInfo([]);
-    ///setSelectedPeaple(null);
     var query = e.currentTarget.value;
     setInputText(e.target.value);
     setSearchTerm(e.target.value);
@@ -81,9 +66,6 @@ const ScoreLottery = (props: {
       router.push("/");
     },
   });
-  // const [minMentionCount, setMinMentionCount] = useState(
-  //   props.data.minMentionCount ? props.data.minMentionCount : 1
-  // );
 
   const [thumbnailUrl, setThumbnailUrl] = useState<string | null>(null);
   const [filterKeywords, setFilterKeywords] = useState<string[]>([]);
@@ -130,43 +112,20 @@ const ScoreLottery = (props: {
     lotteryInfo.successFollowerMessage,
   ]);
 
-  // const [activeAlternativePage, setActiveAlternativePage] = useState(
-  //   props.data.ShouldFollowOtherPage !== null
-  // );
   const [inputText, setInputText] = useState("");
   const [pageInfo, setPageInfo] = useState<IPageInfo[]>();
-  // const [selectedPages, setSelectedPages] = useState<IPageInfo[] | null>(
-  //   props.data.ShouldFollowOtherPage?.map((x) => {
-  //     let a: IPageInfo = {
-  //       fullName: x.userName,
-  //       isPrivate: false,
-  //       userName: x.userName,
-  //       isVerified: false,
-  //       pk: x.pk,
-  //       profilePicUrl: x.profileUrl,
-  //     };
-  //     return a;
-  //   }) ?? []
-  // );
   const [showSearchPeople, setShowSearchPeople] = useState({
     loading: false,
     noResult: false,
   });
   const [loadinStatus, setLoadinStatus] = useState(true);
-  function handleActiveScore() {
-    // setSelectedPages([]);
-    // setFollowMyPage(false);
-    // setActiveAlternativePage(false);
-    // setSelectedPages(null);
-    // setActiveScore(!aciveScore);
-  }
+  function handleActiveScore() {}
 
   function handleShowSpeccification(lotterySpecification: lotterySpecificationType) {
     props.showSpecification(lotteryInfo, lotterySpecification);
   }
 
   async function handleNextStep() {
-    console.log("lotteryInfo", lotteryInfo);
     await props.saveScoreLottery(lotteryInfo);
   }
   async function handleGetPostInfo(postInfo: number) {
@@ -186,7 +145,6 @@ const ScoreLottery = (props: {
   }
   async function handleApiPeopleSearch(query: string) {
     try {
-      console.log("start searched people ", query);
       var res = await clientFetchApi<boolean, IPageInfo[]>("/api/instagramer/searchPeople", {
         methodType: MethodType.get,
         session: session,
@@ -199,13 +157,6 @@ const ScoreLottery = (props: {
         for (let i = 0; i < res.value.length; i++) {
           var item = res.value[i];
           let existed = false;
-          // if (selectedPages)
-          //   for (let j = 0; j < selectedPages?.length; j++) {
-          //     if (selectedPages[j].pk == item.pk) {
-          //       existed = true;
-          //       break;
-          //     }
-          //   }
           if (item.username != session?.user.username && !existed) {
             pages.push(item);
           }
@@ -213,7 +164,6 @@ const ScoreLottery = (props: {
         setPageInfo(pages);
         setShowSearchPeople({ loading: false, noResult: false });
       } else if (res.succeeded && res.value.length === 0) {
-        console.log("ddddddddddddddddd", res.value);
         setShowSearchPeople({ loading: false, noResult: true });
       } else if (!res.succeeded) {
         notify(res.info.responseType, NotifType.Warning);
@@ -226,15 +176,7 @@ const ScoreLottery = (props: {
   async function fetchData() {
     if (!session) return;
     if (!RoleAccess(session, PartnerRole.Automatics)) return;
-    if (!props.featureInfo) {
-      internalNotify(InternalResponseType.NotFeature, NotifType.Warning);
-      props.removeMask();
-      return;
-    }
-    const featureIsCheck = checkFeature(PsgFeatureType.Lottery, props.featureInfo);
-    if (!featureIsCheck) router.push("/upgrade");
     if (props.showScoreLottery === ShowScoreLotteryType.Back) {
-      console.log("props.showScoreLottery", props.lotteryInfo);
       setLotteryInfo(props.lotteryInfo);
       setLoadinStatus(false);
       return;
@@ -247,7 +189,6 @@ const ScoreLottery = (props: {
   }
   async function handleGetLotteryInfo() {
     try {
-      console.log("props.showScoreLottery", props.showScoreLottery);
       const res = await clientFetchApi<boolean, ILotteryInfo>("/api/lottery/GetLotteryInfo", {
         methodType: MethodType.get,
         session: session,
@@ -267,7 +208,7 @@ const ScoreLottery = (props: {
   }
   useEffect(() => {
     fetchData();
-  }, [props.featureInfo]);
+  }, []);
   useEffect(() => {
     if (props.shortPost) {
       setThumbnailUrl(props.shortPost.thumbnailMediaUrl);
@@ -292,8 +233,6 @@ const ScoreLottery = (props: {
   return (
     <>
       {loadinStatus && <Loading />}
-      {/* {loadinStatus.notBasePackage && <NotBasePackage />} */}
-      {/* {loadinStatus.notFeature && <NotFeature />} */}
       {!loadinStatus && (
         <>
           <div className={styles.scoreLotteryLeftContainer}>

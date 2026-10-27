@@ -244,25 +244,8 @@ function Filter(props: {
     props.handleApplyFilter(newSideBarInfo);
   };
   const handleSearchPeopleInputChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    // setShowAddPeapleBox(true);
     var query = e.currentTarget.value;
     setSearchPeaple(query);
-    // setPageInfo([]);
-    // setSelectedPeaple(null);
-    // if (peopleTimeOutId) clearTimeout(peopleTimeOutId);
-    // if (query.length > 0) {
-    //   let timeOutId = setTimeout(() => {
-    //     if (query && query.length > 0) {
-    //       if (peopleLocked) return;
-    //       setPeopleLocked(true);
-    //       handleApiPeopleSearch(query);
-    //       setTimeout(() => {
-    //         setPeopleLocked(false);
-    //       }, 2000);
-    //     }
-    //   }, 1000);
-    //   setPeopleTimeOutId(timeOutId);
-    // }
   };
   return (
     <div className={`${styles.left} ${props.isLeftVisible ? styles.visible : ""}`}>

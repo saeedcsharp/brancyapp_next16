@@ -45,16 +45,12 @@ const UserPanelHeader: React.FC<UserPanelHeaderProps> = ({
       setIsFullscreen(false);
     }
   };
-  // const [navbarNotifs, setNavbarNotifs] = useState<PushNotif[]>([]);
   const { value, setValue, userInfo } = use(InstaInfoContext) ?? {};
   function handleGetNotif(notif: string) {
-    console.log("Notif in user navbar header", notif);
     const decombNotif = handleDecompress(notif);
-    console.log("decombNotif in user navbar header", decombNotif);
     const notifObj = JSON.parse(decombNotif!) as PushNotif;
     if (notifObj.IsNavbar) {
       console.log("decomb Message in user navbar header", JSON.parse(notifObj.Message!));
-      // setNavbarNotifs((prev) => [notifObj, ...prev]);
       if (setValue && session!.user.currentIndex === -1) setValue((prev) => [notifObj, ...prev]);
       if (!showNotifBar) setGooli(true);
     }
@@ -71,7 +67,6 @@ const UserPanelHeader: React.FC<UserPanelHeaderProps> = ({
       if (!isFirstLoad) return;
       const hubConnection = getHubConnection();
       if (hubConnection) {
-        console.log("user interval pushnotif");
         hubConnection.off("User", handleGetNotif);
         hubConnection.on("User", handleGetNotif);
         clearInterval(intervalId);

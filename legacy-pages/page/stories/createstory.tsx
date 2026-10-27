@@ -147,6 +147,7 @@ const CreateStory = ({ showNotAllowed = false }: { showNotAllowed?: boolean }) =
                   replySuccessfullyDirected: autoReply.replySuccessfullyDirected,
                   productId: autoReply.productId,
                   customRepliesSuccessfullyDirected: autoReply.customRepliesSuccessfullyDirected,
+                  isContain: autoReply.isContain ?? true,
                 }
               : null,
             preStoryId: preStoryId,
@@ -201,6 +202,7 @@ const CreateStory = ({ showNotAllowed = false }: { showNotAllowed?: boolean }) =
                   replySuccessfullyDirected: autoReply.replySuccessfullyDirected,
                   productId: autoReply.productId,
                   customRepliesSuccessfullyDirected: autoReply.customRepliesSuccessfullyDirected,
+                  isContain: autoReply.isContain ?? true,
                 }
               : null,
             uiParameters: null,
@@ -595,6 +597,7 @@ const CreateStory = ({ showNotAllowed = false }: { showNotAllowed?: boolean }) =
                   sendPr: draft.automaticReplyInfo.sendPr,
                   replySuccessfullyDirected: draft.automaticReplyInfo.replySuccessfullyDirected,
                   productId: draft.automaticReplyInfo.productId,
+                  isContain: draft.automaticReplyInfo.isContain ?? true,
                   customRepliesSuccessfullyDirected: draft.automaticReplyInfo.customRepliesSuccessfullyDirected || [],
                 }
               : {
@@ -695,6 +698,7 @@ const CreateStory = ({ showNotAllowed = false }: { showNotAllowed?: boolean }) =
                   sendPr: preStory.automaticMediaReply.sendPr,
                   replySuccessfullyDirected: preStory.automaticMediaReply.replySuccessfullyDirected,
                   productId: preStory.automaticMediaReply.productId,
+                  isContain: preStory.automaticMediaReply.isContain ?? true,
                   customRepliesSuccessfullyDirected:
                     preStory.automaticMediaReply.customRepliesSuccessfullyDirected || [],
                 }
@@ -863,6 +867,7 @@ const CreateStory = ({ showNotAllowed = false }: { showNotAllowed?: boolean }) =
       sendCount: 0,
       replySuccessfullyDirected: sendAutoReply.replySuccessfullyDirected,
       productId: sendAutoReply.productId,
+      isContain: sendAutoReply.isContain ?? true,
       customRepliesSuccessfullyDirected: sendAutoReply.customRepliesSuccessfullyDirected || [],
     });
     setShowQuickReplyPopup(false);

@@ -1,5 +1,7 @@
 # legacy-pages/api
 
+> `legacy-pages/` is not a Pages Router directory, so files here are not served as API routes (verified against the 2026-09-30 build output). Only `health.ts` remains; `hello.ts` and `get-address.ts` were removed on 2026-09-30.
+
 ## Purpose
 
 Legacy page module for api routes and workflows.
@@ -155,13 +157,14 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 This document is part of the project knowledge base.
 
 Before modifying related code:
+
 - Read this document.
 - Understand the documented architecture and rules.
 
 After modifying related code:
+
 - Update this document if information changed.
 
 Keep documentation synchronized with the implementation.
 
 ---
-

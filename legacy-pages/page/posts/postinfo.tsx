@@ -211,7 +211,7 @@ const ShowPost = () => {
   const [activeChildUrl, setActiveChildUrl] = useState<string>("");
   const [autoReply, setAutoReply] = useState<IAutomaticReply>({
     items: [],
-    response: "hi",
+    response: null,
     sendPr: false,
     shouldFollower: false,
     automaticType: 0,
@@ -411,6 +411,7 @@ const ShowPost = () => {
                 prompt: res.value.commentMedia?.automaticCommentReply.prompt,
                 sendCount: res.value.commentMedia?.automaticCommentReply.sendCount,
                 productId: res.value.commentMedia?.automaticCommentReply.productId || null,
+                isContain: res.value.commentMedia?.automaticCommentReply.isContain ?? true,
                 customRepliesSuccessfullyDirected:
                   res.value.commentMedia?.automaticCommentReply.customRepliesSuccessfullyDirected || [],
               });

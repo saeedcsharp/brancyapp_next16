@@ -7,6 +7,7 @@
 - `redirectInterface` uses an allowlist to prevent arbitrary redirects.
 - Next image configuration allows SVG with a restrictive content security policy.
 - API proxy deletes session cookies on upstream 401.
+- Never log credentials, verification codes, `Authorization` headers, access/refresh/socket tokens, or whole NextAuth session objects (which contain tokens). Such logs were removed from `app/api/auth/[...nextauth]/route.ts`, `app/directlogin/page.tsx`, the message inboxes, `legacy-pages/home`, and `legacy-pages/message/comments.tsx` on 2026-09-30. A second repo-wide pass removed the null-session `"session ", session` logs in the direct, comment, and ticket inboxes and the RefreshToken response log in `legacy-pages/user/setting/index.tsx`.
 
 ## Risks
 

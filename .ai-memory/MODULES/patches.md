@@ -1,5 +1,7 @@
 # patches
 
+> As of 2026-09-30 no `patches/` folder exists in the repository. The `postinstall` script still runs `patch-package`, which applies nothing.
+
 ## Purpose
 
 Patch-package storage folder.
@@ -155,13 +157,14 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 This document is part of the project knowledge base.
 
 Before modifying related code:
+
 - Read this document.
 - Understand the documented architecture and rules.
 
 After modifying related code:
+
 - Update this document if information changed.
 
 Keep documentation synchronized with the implementation.
 
 ---
-

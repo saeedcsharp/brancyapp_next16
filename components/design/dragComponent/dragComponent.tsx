@@ -26,9 +26,7 @@ const DragComponent = (props: {
   const [lastClickTime, setLastClickTime] = useState<number>(0);
 
   const track = (data: DraggableData) => {
-    console.log("width", divRef.current?.clientWidth);
     setPosition({ x: data.x, y: data.y });
-    console.log("x", data.x, "y", data.y);
   };
 
   const handleClick = () => {
@@ -77,9 +75,6 @@ const DragComponent = (props: {
         nodeRef={divRef}
         onStop={() => {
           let p = position;
-          console.log("P", p);
-          // p.x = p.x + 0.5 * (divRef.current?.clientWidth ?? 0);
-          console.log("P2", p);
           props.handleStopDrag(props.username, p, 0.5 * (divRef.current?.clientWidth ?? 0), -8);
         }}
         handle="#m"

@@ -45,7 +45,7 @@ export default function AIWithPrompt({ aiLoading, handleAIPromptSubmit, buttonPr
         <AiPrompt aiLoading={aiLoading} handleAIPromptSubmit={handleSubmit} onClose={handleClosePrompt} tags={tags} />
       )}
       <Modal closePopup={() => setShowNotFeature(false)} classNamePopup="popupSendFile" showContent={showNotFeature}>
-        <NotFeature onClose={() => setShowNotFeature(false)} />
+        <NotFeature onClose={() => setShowNotFeature(false)} upgradeQuery={{ section: "ai" }} />
       </Modal>
     </div>
   );

@@ -320,6 +320,18 @@ const getResponseTextLegacy = (responseType: ResponseType): string => {
     [ResponseType.NotBusinesser]: LanguageKey.Notify_NotBusinesser,
     [ResponseType.NotFoundAnySuggestedCategory]: LanguageKey.Notify_NotFoundAnySuggestedCategory,
     [ResponseType.NoInvoiceExist]: LanguageKey.Notify_NoInvoiceExist,
+    [ResponseType.InvalidMediaAiCreatorKey]: LanguageKey.Notify_InvalidMediaAiCreatorKey,
+    [ResponseType.InvalidMediaAiVersionKey]: LanguageKey.Notify_InvalidMediaAiVersionKey,
+    [ResponseType.InvalidMediaAiRequestModel]: LanguageKey.Notify_InvalidMediaAiRequestModel,
+    [ResponseType.MediaAIError]: LanguageKey.Notify_MediaAIError,
+    [ResponseType.TwitchChannelDoestHaveAnyVideo]: LanguageKey.Notify_TwitchChannelDoestHaveAnyVideo,
+    [ResponseType.CouponAlreadyDeleted]: LanguageKey.Notify_CouponAlreadyDeleted,
+    [ResponseType.CouponNotDeleted]: LanguageKey.Notify_CouponNotDeleted,
+    [ResponseType.ExceedSubFlowCount]: LanguageKey.Notify_ExceedSubFlowCount,
+    [ResponseType.ExceedFlowDepth]: LanguageKey.Notify_ExceedFlowDepth,
+    [ResponseType.ExceedFlowItemCount]: LanguageKey.Notify_ExceedFlowItemCount,
+    [ResponseType.ExceedFlowMediaAudioCount]: LanguageKey.Notify_ExceedFlowMediaAudioCount,
+    [ResponseType.OneFlowButtonHasEmptyItem]: LanguageKey.Notify_OneFlowButtonHasEmptyItem,
   };
 
   const languageKey = responseTextMap[responseType];
@@ -744,6 +756,18 @@ const getResponseText = (responseType: ResponseType, t: (key: LanguageKey) => st
     [ResponseType.NotBusinesser]: LanguageKey.Notify_NotBusinesser,
     [ResponseType.NotFoundAnySuggestedCategory]: LanguageKey.Notify_NotFoundAnySuggestedCategory,
     [ResponseType.NoInvoiceExist]: LanguageKey.Notify_NoInvoiceExist,
+    [ResponseType.InvalidMediaAiCreatorKey]: LanguageKey.Notify_InvalidMediaAiCreatorKey,
+    [ResponseType.InvalidMediaAiVersionKey]: LanguageKey.Notify_InvalidMediaAiVersionKey,
+    [ResponseType.InvalidMediaAiRequestModel]: LanguageKey.Notify_InvalidMediaAiRequestModel,
+    [ResponseType.MediaAIError]: LanguageKey.Notify_MediaAIError,
+    [ResponseType.TwitchChannelDoestHaveAnyVideo]: LanguageKey.Notify_TwitchChannelDoestHaveAnyVideo,
+    [ResponseType.CouponAlreadyDeleted]: LanguageKey.Notify_CouponAlreadyDeleted,
+    [ResponseType.CouponNotDeleted]: LanguageKey.Notify_CouponNotDeleted,
+    [ResponseType.ExceedSubFlowCount]: LanguageKey.Notify_ExceedSubFlowCount,
+    [ResponseType.ExceedFlowDepth]: LanguageKey.Notify_ExceedFlowDepth,
+    [ResponseType.ExceedFlowItemCount]: LanguageKey.Notify_ExceedFlowItemCount,
+    [ResponseType.ExceedFlowMediaAudioCount]: LanguageKey.Notify_ExceedFlowMediaAudioCount,
+    [ResponseType.OneFlowButtonHasEmptyItem]: LanguageKey.Notify_OneFlowButtonHasEmptyItem,
   };
 
   const languageKey = responseTextMap[responseType];
@@ -1266,6 +1290,18 @@ export enum ResponseType {
   NotBusinesser,
   NotFoundAnySuggestedCategory,
   NoInvoiceExist,
+  InvalidMediaAiCreatorKey,
+  InvalidMediaAiVersionKey,
+  InvalidMediaAiRequestModel,
+  MediaAIError,
+  TwitchChannelDoestHaveAnyVideo,
+  CouponAlreadyDeleted,
+  CouponNotDeleted,
+  ExceedSubFlowCount,
+  ExceedFlowDepth,
+  ExceedFlowItemCount,
+  ExceedFlowMediaAudioCount,
+  OneFlowButtonHasEmptyItem,
 }
 export enum InternalResponseType {
   Ok = 0,
