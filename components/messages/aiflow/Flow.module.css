@@ -626,21 +626,24 @@ html[dir="rtl"] .contextMenu {
 .mobilemenu {
   width: fit-content;
   display: flex;
-  padding: 8px;
-  max-height: 55vh;
-  max-height: 55dvh;
+
+  max-height: 70vh;
+  left: 10px;
+  background-color: var(--background-root);
   overflow-y: auto;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
   flex-shrink: 0;
-  gap: 10px;
-  bottom: 43px;
+  bottom: 52px;
+  border-radius: 10px;
+
   position: relative;
   flex-direction: column;
-  animation: scale-in-br 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation: scale-in-bl 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 html[dir="rtl"] .mobilemenu {
-  animation: scale-in-bl 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation: scale-in-br 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both !important;
+  left: -10px;
 }
 @keyframes scale-in-bl {
   0% {
@@ -673,19 +676,18 @@ html[dir="rtl"] .mobilemenu {
   align-items: center;
   gap: 12px;
   width: 100%;
-  padding: 14px;
-  flex-shrink: 0;
-
-  border: none;
+  padding: 5px 10px;
+  border-block-end: 1px solid var(--color-gray10);
+  max-height: 40px;
+  height: 40px;
   justify-content: flex-start;
   background-color: var(--background-root);
   color: var(--text-h1);
-  border-radius: var(--br15);
-  font-size: var(--font-14);
+  font-size: var(--font-12);
   font-weight: var(--weight-400);
   cursor: pointer;
   transition: var(--transition2);
-  text-align: left;
+  text-align: start;
 }
 html[dir="rtl"] .mobilemenuitem {
   flex-direction: row-reverse;
@@ -710,10 +712,14 @@ html[dir="rtl"] .header {
   flex-direction: row-reverse;
 }
 .backicon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
   background-color: var(--color-dark-blue30);
-  width: 40px;
+  width: 44px;
   padding: var(--padding-10);
-  height: 40px;
+  height: 44px;
   border-radius: var(--br10);
   cursor: pointer;
   transition: var(--transition3);
@@ -721,6 +727,10 @@ html[dir="rtl"] .header {
 }
 .backicon:hover {
   border: 1px solid var(--color-dark-blue);
+}
+.backicon:focus-visible {
+  outline: 2px solid var(--color-dark-blue);
+  outline-offset: 2px;
 }
 html[dir="rtl"] .backicon {
   rotate: 180deg;

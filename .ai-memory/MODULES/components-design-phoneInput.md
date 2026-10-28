@@ -19,6 +19,7 @@ Dependency-free, SSR-compatible React phone input with a country selector and a 
 - Suggestions and normal countries are rendered as separate groups with a divider; an unmatched search renders only `No country found` and never falls back to the full list.
 - `onlyCountries` and `excludeCountries` constrain the list.
 - Persian and Arabic-Indic digits are normalized to ASCII digits. Country masks use `_` as the digit placeholder; formatting and validation normalize the raw number again so typed and pasted values follow the same path.
+- A leading `0` entered or pasted into the national-number field is removed before formatting and callbacks; subsequent zeroes are preserved.
 - The dial code is editable; an incomplete or unknown dial code disables the national-number input and exposes an ARIA error state.
 - Clearing the dial code hides the flag, displays a warning icon, marks the country field red, and disables the national-number input until a valid complete dial code is entered.
 - An unknown or incomplete dial code also replaces the country flag with the warning icon; the flag is shown only after a complete dial code from the country catalog is entered.

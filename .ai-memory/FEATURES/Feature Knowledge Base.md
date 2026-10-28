@@ -52,6 +52,10 @@ Medium
 
 The Flow phone-number Excel export has its own active catalog record for the Message Properties route and documents its download-icon entry point, modal Export action, and six-month start-date limit in the localized description.
 
+The existing AI prompts/visual Flows record also documents Connect to a post on saved Flow and AI prompt cards and both search lists, including replacement/activation confirmation and keyword preservation. Both modes require Instagram comment permission and Automatics/Comment access. Flow additionally requires message permission and private-reply compatibility; AI comment delivery does not require message permission, while existing private delivery is preserved only with that permission. The catalog's suggested content angle is now a workflow demonstration. This expands the existing record rather than adding a second automation capability.
+
+That record now describes the card dashboard, full-width editors, loaded-item search/sorting and verified connected-post thumbnails. Post connection opens directly from a saved card's Not connected text, or from the connection tile beside existing post thumbnails; card-level three-dot menus are removed. `automationTemplatesPrototype` is a separate audit-only record: its clearly labeled sample carousel cannot create an automation and must not be marketed as working templates. The structured `aiFlows` catalog record remains accurate without a schema/access change; active record counts are unchanged.
+
 Role totals overlap because a single record can serve more than one role.
 
 ## Access Model

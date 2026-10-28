@@ -1,5 +1,36 @@
 export default {
   translation: {
+    Automation_flow_templates: "قالب‌های فلو",
+    Automation_ai_templates: "قالب‌های هوش مصنوعی",
+    Automation_sample: "نمونه",
+    Automation_sample_notice: "می‌توانید از قالب‌های از پیش ساخته‌شده استفاده کنید و آن‌ها را تغییر دهید",
+    Automation_template_number: "قالب شماره {{number}}",
+    Automation_beginner: "مبتدی",
+    Automation_intermediate: "متوسط",
+    Automation_advanced: "پیشرفته",
+    Automation_trending: "پرطرفدار",
+    Automation_sample_cart: "بازیابی سبد خرید فروشگاه",
+    Automation_sample_cart_description:
+      "ایده نمونه: به خریداران کمک کنید به سبد خرید برگردند و پاسخ پرسش‌هایشان را بگیرند.",
+    Automation_sample_language: "گفت‌وگوی چندزبانه",
+    Automation_sample_language_description: "ایده نمونه: مخاطب را به گفت‌وگو با زبان دلخواهش راهنمایی کنید.",
+    Automation_sample_support: "دستیار پشتیبانی مشتری",
+    Automation_sample_support_description:
+      "ایده نمونه: به پرسش‌های پرتکرار پاسخ دهید و مشتری را به مرحله بعد راهنمایی کنید.",
+    Automation_sample_welcome: "خوشامدگویی به مشتریان جدید",
+    Automation_sample_welcome_description:
+      "ایده نمونه: به مخاطب جدید خوشامد بگویید و محصولات و خدماتتان را معرفی کنید.",
+    Automation_flow_history: "فلوهای من",
+    Automation_ai_history: "دستورهای هوش مصنوعی من",
+    Automation_loaded_count: "تعداد موارد بارگذاری‌شده؛ علامت + یعنی موارد بیشتری وجود دارد.",
+    Automation_sort_newest: " جدیدترین",
+    Automation_sort_oldest: " قدیمی‌ترین",
+    Automation_sort_title: " بر اساس نام",
+    Automation_connected_posts: "پست‌های متصل",
+    Automation_not_connected: "به هیچ پستی متصل نشده است.",
+    Automation_connections_access: "برای دیدن اتصال‌ها، دسترسی کامنت و مجوز بخش‌های خودکارسازی و کامنت لازم است.",
+    Automation_checking_connections: "در حال بررسی اتصال به پست‌ها…",
+    Automation_connections_retry: "بررسی همه اتصال‌ها انجام نشد؛ دوباره تلاش کنید.",
     aiSuggestedPrompts_title: "پرامپت‌های پیشنهادی",
     aiSuggestedPrompts_openImage: "باز کردن تصویر به‌صورت تمام‌صفحه",
     aiSuggestedPrompts_explain: "یک پرامپت را برای شروع انتخاب کنید.",
@@ -2688,6 +2719,20 @@ export default {
     AIFlow_block_title_required: "لطفاً عنوان بلوک را وارد کنید (الزامی)",
     AIFlow_item_title: "عنوان آیتم:",
     AIFlow_show_graph: "نمایش نمودار جریان",
+    AIFlow_connect_post: "اتصال به پست",
+    AIFlow_connect_post_access: "دسترسی کامنت و پیام اینستاگرام و مجوز بخش‌های خودکارسازی و کامنت لازم است.",
+    AIFlow_connect_post_save_first: "پیش از اتصال به پست، این فلو را ذخیره کنید.",
+    AIFlow_connect_post_confirm:
+      "این فلو جایگزین پاسخ خودکار فعلی پست می‌شود و فعال خواهد شد. کلمات کلیدی و روش تطبیق قبلی حفظ می‌شوند؛ اگر کلمه کلیدی وجود نداشته باشد، فلو به همه کامنت‌ها پاسخ می‌دهد.",
+    AIFlow_connect_post_resume: "اتصال فلو ذخیره شد، اما فعال‌سازی ناموفق بود. دوباره برای فعال‌سازی تلاش کنید.",
+    AIFlow_connect_post_incompatible:
+      "این فلو با پاسخ خصوصی کامنت سازگار نیست. پیش از اتصال، فلو را ویرایش و ذخیره کنید.",
+    AIFlow_retry: "تلاش دوباره",
+    AIPrompt_connect_post_access: "دسترسی کامنت اینستاگرام و مجوز بخش‌های خودکارسازی و کامنت لازم است.",
+    AIPrompt_connect_post_confirm:
+      "این هوش مصنوعی جایگزین پاسخ خودکار فعلی پست می‌شود و فعال خواهد شد. کلمات کلیدی و روش تطبیق قبلی حفظ می‌شوند؛ بدون کلمه کلیدی، به همه کامنت‌ها پاسخ داده می‌شود. ارسال خصوصی فقط با دسترسی پیام حفظ می‌شود؛ در غیر این صورت پاسخ‌ها به‌صورت کامنت ارسال می‌شوند.",
+    AIPrompt_connect_post_resume:
+      "اتصال هوش مصنوعی ذخیره شد، اما فعال‌سازی ناموفق بود. دوباره برای فعال‌سازی تلاش کنید.",
     messagesetting_PhoneNumbers: "شماره‌های تلفن",
     messagesetting_PhoneNumbersExplain: "شماره‌های تلفنی که از مشتریان شما از طریق جریان‌ها جمع‌آوری شده است",
     messagesetting_PhoneNumbersEmpty: "هنوز شماره تلفنی جمع‌آوری نشده است",

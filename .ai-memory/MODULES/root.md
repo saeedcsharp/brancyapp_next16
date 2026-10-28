@@ -90,6 +90,11 @@ Enums are in local files or shared `models/enums.ts`.
 
 ## Configuration
 
+The team-shared `.vscode/mcp.json` configures Patran Swagger inspection for
+Copilot development only; it does not participate in Next.js builds or API
+request routing. See [MCP configuration](../CONFIGURATIONS.md#patran-swagger-mcp)
+and the API-contract rules in `.github/copilot-instructions.md`.
+
 Configuration is local to the folder unless documented in `CONFIGURATIONS.md`.
 
 ## Database Usage
@@ -164,4 +169,3 @@ After modifying related code:
 Keep documentation synchronized with the implementation.
 
 ---
-

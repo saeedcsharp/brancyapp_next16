@@ -1,3 +1,14 @@
+- Verify title-initial avatars visually in both Flow/AI tabs, including Persian/Latin names, single-character names, drafts, search results, reordered cards, RTL and dark mode. Template SVG icons must remain unchanged.
+- Verify native Not connected text buttons and connection tiles beside existing thumbnails with an authenticated account in both Flow/AI normal/search lists: pointer/Enter/Space activation, no editor opening, draft/access blocking, RTL/mobile and adding multiple posts. Sorting must remain unchanged after removing card-level connection menus.
+- Verify the redesigned Flow/AI dashboard with an authenticated backend, especially complete post-card cursor traversal, post-detail permissions, replacement thumbnail movement, activation-only retry, account changes, searched cursor pages, drafts, saved-flow deep links, mobile RTL and dark mode. Add a dedicated backend automation-to-post listing contract to replace the account-wide `GetPostCards`/`GetPostInfo` scan. Template previews remain non-actionable samples until a real template contract is supplied; replace sample badges and metadata only with verified data.
+- Verify Flow/AI-card post connections against an authenticated backend, including desktop/mobile RTL, normal/search cards in both toggles, incompatible Flows, permission-denied partners, AI comment replies without message permission, permitted private delivery, keyword preservation, replacement confirmation, and partial activation failure/retry. TypeScript and 23 AI/Flow synthetic cases currently pass; add durable component/browser coverage when a UI test harness is introduced.
+- Add component coverage confirming Character Sheet Undo/Redo restores serializable editor state without persisting or mutating reference object URLs when a UI test harness is introduced.
+
+- Add component/browser coverage for Character Sheet dynamic section numbering with hidden Advanced attributes, per-attribute locking, and reset-all local draft behavior when a UI test harness is introduced.
+- Add component coverage for Character Sheet type-driven prompt templates, including expected prompt field changes for each identity type and no API/network requests when a UI test harness is introduced.
+- Add component coverage confirming locked attributes become non-editable and appear in the final local prompt payload with exact-preservation reference instructions when a UI test harness is introduced.
+- Add component coverage for Character Sheet prompt preview Readable/JSON mode switching, copy/download actions, and safe localStorage draft persistence/restore excluding reference image object URLs when a UI test harness is introduced.
+- Add component coverage confirming Character Sheet Auto mode hides the identity attributes accordion, Advanced mode renders it, and the selected mode is included in the local JSON preview when a UI test harness is introduced.
 - Confirm backend support for the AI Flow `buttongroup` (`data.title`, `data.buttons`, regular `output` plus `buttonOutputs`), `imagegallery` (`data.images`, up to `IMAGE_GALLERY_MAX_ITEMS`), and `ai` (`data.promptId`, `data.promptTitle`, no outputs) node types.
 - Confirm backend support for the AI Flow `masterflow` node type (`data.masterFlowId`, `data.flowTitle`, no outputs, reached only from button sockets).
 - Decide whether the `ai` block should load prompts incrementally (scroll/`useInfiniteScroll`) instead of the current 10-page one-pass fetch, and implement AI replies in Live Test; optionally add a connections list to the `ai` and `buttongroup` tutorials.
@@ -150,7 +161,7 @@
 
 - Add component coverage confirming the Meta direct-login initial loading phrases hydrate without text mismatches and its verification request is sent only once when React Strict Mode replays effects.
 - Add component/browser coverage for the AI workspace order: shared ToggleButton Image/Video tabs inside the model panel, matching creator loading after tab changes, empty/error state placement in the settings panel, creator submission, and the corresponding library below the creator when a UI test harness is introduced.
-- Add component/browser coverage for the local-only Visual Identity tab: confirm it never invokes media creator/API paths, switches between Auto and Advanced steps, changes dynamic controls by identity type, revokes reference object URLs, preserves lock and constraint state during the mounted session, and remains usable in mobile and RTL layouts.
+- Add component/browser coverage for the local-only Visual Identity editor: confirm it never invokes media creator/API paths, exposes the correct type-specific attribute fields, includes attribute values in the JSON preview, revokes reference object URLs, and remains usable in mobile and RTL layouts.
 - Add browser coverage for the AI workspace responsive layout at `840px`, confirming the capped history column and flexible creator column above the breakpoint, then creator-first full-width stacking below it.
 - Add component/browser coverage confirming the AI model trigger opens `AiModelList`, lists all creators/models, updates the visible selection, closes after selection, and remains usable on mobile and RTL layouts when a UI test harness is introduced.
 
@@ -225,6 +236,7 @@
 - Add integration coverage for `GetVideos` status filtering, `nextMaxId` pagination, duplicate prevention, empty responses, and failed history requests when test infrastructure is introduced.
 - Add component/browser coverage for AI video-library thumbnail behavior, including `imageUrl` fallback to `/cover-video.svg`, card-click modal opening, and in-modal video playback controls/audio when a UI test harness is introduced.
 - Add component coverage for country search, dial-code selection, controlled E.164 values, formatting, and keyboard navigation when a UI test harness is introduced.
+- Extend PhoneInput component coverage to verify a single leading `0` is removed on typed and pasted national numbers while later zeroes remain unchanged when a UI test harness is introduced.
 - Add component coverage for the PhoneInput portalled dropdown, including viewport positioning, scroll/resize updates, and option clicks outside the component root when a UI test harness is introduced.
 - Add component coverage for the Tooltip portal, directional viewport positioning, scroll/resize updates, and click-outside behavior when a UI test harness is introduced.
 - Add component/browser coverage for OTP verification, including one-request submission under WebOTP/manual overlap, repeated Enter/click protection, Persian/Arabic-Indic paste, incorrect-code shake and reset, timer expiry, and unmount cleanup when a UI test harness is introduced.
@@ -271,3 +283,4 @@ After modifying related code:
 Keep documentation synchronized with the implementation.
 
 ---
+- Patran Swagger MCP onboarding: fresh-process protocol tests and actual Copilot tool calls passed on 2026-10-27. On a teammate's machine or after changing the Copilot host, confirm startup/trust and tool availability using `CONFIGURATIONS.md`; a full VS Code close/reopen was not tested here. Restart the server after backend schema changes because the specification cache lasts for the process lifetime.

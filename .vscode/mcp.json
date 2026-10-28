@@ -1,0 +1,12 @@
+{
+  "servers": {
+    "patran-swagger": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["--yes", "--ignore-scripts", "@emreyc/swagger-mcp@0.2.1"],
+      "env": {
+        "API_DOCS_URL": "https://api.patran.ir/swagger/v1/swagger.json"
+      }
+    }
+  }
+}
