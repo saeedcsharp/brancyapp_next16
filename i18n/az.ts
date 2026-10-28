@@ -1,5 +1,35 @@
 export default {
   translation: {
+    Automation_flow_templates: "Axın şablonları",
+    Automation_ai_templates: "Süni intellekt şablonları",
+    Automation_sample: "Nümunə",
+    Automation_sample_notice: "Əvvəlcədən hazırlanmış şablonlardan istifadə edə və onları dəyişdirə bilərsiniz",
+    Automation_template_number: "Şablon #{{number}}",
+    Automation_beginner: "Başlanğıc",
+    Automation_intermediate: "Orta",
+    Automation_advanced: "Qabaqcıl",
+    Automation_trending: "Populyar",
+    Automation_sample_cart: "Alış-veriş səbətinin bərpası",
+    Automation_sample_cart_description:
+      "Nümunə fikir: alıcıların səbətə qayıtmasına kömək edin və suallarını cavablandırın.",
+    Automation_sample_language: "Çoxdilli söhbətlər",
+    Automation_sample_language_description: "Nümunə fikir: ziyarətçiləri seçdikləri dildə söhbətə yönləndirin.",
+    Automation_sample_support: "Müştəri dəstək köməkçisi",
+    Automation_sample_support_description:
+      "Nümunə fikir: tez-tez verilən sualları cavablandırın və növbəti addımı göstərin.",
+    Automation_sample_welcome: "Yeni müştəriləri qarşılayın",
+    Automation_sample_welcome_description: "Nümunə fikir: yeni ziyarətçiləri qarşılayın və məhsullarınızı təqdim edin.",
+    Automation_flow_history: "Axın tarixçəsi",
+    Automation_ai_history: "Süni intellekt tarixçəsi",
+    Automation_loaded_count: "Yüklənmiş elementlər; + daha çox element olduğunu göstərir.",
+    Automation_sort_newest: " əvvəlcə yenilər",
+    Automation_sort_oldest: " əvvəlcə köhnələr",
+    Automation_sort_title: " başlığa görə",
+    Automation_connected_posts: "Bağlı paylaşımlar",
+    Automation_not_connected: "Heç bir paylaşıma bağlı deyil.",
+    Automation_connections_access: "Şərh icazəsi və Avtomatlaşdırma/Şərh girişi tələb olunur.",
+    Automation_checking_connections: "Paylaşım bağlantıları yoxlanılır...",
+    Automation_connections_retry: "Bütün bağlantılar yoxlanıla bilmədi. Yenidən cəhd edin.",
     aiSuggestedPrompts_title: "Təklif olunan promptlar",
     aiSuggestedPrompts_openImage: "Şəkli tam ekranda aç",
     aiSuggestedPrompts_explain: "Başlanğıc kimi istifadə etmək üçün prompt seçin.",
@@ -2685,17 +2715,21 @@ export default {
     AIFlow_item_title: "Element Başlığı:",
     AIFlow_show_graph: "Axın Qrafikini Göstər",
     AIFlow_connect_post: "Paylaşıma qoş",
-    AIFlow_connect_post_access: "Instagram şərh və mesaj icazələri, həmçinin Avtomatlaşdırma və Şərh girişləri tələb olunur.",
+    AIFlow_connect_post_access:
+      "Instagram şərh və mesaj icazələri, həmçinin Avtomatlaşdırma və Şərh girişləri tələb olunur.",
     AIFlow_connect_post_save_first: "Paylaşıma qoşmazdan əvvəl bu axını yadda saxlayın.",
     AIFlow_connect_post_confirm:
       "Bu axın paylaşımın cari avtomatik cavabını əvəz edir və aktivləşdirilir. Açar sözlər və uyğunlaşdırma ayarları saxlanılır; açar söz yoxdursa, axın bütün şərhlərə cavab verir.",
-    AIFlow_connect_post_resume: "Axın bağlantısı yadda saxlanıldı, lakin aktivləşdirmə alınmadı. Yenidən aktivləşdirməyə cəhd edin.",
-    AIFlow_connect_post_incompatible: "Bu axın şərhlərə şəxsi cavab verməklə uyğun deyil. Qoşmazdan əvvəl redaktə edib yadda saxlayın.",
+    AIFlow_connect_post_resume:
+      "Axın bağlantısı yadda saxlanıldı, lakin aktivləşdirmə alınmadı. Yenidən aktivləşdirməyə cəhd edin.",
+    AIFlow_connect_post_incompatible:
+      "Bu axın şərhlərə şəxsi cavab verməklə uyğun deyil. Qoşmazdan əvvəl redaktə edib yadda saxlayın.",
     AIFlow_retry: "Yenidən cəhd et",
     AIPrompt_connect_post_access: "Instagram şərh icazəsi, həmçinin Avtomatlaşdırma və Şərh girişləri tələb olunur.",
     AIPrompt_connect_post_confirm:
       "Bu süni intellekt paylaşımın cari avtomatik cavabını əvəz edir və aktivləşdirilir. Açar sözlər və uyğunlaşdırma ayarları saxlanılır; açar söz yoxdursa, bütün şərhlər cavablandırılır. Şəxsi göndəriş yalnız mesaj icazəsi olduqda saxlanılır; əks halda cavablar şərh kimi göndərilir.",
-    AIPrompt_connect_post_resume: "Süni intellekt bağlantısı yadda saxlanıldı, lakin aktivləşdirmə alınmadı. Yenidən aktivləşdirməyə cəhd edin.",
+    AIPrompt_connect_post_resume:
+      "Süni intellekt bağlantısı yadda saxlanıldı, lakin aktivləşdirmə alınmadı. Yenidən aktivləşdirməyə cəhd edin.",
     messagesetting_PhoneNumbers: "Telefon nömrələri",
     messagesetting_PhoneNumbersExplain: "Axınlar vasitəsilə müştərilərinizdən toplanan telefon nömrələri",
     messagesetting_PhoneNumbersEmpty: "Hələ heç bir telefon nömrəsi toplanmayıb",

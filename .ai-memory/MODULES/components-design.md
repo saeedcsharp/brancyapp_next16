@@ -42,6 +42,10 @@ Used by routes, components, helpers, or build tooling where imported.
 
 ## Public APIs
 
+The automation dashboard reuses `DotMenu` for sorting, not post connection. Post connection uses native text buttons and a tile inside the existing-post Slider. `Slider` accepts an optional free-mode `scrollContainerRef` for external previous/next controls and `ariaLabel` for its scroll region. Free-mode mouse dragging ignores non-primary clicks and interactive controls.
+
+DotMenu measures its portalled menu after initial positioning and clamps both axes to an 8px viewport inset. This keeps menus opened from the bottom row of dashboard cards usable; scroll/resize updates use the same bounds.
+
 Exports are defined by source files in the module.
 
 - `components/design/dotMenu/dotMenu.tsx` exports `DotMenu`, an accessible menu button with keyboard navigation, focus restoration, RTL-aware `placement`, responsive menu bounds, body-level portal rendering with viewport-fixed coordinates, reduced-motion handling, and compatible action/data props (`data`, `handleClickOnIcon`).

@@ -57,7 +57,7 @@ const recordsEn = {
   aiFlows: {
     title: "AI prompts and visual flows",
     description:
-      "Build AI prompts, connect available tools, mention the sender with a manual-prompt placeholder, analyze prompts, test conversations, and compose node-based message flows. From a saved Flow or AI prompt card, including search results in either tab, select a post and confirm to replace its automatic reply and activate it, preserving existing keywords and matching settings. Post connections require Instagram comment permission and Automation/Comment partner access. Flow connections also require message permission and private-reply compatibility. AI can reply in comments without message permission; existing private delivery is preserved only when that permission is available.",
+      "Browse Flow and AI history in a responsive card dashboard, search either tab, sort loaded cards, and open the full-width editor with a return action. Cards show real connected-post thumbnails and post numbers after verification; unknown or failed checks are not shown as disconnected. Build AI prompts, connect tools, mention the sender, analyze prompts, test conversations, and compose visual flows. Click a saved card's Not connected to any post text, or the connection button beside its existing post thumbnails, to select a post and confirm replacement/activation of its automatic reply, preserving keywords and matching settings. Connections require comment permission and Automation/Comment access; Flow also requires message permission and private-reply compatibility. Drafts cannot connect. AI can reply in comments without message permission. Template cards are labeled samples only and cannot create automations.",
   },
   flowPhoneExport: {
     title: "Export phone numbers collected by Flows",
@@ -208,6 +208,10 @@ const recordsEn = {
     title: "Subscription and feature-access management",
     description:
       "Load package and reserve-feature pricing from the backend. The main subscription can be renewed at any time, while AI, Custom Domain, and Winner Picker packages can be purchased only when the main subscription is active.",
+  },
+  automationTemplatesPrototype: {
+    title: "Sample Flow and AI templates",
+    description: "The dashboard template carousel is a labeled, non-interactive preview. Template numbers and difficulty/trending badges are sample presentation, not backend records or working automation presets.",
   },
   visualIdentityPrototype: {
     title: "Visual Identity and Character Sheet",
@@ -630,7 +634,7 @@ export const featureKnowledgeFa = {
       title: "دستورها و جریان‌های هوش مصنوعی",
       description: "با هوش مصنوعی گفت‌وگو بسازید و از روی کارت فلو یا هوش مصنوعی، آن را به پست دلخواهتان وصل کنید.",
       descriptionDetail:
-        "برای پاسخ‌گویی هوشمند، دستورهای دلخواهتان را بنویسید، ابزار اضافه کنید و گفت‌وگو را آزمایش کنید. در هر دو تب فلو و هوش مصنوعی، از روی کارت‌های ذخیره‌شده و نتایج جست‌وجو، اتصال به پست را بزنید، پست را انتخاب و اتصال را تأیید کنید. گزینه انتخاب‌شده جایگزین پاسخ خودکار پست و فعال می‌شود؛ کلمات کلیدی و روش تطبیق قبلی حفظ می‌شوند و اگر کلمه‌ای نباشد، به همه کامنت‌ها پاسخ می‌دهد. دسترسی کامنت اینستاگرام و مجوز بخش‌های خودکارسازی و کامنت لازم است. فلو به دسترسی پیام و سازگاری با پاسخ خصوصی هم نیاز دارد؛ هوش مصنوعی بدون دسترسی پیام می‌تواند در کامنت پاسخ دهد و ارسال خصوصی قبلی فقط با داشتن دسترسی پیام حفظ می‌شود.",
+        "فلوها و دستورهای هوش مصنوعی را در داشبورد کارت‌ها ببینید، جست‌وجو کنید و موارد بارگذاری‌شده را مرتب کنید. با زدن کارت وارد ویرایشگر تمام‌عرض شوید و دوباره به فهرست برگردید. پس از بررسی اتصال‌ها، عکس پست‌های متصل با شماره هر پست روی کارت نمایش داده می‌شود؛ خطا یا بررسی ناتمام به معنی متصل‌نبودن نیست. برای ساخت پاسخ هوشمند، دستور بنویسید، ابزار اضافه کنید و گفت‌وگو را آزمایش کنید. روی متن «به هیچ پستی متصل نشده است» در کارت ذخیره‌شده یا دکمه اتصال کنار عکس پست‌های متصل بزنید، پست را انتخاب و جایگزینی پاسخ قبلی را تأیید کنید؛ کلمات کلیدی و روش تطبیق حفظ می‌شوند. دسترسی کامنت و مجوز خودکارسازی و کامنت لازم است. فلو به دسترسی پیام و سازگاری پاسخ خصوصی هم نیاز دارد و پیش‌نویس تا پیش از ذخیره متصل نمی‌شود؛ هوش مصنوعی بدون دسترسی پیام می‌تواند در کامنت پاسخ دهد. قالب‌های بالای صفحه فقط نمونه نمایشی هستند و گزینه واقعی نمی‌سازند.",
     },
     flowPhoneExport: {
       title: "دانلود شماره‌های جمع‌آوری‌شده از فلوها",
@@ -811,6 +815,10 @@ export const featureKnowledgeFa = {
       description: "بسته‌های هوش مصنوعی، دامنه و انتخاب برنده فقط با اشتراک اصلی فعال قابل خرید هستند.",
       descriptionDetail:
         "بسته‌ها و قابلیت‌های قابل خرید را بر اساس اطلاعاتی که سامانه برمی‌گرداند بررسی کنید. اشتراک اصلی را در هر زمان می‌توانید تمدید کنید، اما خرید بسته‌های هوش مصنوعی، دامنه و انتخاب برنده فقط وقتی ممکن است که اشتراک اصلی فعال باشد. قیمت و محدودیت‌ها از خودمان حدس زده نمی‌شوند.",
+    },
+    automationTemplatesPrototype: {
+      title: "قالب‌های نمونه فلو و هوش مصنوعی",
+      description: "قالب‌های بالای داشبورد فقط پیش‌نمایش با برچسب نمونه هستند. شماره، سطح و نشان پرطرفدار آن‌ها نمایشی است و با زدن آن‌ها فلو یا دستور واقعی ساخته نمی‌شود.",
     },
     visualIdentityPrototype: {
       title: "هویت بصری و شناسنامه تصویری",

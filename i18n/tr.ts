@@ -1,5 +1,35 @@
 export default {
   translation: {
+    Automation_flow_templates: "Akış Şablonları",
+    Automation_ai_templates: "Yapay Zekâ Şablonları",
+    Automation_sample: "Örnek",
+    Automation_sample_notice: "Hazır şablonları kullanabilir ve bunları özelleştirebilirsiniz",
+    Automation_template_number: "Şablon #{{number}}",
+    Automation_beginner: "Başlangıç",
+    Automation_intermediate: "Orta",
+    Automation_advanced: "İleri",
+    Automation_trending: "Popüler",
+    Automation_sample_cart: "Alışveriş Sepeti Kurtarma",
+    Automation_sample_cart_description:
+      "Örnek fikir: müşterilerin sepete dönmesine yardımcı olun ve sorularını yanıtlayın.",
+    Automation_sample_language: "Çok Dilli Sohbetler",
+    Automation_sample_language_description:
+      "Örnek fikir: ziyaretçileri tercih ettikleri dilde bir sohbete yönlendirin.",
+    Automation_sample_support: "Müşteri Destek Asistanı",
+    Automation_sample_support_description: "Örnek fikir: sık sorulan soruları yanıtlayın ve sonraki adımı gösterin.",
+    Automation_sample_welcome: "Yeni Müşterileri Karşılayın",
+    Automation_sample_welcome_description: "Örnek fikir: yeni ziyaretçileri karşılayın ve ürünlerinizi tanıtın.",
+    Automation_flow_history: "Akış Geçmişi",
+    Automation_ai_history: "Yapay Zekâ Geçmişi",
+    Automation_loaded_count: "Yüklenen öğeler; + daha fazla öğe olduğunu gösterir.",
+    Automation_sort_newest: " önce en yeni",
+    Automation_sort_oldest: " önce en eski",
+    Automation_sort_title: " başlığa göre",
+    Automation_connected_posts: "Bağlı gönderiler",
+    Automation_not_connected: "Hiçbir gönderiye bağlı değil.",
+    Automation_connections_access: "Yorum izni ve Otomasyon/Yorum erişimi gereklidir.",
+    Automation_checking_connections: "Gönderi bağlantıları kontrol ediliyor...",
+    Automation_connections_retry: "Tüm bağlantılar doğrulanamadı. Tekrar deneyin.",
     aiSuggestedPrompts_title: "Önerilen promptlar",
     aiSuggestedPrompts_openImage: "Görseli tam ekran aç",
     aiSuggestedPrompts_explain: "Başlangıç olarak kullanmak için bir prompt seçin.",
@@ -2730,13 +2760,16 @@ export default {
     AIFlow_connect_post_save_first: "Gönderiye bağlamadan önce bu akışı kaydedin.",
     AIFlow_connect_post_confirm:
       "Bu akış gönderinin mevcut otomatik yanıtının yerini alır ve etkinleştirilir. Anahtar kelimeler ve eşleştirme ayarları korunur; anahtar kelime yoksa akış tüm yorumlara yanıt verir.",
-    AIFlow_connect_post_resume: "Akış bağlantısı kaydedildi ancak etkinleştirme başarısız oldu. Yeniden etkinleştirmeyi deneyin.",
-    AIFlow_connect_post_incompatible: "Bu akış yorumlara özel yanıt vermeye uygun değil. Bağlamadan önce düzenleyip kaydedin.",
+    AIFlow_connect_post_resume:
+      "Akış bağlantısı kaydedildi ancak etkinleştirme başarısız oldu. Yeniden etkinleştirmeyi deneyin.",
+    AIFlow_connect_post_incompatible:
+      "Bu akış yorumlara özel yanıt vermeye uygun değil. Bağlamadan önce düzenleyip kaydedin.",
     AIFlow_retry: "Tekrar dene",
     AIPrompt_connect_post_access: "Instagram yorum izni ile Otomasyon ve Yorum erişimi gereklidir.",
     AIPrompt_connect_post_confirm:
       "Bu yapay zekâ gönderinin mevcut otomatik yanıtının yerini alır ve etkinleştirilir. Anahtar kelimeler ve eşleştirme ayarları korunur; anahtar kelime yoksa tüm yorumlar yanıtlanır. Özel gönderim yalnızca mesaj izni varsa korunur; aksi hâlde yanıtlar yorum olarak gönderilir.",
-    AIPrompt_connect_post_resume: "Yapay zekâ bağlantısı kaydedildi ancak etkinleştirme başarısız oldu. Yeniden etkinleştirmeyi deneyin.",
+    AIPrompt_connect_post_resume:
+      "Yapay zekâ bağlantısı kaydedildi ancak etkinleştirme başarısız oldu. Yeniden etkinleştirmeyi deneyin.",
     messagesetting_PhoneNumbers: "Telefon Numaraları",
     messagesetting_PhoneNumbersExplain: "Akışlar aracılığıyla müşterilerinizden toplanan telefon numaraları",
     messagesetting_PhoneNumbersEmpty: "Henüz telefon numarası toplanmadı",

@@ -1,12 +1,9 @@
 import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
 import InputBox from "brancy/components/design/inputBox/inputBox";
-import RingLoader from "brancy/components/design/loader/ringLoder";
 import Modal from "brancy/components/design/modal";
 import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import TextArea from "brancy/components/design/textArea/textArea";
-import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
-import Tooltip from "brancy/components/design/tooltip/tooltip";
 import AIPromptBox from "brancy/components/messages/aiflow/aiPromptBox";
 import Flow from "brancy/components/messages/aiflow/flow";
 import { LiveTestModal } from "brancy/components/messages/aiflow/flowNode";
@@ -22,11 +19,8 @@ import Loading from "brancy/components/notOk/loading";
 import NotFeature from "brancy/components/notOk/notFeature";
 import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-import { getThumbnailStyle } from "brancy/helper/getThumbnailColor";
-import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
-import initialzedTime, { convertToMilliseconds } from "brancy/helper/manageTimer";
+import { LoginStatus } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
-import { PartnerRole } from "brancy/models/enums";
 import {
   IAITools,
   ICreatePrompt,
@@ -38,39 +32,44 @@ import {
 } from "brancy/models/interfaces";
 import { useSession } from "next-auth/react";
 import router, { useRouter } from "next/router";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ComponentProps, useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { DateObject } from "react-multi-date-picker";
+import AutomationDashboard, { AutomationSort, automationIdentity } from "./automationDashboard";
+import { useAutomationPosts } from "./useAutomationPosts";
 import styles from "./flowAndAIIBox.module.css";
 
-let firstTime = 0;
-let touchMove = 0;
-let touchStart = 0;
-let firstPos = { x: 0, y: 0 };
-let downFlagLeft = false;
-let downFlagRight = false;
-let hideDivIndex: string | number | null = null;
+type NewFlowSettings = NonNullable<ComponentProps<typeof Flow>["initialSettings"]> & {
+  editorState?: ComponentProps<typeof Flow>["initialEditorState"];
+};
+type AutomationPage = { items: PostAutomation[]; nextMaxId: string | null };
+type AutomationTab = ToggleOrder.FirstToggle | ToggleOrder.SecondToggle;
+type SettingsPayload = Omit<ComponentProps<typeof SettingModal>, "updateFlow" | "cancelSave">;
+type GetEditorState = Parameters<NonNullable<ComponentProps<typeof Flow>["onRegisterGetEditorState"]>>[0];
 
-const NewFlowModal = (props: {
-  open: boolean;
-  onClose: () => void;
-  onContinue: (settings: {
-    title: string;
-    checkFollower: boolean;
-    snapToGridEnabled: boolean;
-    panningBoundaryEnabled: boolean;
-    editorState?: any;
-  }) => void;
-}) => {
+class InboxRequestError extends Error {
+  constructor(public responseType: ResponseType) {
+    super("Unable to load automation data");
+  }
+}
+
+function reportInboxError(error: unknown) {
+  notify(error instanceof InboxRequestError ? error.responseType : ResponseType.Unexpected, NotifType.Error);
+}
+
+function mergeAutomations(previous: PostAutomation[], incoming: PostAutomation[]) {
+  return [...new Map([...previous, ...incoming].map((item) => [automationIdentity(item), item])).values()];
+}
+
+function NewFlowModal(props: { open: boolean; onClose: () => void; onContinue: (settings: NewFlowSettings) => void }) {
   const { t } = useTranslation();
   const [title, setTitle] = useState("Flow_1");
   const [checkFollower, setCheckFollower] = useState(false);
   const [snapToGridEnabled, setSnapToGridEnabled] = useState(false);
   const [panningBoundaryEnabled, setPanningBoundaryEnabled] = useState(false);
-  const [editorState, setEditorState] = useState<any>();
+  const [editorState, setEditorState] = useState<NewFlowSettings["editorState"]>();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleImport = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  async function handleImport(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
     if (!file) return;
     try {
@@ -87,7 +86,7 @@ const NewFlowModal = (props: {
     } finally {
       event.target.value = "";
     }
-  };
+  }
 
   return (
     <Modal closePopup={props.onClose} classNamePopup="popup" showContent={props.open}>
@@ -108,7 +107,7 @@ const NewFlowModal = (props: {
         <div className="headerparent">
           <div className="title2">{t(LanguageKey.shouldFollower)}</div>
           <ToggleCheckBoxButton
-            title="Check Follower"
+            title={t(LanguageKey.shouldFollower)}
             name="new-flow-check-follower"
             role="switch"
             handleToggle={(event) => setCheckFollower(event.currentTarget.checked)}
@@ -125,40 +124,29 @@ const NewFlowModal = (props: {
           handleToggle={() => setSnapToGridEnabled((value) => !value)}
           textlabel={t(LanguageKey.snapGrid)}
           name="new-flow-snap-grid"
-          title="switch"
+          title={t(LanguageKey.snapGrid)}
         />
         <CheckBoxButton
           value={panningBoundaryEnabled}
           handleToggle={() => setPanningBoundaryEnabled((value) => !value)}
           textlabel={t(LanguageKey.PanningBoundary)}
           name="new-flow-panning-boundary"
-          title="switch"
+          title={t(LanguageKey.PanningBoundary)}
         />
       </div>
       <div className="headerparent">
-        <div className="title">
-          {t(LanguageKey.Data_Management)}
-          <Tooltip
-            tooltipValue={t(LanguageKey.Data_Management_explain)}
-            triggerType="tooltip"
-            onClick
-            position="bottom"
-          />
-        </div>
-
-        <input ref={fileInputRef} type="file" accept="application/json,.json" hidden onChange={handleImport} />
-        <button
-          style={{ minWidth: "max-content", maxWidth: "35%" }}
-          className="cancelButton"
-          onClick={() => fileInputRef.current?.click()}>
+        <div className="title">{t(LanguageKey.Data_Management)}</div>
+        <button type="button" className="cancelButton" onClick={() => fileInputRef.current?.click()}>
           {t(LanguageKey.importJSON)}
         </button>
+        <input ref={fileInputRef} type="file" accept=".json,application/json" hidden onChange={handleImport} />
       </div>
+      {editorState && <div className="explain">{t(LanguageKey.Data_Management_explain)}</div>}
       <div className="ButtonContainer">
         <button
-          className={`saveButton ${!title.trim() ? "fadeDiv" : ""}`}
+          type="button"
+          className={title.trim() ? "saveButton" : "disableButton"}
           disabled={!title.trim()}
-          title="Continue"
           onClick={() =>
             props.onContinue({
               title: title.trim(),
@@ -170,944 +158,437 @@ const NewFlowModal = (props: {
           }>
           {t(LanguageKey.Continue)}
         </button>
-        <button className="cancelButton" title="cancel" onClick={props.onClose}>
+        <button type="button" className="cancelButton" onClick={props.onClose}>
           {t(LanguageKey.cancel)}
         </button>
       </div>
     </Modal>
   );
-};
+}
 
-const FlowAndAIInbox = () => {
+const emptyPage = (): AutomationPage => ({ items: [], nextMaxId: null });
+
+export default function FlowAndAIInbox() {
   const { data: session } = useSession({
     required: true,
     onUnauthenticated() {
-      router.push("/");
+      void router.push("/");
     },
   });
   const { t } = useTranslation();
   const routerHook = useRouter();
-  const [searchMasterFlowInbox, setSearchMasterFlowInbox] = useState<IMasterFlow>();
-  const [searchPromptInbox, setSearchPromptInbox] = useState<IPrompts>();
-  const [loading, setLoading] = useState(LoginStatus(session));
+  const [loading, setLoading] = useState(true);
+  const [toggleOrder, setToggleOrder] = useState<AutomationTab>(ToggleOrder.FirstToggle);
+  const [pages, setPages] = useState<Record<AutomationTab, AutomationPage>>({
+    [ToggleOrder.FirstToggle]: emptyPage(),
+    [ToggleOrder.SecondToggle]: emptyPage(),
+  });
+  const [failedTabs, setFailedTabs] = useState<Record<AutomationTab, boolean>>({
+    [ToggleOrder.FirstToggle]: false,
+    [ToggleOrder.SecondToggle]: false,
+  });
   const [searchbox, setSearchbox] = useState("");
-  const [toggleOrder, setToggleOrder] = useState<ToggleOrder>(ToggleOrder.FirstToggle);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchPage, setSearchPage] = useState<AutomationPage>(emptyPage);
+  const [searchLoading, setSearchLoading] = useState(false);
+  const [searchFailed, setSearchFailed] = useState(false);
+  const [searchRevision, setSearchRevision] = useState(0);
+  const [sort, setSort] = useState<AutomationSort>("newest");
+  const [loadingMore, setLoadingMore] = useState(false);
   const [userSelectedId, setUserSelectedId] = useState<string | null>(null);
   const [showNewFlowModal, setShowNewFlowModal] = useState(false);
-  const [newFlowSettings, setNewFlowSettings] = useState<{
-    title: string;
-    checkFollower: boolean;
-    snapToGridEnabled: boolean;
-    panningBoundaryEnabled: boolean;
-    editorState?: any;
-  } | null>(null);
+  const [newFlowSettings, setNewFlowSettings] = useState<NewFlowSettings | null>(null);
   const [newFlowDraft, setNewFlowDraft] = useState<ITotalMasterFlow | null>(null);
   const [connectingAutomation, setConnectingAutomation] = useState<PostAutomation | null>(null);
-  const canConnectPost =
-    RoleAccess(session, PartnerRole.Automatics) &&
-    RoleAccess(session, PartnerRole.Comment) &&
-    !!session?.user.commentPermission;
-
-  function renderConnectPostButton(automation: PostAutomation) {
-    const isFlow = automation.type === "flow";
-    const isDraft = automation.type === "flow" && automation.flow.masterFlowId === "newFlow";
-    const hasAccess = canConnectPost && (!isFlow || !!session?.user.messagePermission);
-    const label = t(
-      isDraft
-        ? LanguageKey.AIFlow_connect_post_save_first
-        : hasAccess
-          ? LanguageKey.AIFlow_connect_post
-          : isFlow
-            ? LanguageKey.AIFlow_connect_post_access
-            : LanguageKey.AIPrompt_connect_post_access,
-    );
-    return (
-      <button
-        type="button"
-        className={`cancelButton ${styles.connectPostButton}`}
-        disabled={isDraft || !hasAccess}
-        title={label}
-        aria-label={label}
-        onMouseDown={(event) => event.stopPropagation()}
-        onMouseUp={(event) => event.stopPropagation()}
-        onTouchEnd={(event) => event.stopPropagation()}
-        onClick={(event) => {
-          event.stopPropagation();
-          setConnectingAutomation(automation);
-        }}>
-        {/* <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path
-            d="m10 13 4-4m-6 7-1 1a4 4 0 0 1-6-6l4-4a4 4 0 0 1 6 0m2 2 1-1a4 4 0 0 1 6 6l-4 4a4 4 0 0 1-6 0"
-            transform="translate(1 0)"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-          />
-        </svg> */}
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          color="currentColor"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24">
-          <path d="m9.1 10.7.3-.2a5 5 0 1 1 7.1 7.1l-2.9 3a5 5 0 1 1-7.1-7.2l.4-.5" />
-          <path d="m17 11.1.5-.5a5 5 0 1 0-7.1-7.1l-3 2.9a5 5 0 1 0 7.2 7.1l.3-.2" />
-        </svg>
-      </button>
-    );
-  }
-  const [searchLocked, setSearchLocked] = useState<boolean>(false);
-  const [displayRight, setDisplayRight] = useState("");
-  const [displayLeft, setDisplayLeft] = useState("");
-  const userListRef = useRef<HTMLDivElement>(null);
-  const [showDivIndex, setShowDivIndex] = useState<string | number | null>(null);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [timoutId, setTimeoutId] = useState<any>();
-  const [showSearchThread, setShowSearchThread] = useState({
-    searchMode: false,
-    loading: false,
-    noResult: false,
-  });
-  // AIToolsSettings related states
+  const [aiTools, setAITools] = useState<IAITools[]>([]);
   const [showAIToolsSettings, setShowAIToolsSettings] = useState(false);
   const [selectedAITool, setSelectedAITool] = useState<IAITools | null>(null);
   const [aiPromptTools, setAIPromptTools] = useState<ITool[]>([]);
   const [aiToolParamValues, setAIToolParamValues] = useState<Record<string, Record<string, string>>>({});
-
-  // LiveChat related states
   const [showLiveChatPopup, setShowLiveChatPopup] = useState(false);
   const [promptInfo, setPromptInfo] = useState<ICreatePrompt | null>(null);
   const [showPromptAnalysisModal, setShowPromptAnalysisModal] = useState(false);
   const [promptAnalysisText, setPromptAnalysisText] = useState("");
-  const promptAnalysisAcceptRef = useRef<((text: string) => void) | null>(null);
-  const promptAnalysisCloseRef = useRef<(() => void) | null>(null);
-
-  const handleOpenPromptAnalysisModal = (
-    initialText: string,
-    onAccept: (text: string) => void,
-    onClose: () => void,
-  ) => {
-    setPromptAnalysisText(initialText);
-    promptAnalysisAcceptRef.current = onAccept;
-    promptAnalysisCloseRef.current = onClose;
-    setShowPromptAnalysisModal(true);
-  };
-
-  const handleClosePromptAnalysisModal = () => {
-    setShowPromptAnalysisModal(false);
-    promptAnalysisCloseRef.current?.();
-    promptAnalysisAcceptRef.current = null;
-    promptAnalysisCloseRef.current = null;
-  };
-
-  const handleAcceptPromptAnalysis = () => {
-    if (promptAnalysisText.length <= 20) return;
-
-    promptAnalysisAcceptRef.current?.(promptAnalysisText);
-    setShowPromptAnalysisModal(false);
-    promptAnalysisAcceptRef.current = null;
-    promptAnalysisCloseRef.current = null;
-  };
-
-  // Settings Modal (lifted from Flow)
   const [settingModalVisible, setSettingModalVisible] = useState(false);
-  const [settingModalProps, setSettingModalProps] = useState<any>(null);
-
-  const handleOpenSettings = (payload: any) => {
-    console.log("Opening settings with payload:", payload);
-    setSettingModalProps(payload);
-    setSettingModalVisible(true);
-  };
-
-  // Tutorial Modal handler
-  const handleOpenTutorial = (nodeType: string) => {
-    setTutorialModal({ visible: true, nodeType });
-  };
-
-  // LiveTest Modal states
+  const [settingModalProps, setSettingModalProps] = useState<SettingsPayload | null>(null);
   const [liveTestVisible, setLiveTestVisible] = useState(false);
-  const getEditorStateRef = useRef<(() => { nodes: any[]; connections: any[]; title: string }) | null>(null);
-
-  // Tutorial Modal state (moved from Flow)
-  const [tutorialModal, setTutorialModal] = useState<{
-    visible: boolean;
-    nodeType: string | null;
-  }>({
+  const [liveTestState, setLiveTestState] = useState<ReturnType<GetEditorState> | null>(null);
+  const [tutorialModal, setTutorialModal] = useState<{ visible: boolean; nodeType: string | null }>({
     visible: false,
     nodeType: null,
   });
   const [showNotFeature, setShowNotFeature] = useState(false);
-  const handleOpenLiveTest = () => {
-    setLiveTestVisible(true);
-  };
-
-  const handleRegisterGetEditorState = (fn: () => { nodes: any[]; connections: any[]; title: string }) => {
-    getEditorStateRef.current = fn;
-  };
-
-  // Callback refs to be set by Editor component
+  const promptAnalysisAcceptRef = useRef<((text: string) => void) | null>(null);
+  const promptAnalysisCloseRef = useRef<(() => void) | null>(null);
   const addToPromptRef = useRef<((text: string) => void) | null>(null);
   const addToolRef = useRef<((tool: ITool) => void) | null>(null);
-  const reloadFlowRef = useRef<((useLocalStorage: boolean) => void) | null>(null);
-  const handleRegisterReload = (fn: (useLocalStorage: boolean) => void) => {
-    reloadFlowRef.current = fn;
-  };
-  const handleShowFlow = async (id: string) => {
-    let newTime = new Date().getTime();
-    if (newTime - firstTime <= 110) {
-      if (id === showDivIndex) {
-        setTimeout(() => {
-          hideDivIndex = id;
-          touchMove = 0;
-          setShowDivIndex(null);
-        }, 700);
-        return;
-      }
-      if (typeof window !== undefined && window.innerWidth <= 1024 && displayRight === "none") {
-        setDisplayLeft("none");
-        setDisplayRight("");
-      }
+  const getEditorStateRef = useRef<GetEditorState | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const loadMoreRef = useRef<HTMLDivElement>(null);
+  const moreRequestRef = useRef<AbortController | null>(null);
+  const mountedRef = useRef(false);
+  const handledDeepLink = useRef<string | null>(null);
+  const posts = useAutomationPosts(session);
+  const searchMode = searchbox.trim().length > 0;
+  const activePage = searchMode ? searchPage : pages[toggleOrder];
+  const listFailed = searchMode ? searchFailed : failedTabs[toggleOrder];
+  const requestedId = Array.isArray(routerHook.query.id) ? routerHook.query.id[0] : routerHook.query.id;
+  const legacyFlowId = Array.isArray(routerHook.query.flowId) ? routerHook.query.flowId[0] : routerHook.query.flowId;
 
-      if (id === userSelectedId) return;
-      setUserSelectedId(id);
-    }
-  };
-  const handleMouseMove = (index: string | number) => {
-    if (downFlagLeft && mousePos.x - firstPos.x < -10) {
-      setShowDivIndex(index);
-      downFlagLeft = false;
-      downFlagRight = false;
-    }
-    if (downFlagRight && mousePos.x - firstPos.x > 10 && showDivIndex !== null) {
-      downFlagRight = false;
-      downFlagLeft = false;
-      setTimeout(() => {
-        hideDivIndex = index;
-        setShowDivIndex(null);
-      }, 700);
-    }
-  };
-  const handleTouchEnd = (index: string | number) => {
-    if (touchMove === 0) return;
-    if (touchMove - touchStart < -35) {
-      setShowDivIndex(index);
-    } else if (touchMove - touchStart > 0) {
-      setTimeout(() => {
-        hideDivIndex = index;
-        setShowDivIndex(null);
-      }, 700);
-    }
-  };
-  const handleMouseUp = () => {
-    downFlagRight = false;
-    downFlagLeft = false;
-  };
-  const handleMouseDown = () => {
-    firstPos = mousePos;
-    firstTime = new Date().getTime();
-    downFlagLeft = true;
-    downFlagRight = true;
-  };
-  const handleShowAI = async (id: string) => {
-    let newTime = new Date().getTime();
-    if (newTime - firstTime <= 110) {
-      if (id === showDivIndex) {
-        setTimeout(() => {
-          hideDivIndex = id;
-          touchMove = 0;
-          setShowDivIndex(null);
-        }, 700);
-        return;
-      }
-      if (typeof window !== undefined && window.innerWidth <= 1024 && displayRight === "none") {
-        setDisplayLeft("none");
-        setDisplayRight("");
-      }
-      if (id === userSelectedId) return;
-
-      setUserSelectedId(id);
-    }
-  };
-  const handleToggleChange = (order: ToggleOrder) => {
-    const container = userListRef.current;
-    if (container) {
-      container.scrollTop = 0;
-    }
-    setUserSelectedId(null);
-    hideDivIndex = null;
-    setToggleOrder(order);
-  };
-  const handleResize = () => {
-    if (typeof window !== undefined) {
-      var width = window.innerWidth;
-      if (width < 1024 && userSelectedId !== null) {
-        setDisplayLeft("none");
-        setDisplayRight("");
-      } else if (width < 1024 && userSelectedId === null) {
-        setDisplayRight("none");
-        setDisplayLeft("");
-      } else if (width >= 1024) {
-        setDisplayLeft("");
-        setDisplayRight("");
-      }
-    }
-  };
-  const loadMoreItems = async () => {
-    {
-      if (toggleOrder === ToggleOrder.FirstToggle && !showSearchThread.searchMode && masterFlow?.nextMaxId) {
-        fetchData(ToggleOrder.FirstToggle, masterFlow?.nextMaxId, null);
-      } else if (toggleOrder === ToggleOrder.SecondToggle && !showSearchThread.searchMode && promptInbox?.nextMaxId) {
-        fetchData(ToggleOrder.SecondToggle, promptInbox.nextMaxId, null);
-      }
-    }
-  };
-  const handleScroll = () => {
-    const container = userListRef.current;
-    if (container && container.scrollHeight - container.scrollTop === container.clientHeight) {
-      loadMoreItems();
-    }
-  };
-  const fetchData = async (ticketType: ToggleOrder, nextMaxId: string | null, query: string | null) => {
-    if (ticketType === ToggleOrder.FirstToggle) {
-      try {
-        let flowRes = await clientFetchApi<boolean, IMasterFlow>("/api/flow/GetMasterFlows", {
+  const requestPage = useCallback(
+    async (order: ToggleOrder, cursor: string | null, query: string, signal?: AbortSignal): Promise<AutomationPage> => {
+      const queries = [
+        { key: "query", value: query || undefined },
+        { key: "nextMaxId", value: cursor || undefined },
+      ];
+      if (order === ToggleOrder.FirstToggle) {
+        const result = await clientFetchApi<boolean, IMasterFlow>("/api/flow/GetMasterFlows", {
           methodType: MethodType.get,
-          session: session,
-          data: null,
-          queries: [
-            { key: "query", value: query ? query : undefined },
-            {
-              key: "nextMaxId",
-              value: nextMaxId ? nextMaxId : undefined,
-            },
-          ],
-          onUploadProgress: undefined,
+          session,
+          queries,
+          signal,
         });
-        console.log("flow boxxxxxxxx", flowRes);
-        if (flowRes.succeeded && !query) {
-          setMasterFlow((prev) => ({
-            ...prev!,
-            items: flowRes.value ? [...prev!.items, ...flowRes.value.items] : prev!.items,
-            nextMaxId: flowRes.value ? flowRes.value.nextMaxId : null,
-          }));
-        } else if (flowRes.succeeded && query) {
-          if (flowRes.value && flowRes.value.items.length > 0) {
-            setSearchMasterFlowInbox(flowRes.value);
-            setShowSearchThread((prev) => ({ ...prev, loading: false }));
-          } else
-            setShowSearchThread((prev) => ({
-              ...prev,
-              loading: false,
-              noResult: true,
-            }));
-        } else if (!flowRes.succeeded) {
-          setShowSearchThread((prev) => ({
-            ...prev,
-            loading: false,
-            noResult: true,
-          }));
-          notify(flowRes.info.responseType, NotifType.Warning);
-        }
-      } catch (error) {
-        notify(ResponseType.Unexpected, NotifType.Error);
+        if (!result.succeeded) throw new InboxRequestError(result.info.responseType);
+        return { items: result.value.items.map((flow) => ({ type: "flow", flow })), nextMaxId: result.value.nextMaxId };
       }
-    } else if (ticketType === ToggleOrder.SecondToggle) {
-      try {
-        let promptRes = await clientFetchApi<boolean, IPrompts>("/api/ai/GetPrompts", {
-          methodType: MethodType.get,
-          session: session,
-          data: null,
-          queries: [
-            { key: "query", value: query ? query : undefined },
-            {
-              key: "nextMaxId",
-              value: nextMaxId ? nextMaxId : undefined,
-            },
-          ],
-          onUploadProgress: undefined,
-        });
-        console.log("promptRes ", promptRes.value);
-        if (promptRes.succeeded && !query) {
-          setPromptInbox((prev) => ({
-            ...prev!,
-            nextMaxId: promptRes.value ? promptRes.value.nextMaxId : null,
-            items: promptRes.value ? [...prev!.items, ...promptRes.value.items] : prev!.items,
-          }));
-        } else if (promptRes.succeeded && query) {
-          if (promptRes.value && promptRes.value.items.length > 0) {
-            setSearchPromptInbox(promptRes.value);
-            setShowSearchThread((prev) => ({ ...prev, loading: false }));
-          } else
-            setShowSearchThread((prev) => ({
-              ...prev,
-              loading: false,
-              noResult: true,
-            }));
-        } else if (!promptRes.succeeded) {
-          setShowSearchThread((prev) => ({
-            ...prev,
-            loading: false,
-            noResult: true,
-          }));
-          notify(promptRes.info.responseType, NotifType.Warning);
-        }
-      } catch (error) {
-        notify(ResponseType.Unexpected, NotifType.Error);
-      }
-    }
-  };
-  const showUserList = () => {
-    if (typeof window !== undefined && window.innerWidth <= 1024 && displayLeft === "none") {
-      setDisplayLeft("");
-      setDisplayRight("none");
-    }
-    setUserSelectedId(null);
-  };
-  const handleSearchThreads = async (e: ChangeEvent<HTMLInputElement>) => {
-    if (!LoginStatus(session)) return;
-    setUserSelectedId(null);
-    setShowSearchThread({ searchMode: true, loading: true, noResult: false });
-    setSearchMasterFlowInbox((prev) => ({ ...prev!, items: [] }));
-    const query = e.target.value;
-    setSearchbox(query);
-    if (timoutId) clearTimeout(timoutId);
-    if (query.length > 0) {
-      let timeOutId = setTimeout(() => {
-        if (query && query.length > 0) {
-          if (searchLocked) return;
-          console.log("searchhhchhhhhhh");
-          setSearchLocked(true);
-          fetchData(toggleOrder, null, query);
-          setTimeout(() => {
-            setSearchLocked(false);
-          }, 2000);
-        }
-      }, 1000);
-      setTimeoutId(timeOutId);
-    } else {
-      setShowSearchThread({
-        searchMode: false,
-        loading: false,
-        noResult: false,
+      const result = await clientFetchApi<boolean, IPrompts>("/api/ai/GetPrompts", {
+        methodType: MethodType.get,
+        session,
+        queries,
+        signal,
       });
-    }
-  };
-  const [masterFlow, setMasterFlow] = useState<IMasterFlow | null>(null);
-  const [promptInbox, setPromptInbox] = useState<IPrompts | null>(null);
-  const [aiTools, setAITools] = useState<IAITools[]>([]);
-  function updateAIPrompt(prompt: ITotalPrompt) {
-    const existedPrompt = promptInbox?.items.find((x) => x.promptId === prompt.promptId);
-    if (existedPrompt) {
-      setPromptInbox((prev) => ({
-        ...prev!,
-        items: prev!.items.map((x) => (x.promptId !== existedPrompt.promptId ? x : prompt)),
-      }));
-    } else {
-      setPromptInbox((prev) => ({
-        ...prev!,
-        items: [prompt, ...prev!.items],
-      }));
-      setUserSelectedId(prompt.promptId);
-    }
-  }
-  async function fetchFirstData() {
-    try {
-      const [flowRes, promptRes, aiToolRes] = await Promise.all([
-        clientFetchApi<boolean, IMasterFlow>("/api/flow/GetMasterFlows", {
-          methodType: MethodType.get,
-          session: session,
-          data: null,
-          queries: undefined,
-          onUploadProgress: undefined,
-        }),
-        clientFetchApi<boolean, IPrompts>("/api/ai/GetPrompts", {
-          methodType: MethodType.get,
-          session: session,
-          data: undefined,
-          queries: undefined,
-          onUploadProgress: undefined,
-        }),
-        clientFetchApi<boolean, IAITools[]>("/api/ai/GetTools", {
-          methodType: MethodType.get,
-          session: session,
-          data: undefined,
-          queries: undefined,
-          onUploadProgress: undefined,
-        }),
-      ]);
-      if (!flowRes.succeeded) notify(flowRes.info.responseType, NotifType.Warning);
-      if (flowRes.succeeded) {
-        setMasterFlow(flowRes.value);
+      if (!result.succeeded) throw new InboxRequestError(result.info.responseType);
+      return { items: result.value.items.map((prompt) => ({ type: "ai", prompt })), nextMaxId: result.value.nextMaxId };
+    },
+    [session],
+  );
 
-        const requestedFlowId = routerHook.query.id;
-        const requestedFlowIdValue = Array.isArray(requestedFlowId) ? requestedFlowId[0] : requestedFlowId;
-        const matchedFlow = requestedFlowIdValue
-          ? flowRes.value?.items.find((flow) => String(flow.masterFlowId) === String(requestedFlowIdValue))
-          : undefined;
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+      moreRequestRef.current?.abort();
+    };
+  }, []);
 
-        if (matchedFlow) {
-          setToggleOrder(ToggleOrder.FirstToggle);
-          setUserSelectedId(matchedFlow.masterFlowId);
+  useEffect(() => {
+    if (!routerHook.isReady || !LoginStatus(session)) return;
+    const controller = new AbortController();
+    setLoading(true);
+    setUserSelectedId(null);
+    setNewFlowDraft(null);
+    handledDeepLink.current = null;
+    async function loadInitial() {
+      await Promise.all(
+        [ToggleOrder.FirstToggle, ToggleOrder.SecondToggle].map(async (order) => {
+          try {
+            const page = await requestPage(order, null, "", controller.signal);
+            if (controller.signal.aborted) return;
+            setPages((previous) => ({ ...previous, [order]: page }));
+            setFailedTabs((previous) => ({ ...previous, [order]: false }));
+          } catch (error) {
+            if (controller.signal.aborted) return;
+            reportInboxError(error);
+            setPages((previous) => ({ ...previous, [order]: emptyPage() }));
+            setFailedTabs((previous) => ({ ...previous, [order]: true }));
+          }
+        }),
+      );
+      if (!controller.signal.aborted) setLoading(false);
+    }
+    void loadInitial();
+    void clientFetchApi<boolean, IAITools[]>("/api/ai/GetTools", {
+      methodType: MethodType.get,
+      session,
+      signal: controller.signal,
+    })
+      .then((result) => {
+        if (controller.signal.aborted) return;
+        if (result.succeeded) setAITools(result.value);
+        else notify(result.info.responseType, NotifType.Warning);
+      })
+      .catch((error: unknown) => {
+        if (!controller.signal.aborted) reportInboxError(error);
+      });
+    return () => controller.abort();
+  }, [session, routerHook.isReady, requestPage]);
+
+  useEffect(() => {
+    if (loading) return;
+    const id = requestedId || legacyFlowId;
+    if (!id || handledDeepLink.current === id) return;
+    if (failedTabs[ToggleOrder.FirstToggle]) return;
+    handledDeepLink.current = id;
+    const matching = pages[ToggleOrder.FirstToggle].items.some((item) => automationIdentity(item) === id);
+    if (matching || (!requestedId && legacyFlowId)) {
+      setToggleOrder(ToggleOrder.FirstToggle);
+      setUserSelectedId(id);
+    }
+  }, [loading, requestedId, legacyFlowId, pages, failedTabs]);
+
+  useEffect(() => {
+    if (!searchMode || !LoginStatus(session)) {
+      setSearchLoading(false);
+      return;
+    }
+    const controller = new AbortController();
+    setSearchLoading(true);
+    const timer = setTimeout(async () => {
+      try {
+        const page = await requestPage(toggleOrder, null, searchbox.trim(), controller.signal);
+        if (!controller.signal.aborted) {
+          setSearchPage(page);
+          setSearchFailed(false);
+        }
+      } catch (error) {
+        if (!controller.signal.aborted) {
+          reportInboxError(error);
+          setSearchFailed(true);
+        }
+      } finally {
+        if (!controller.signal.aborted) setSearchLoading(false);
+      }
+    }, 400);
+    return () => {
+      clearTimeout(timer);
+      controller.abort();
+    };
+  }, [searchbox, searchMode, session, toggleOrder, requestPage, searchRevision]);
+
+  useEffect(() => {
+    moreRequestRef.current?.abort();
+    moreRequestRef.current = null;
+    setLoadingMore(false);
+  }, [searchbox, toggleOrder, session]);
+
+  const loadMore = useCallback(
+    async (retryInitial = false) => {
+      if (moreRequestRef.current || loading || searchLoading || userSelectedId !== null) return;
+      const cursor = retryInitial ? null : activePage.nextMaxId;
+      if (!cursor && !retryInitial) return;
+      const controller = new AbortController();
+      moreRequestRef.current = controller;
+      setLoadingMore(true);
+      try {
+        const page = await requestPage(toggleOrder, cursor, searchMode ? searchbox.trim() : "", controller.signal);
+        if (controller.signal.aborted) return;
+        const merged = retryInitial ? page.items : mergeAutomations(activePage.items, page.items);
+        const advanced = retryInitial || (merged.length > activePage.items.length && page.nextMaxId !== cursor);
+        const next = { items: merged, nextMaxId: advanced ? page.nextMaxId : null };
+        if (searchMode) {
+          setSearchPage(next);
+          setSearchFailed(false);
+        } else {
+          setPages((previous) => ({ ...previous, [toggleOrder]: next }));
+          setFailedTabs((previous) => ({ ...previous, [toggleOrder]: false }));
+        }
+      } catch (error) {
+        if (!controller.signal.aborted) {
+          reportInboxError(error);
+          if (searchMode) setSearchFailed(true);
+          else setFailedTabs((previous) => ({ ...previous, [toggleOrder]: true }));
+        }
+      } finally {
+        if (moreRequestRef.current === controller) {
+          moreRequestRef.current = null;
+          if (mountedRef.current) setLoadingMore(false);
         }
       }
-      if (promptRes.succeeded) setPromptInbox(promptRes.value);
-      if (aiToolRes.succeeded) setAITools(aiToolRes.value);
-    } catch (error) {
-      notify(ResponseType.Unexpected, NotifType.Error);
-    } finally {
-      setLoading(false);
-    }
+    },
+    [activePage, loading, searchLoading, userSelectedId, requestPage, toggleOrder, searchMode, searchbox],
+  );
+
+  useEffect(() => {
+    if (
+      loading ||
+      searchLoading ||
+      listFailed ||
+      !activePage.nextMaxId ||
+      userSelectedId !== null ||
+      !loadMoreRef.current
+    )
+      return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) void loadMore();
+      },
+      { root: containerRef.current, rootMargin: "0px 0px 160px 0px" },
+    );
+    observer.observe(loadMoreRef.current);
+    return () => observer.disconnect();
+  }, [loading, searchLoading, loadingMore, listFailed, activePage.nextMaxId, userSelectedId, loadMore]);
+
+  function showUserList() {
+    setUserSelectedId(null);
+    setSettingModalVisible(false);
+    setLiveTestVisible(false);
+    setShowLiveChatPopup(false);
+    getEditorStateRef.current = null;
   }
-  useEffect(() => {
-    if (!routerHook.isReady) return;
 
-    const requestedFlowId = routerHook.query.id;
-    const requestedFlowIdValue = Array.isArray(requestedFlowId) ? requestedFlowId[0] : requestedFlowId;
-
-    if (!requestedFlowIdValue && routerHook.query.flowId) {
-      const fid = Array.isArray(routerHook.query.flowId) ? routerHook.query.flowId[0] : routerHook.query.flowId;
-      if (fid) {
-        setToggleOrder(ToggleOrder.FirstToggle);
-        setUserSelectedId(String(fid));
-      }
+  function handleToggleChange(order: ToggleOrder) {
+    if (order !== ToggleOrder.FirstToggle && order !== ToggleOrder.SecondToggle) {
+      notify(ResponseType.Unexpected, NotifType.Error);
+      return;
     }
-    if (session === undefined || session?.user.username === undefined || !LoginStatus(session)) return;
-    fetchFirstData();
-    const handleMouseMove = (event: { clientX: number; clientY: number }) => {
-      setMousePos({ x: event.clientX, y: event.clientY });
-    };
-    const handleTouchMove = (e: TouchEvent) => {
-      touchMove = e.touches[0].clientX;
-    };
-    const handleTouchStart = (e: TouchEvent) => {
-      touchStart = e.touches[0].clientX;
-    };
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("touchmove", handleTouchMove);
-    window.addEventListener("touchstart", handleTouchStart);
+    moreRequestRef.current?.abort();
+    setToggleOrder(order);
+    setSearchbox("");
+    setSearchPage(emptyPage());
+    setSearchFailed(false);
+    setSearchLoading(false);
+    containerRef.current?.scrollTo({ top: 0 });
+  }
 
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("touchmove", handleTouchMove);
-      window.removeEventListener("touchstart", handleTouchStart);
-      hideDivIndex = null;
-    };
-  }, [session, routerHook.isReady]);
-  /* ___dragDropSidebar___ */
-  useEffect(() => {
-    window.addEventListener("resize", handleResize);
-    handleResize();
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [userSelectedId]);
+  function handleSearch(query: string) {
+    setSearchbox(query);
+    setSearchPage(emptyPage());
+    setSearchFailed(false);
+    setSearchLoading(query.trim().length > 0);
+    containerRef.current?.scrollTo({ top: 0 });
+  }
 
-  function handleUpdateFlow(masterFlow: ITotalMasterFlow, flowStr: string): void {
-    // Update the masterFlow state with the updated flow
-    console.log("masterFlowwwwwwww", masterFlow);
-    setMasterFlow((prev) => {
-      // If previous state is null, create a new IMasterFlow with this item
-      if (!prev)
-        return {
-          ...({} as IMasterFlow),
-          items: [masterFlow],
-          nextMaxId: null,
-        };
-      const existedFlow = prev.items.find((item) => item.masterFlowId === masterFlow.masterFlowId);
-      // If the flow does not exist, prepend it to the items array
-      if (!existedFlow) {
-        localStorage.removeItem("flowEditor_autoSave_newFlow");
-        setUserSelectedId(masterFlow.masterFlowId);
-        return {
-          ...prev,
-          items: [masterFlow, ...prev.items.filter((item) => item.masterFlowId !== "newFlow")],
-        };
-      }
-      // Otherwise replace the existing item
-      else {
-        console.log("updating existing flow", JSON.parse(flowStr));
-        localStorage.removeItem(`flowEditor_autoSave_${masterFlow.masterFlowId}`);
-        return {
-          ...prev,
-          items: prev.items.map((item) => (item.masterFlowId === masterFlow.masterFlowId ? masterFlow : item)),
-        };
-      }
-    });
-
-    if (masterFlow.masterFlowId !== "newFlow") {
-      setNewFlowDraft(null);
-    }
-
-    // Close the settings modal after successful update
+  function handleUpdateFlow(masterFlow: ITotalMasterFlow) {
+    const automation: PostAutomation = { type: "flow", flow: masterFlow };
+    setPages((previous) => ({
+      ...previous,
+      [ToggleOrder.FirstToggle]: {
+        ...previous[ToggleOrder.FirstToggle],
+        items: mergeAutomations(
+          [automation],
+          previous[ToggleOrder.FirstToggle].items.filter(
+            (item) => automationIdentity(item) !== masterFlow.masterFlowId,
+          ),
+        ),
+      },
+    }));
+    setSearchPage((previous) => ({
+      ...previous,
+      items: previous.items.map((item) => (automationIdentity(item) === masterFlow.masterFlowId ? automation : item)),
+    }));
+    localStorage.removeItem(
+      `flowEditor_autoSave_${userSelectedId === "newFlow" ? "newFlow" : masterFlow.masterFlowId}`,
+    );
+    setNewFlowDraft(null);
+    setUserSelectedId(masterFlow.masterFlowId);
     setSettingModalVisible(false);
   }
 
+  function updateAIPrompt(prompt: ITotalPrompt) {
+    const automation: PostAutomation = { type: "ai", prompt };
+    setPages((previous) => ({
+      ...previous,
+      [ToggleOrder.SecondToggle]: {
+        ...previous[ToggleOrder.SecondToggle],
+        items: mergeAutomations(
+          [automation],
+          previous[ToggleOrder.SecondToggle].items.filter((item) => automationIdentity(item) !== prompt.promptId),
+        ),
+      },
+    }));
+    setSearchPage((previous) => ({
+      ...previous,
+      items: previous.items.map((item) => (automationIdentity(item) === prompt.promptId ? automation : item)),
+    }));
+    setUserSelectedId(prompt.promptId);
+  }
+
+  function closePromptAnalysis() {
+    setShowPromptAnalysisModal(false);
+    promptAnalysisCloseRef.current?.();
+    promptAnalysisAcceptRef.current = null;
+    promptAnalysisCloseRef.current = null;
+  }
+
+  const existingFlows = pages[ToggleOrder.FirstToggle].items.flatMap((item) =>
+    item.type === "flow" ? [item.flow] : [],
+  );
+  const displayedItems =
+    newFlowDraft && toggleOrder === ToggleOrder.FirstToggle && !searchMode
+      ? [{ type: "flow" as const, flow: newFlowDraft }, ...activePage.items]
+      : activePage.items;
+
   return (
     <>
-      {loading && <Loading />}
-      {!loading && (
-        <div className={`pincontainerMSG translate`}>
-          {/* ___left ___*/}
-          <div className={styles.left} style={{ display: displayLeft }}>
-            {/* ___search ___*/}
-
-            <InputBox
-              className={"serachMenuBar"}
-              placeHolder={t(LanguageKey.searchKeyword)}
-              handleInputChange={handleSearchThreads}
-              value={searchbox}
-              maxLength={undefined}
-              name="Search from People or Keyword"
+      {loading ? (
+        <Loading />
+      ) : (
+        <div className={`pincontainerMSG translate ${styles.workspace}`}>
+          {userSelectedId === null ? (
+            <AutomationDashboard
+              toggleOrder={toggleOrder}
+              onToggle={handleToggleChange}
+              items={displayedItems}
+              hasMore={!!activePage.nextMaxId}
+              fetching={searchLoading}
+              failed={listFailed}
+              onRetry={() => {
+                if (searchMode && !searchPage.items.length) setSearchRevision((value) => value + 1);
+                else void loadMore(!activePage.items.length);
+              }}
+              query={searchbox}
+              onSearch={handleSearch}
+              searchOpen={searchOpen}
+              onSearchOpen={setSearchOpen}
+              sort={sort}
+              onSort={setSort}
+              onNew={() => {
+                if (toggleOrder === ToggleOrder.FirstToggle) setShowNewFlowModal(true);
+                else {
+                  setAIPromptTools([]);
+                  setPromptInfo(null);
+                  setUserSelectedId("");
+                }
+              }}
+              onOpen={(automation) => {
+                if (automation.type === "ai") setAIPromptTools([]);
+                setUserSelectedId(automationIdentity(automation));
+              }}
+              onConnect={setConnectingAutomation}
+              canConnect={(automation) =>
+                posts.allowed && (automation.type === "ai" || !!session?.user.messagePermission)
+              }
+              connections={posts.connections}
+              connectionStatus={posts.status}
+              canReadConnections={posts.allowed}
+              onRetryConnections={posts.retry}
+              containerRef={containerRef}
+              loadingMore={loadingMore}
+              loadMoreRef={loadMoreRef}
             />
-
-            {/* ___switch button ___*/}
-            <ToggleButton
-              onChange={handleToggleChange}
-              selectedValue={toggleOrder}
-              options={[
-                { label: t(LanguageKey.Flow), id: 0 },
-                { label: t(LanguageKey.AI), id: 1 },
-              ]}
-            />
-            {toggleOrder === ToggleOrder.FirstToggle && (
-              <>
-                <div onClick={() => setShowNewFlowModal(true)} className={styles.addnewlink} title="◰ Create new Flow">
-                  <div className={styles.addnewicon}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="none" viewBox="0 0 36 36">
-                      <path
-                        d="m15.4 7.5 6 19M14.7 6.7l8 4"
-                        stroke="var(--color-dark-blue)"
-                        strokeOpacity=".4"
-                        strokeWidth="4"
-                      />
-                      <path
-                        d="M2 7.5c0-1.4 0-2 .2-2.7a4 4 0 0 1 2.6-2.6Q5.6 2 7.5 2h3c1.4 0 2 0 2.7.2a4 4 0 0 1 2.6 2.6q.3.8.2 2.7c0 1.4 0 2-.2 2.7a4 4 0 0 1-2.6 2.6q-.7.3-2.7.2h-3c-1.4 0-2 0-2.7-.2a4 4 0 0 1-2.6-2.6Q2 9.4 2 7.5m19 6c0-1.4 0-2 .2-2.7a4 4 0 0 1 2.6-2.6q.8-.2 2.7-.2h3c1.4 0 2 0 2.7.2a4 4 0 0 1 2.6 2.6q.3.7.2 2.7c0 1.4 0 2-.2 2.7a4 4 0 0 1-2.6 2.6q-.7.3-2.7.2h-3c-1.4 0-2 0-2.7-.2a4 4 0 0 1-2.6-2.6q-.2-.7-.2-2.7m-2 15c0-1.4 0-2 .2-2.7a4 4 0 0 1 2.6-2.6q.8-.2 2.7-.2h3c1.4 0 2 0 2.7.2a4 4 0 0 1 2.6 2.6q.3.8.2 2.7c0 1.4 0 2-.2 2.7a4 4 0 0 1-2.6 2.6q-.7.3-2.7.2h-3c-1.4 0-2 0-2.7-.2a4 4 0 0 1-2.6-2.6q-.2-.7-.2-2.7"
-                        fill="var(--color-dark-blue)"
-                      />
-                    </svg>
-                  </div>
-
-                  <div className={styles.addnewcontent}>
-                    <div className={styles.addnewheader}>{t(LanguageKey.CreateAutomationFlow)}</div>
-                    <div className="explain">{t(LanguageKey.CreateAutomationFlowExplain)}</div>
-                  </div>
-                </div>
-              </>
-            )}
-            {toggleOrder === ToggleOrder.SecondToggle && (
-              <div onClick={() => setUserSelectedId("")} className={styles.addnewlink} title="◰ Create new Flow">
-                <div className={styles.addnewicon}>
-                  <svg width="36" height="36" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <path
-                      opacity=".2"
-                      d="M14.2 20.9a8.4 8.4 0 0 0 7.8-8v-2.4a8.4 8.4 0 0 0-7.8-8H9.8a8.4 8.4 0 0 0-7.8 8V13q.3 2.3 1.6 4.2.6 1.3-.3 2.8-.6 1-.4 1.2.3.4 1.1.3 1.7 0 2.7-.8l.7-.4 1 .3 1.4.3z"
-                      fill="var(--color-dark-blue)"
-                    />
-                    <path
-                      d="m7.5 15 1.8-5.5a.7.7 0 0 1 1.4 0l1.8 5.5m3-6v6m-7-2h3m2.7 7.9a8.4 8.4 0 0 0 7.8-8v-2.4a8.4 8.4 0 0 0-7.8-8H9.8a8.4 8.4 0 0 0-7.8 8V13q.3 2.3 1.6 4.2.6 1.3-.3 2.8-.6 1-.4 1.2.3.4 1.1.3 1.7 0 2.7-.8l.7-.4 1 .3 1.4.3z"
-                      stroke="var(--color-dark-blue)"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </div>
-
-                <div className={styles.addnewcontent}>
-                  <div className={styles.addnewheader}>{t(LanguageKey.CreateAutomationAI)}</div>
-                  <div className="explain">{t(LanguageKey.CreateAutomationAIExplain)}</div>
-                </div>
-              </div>
-            )}
-            {/* ___list of user ___*/}
-            <div className={styles.userslist} ref={userListRef} onScroll={handleScroll}>
-              {toggleOrder === ToggleOrder.FirstToggle && newFlowDraft && !showSearchThread.searchMode && (
-                <div
-                  className={styles.userbackground}
-                  style={userSelectedId === "newFlow" ? { background: "var(--color-gray30)" } : {}}
-                  onMouseDown={() => handleMouseDown()}
-                  onMouseUp={() => handleMouseUp()}
-                  onMouseMove={() => handleMouseMove("newFlow")}
-                  onTouchEnd={() => handleTouchEnd("newFlow")}
-                  onClick={() => {
-                    if (typeof window !== "undefined" && window.innerWidth <= 1024) {
-                      setDisplayLeft("none");
-                      setDisplayRight("");
-                    }
-                    setUserSelectedId("newFlow");
-                  }}>
-                  {(() => {
-                    const thumbnailStyle = getThumbnailStyle(newFlowDraft.title, {
-                      backgroundOpacity: 60,
-                      characterCount: 2,
-                      textColorMode: "background-dark",
-                    });
-                    return (
-                      <div
-                        className={styles.thumbnail}
-                        style={{
-                          background: thumbnailStyle.backgroundColor,
-                          color: thumbnailStyle.color,
-                        }}>
-                        {thumbnailStyle.text}
-                      </div>
-                    );
-                  })()}
-                  <div className="instagramprofiledetail">
-                    <div className="instagramusername" title={newFlowDraft.title}>
-                      {newFlowDraft.title}
-                    </div>
-                    <div className="instagramid">
-                      # {newFlowDraft.masterFlowId}
-                      <div className="IDred">{t(LanguageKey.product_draft)}</div>
-                    </div>
-                    <div className={styles.chattime}>{new Date(newFlowDraft.createdTime).toLocaleString()}</div>
-                  </div>
-                  {renderConnectPostButton({ type: "flow", flow: newFlowDraft })}
-                </div>
-              )}
-              {toggleOrder === ToggleOrder.FirstToggle &&
-                !showSearchThread.searchMode &&
-                masterFlow &&
-                masterFlow.items.map((v) => (
-                  <div
-                    className={styles.userbackground}
-                    style={v.masterFlowId === userSelectedId ? { background: "var(--color-gray30)" } : {}}
-                    key={v.masterFlowId}
-                    onMouseDown={() => handleMouseDown()}
-                    onMouseUp={() => handleMouseUp()}
-                    onMouseMove={() => handleMouseMove(v.masterFlowId)}
-                    onTouchEnd={() => handleTouchEnd(v.masterFlowId)}
-                    onClick={() => {
-                      handleShowFlow(v.masterFlowId);
-                    }}>
-                    {(() => {
-                      const thumbnailStyle = getThumbnailStyle(v.title, {
-                        backgroundOpacity: 60,
-                        characterCount: 2,
-                        textColorMode: "background-dark",
-                      });
-                      return (
-                        <div
-                          className={styles.thumbnail}
-                          style={{
-                            background: thumbnailStyle.backgroundColor,
-                            color: thumbnailStyle.color,
-                          }}>
-                          {thumbnailStyle.text}
-                        </div>
-                      );
-                    })()}
-                    <div className={`instagramprofiledetail ${styles.flowDetails}`}>
-                      <div className="instagramusername" title={v.title}>
-                        {v.title}
-                      </div>
-                      <div className="instagramid" title="ℹ️ Flow ID">
-                        # {v.masterFlowId}
-                      </div>
-                      <div className={styles.chattime}>
-                        {new DateObject({
-                          date: convertToMilliseconds(v.createdTime),
-                          calendar: initialzedTime().calendar,
-                          locale: initialzedTime().locale,
-                        }).format("YYYY/MM/DD - h:mm a")}
-                      </div>
-                    </div>
-                    {renderConnectPostButton({ type: "flow", flow: v })}
-                  </div>
-                ))}
-              {toggleOrder === ToggleOrder.SecondToggle &&
-                !showSearchThread.searchMode &&
-                promptInbox &&
-                promptInbox.items.map((v) => (
-                  <div
-                    key={v.promptId}
-                    onMouseDown={() => handleMouseDown()}
-                    onMouseUp={() => handleMouseUp()}
-                    onMouseMove={() => handleMouseMove(v.promptId)}
-                    onTouchEnd={() => handleTouchEnd(v.promptId)}
-                    onClick={() => handleShowAI(v.promptId)}
-                    className={styles.userbackground}
-                    style={v.promptId === userSelectedId ? { background: "var(--color-gray30)" } : {}}>
-                    {(() => {
-                      const thumbnailStyle = getThumbnailStyle(v.title, {
-                        backgroundOpacity: 60,
-                        characterCount: 2,
-                        textColorMode: "background-dark",
-                      });
-                      return (
-                        <div
-                          className={styles.thumbnail}
-                          style={{
-                            background: thumbnailStyle.backgroundColor,
-                            color: thumbnailStyle.color,
-                          }}>
-                          {thumbnailStyle.text}
-                        </div>
-                      );
-                    })()}
-
-                    <div className={`instagramprofiledetail ${styles.flowDetails}`}>
-                      <div className="instagramusername" title={v.title}>
-                        {v.title}
-                      </div>
-                      <div className="instagramid" title="ℹ️ Prompt ID">
-                        # {v.promptId}
-                      </div>
-                      <div className={styles.chattime}>
-                        {new DateObject({
-                          date: convertToMilliseconds(v.updatedTime),
-                          calendar: initialzedTime().calendar,
-                          locale: initialzedTime().locale,
-                        }).format("YYYY/MM/DD - h:mm a")}
-                      </div>
-                    </div>
-                    {renderConnectPostButton({ type: "ai", prompt: v })}
-                  </div>
-                ))}
-              {showSearchThread.searchMode &&
-                toggleOrder === ToggleOrder.FirstToggle &&
-                session?.user.messagePermission && (
-                  <>
-                    {showSearchThread.loading && <RingLoader />}
-                    {showSearchThread.noResult && <h1 className="title2"> {t(LanguageKey.noresult)}</h1>}
-                    {!showSearchThread.loading &&
-                      !showSearchThread.noResult &&
-                      searchMasterFlowInbox &&
-                      searchMasterFlowInbox.items.map((v) => (
-                        <div
-                          className={styles.userbackground}
-                          style={v.masterFlowId === userSelectedId ? { background: "var(--color-gray30)" } : {}}
-                          key={v.masterFlowId}
-                          onMouseDown={() => handleMouseDown()}
-                          onMouseUp={() => handleMouseUp()}
-                          onMouseMove={() => handleMouseMove(v.masterFlowId)}
-                          onTouchEnd={() => handleTouchEnd(v.masterFlowId)}
-                          onClick={() => {
-                            handleShowFlow(v.masterFlowId);
-                          }}>
-                          {(() => {
-                            const thumbnailStyle = getThumbnailStyle(v.title, {
-                              backgroundOpacity: 60,
-                              characterCount: 2,
-                              textColorMode: "background-dark",
-                            });
-                            return (
-                              <div
-                                className={styles.thumbnail}
-                                style={{
-                                  background: thumbnailStyle.backgroundColor,
-                                  color: thumbnailStyle.color,
-                                }}>
-                                {thumbnailStyle.text}
-                              </div>
-                            );
-                          })()}
-                          <div className={`instagramprofiledetail ${styles.flowDetails}`}>
-                            <div className="instagramusername" title={v.title}>
-                              {v.title}
-                            </div>
-                            <div className="instagramid" title="ℹ️ Flow ID">
-                              # {v.masterFlowId}
-                            </div>
-                            <div className={styles.chattime}>
-                              {new DateObject({
-                                date: convertToMilliseconds(v.createdTime),
-                                calendar: initialzedTime().calendar,
-                                locale: initialzedTime().locale,
-                              }).format("YYYY/MM/DD - h:mm a")}
-                            </div>
-                          </div>
-                          {renderConnectPostButton({ type: "flow", flow: v })}
-                        </div>
-                      ))}
-                  </>
-                )}
-              {showSearchThread.searchMode && toggleOrder === ToggleOrder.SecondToggle && (
-                <>
-                  {showSearchThread.loading && <RingLoader />}
-                  {showSearchThread.noResult && <h1 className="title2"> {t(LanguageKey.noresult)}</h1>}
-                  {!showSearchThread.loading &&
-                    !showSearchThread.noResult &&
-                    searchPromptInbox?.items.map((v) => (
-                      <div
-                        key={v.promptId}
-                        onMouseDown={() => handleMouseDown()}
-                        onMouseUp={() => handleMouseUp()}
-                        onMouseMove={() => handleMouseMove(v.promptId)}
-                        onTouchEnd={() => handleTouchEnd(v.promptId)}
-                        onClick={() => handleShowAI(v.promptId)}
-                        className={styles.userbackground}
-                        style={v.promptId === userSelectedId ? { background: "var(--color-gray30)" } : {}}>
-                        {(() => {
-                          const thumbnailStyle = getThumbnailStyle(v.title, {
-                            backgroundOpacity: 60,
-                            characterCount: 2,
-                            textColorMode: "background-dark",
-                          });
-                          return (
-                            <div
-                              className={styles.thumbnail}
-                              style={{
-                                background: thumbnailStyle.backgroundColor,
-                                color: thumbnailStyle.color,
-                              }}>
-                              {thumbnailStyle.text}
-                            </div>
-                          );
-                        })()}
-
-                        <div className={`instagramprofiledetail ${styles.flowDetails}`}>
-                          <div className="instagramusername" title={v.title}>
-                            {v.title}
-                          </div>
-                          <div className="instagramid" title="ℹ️ Prompt ID">
-                            # {v.promptId}
-                          </div>
-                          <div className={styles.chattime}>
-                            {new DateObject({
-                              date: convertToMilliseconds(v.updatedTime),
-                              calendar: initialzedTime().calendar,
-                              locale: initialzedTime().locale,
-                            }).format("YYYY/MM/DD - h:mm a")}
-                          </div>
-                        </div>
-                        {renderConnectPostButton({ type: "ai", prompt: v })}
-                      </div>
-                    ))}
-                </>
-              )}
-            </div>
-          </div>
-          {/* ___right ___*/}
-          {userSelectedId !== null && toggleOrder === ToggleOrder.FirstToggle && (
-            <div className={styles.right} style={{ display: displayRight }}>
+          ) : toggleOrder === ToggleOrder.FirstToggle ? (
+            <div className={styles.right}>
               <Flow
+                key={userSelectedId}
                 flowId={userSelectedId}
                 showUserList={showUserList}
-                onOpenSettings={handleOpenSettings}
-                onSaveSuccess={(masterFlow, flowStr) => {
-                  if (masterFlow && flowStr) {
-                    handleUpdateFlow(masterFlow, flowStr);
-                  }
+                onOpenSettings={(payload: SettingsPayload) => {
+                  setSettingModalProps(payload);
+                  setSettingModalVisible(true);
                 }}
-                onOpenLiveTest={handleOpenLiveTest}
-                onOpenTutorial={handleOpenTutorial}
-                onRegisterGetEditorState={handleRegisterGetEditorState}
-                onRegisterReload={handleRegisterReload}
-                existingFlows={masterFlow?.items || []}
-                initialSettings={userSelectedId === "newFlow" ? newFlowSettings || undefined : undefined}
+                onSaveSuccess={(masterFlow, flowStr) => {
+                  if (masterFlow && flowStr) handleUpdateFlow(masterFlow);
+                }}
+                onOpenLiveTest={() => {
+                  const state = getEditorStateRef.current?.();
+                  if (state) {
+                    setLiveTestState(state);
+                    setLiveTestVisible(true);
+                  } else notify(ResponseType.Unexpected, NotifType.Warning);
+                }}
+                onOpenTutorial={(nodeType) => setTutorialModal({ visible: true, nodeType })}
+                onRegisterGetEditorState={(fn) => {
+                  getEditorStateRef.current = fn;
+                }}
+                existingFlows={existingFlows}
+                initialSettings={userSelectedId === "newFlow" ? (newFlowSettings ?? undefined) : undefined}
                 initialEditorState={userSelectedId === "newFlow" ? newFlowSettings?.editorState : undefined}
               />
             </div>
-          )}
-          {userSelectedId !== null && toggleOrder === ToggleOrder.SecondToggle && (
-            <div className={styles.rightAI} style={{ display: displayRight }}>
+          ) : (
+            <div className={styles.rightAI}>
               <AIPromptBox
+                key={userSelectedId}
                 aiTools={aiTools}
                 userSelectId={userSelectedId}
                 showUserList={showUserList}
@@ -1125,55 +606,38 @@ const FlowAndAIInbox = () => {
                 tools={aiPromptTools}
                 setTools={setAIPromptTools}
                 setShowNotFeature={setShowNotFeature}
-                openPromptAnalysisModal={handleOpenPromptAnalysisModal}
+                openPromptAnalysisModal={(text, accept, close) => {
+                  setPromptAnalysisText(text);
+                  promptAnalysisAcceptRef.current = accept;
+                  promptAnalysisCloseRef.current = close;
+                  setShowPromptAnalysisModal(true);
+                }}
               />
-            </div>
-          )}
-          {userSelectedId === null && (
-            <div className={styles.disableRight} style={{ display: displayRight }}>
-              <img className={styles.disableRightimage} alt="Welcome illustration" src="/disableright.svg" />
-              <div>
-                <h3>{t(LanguageKey.flowmanagement)}</h3>
-              </div>
             </div>
           )}
         </div>
       )}
-
-      {toggleOrder === ToggleOrder.SecondToggle && !loading && (
-        <Modal
-          closePopup={() => setShowAIToolsSettings(false)}
-          classNamePopup={"popup"}
-          showContent={showAIToolsSettings && toggleOrder === ToggleOrder.SecondToggle && !loading}>
-          <AIToolsSettings
-            onClose={() => setShowAIToolsSettings(false)}
-            aiTools={aiTools}
-            selectedAITool={selectedAITool}
-            existingTools={aiPromptTools}
-            paramValues={aiToolParamValues}
-            setParamValues={setAIToolParamValues}
-            onAddToPrompt={(text: string) => {
-              if (addToPromptRef.current) {
-                addToPromptRef.current(text);
-              }
-            }}
-            onAddTool={(tool: ITool) => {
-              if (addToolRef.current) {
-                addToolRef.current(tool);
-              }
-            }}
-          />
-        </Modal>
-      )}
+      <Modal
+        closePopup={() => setShowAIToolsSettings(false)}
+        classNamePopup="popup"
+        showContent={showAIToolsSettings && toggleOrder === ToggleOrder.SecondToggle && !loading}>
+        <AIToolsSettings
+          onClose={() => setShowAIToolsSettings(false)}
+          aiTools={aiTools}
+          selectedAITool={selectedAITool}
+          existingTools={aiPromptTools}
+          paramValues={aiToolParamValues}
+          setParamValues={setAIToolParamValues}
+          onAddToPrompt={(text) => addToPromptRef.current?.(text)}
+          onAddTool={(tool) => addToolRef.current?.(tool)}
+        />
+      </Modal>
       {connectingAutomation && (
         <ConnectAutomationToPost
-          key={
-            connectingAutomation.type === "flow"
-              ? `flow-${connectingAutomation.flow.masterFlowId}`
-              : `ai-${connectingAutomation.prompt.promptId}`
-          }
+          key={`${connectingAutomation.type}-${automationIdentity(connectingAutomation)}`}
           automation={connectingAutomation}
           onClose={() => setConnectingAutomation(null)}
+          onConnected={posts.onConnected}
         />
       )}
       <NewFlowModal
@@ -1196,20 +660,15 @@ const FlowAndAIInbox = () => {
         }}
       />
       <Modal
-        closePopup={handleClosePromptAnalysisModal}
+        closePopup={closePromptAnalysis}
         classNamePopup="popup"
         showContent={showPromptAnalysisModal && toggleOrder === ToggleOrder.SecondToggle && !loading}>
         <div className="headerandinput">
-          <div id="modal-title" className="title">
-            {t(LanguageKey.promptanalysis)}
-          </div>
-          <div id="modal-title" className="explain">
-            {t(LanguageKey.promptanalysisExplain)}
-          </div>
-
+          <div className="title">{t(LanguageKey.promptanalysis)}</div>
+          <div className="explain">{t(LanguageKey.promptanalysisExplain)}</div>
           <TextArea
-            className={"TextArea"}
-            handleInputChange={(e) => setPromptAnalysisText(e.target.value)}
+            className="TextArea"
+            handleInputChange={(event) => setPromptAnalysisText(event.target.value)}
             value={promptAnalysisText}
             title={t(LanguageKey.promptanalysis)}
             autoExpandOnFocus
@@ -1218,88 +677,54 @@ const FlowAndAIInbox = () => {
           />
         </div>
         <div className="ButtonContainer">
-          <button type="button" className="cancelButton" onClick={handleClosePromptAnalysisModal}>
+          <button type="button" className="cancelButton" onClick={closePromptAnalysis}>
             {t(LanguageKey.close)}
           </button>
           <button
             type="button"
-            className={`saveButton ${promptAnalysisText.length <= 20 ? "fadeDiv" : ""}`}
-            onClick={handleAcceptPromptAnalysis}
-            disabled={promptAnalysisText.length <= 20}>
+            className={promptAnalysisText.length > 20 ? "saveButton" : "disableButton"}
+            disabled={promptAnalysisText.length <= 20}
+            onClick={() => {
+              if (promptAnalysisText.length <= 20) return;
+              promptAnalysisAcceptRef.current?.(promptAnalysisText);
+              setShowPromptAnalysisModal(false);
+              promptAnalysisAcceptRef.current = null;
+              promptAnalysisCloseRef.current = null;
+            }}>
             {t(LanguageKey.accept)}
           </button>
         </div>
       </Modal>
-      {/* ================================================================= */}
-      {/* SETTINGS MODAL - مودال تنظیمات */}
-      {/* ================================================================= */}
       {settingModalProps && (
         <Modal
           closePopup={() => setSettingModalVisible(false)}
-          classNamePopup={"popup"}
+          classNamePopup="popup"
           showContent={settingModalVisible && toggleOrder === ToggleOrder.FirstToggle && !loading}>
           <SettingModal
-            masterFlowId={settingModalProps.masterFlowId}
-            snapToGridEnabled={settingModalProps.snapToGridEnabled}
-            setSnapToGridEnabled={settingModalProps.setSnapToGridEnabled}
-            showMinimap={settingModalProps.showMinimap}
-            setShowMinimap={settingModalProps.setShowMinimap}
-            panningBoundaryEnabled={settingModalProps.panningBoundaryEnabled}
-            setPanningBoundaryEnabled={settingModalProps.setPanningBoundaryEnabled}
-            exportFlow={settingModalProps.exportFlow}
-            importFlow={settingModalProps.importFlow}
-            deleteAllNodes={settingModalProps.deleteAllNodes}
-            editorState={settingModalProps.editorState}
-            lastSaved={settingModalProps.lastSaved}
-            historyIndex={settingModalProps.historyIndex}
-            history={settingModalProps.history}
-            flowTitle={settingModalProps.flowTitle}
-            checkFollower={settingModalProps.checkFollower}
-            setCheckFollower={settingModalProps.setCheckFollower}
-            privateReplyCompability={settingModalProps.privateReplyCompability}
-            isAutoSaving={settingModalProps.isAutoSaving}
-            isValidFlow={settingModalProps.isValidFlow}
-            onSaveSuccess={settingModalProps.onSaveSuccess}
-            unsavedChanges={settingModalProps.unsavedChanges}
+            {...settingModalProps}
             updateFlow={handleUpdateFlow}
             cancelSave={() => setSettingModalVisible(false)}
           />
         </Modal>
       )}
-      {/* LiveChat component for AI prompt testing */}
-      {toggleOrder === ToggleOrder.SecondToggle && !loading && showLiveChatPopup && promptInfo && (
-        <Modal
-          closePopup={setShowLiveChatPopup.bind(this, false)}
-          classNamePopup={"popup"}
-          showContent={
-            toggleOrder === ToggleOrder.SecondToggle && !loading && showLiveChatPopup && promptInfo !== null
-          }>
+      {showLiveChatPopup && promptInfo && toggleOrder === ToggleOrder.SecondToggle && !loading && (
+        <Modal closePopup={() => setShowLiveChatPopup(false)} classNamePopup="popup" showContent>
           <LiveChat promptInfo={promptInfo} />
         </Modal>
       )}
-
-      {/* ================================================================= */}
-      {/* LIVE TEST MODAL - شبیه‌ساز دایرکت اینستاگرام */}
-      {/* ================================================================= */}
-      {liveTestVisible && getEditorStateRef.current && (
+      {liveTestVisible && liveTestState && (
         <LiveTestModal
           isOpen={liveTestVisible}
           onClose={() => setLiveTestVisible(false)}
-          editorState={{
-            nodes: getEditorStateRef.current().nodes,
-            connections: getEditorStateRef.current().connections,
-          }}
-          title={getEditorStateRef.current().title}
+          editorState={liveTestState}
+          title={liveTestState.title}
         />
       )}
-      {/* ================================================================= */}
-      {/* TUTORIAL MODAL - مودال آموزش (moved from Flow) */}
-      {/* ================================================================= */}
       {tutorialModal.visible && tutorialModal.nodeType && (
         <Modal
           closePopup={() => setTutorialModal({ visible: false, nodeType: null })}
           classNamePopup="popup"
-          showContent={tutorialModal.visible}>
+          showContent>
           <TutorialModalContent
             nodeType={tutorialModal.nodeType}
             onClose={() => setTutorialModal({ visible: false, nodeType: null })}
@@ -1311,6 +736,4 @@ const FlowAndAIInbox = () => {
       </Modal>
     </>
   );
-};
-
-export default FlowAndAIInbox;
+}

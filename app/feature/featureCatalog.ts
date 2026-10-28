@@ -538,6 +538,11 @@ export const featureCatalog: FeatureRecord[] = [
 
 export const auditRecords: AuditRecord[] = [
   {
+    id: "automationTemplatesPrototype",
+    routes: ["/Ai/FlowandAgent"],
+    sourceKinds: ["route", "component", "translation"],
+  },
+  {
     id: "visualIdentityPrototype",
     routes: ["/Ai/creator"],
     sourceKinds: ["route", "component"],

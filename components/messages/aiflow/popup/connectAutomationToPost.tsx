@@ -26,12 +26,17 @@ import { useSession } from "next-auth/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./connectAutomationToPost.module.css";
+import { AutomationPost } from "../useAutomationPosts";
 
 export type PostAutomation =
   | { type: "flow"; flow: ITotalMasterFlow }
   | { type: "ai"; prompt: ITotalPrompt };
 
-export default function ConnectAutomationToPost(props: { automation: PostAutomation; onClose: () => void }) {
+export default function ConnectAutomationToPost(props: {
+  automation: PostAutomation;
+  onClose: () => void;
+  onConnected?: (connection: AutomationPost) => void;
+}) {
   const { data: session } = useSession();
   const { t } = useTranslation();
   const isFlow = props.automation.type === "flow";
@@ -149,6 +154,13 @@ export default function ConnectAutomationToPost(props: { automation: PostAutomat
           return;
         }
         savedReply = result.value;
+        props.onConnected?.({
+          post: selectedPost,
+          type: isFlow ? "flow" : "ai",
+          automationId: props.automation.type === "flow"
+            ? props.automation.flow.masterFlowId
+            : props.automation.prompt.promptId,
+        });
         if (mountedRef.current) {
           setAutoReply(result.value);
           setConnectionSaved(true);

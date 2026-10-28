@@ -2,6 +2,8 @@
 
 ## Known Bugs
 
+The shared DotMenu could open outside the viewport when triggered from a bottom-row automation card. Fixed on 2026-10-27 by measuring the portalled menu and clamping its fixed coordinates to an 8px viewport inset. Synthetic browser checks cover the lower-row action and keyboard Escape. The redesigned dashboard also cancels stale debounced searches instead of retaining the inbox's time-locked search behavior.
+
 The general and media auto-reply editors previously placed their activation switches inside the inactive `fadeDiv`, preventing users from re-enabling a paused reply. Fixed on 2026-10-04 by applying the inactive state only to the settings content; automated component coverage remains pending.
 
 The Ice Breaker deletion persistence bug was fixed on 2026-09-24. `Properties.tsx` previously sent the pre-deletion button list to `UpdateIceBreaker`; it now sends the filtered list without the selected item. Automated component coverage remains pending.

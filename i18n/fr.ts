@@ -1,5 +1,37 @@
 export default {
   translation: {
+    Automation_flow_templates: "Modèles de flux",
+    Automation_ai_templates: "Modèles IA",
+    Automation_sample: "Exemple",
+    Automation_sample_notice: "Vous pouvez utiliser des modèles prédéfinis et les personnaliser",
+    Automation_template_number: "Modèle n° {{number}}",
+    Automation_beginner: "Débutant",
+    Automation_intermediate: "Intermédiaire",
+    Automation_advanced: "Avancé",
+    Automation_trending: "Tendance",
+    Automation_sample_cart: "Récupération du panier",
+    Automation_sample_cart_description:
+      "Exemple : aidez les clients à retrouver leur panier et répondez à leurs questions.",
+    Automation_sample_language: "Conversations multilingues",
+    Automation_sample_language_description:
+      "Exemple : guidez les visiteurs vers une conversation dans leur langue préférée.",
+    Automation_sample_support: "Assistant du service client",
+    Automation_sample_support_description:
+      "Exemple : répondez aux questions fréquentes et indiquez la prochaine étape.",
+    Automation_sample_welcome: "Accueil des nouveaux clients",
+    Automation_sample_welcome_description: "Exemple : accueillez les visiteurs et présentez vos produits et services.",
+    Automation_flow_history: "Historique des flux",
+    Automation_ai_history: "Historique IA",
+    Automation_loaded_count: "Éléments chargés ; + indique que d’autres sont disponibles.",
+    Automation_sort_newest: " plus récents",
+    Automation_sort_oldest: " plus anciens",
+    Automation_sort_title: " par titre",
+    Automation_connected_posts: "Publications connectées",
+    Automation_not_connected: "Aucune publication connectée.",
+    Automation_connections_access:
+      "L’autorisation des commentaires et l’accès Automatisation/Commentaires sont requis.",
+    Automation_checking_connections: "Vérification des connexions...",
+    Automation_connections_retry: "Certaines connexions n’ont pas pu être vérifiées. Réessayer.",
     aiSuggestedPrompts_title: "Prompts suggérés",
     aiSuggestedPrompts_openImage: "Ouvrir l’image en plein écran",
     aiSuggestedPrompts_explain: "Choisissez un prompt pour commencer.",
@@ -2808,17 +2840,22 @@ export default {
     AIFlow_item_title: "Titre de l’Élément:",
     AIFlow_show_graph: "Afficher le graphique du flux",
     AIFlow_connect_post: "Associer à une publication",
-    AIFlow_connect_post_access: "Les autorisations Instagram de commentaires et de messages et les accès Automatisation et Commentaires sont requis.",
+    AIFlow_connect_post_access:
+      "Les autorisations Instagram de commentaires et de messages et les accès Automatisation et Commentaires sont requis.",
     AIFlow_connect_post_save_first: "Enregistrez ce flux avant de l'associer à une publication.",
     AIFlow_connect_post_confirm:
       "Ce flux remplace la réponse automatique actuelle de la publication et est activé. Les mots-clés et leur mode de correspondance sont conservés ; sans mots-clés, le flux répond à tous les commentaires.",
-    AIFlow_connect_post_resume: "L'association du flux est enregistrée, mais l'activation a échoué. Réessayez de l'activer.",
-    AIFlow_connect_post_incompatible: "Ce flux est incompatible avec les réponses privées aux commentaires. Modifiez-le et enregistrez-le avant de l'associer.",
+    AIFlow_connect_post_resume:
+      "L'association du flux est enregistrée, mais l'activation a échoué. Réessayez de l'activer.",
+    AIFlow_connect_post_incompatible:
+      "Ce flux est incompatible avec les réponses privées aux commentaires. Modifiez-le et enregistrez-le avant de l'associer.",
     AIFlow_retry: "Réessayer",
-    AIPrompt_connect_post_access: "L'autorisation de commentaires Instagram et les accès Automatisation et Commentaires sont requis.",
+    AIPrompt_connect_post_access:
+      "L'autorisation de commentaires Instagram et les accès Automatisation et Commentaires sont requis.",
     AIPrompt_connect_post_confirm:
       "Cette IA remplace la réponse automatique actuelle de la publication et est activée. Les mots-clés et leur mode de correspondance sont conservés ; sans mots-clés, tous les commentaires reçoivent une réponse. L'envoi privé est conservé uniquement si l'autorisation de messages est disponible ; sinon, les réponses sont envoyées en commentaires.",
-    AIPrompt_connect_post_resume: "L'association de l'IA est enregistrée, mais l'activation a échoué. Réessayez de l'activer.",
+    AIPrompt_connect_post_resume:
+      "L'association de l'IA est enregistrée, mais l'activation a échoué. Réessayez de l'activer.",
     messagesetting_PhoneNumbers: "Numéros de téléphone",
     messagesetting_PhoneNumbersExplain: "Numéros de téléphone collectés auprès de vos clients via les flux",
     messagesetting_PhoneNumbersEmpty: "Aucun numéro de téléphone n'a encore été collecté",

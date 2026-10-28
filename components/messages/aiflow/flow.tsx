@@ -4275,18 +4275,18 @@ export default function Flow({
       {!loading && (
         <>
           <div className={styles.header}>
-            <svg
-              onClick={() => {
-                showUserList();
-              }}
+            <button
+              type="button"
+              onClick={showUserList}
               className={styles.backicon}
-              fill="none"
-              viewBox="0 0 14 11">
+              aria-label={t(LanguageKey.back)}>
+              <svg width="18" height="15" fill="none" viewBox="0 0 14 11" aria-hidden="true">
               <path
                 d="M13 4.4H3.3l3-3A1 1 0 0 0 5 0L.3 4.7A1 1 0 0 0 .3 6l4.6 4.7a1 1 0 0 0 1.4-1.4l-3-3H13a1 1 0 0 0 0-2"
                 fill="var(--color-light-blue)"
               />
-            </svg>
+              </svg>
+            </button>
             <Tooltip tooltipValue={t(LanguageKey.save)} position="top">
               <button
                 className={`${styles.toolbardesktopitem} ${hasUnsavedChanges ? styles.toolbardesktopitemDraft : ""}`}

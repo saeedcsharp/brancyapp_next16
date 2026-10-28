@@ -1,5 +1,37 @@
 export default {
   translation: {
+    Automation_flow_templates: "Flow Templates",
+    Automation_ai_templates: "AI Templates",
+    Automation_sample: "Sample",
+    Automation_sample_notice: "You can use pre-built templates and customize them",
+    Automation_template_number: "Template #{{number}}",
+    Automation_beginner: "Beginner",
+    Automation_intermediate: "Intermediate",
+    Automation_advanced: "Advanced",
+    Automation_trending: "Trending",
+    Automation_sample_cart: "E-commerce Cart Recovery",
+    Automation_sample_cart_description:
+      "Sample idea: help shoppers return to their cart and answer their purchase questions.",
+    Automation_sample_language: "Multilingual Conversations",
+    Automation_sample_language_description:
+      "Sample idea: guide visitors to a conversation in their preferred language.",
+    Automation_sample_support: "Customer Support Assistant",
+    Automation_sample_support_description:
+      "Sample idea: answer common questions and guide customers to the right next step.",
+    Automation_sample_welcome: "Welcome New Customers",
+    Automation_sample_welcome_description:
+      "Sample idea: welcome new visitors and introduce your products and services.",
+    Automation_flow_history: "Flow History",
+    Automation_ai_history: "AI History",
+    Automation_loaded_count: "Loaded items; + means more items are available.",
+    Automation_sort_newest: "newest first",
+    Automation_sort_oldest: "oldest first",
+    Automation_sort_title: "by title",
+    Automation_connected_posts: "Connected posts",
+    Automation_not_connected: "Not connected to any post.",
+    Automation_connections_access: "Comment permission and Automation/Comment access are needed to view connections.",
+    Automation_checking_connections: "Checking post connections...",
+    Automation_connections_retry: "Could not verify all connections. Try again.",
     aiSuggestedPrompts_title: "Suggested prompts",
     aiSuggestedPrompts_openImage: "Open image fullscreen",
     aiSuggestedPrompts_explain: "Choose a prompt to use as your starting point.",
@@ -2738,7 +2770,8 @@ export default {
     AIFlow_connect_post_confirm:
       "This replaces the post's current automatic reply with this flow and activates it. Existing keywords and matching settings are kept; without keywords, the flow responds to all comments.",
     AIFlow_connect_post_resume: "The flow connection was saved, but activation failed. Try activating it again.",
-    AIFlow_connect_post_incompatible: "This flow is not compatible with private comment replies. Edit and save the flow before connecting it.",
+    AIFlow_connect_post_incompatible:
+      "This flow is not compatible with private comment replies. Edit and save the flow before connecting it.",
     AIFlow_retry: "Try again",
     AIPrompt_connect_post_access: "Instagram comment permission and Automation and Comment access are required.",
     AIPrompt_connect_post_confirm:
