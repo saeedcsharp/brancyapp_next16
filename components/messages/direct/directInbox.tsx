@@ -136,6 +136,7 @@ const DirectInbox = () => {
     file: File;
     threadId: string;
     igid: string;
+    replyTo?: string | null;
   } | null>(null);
 
   const [showSearchThread, setShowSearchThread] = useState({
@@ -592,12 +593,12 @@ const DirectInbox = () => {
     setPopupImage("");
   };
 
-  const handleSendFile = (sendFile: { file: File; threadId: string; igid: string }) => {
+  const handleSendFile = (sendFile: { file: File; threadId: string; igid: string; replyTo?: string | null }) => {
     setFileContent(sendFile);
     setShowSendFile(true);
   };
 
-  const handleSendVideoFile = (sendVideo: { file: File; threadId: string; igid: string }) => {
+  const handleSendVideoFile = (sendVideo: { file: File; threadId: string; igid: string; replyTo?: string | null }) => {
     setFileContent(sendVideo);
     setShowSendVideoFile(true);
   };
@@ -608,7 +609,7 @@ const DirectInbox = () => {
     setShowSendFile(false);
     setFileContent(null);
     if (ws && ws.state === HubConnectionState.Connected)
-      await ws.send("SendImageMessage", sendImage.igId, sendImage.imageUrl);
+      await ws.send("SendImageMessage", sendImage.igId, sendImage.imageUrl, sendImage.replyTo ?? null);
   };
 
   const handleSendVideo = async (sendVideo: IIsSendingMessage) => {
@@ -618,7 +619,7 @@ const DirectInbox = () => {
     setShowSendVideoFile(false);
     setFileContent(null);
     if (ws && ws.state === HubConnectionState.Connected)
-      await ws.send("SendVideoMessage", sendVideo.igId, sendVideo.imageUrl);
+      await ws.send("SendVideoMessage", sendVideo.igId, sendVideo.imageUrl, sendVideo.replyTo ?? null);
   };
 
   const fetchData = async (
@@ -1648,14 +1649,15 @@ const DirectInbox = () => {
           break;
         case ItemType.Media:
           const res = await UploadFile(session, message.file);
-          if (message.mediaType === MediaType.Image) await ws?.send("SendVideoMessage", message.igId, res.fileName);
+          if (message.mediaType === MediaType.Image)
+            await ws?.send("SendVideoMessage", message.igId, res.fileName, message.replyTo ?? null);
           else if (message.mediaType === MediaType.Video)
-            await ws?.send("SendVideoMessage", message.igId, res.fileName);
+            await ws?.send("SendVideoMessage", message.igId, res.fileName, message.replyTo ?? null);
           break;
         case ItemType.AudioShare:
           const msg = message.message;
           const res2 = await UploadFile(session, message.file);
-          await ws?.send("SendAudioMessage", message.igId, res2.fileName);
+          await ws?.send("SendAudioMessage", message.igId, res2.fileName, message.replyTo ?? null);
           break;
       }
     }

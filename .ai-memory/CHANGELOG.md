@@ -1,3 +1,7 @@
+- 2026-10-31: Replied images/videos in Direct no longer show an empty gap under the reply quote (`MediaDetector` `autoHeight`).
+- 2026-10-31: Direct replies now work for image, video, and voice messages too: `SendImageMessage`/`SendVideoMessage`/`SendAudioMessage` (and resends) pass `replyTo` as the last argument.
+- 2026-10-31: Direct chat now scrolls to the newest message after sending a text, image, video, or voice message, even when the user had scrolled up.
+- 2026-10-31: Fixed Direct reply jumps that sometimes did nothing: the whole replied quote is now clickable, and when the target message is not loaded yet the chat fetches older pages (up to 15) before scrolling to it.
 - 2026-10-31: Direct messages: added `Reply` to the three-dot menu of all message types (except unsupported/generic). The selected message is highlighted with a cancellable preview above the composer; text messages send `SendTextMessage(igId, text, replyTo)` with the target `itemId` (also kept in `IIsSendingMessage.replyTo` for resends).
   <<<<<<< HEAD
   <<<<<<< HEAD

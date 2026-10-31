@@ -376,6 +376,7 @@ html[dir="rtl"] .backicon {
   min-width: 0;
   display: flex;
   flex-direction: column;
+  cursor: pointer;
 }
 .replyPreviewName {
   font-weight: var(--weight-600);

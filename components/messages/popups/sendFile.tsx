@@ -27,7 +27,7 @@ function getDimintion(array: string, fnc: (width: number, height: number) => voi
 }
 const SendFile = (props: {
   removeMask: () => void;
-  data: { file: File; threadId: string; igid: string };
+  data: { file: File; threadId: string; igid: string; replyTo?: string | null };
   send: (sendImage: IIsSendingMessage) => void;
 }) => {
   const { t } = useTranslation();
@@ -133,6 +133,7 @@ const SendFile = (props: {
           mediaType: MediaType.Image,
           threadId: props.data.threadId,
           message: "",
+          replyTo: props.data.replyTo ?? null,
         };
         props.send(sendImage);
         props.removeMask();

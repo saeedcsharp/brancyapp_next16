@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo } from "react";
 import styles from "brancy/components/messages/direct/directChatBox.module.css";
 import { RepliedMessageProps } from "brancy/models/interfaces";
+export const JUMP_TO_ITEM_EVENT = "direct:jumpToItem";
 export const RepliedMessage: React.FC<RepliedMessageProps> = React.memo(
   ({ repliedToItemId, repliedToItem, direction, handleSpecifyRepliedItemFullName, handleSpecifyRepliedItemType }) => {
     const isLeft = direction === "left";
@@ -17,58 +18,33 @@ export const RepliedMessage: React.FC<RepliedMessageProps> = React.memo(
       () => handleSpecifyRepliedItemType(repliedToItemId, repliedToItem),
       [repliedToItemId, repliedToItem, handleSpecifyRepliedItemType],
     );
-    const handleJumpToReplied = useCallback(() => {
-      if (!repliedToItemId) return;
-      try {
-        const selector = `[data-itemid="${repliedToItemId}"]`;
-        const target = document.querySelector<HTMLElement>(selector);
-        if (!target) return;
-
-        // find nearest scrollable ancestor (the chat container)
-        let container: HTMLElement | null = target.parentElement;
-        while (container) {
-          const style = window.getComputedStyle(container);
-          const overflowY = style.overflowY;
-          if (overflowY === "auto" || overflowY === "scroll") break;
-          container = container.parentElement;
-        }
-
-        if (container) {
-          // compute offset of target relative to container
-          const containerRect = container.getBoundingClientRect();
-          const targetRect = target.getBoundingClientRect();
-          const offset = targetRect.top - containerRect.top;
-          const scrollTop = container.scrollTop;
-          const targetScroll = scrollTop + offset - container.clientHeight / 2 + target.clientHeight / 2;
-          container.scrollTo({ top: targetScroll, behavior: "smooth" });
-        } else {
-          // fallback
-          target.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
-        }
-
-        // add shake effect
-        target.classList.add(styles.shake);
-        const remove = () => target.classList.remove(styles.shake);
-        target.addEventListener("animationend", remove, { once: true });
-        setTimeout(remove, 900);
-      } catch (e) {
-        // ignore
-      }
-    }, [repliedToItemId]);
+    // DirectChatBox handles the event so it can load older pages when the target is not rendered yet.
+    const handleJumpToReplied = useCallback(
+      (e: React.SyntheticEvent<HTMLElement>) => {
+        if (!repliedToItemId) return;
+        e.stopPropagation();
+        e.currentTarget.dispatchEvent(
+          new CustomEvent<string>(JUMP_TO_ITEM_EVENT, { bubbles: true, detail: repliedToItemId }),
+        );
+      },
+      [repliedToItemId],
+    );
 
     return (
-      <div className={repliedMsgClass} role="blockquote" aria-label="Replied message">
-        <div
-          className={styles.replymsgperson}
-          role="button"
-          tabIndex={0}
-          onClick={handleJumpToReplied}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              handleJumpToReplied();
-            }
-          }}>
+      <div
+        className={repliedMsgClass}
+        style={{ cursor: "pointer" }}
+        role="button"
+        tabIndex={0}
+        aria-label="Replied message"
+        onClick={handleJumpToReplied}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            handleJumpToReplied(e);
+          }
+        }}>
+        <div className={styles.replymsgperson}>
           <img
             title="reply icon"
             alt="Reply indicator"

@@ -144,23 +144,26 @@ export const ChatMedia: React.FC<BaseChatProps> = ({
           src={imageUrl}
           alt={hasReply ? "Shared media image, includes replied message" : "Shared media image"}
           mediaType="image"
+          autoHeight={hasReply}
         />
       );
     },
     [getMediaUrl],
   );
   const renderVideo = useCallback(
-    (media: any, index: number) => {
+    (media: any, index: number, hasReply: boolean) => {
       const videoUrl = getMediaUrl(media.video.previewUrl);
 
-      return <MediaDetector src={videoUrl} alt={`Video message ${index + 1}`} mediaType="video" />;
+      return (
+        <MediaDetector src={videoUrl} alt={`Video message ${index + 1}`} mediaType="video" autoHeight={hasReply} />
+      );
     },
     [getMediaUrl],
   );
   const renderMediaContent = useCallback(
     (media: any, index: number, hasReply: boolean) => {
       if (media.image) return renderImage(media, hasReply);
-      if (media.video) return renderVideo(media, index);
+      if (media.video) return renderVideo(media, index, hasReply);
       return null;
     },
     [renderImage, renderVideo],
