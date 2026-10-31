@@ -88,6 +88,8 @@ const DirectChatBox = memo(
     const [lock, setLock] = useState(false);
     const [seenItem, setSeenItem] = useState<IDirectMessageItem | null>(null);
     const [replyToItem, setReplyToItem] = useState<IDirectMessageItem | null>(null);
+    const [reactionItemId, setReactionItemId] = useState<string | null>(null);
+    const reactionPickerRef = useRef<HTMLDivElement | null>(null);
     const [dateFormatToggle, setDateFormatToggle] = useState("");
     const prevUserSelectIdRef = useRef<string | null>(null);
     const textareaRef = useRef<HTMLTextAreaElement | null>(null);
@@ -273,7 +275,8 @@ const DirectChatBox = memo(
             requestAnimationFrame(() => textareaRef.current?.focus());
             break;
           case "React":
-            await props.hub.send("SendReaction", props.chatBox.recp.igId, item.itemId);
+            setShowEmojiPicker(false);
+            setReactionItemId(item.itemId);
             break;
           case "UnReact":
             await props.hub.send("SendUnReaction", props.chatBox.recp.igId, item.itemId);
@@ -281,6 +284,17 @@ const DirectChatBox = memo(
         }
       },
       [props.chatBox.items, props.chatBox.recp.igId, props.hub],
+    );
+
+    // A null emoji makes the backend send the default heart.
+    const handleSendReaction = useCallback(
+      async (emoji: string | null) => {
+        const itemId = reactionItemId;
+        setReactionItemId(null);
+        if (!itemId || !props.hub || props.hub.state !== HubConnectionState.Connected) return;
+        await props.hub.send("SendReaction", props.chatBox.recp.igId, itemId, emoji);
+      },
+      [reactionItemId, props.hub, props.chatBox.recp.igId],
     );
 
     const handleDrop = useCallback(
@@ -535,7 +549,9 @@ const DirectChatBox = memo(
     useEffect(() => {
       const handleKeyDown = (event: KeyboardEvent) => {
         if (event.key === "Escape") {
-          if (showEmojiPicker) {
+          if (reactionItemId) {
+            setReactionItemId(null);
+          } else if (showEmojiPicker) {
             setShowEmojiPicker(false);
           } else if (replyToItem) {
             setReplyToItem(null);
@@ -548,7 +564,22 @@ const DirectChatBox = memo(
       return () => {
         window.removeEventListener("keydown", handleKeyDown);
       };
-    }, [props.showUserList, showEmojiPicker, replyToItem]);
+    }, [props.showUserList, showEmojiPicker, replyToItem, reactionItemId]);
+
+    useEffect(() => {
+      if (!reactionItemId) return;
+      const handleClickOutside = (event: MouseEvent) => {
+        if (reactionPickerRef.current && !reactionPickerRef.current.contains(event.target as Node)) {
+          setReactionItemId(null);
+        }
+      };
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, [reactionItemId]);
+
+    useEffect(() => {
+      setReactionItemId(null);
+    }, [props.chatBox.threadId]);
 
     useEffect(() => {
       if (!showEmojiPicker) return;
@@ -685,6 +716,21 @@ const DirectChatBox = memo(
           ))}
           {isLoadingMore && <RingLoader />}
         </main>
+        {reactionItemId && (
+          <div className={styles.reactionPickerPopup} ref={reactionPickerRef}>
+            <EmojiPicker
+              onReactionClick={(emojiData: EmojiClickData) => handleSendReaction(emojiData.emoji)}
+              onEmojiClick={(emojiData: EmojiClickData) => handleSendReaction(emojiData.emoji)}
+              theme={"auto" as any}
+              lazyLoadEmojis
+              reactionsDefaultOpen
+              allowExpandReactions
+              previewConfig={{ showPreview: false }}
+              height={350}
+              width={300}
+            />
+          </div>
+        )}
         {
           //#endregion
           //#region بخش دکمه بازگشت به آخرین پیام

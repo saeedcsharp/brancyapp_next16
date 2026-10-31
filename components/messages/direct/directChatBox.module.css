@@ -354,6 +354,18 @@ html[dir="rtl"] .backicon {
   }
 }
 /* ---- Reply ---- */
+.reactionPickerPopup {
+  position: absolute;
+  bottom: 80px;
+  inset-inline-end: var(--padding-20, 20px);
+  z-index: 9999;
+  animation: var(--bottom08);
+}
+.reactionPickerPopup :global(aside.EmojiPickerReact) {
+  --epr-emoji-size: 20px;
+  --epr-category-navigation-button-size: 20px;
+  --epr-category-label-height: 25px;
+}
 .replyTarget {
   border-radius: var(--br15);
   background-color: var(--color-light-blue10, rgba(41, 119, 255, 0.1));

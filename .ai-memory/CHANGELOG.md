@@ -1,3 +1,5 @@
+- 2026-10-31: Connected post thumbnails on Flow/AI history cards open `/page/posts/postinfo/{postId}` (keyboard-accessible `role="link"` tiles, not `<button>`, so free-mode slider drag-scrolling still works; clicks ending a drag are ignored).
+- 2026-10-31: Direct reactions can use any emoji: `React` opens a reaction picker and `SendReaction` now passes the emoji as a third argument (`null` = heart).
 - 2026-10-31: Replied images/videos in Direct no longer show an empty gap under the reply quote (`MediaDetector` `autoHeight`).
 - 2026-10-31: Direct replies now work for image, video, and voice messages too: `SendImageMessage`/`SendVideoMessage`/`SendAudioMessage` (and resends) pass `replyTo` as the last argument.
 - 2026-10-31: Direct chat now scrolls to the newest message after sending a text, image, video, or voice message, even when the user had scrolled up.

@@ -448,6 +448,9 @@ html[dir="rtl"] .cardTitle {
 
 .postThumbnail {
   margin: 0;
+  padding: 0;
+  border: none;
+  cursor: pointer;
   position: relative;
   width: 46px;
   height: 46px;
@@ -463,7 +466,12 @@ html[dir="rtl"] .cardTitle {
   display: block;
 }
 
-.postThumbnail figcaption {
+.postThumbnail:focus-visible {
+  outline: 2px solid var(--color-dark-blue);
+  outline-offset: 2px;
+}
+
+.postThumbnailCaption {
   position: absolute;
   inset-inline: 0;
   bottom: 0;

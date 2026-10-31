@@ -11,6 +11,7 @@ import initialzedTime, { convertToMilliseconds } from "brancy/helper/manageTimer
 import { LanguageKey } from "brancy/i18n";
 import { MediaProductType } from "brancy/models/enums";
 import { IRelatedAutomationGeneral } from "brancy/models/interfaces";
+import { useRouter } from "next/navigation";
 import { ReactNode, useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
@@ -255,6 +256,8 @@ function ConnectedPosts({
   onConnect?: () => void;
 }) {
   const { t } = useTranslation();
+  const router = useRouter();
+  const dragStartX = useRef(0);
   const [expanded, setExpanded] = useState(false);
   return (
     <>
@@ -265,15 +268,38 @@ function ConnectedPosts({
         ariaLabel={t(LanguageKey.Automation_connected_posts)}>
         {posts.map((post) => (
           <SliderSlide key={post.postId}>
-            <figure className={styles.postThumbnail} title={`${t(LanguageKey.navbar_Post)} #${post.postId}`}>
+            {/* Not a <button>: the free-mode slider ignores drags that start on buttons. */}
+            <div
+              role="link"
+              tabIndex={0}
+              className={styles.postThumbnail}
+              title={`${t(LanguageKey.navbar_Post)} #${post.postId}`}
+              aria-label={`${t(LanguageKey.navbar_Post)} #${post.postId}`}
+              onMouseDown={(event) => {
+                dragStartX.current = event.clientX;
+              }}
+              onClick={(event) => {
+                event.stopPropagation();
+                if (Math.abs(event.clientX - dragStartX.current) > 5) return;
+                router.push(`/page/posts/postinfo/${post.postId}`);
+              }}
+              onKeyDown={(event) => {
+                if (event.key !== "Enter" && event.key !== " ") return;
+                event.preventDefault();
+                event.stopPropagation();
+                router.push(`/page/posts/postinfo/${post.postId}`);
+              }}>
               <img
                 src={getClientMediaBaseUrl() + post.thumbnailMediaUrl}
-                alt={`${t(LanguageKey.navbar_Post)} #${post.postId}`}
+                alt=""
+                draggable={false}
                 loading="lazy"
                 decoding="async"
               />
-              <figcaption dir="ltr">#{post.postId}</figcaption>
-            </figure>
+              <span className={styles.postThumbnailCaption} dir="ltr">
+                #{post.postId}
+              </span>
+            </div>
           </SliderSlide>
         ))}
         {onConnect && (
