@@ -102,6 +102,8 @@ Mostly React local state, context, NextAuth session, or external state from back
 
 `InstaProvider` uses the stable `next/navigation` router. The legacy compatibility router creates a new object on every render, which previously invalidated `refreshToken`, `GetAccountInfo`, and the account effect when notification state changed. Notification-only updates must not trigger account/session requests; session changes still drive the existing expiry and account checks.
 
+`InstaInfoContext` exposes `refreshAccountInfo()` (the provider's `GetAccountInfo`) to force a `GetInfo` session update; it resolves `false` when skipped because another account/token update is running. `/payment/success` uses it so a purchased package reaches the session immediately.
+
 ## External Integrations
 
 External services are accessed through Brancy backend APIs unless this module documents another integration.
