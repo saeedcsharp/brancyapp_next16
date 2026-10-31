@@ -313,7 +313,6 @@ html[dir="rtl"] .workspace {
   position: relative;
   min-width: 0;
   min-height: 200px;
-  height: 200px;
   display: flex;
   flex-direction: column;
   padding: 25px 22px 18px;
@@ -476,6 +475,87 @@ html[dir="rtl"] .cardTitle {
   font-weight: var(--weight-600);
 }
 
+.generalList {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 8px;
+  list-style: none;
+  margin: 0 0 8px;
+  padding: 0;
+  pointer-events: auto;
+}
+
+.generalListExpanded {
+  flex-wrap: wrap;
+  align-content: flex-start;
+  max-height: 100px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+
+.generalCollapse {
+  pointer-events: auto;
+  border: 0;
+  padding: 0;
+  margin-block-end: 8px;
+  background: transparent;
+  color: var(--color-dark-blue);
+  font: inherit;
+  font-size: var(--font-11);
+  cursor: pointer;
+}
+
+.generalMoreItem {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.generalTile.generalMore {
+  flex-shrink: 0;
+  align-items: center;
+  min-width: 46px;
+  border: 0;
+  color: var(--color-dark-blue);
+  font: inherit;
+  font-size: var(--font-12);
+  font-weight: var(--weight-600);
+  cursor: pointer;
+}
+
+.generalTile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 0 1 auto;
+  gap: 2px;
+  min-width: 0;
+  height: 46px;
+  max-width: 100%;
+  padding-inline: 10px;
+  border-radius: var(--br12);
+  background: var(--color-dark-blue10);
+  overflow: hidden;
+}
+
+.generalTitle,
+.generalType {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.generalTitle {
+  color: var(--text-h1);
+  font-size: var(--font-11);
+  font-weight: var(--weight-600);
+}
+
+.generalType {
+  color: var(--color-dark-blue);
+  font-size: var(--font-10);
+}
+
 .connectionRetry {
   border: 0;
   padding: 0;
@@ -562,6 +642,8 @@ html[dir="rtl"] .cardTitle {
 .openCard:focus-visible,
 .connectPostButton:focus-visible,
 .connectPostTile:focus-visible,
+.generalMore:focus-visible,
+.generalCollapse:focus-visible,
 .connectionRetry:focus-visible {
   outline: 2px solid var(--color-dark-blue);
   outline-offset: 3px;
@@ -612,7 +694,8 @@ html[dir="rtl"] .cardTitle {
   .templateCard,
   .cardIcon,
   .tag,
-  .draftBadge {
+  .draftBadge,
+  .generalTile {
     border: 1px solid CanvasText;
   }
   .scrollHint {

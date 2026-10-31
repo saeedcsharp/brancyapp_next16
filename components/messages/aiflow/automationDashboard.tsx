@@ -9,7 +9,8 @@ import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { getThumbnailStyle } from "brancy/helper/getThumbnailColor";
 import initialzedTime, { convertToMilliseconds } from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
-import { IShortPostInfo } from "brancy/models/interfaces";
+import { MediaProductType } from "brancy/models/enums";
+import { IRelatedAutomationGeneral } from "brancy/models/interfaces";
 import { ReactNode, useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
@@ -19,6 +20,8 @@ import styles from "./flowAndAIIBox.module.css";
 import Soon from "brancy/components/notOk/soon";
 
 export type AutomationSort = "newest" | "oldest" | "title";
+
+const VISIBLE_GENERALS = 2;
 
 export function automationIdentity(automation: PostAutomation) {
   return automation.type === "flow" ? automation.flow.masterFlowId : automation.prompt.promptId;
@@ -242,44 +245,104 @@ function TemplateGallery({ isAI }: { isAI: boolean }) {
   );
 }
 
-function ConnectedPosts({ posts, onConnect }: { posts: IShortPostInfo[]; onConnect?: () => void }) {
+function ConnectedPosts({
+  posts,
+  generals,
+  onConnect,
+}: {
+  posts: AutomationPost["post"][];
+  generals: IRelatedAutomationGeneral[];
+  onConnect?: () => void;
+}) {
   const { t } = useTranslation();
+  const [expanded, setExpanded] = useState(false);
   return (
-    <Slider
-      freeMode
-      spaceBetween={8}
-      className={styles.connectedPosts}
-      ariaLabel={t(LanguageKey.Automation_connected_posts)}>
-      {posts.map((post) => (
-        <SliderSlide key={post.postId}>
-          <figure className={styles.postThumbnail} title={`${t(LanguageKey.navbar_Post)} #${post.postId}`}>
-            <img
-              src={getClientMediaBaseUrl() + post.thumbnailMediaUrl}
-              alt={`${t(LanguageKey.navbar_Post)} #${post.postId}`}
-              loading="lazy"
-              decoding="async"
-            />
-            <figcaption dir="ltr">#{post.postId}</figcaption>
-          </figure>
-        </SliderSlide>
-      ))}
-      {onConnect && (
-        <SliderSlide key="connect">
-          <button
-            type="button"
-            className={styles.connectPostTile}
-            title={t(LanguageKey.AIFlow_connect_post)}
-            aria-label={t(LanguageKey.AIFlow_connect_post)}
-            onMouseDown={(event) => event.stopPropagation()}
-            onClick={(event) => {
-              event.stopPropagation();
-              onConnect();
-            }}>
-            <LinkIcon />
-          </button>
-        </SliderSlide>
+    <>
+      <Slider
+        freeMode
+        spaceBetween={8}
+        className={styles.connectedPosts}
+        ariaLabel={t(LanguageKey.Automation_connected_posts)}>
+        {posts.map((post) => (
+          <SliderSlide key={post.postId}>
+            <figure className={styles.postThumbnail} title={`${t(LanguageKey.navbar_Post)} #${post.postId}`}>
+              <img
+                src={getClientMediaBaseUrl() + post.thumbnailMediaUrl}
+                alt={`${t(LanguageKey.navbar_Post)} #${post.postId}`}
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption dir="ltr">#{post.postId}</figcaption>
+            </figure>
+          </SliderSlide>
+        ))}
+        {onConnect && (
+          <SliderSlide key="connect">
+            <button
+              type="button"
+              className={styles.connectPostTile}
+              title={t(LanguageKey.AIFlow_connect_post)}
+              aria-label={t(LanguageKey.AIFlow_connect_post)}
+              onMouseDown={(event) => event.stopPropagation()}
+              onClick={(event) => {
+                event.stopPropagation();
+                onConnect();
+              }}>
+              <LinkIcon />
+            </button>
+          </SliderSlide>
+        )}
+      </Slider>
+      {generals.length > 0 && (
+        <ul
+          className={`${styles.generalList} ${expanded ? styles.generalListExpanded : ""}`}
+          aria-label={t(LanguageKey.General)}>
+          {(expanded ? generals : generals.slice(0, VISIBLE_GENERALS)).map((general) => (
+            <li key={general.id} className={styles.generalTile} title={`${t(LanguageKey.General)}: ${general.title}`}>
+              <span className={styles.generalTitle} dir="auto">
+                {general.title}
+              </span>
+              <span className={styles.generalType}>
+                {t(LanguageKey.General)} · {MediaProductType[general.productType] ?? general.productType}
+              </span>
+            </li>
+          ))}
+          {generals.length > VISIBLE_GENERALS && !expanded && (
+            <li className={styles.generalMoreItem}>
+              <button
+                type="button"
+                className={`${styles.generalTile} ${styles.generalMore}`}
+                aria-expanded={false}
+                title={generals
+                  .slice(VISIBLE_GENERALS)
+                  .map((general) => general.title)
+                  .join("\n")}
+                aria-label={t(LanguageKey.aiSuggestedPrompts_showMore)}
+                onMouseDown={(event) => event.stopPropagation()}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  setExpanded(true);
+                }}>
+                <span dir="ltr">+{generals.length - VISIBLE_GENERALS}</span>
+              </button>
+            </li>
+          )}
+        </ul>
       )}
-    </Slider>
+      {expanded && (
+        <button
+          type="button"
+          className={styles.generalCollapse}
+          aria-expanded
+          onMouseDown={(event) => event.stopPropagation()}
+          onClick={(event) => {
+            event.stopPropagation();
+            setExpanded(false);
+          }}>
+          {t(LanguageKey.aiSuggestedPrompts_showLess)}
+        </button>
+      )}
+    </>
   );
 }
 
@@ -306,6 +369,7 @@ export default function AutomationDashboard({
   onConnect: (automation: PostAutomation) => void;
   canConnect: (automation: PostAutomation) => boolean;
   connections: AutomationPost[];
+  generals: Record<string, IRelatedAutomationGeneral[]>;
   connectionStatus: "loading" | "ready" | "error";
   canReadConnections: boolean;
   onRetryConnections: () => void;
@@ -448,6 +512,8 @@ export default function AutomationDashboard({
                       .filter((connection) => connection.type === automation.type && connection.automationId === id)
                       .map((connection) => connection.post)
                   : [];
+                const generals = props.canReadConnections ? (props.generals[`${automation.type}:${id}`] ?? []) : [];
+                const connected = posts.length > 0 || generals.length > 0;
                 const date = new DateObject({
                   date: draft
                     ? item.createdTime
@@ -488,14 +554,14 @@ export default function AutomationDashboard({
                       {draft && <span className={styles.draftBadge}>{t(LanguageKey.product_draft)}</span>}
                     </div>
                     <div className={styles.cardBody}>
-                      {posts.length > 0 && (
+                      {connected && (
                         <ConnectedPosts
                           posts={posts}
+                          generals={generals}
                           onConnect={canConnect ? () => props.onConnect(automation) : undefined}
                         />
                       )}
-                      {draft ||
-                      (props.canReadConnections && props.connectionStatus === "ready" && posts.length === 0) ? (
+                      {draft || (props.canReadConnections && props.connectionStatus === "ready" && !connected) ? (
                         <>
                           <p>{t(LanguageKey.Automation_not_connected)}</p>
                           <button
@@ -527,7 +593,7 @@ export default function AutomationDashboard({
                           onClick={props.onRetryConnections}
                           title={t(LanguageKey.Automation_connections_retry)}
                           aria-label={t(LanguageKey.Automation_connections_retry)}>
-                          {t(posts.length ? LanguageKey.AIFlow_retry : LanguageKey.Automation_connections_retry)}
+                          {t(connected ? LanguageKey.AIFlow_retry : LanguageKey.Automation_connections_retry)}
                         </button>
                       ) : null}
                     </div>

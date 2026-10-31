@@ -2,121 +2,143 @@ import { NotifType, notify, ResponseType } from "brancy/components/notifications
 import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
-import { AutoReplyPayLoadType, PartnerRole } from "brancy/models/enums";
-import { IAutomaticReply, IDetailsPost, IShortPostInfo } from "brancy/models/interfaces";
+import { PartnerRole } from "brancy/models/enums";
+import { IRelatedAutomation, IRelatedAutomationGeneral, IShortPostInfo } from "brancy/models/interfaces";
 import { Session } from "next-auth";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+
+type AutomationType = "flow" | "ai";
 
 export interface AutomationPost {
-  post: IShortPostInfo;
-  type: "flow" | "ai";
+  post: Pick<IShortPostInfo, "postId" | "thumbnailMediaUrl">;
+  type: AutomationType;
   automationId: string;
 }
 
-export function getAutomationPost(post: IShortPostInfo, reply: IAutomaticReply | null): AutomationPost | null {
-  if (reply?.automaticType === AutoReplyPayLoadType.Flow && reply.masterFlowId) {
-    return { post, type: "flow", automationId: reply.masterFlowId };
-  }
-  if (reply?.automaticType === AutoReplyPayLoadType.AI && reply.promptId) {
-    return { post, type: "ai", automationId: reply.promptId };
-  }
-  return null;
-}
+const relatedEndpoints: Record<AutomationType, string> = {
+  flow: "/api/flow/GetRelatedMasterFlows",
+  ai: "/api/ai/GetRelatedPrompts",
+};
 
-export function useAutomationPosts(session: Session | null) {
+export function useAutomationPosts(session: Session | null, flowIds: string[], promptIds: string[]) {
   const allowed =
     LoginStatus(session) &&
     !!session?.user.commentPermission &&
     RoleAccess(session, PartnerRole.Automatics) &&
     RoleAccess(session, PartnerRole.Comment);
-  const [connections, setConnections] = useState<AutomationPost[]>([]);
+  const [related, setRelated] = useState<Record<string, AutomationPost[]>>({});
+  const [generals, setGenerals] = useState<Record<string, IRelatedAutomationGeneral[]>>({});
+  const [saved, setSaved] = useState(() => new Map<number, AutomationPost>());
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
   const [revision, setRevision] = useState(0);
-  const savedPosts = useRef(new Map<number, AutomationPost>());
+  const loaded = useRef(new Set<string>());
   const accountId = session?.user.instagramerIds?.[session.user.currentIndex];
   const previousAccount = useRef(accountId);
+  const flowKey = flowIds.join(",");
+  const promptKey = promptIds.join(",");
 
   useEffect(() => {
-    const controller = new AbortController();
     if (previousAccount.current !== accountId) {
-      savedPosts.current.clear();
       previousAccount.current = accountId;
+      loaded.current.clear();
+      setRelated({});
+      setGenerals({});
+      setSaved(new Map());
     }
-    setConnections(allowed ? [...savedPosts.current.values()] : []);
+    if (!allowed) return;
+    const groups = (
+      [
+        ["flow", flowKey],
+        ["ai", promptKey],
+      ] as const
+    )
+      .map(([type, key]) => ({
+        type,
+        ids: [...new Set(key.split(","))].filter((id) => id && !loaded.current.has(`${type}:${id}`)),
+      }))
+      .filter((group) => group.ids.length > 0);
+    if (!groups.length) {
+      setStatus("ready");
+      return;
+    }
+    const controller = new AbortController();
     setStatus("loading");
-    if (!allowed) return () => controller.abort();
 
     async function load() {
-      const seenPosts = new Set<number>();
-      const found = new Map<number, AutomationPost>();
-      let nextTime: number | undefined;
-      let reportedFailure = false;
-      try {
-        while (!controller.signal.aborted) {
-          const page = await clientFetchApi<boolean, IShortPostInfo[]>("/api/post/GetPostCards", {
+      const results = await Promise.all(
+        groups.map(({ type, ids }) =>
+          clientFetchApi<string[], IRelatedAutomation[]>(relatedEndpoints[type], {
             session,
             signal: controller.signal,
-            methodType: MethodType.get,
-            queries: nextTime === undefined ? undefined : [{ key: "nextTimeUnix", value: String(nextTime) }],
-          });
-          if (controller.signal.aborted) return;
-          if (!page.succeeded) {
-            reportedFailure = true;
-            notify(page.info.responseType, NotifType.Error);
-            throw new Error("Unable to load automation posts");
-          }
-          if (page.value.length === 0) break;
-          const posts = page.value.filter((post) => !seenPosts.has(post.postId));
-          // A repeated non-empty page cannot prove that the account scan is complete.
-          if (posts.length === 0) throw new Error("Post pagination did not advance");
-          for (let offset = 0; offset < posts.length; offset += 4) {
-            const batch = posts.slice(offset, offset + 4);
-            const details = await Promise.all(
-              batch.map((post) =>
-                clientFetchApi<boolean, IDetailsPost>("/api/post/GetPostInfo", {
-                  session,
-                  signal: controller.signal,
-                  methodType: MethodType.get,
-                  queries: [{ key: "postId", value: String(post.postId) }],
-                }),
-              ),
-            );
-            if (controller.signal.aborted) return;
-            details.forEach((detail, index) => {
-              if (!detail.succeeded) {
-                if (!reportedFailure) notify(detail.info.responseType, NotifType.Error);
-                reportedFailure = true;
-                throw new Error("Unable to read post automation");
-              }
-              const post = batch[index];
-              seenPosts.add(post.postId);
-              const connection = getAutomationPost(post, detail.value.commentMedia?.automaticCommentReply ?? null);
-              if (connection) found.set(post.postId, connection);
-            });
-            setConnections([...new Map([...found, ...savedPosts.current]).values()]);
-          }
-          const cursor = page.value[page.value.length - 1].createdTime;
-          if (cursor === nextTime) throw new Error("Post pagination cursor did not advance");
-          nextTime = cursor;
+            methodType: MethodType.post,
+            data: ids,
+          }),
+        ),
+      );
+      if (controller.signal.aborted) return;
+      const next: Record<string, AutomationPost[]> = {};
+      const nextGenerals: Record<string, IRelatedAutomationGeneral[]> = {};
+      let failure: ResponseType | null = null;
+      results.forEach((result, index) => {
+        const { type, ids } = groups[index];
+        if (!result.succeeded || !Array.isArray(result.value)) {
+          failure ??= result.succeeded ? ResponseType.Unexpected : result.info.responseType;
+          return;
         }
-        if (!controller.signal.aborted) setStatus("ready");
-      } catch {
-        if (controller.signal.aborted) return;
-        if (!reportedFailure) notify(ResponseType.Unexpected, NotifType.Error);
+        for (const id of ids) {
+          next[`${type}:${id}`] = [];
+          nextGenerals[`${type}:${id}`] = [];
+        }
+        for (const item of result.value) {
+          nextGenerals[`${type}:${item.id}`] = item.relatedGenerals ?? [];
+          next[`${type}:${item.id}`] = (item.relatedMedias ?? [])
+            .filter((media) => media.postId > 0)
+            .map((media) => ({
+              type,
+              automationId: item.id,
+              post: { postId: media.postId, thumbnailMediaUrl: media.thumbnailMediaUrl },
+            }));
+        }
+      });
+      Object.keys(next).forEach((key) => loaded.current.add(key));
+      setRelated((previous) => ({ ...previous, ...next }));
+      setGenerals((previous) => ({ ...previous, ...nextGenerals }));
+      if (failure !== null) {
+        notify(failure, NotifType.Error);
         setStatus("error");
-      }
+      } else setStatus("ready");
     }
-    void load();
+    load().catch(() => {
+      if (controller.signal.aborted) return;
+      notify(ResponseType.Unexpected, NotifType.Error);
+      setStatus("error");
+    });
     return () => controller.abort();
-  }, [session, accountId, allowed, revision]);
+  }, [session, accountId, allowed, flowKey, promptKey, revision]);
+
+  const connections = useMemo(
+    () =>
+      allowed
+        ? [
+            ...Object.values(related)
+              .flat()
+              .filter((connection) => !saved.has(connection.post.postId)),
+            ...saved.values(),
+          ]
+        : [],
+    [allowed, related, saved],
+  );
 
   const onConnected = useCallback((connection: AutomationPost) => {
-    savedPosts.current.set(connection.post.postId, connection);
-    setConnections((previous) => [
-      ...previous.filter((item) => item.post.postId !== connection.post.postId),
-      connection,
-    ]);
+    setSaved((previous) => new Map(previous).set(connection.post.postId, connection));
   }, []);
 
-  return { connections, status, allowed, retry: () => setRevision((value) => value + 1), onConnected };
+  return {
+    connections,
+    generals: allowed ? generals : {},
+    status,
+    allowed,
+    retry: () => setRevision((value) => value + 1),
+    onConnected,
+  };
 }
