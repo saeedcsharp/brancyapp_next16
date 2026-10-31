@@ -353,6 +353,51 @@ html[dir="rtl"] .backicon {
     animation-timing-function: ease-out;
   }
 }
+/* ---- Reply ---- */
+.replyTarget {
+  border-radius: var(--br15);
+  background-color: var(--color-light-blue10, rgba(41, 119, 255, 0.1));
+  outline: 1px solid var(--color-light-blue);
+  transition: var(--transition2);
+}
+.replyPreview {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-10);
+  margin-bottom: var(--gap-5);
+  padding: var(--padding-5) var(--padding-10);
+  border-inline-start: 3px solid var(--color-dark-blue);
+  border-radius: var(--br15);
+  background-color: var(--color-gray10, rgba(0, 0, 0, 0.04));
+  animation: var(--fadeIn2);
+}
+.replyPreviewContent {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.replyPreviewName {
+  font-weight: var(--weight-600);
+  color: var(--color-dark-blue);
+}
+.replyPreviewText {
+  color: var(--text-h2);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.replyPreviewClose {
+  width: 24px;
+  height: 24px;
+  padding: var(--padding-1);
+  stroke: var(--color-gray);
+  stroke-width: 2px;
+  cursor: pointer;
+}
+.replyPreviewClose:hover {
+  stroke: var(--color-dark-red);
+}
 /* ------------------------------------ */
 .answercontainer {
   position: relative;

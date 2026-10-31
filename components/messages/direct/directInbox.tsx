@@ -1644,7 +1644,7 @@ const DirectInbox = () => {
     for (let message of sendingMessages) {
       switch (message.itemType) {
         case ItemType.Text:
-          await ws?.send("SendTextMessage", message.igId, message.message);
+          await ws?.send("SendTextMessage", message.igId, message.message, message.replyTo ?? null);
           break;
         case ItemType.Media:
           const res = await UploadFile(session, message.file);

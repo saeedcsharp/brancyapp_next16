@@ -62,6 +62,10 @@ const ChatTextComponent: React.FC<BaseChatProps> = ({
   const dotMenuData = useMemo(
     () => [
       {
+        icon: "/icon-reply.svg",
+        value: "Reply",
+      },
+      {
         icon: "/msg-like.svg",
         value: item.ownerEmojiReaction ? "UnReact" : "React",
       },

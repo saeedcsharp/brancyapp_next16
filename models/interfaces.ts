@@ -1650,6 +1650,7 @@ export interface IIsSendingMessage {
   file: File;
   imageBase64?: string;
   imageUrl?: string;
+  replyTo?: string | null;
 }
 
 export interface IThread {

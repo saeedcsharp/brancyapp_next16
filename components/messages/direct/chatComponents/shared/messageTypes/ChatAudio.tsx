@@ -49,6 +49,10 @@ const ChatAudioComponent: React.FC<BaseChatProps> = ({
   const menuData = useMemo(
     () => [
       {
+        icon: "/icon-reply.svg",
+        value: "Reply",
+      },
+      {
         icon: "/msg-like.svg",
         value: item.ownerEmojiReaction ? "UnReact" : "React",
       },

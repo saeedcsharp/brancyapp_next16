@@ -94,6 +94,8 @@ React components are present when the folder contains `.tsx` UI files.
 
 `direct/directChatBox.tsx` applies the same 1,000-byte UTF-8 limit to loaded drafts, typed text, emoji insertion, and outgoing text; truncation preserves complete Unicode characters.
 
+Direct messages support replying to any message: the three-dot menu of Text, Audio, Media, MediaShare and StoryMention items includes `Reply`. `directChatBox.tsx` stores the selected item, highlights it in the list (`.replyTarget`), and shows a cancellable preview (sender + text/type) above the composer; Escape or the close button cancels, and switching threads clears it. Only text replies are sent: `SendTextMessage(igId, text, replyTo)` where `replyTo` is the target `itemId` or `null`. `IIsSendingMessage.replyTo` keeps the value so `directInbox.tsx` resends include it. The SignalR hub signature is not in Swagger; the third argument follows the product request.
+
 `aiflow/popup/AIToolsSettings.tsx` selects each tool parameter's `completeDescription*` field from the active i18next locale. The model's German description serves the `gr` locale, while French and unknown locales fall back to English and then the legacy `description` field.
 
 The same popup selects tool titles from `displayName*` and complete tool explanations from `completeDescription*` using the active locale, with German used for `gr` and English/legacy fallbacks when values are unavailable.

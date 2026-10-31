@@ -85,12 +85,14 @@ const DirectChatBox = memo(
     const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
     const [lock, setLock] = useState(false);
     const [seenItem, setSeenItem] = useState<IDirectMessageItem | null>(null);
+    const [replyToItem, setReplyToItem] = useState<IDirectMessageItem | null>(null);
     const [dateFormatToggle, setDateFormatToggle] = useState("");
     const prevUserSelectIdRef = useRef<string | null>(null);
     const textareaRef = useRef<HTMLTextAreaElement | null>(null);
     const emojiPickerContainerRef = useRef<HTMLDivElement | null>(null);
     // load draft for this thread when selected
     useEffect(() => {
+      setReplyToItem(null);
       if (!props.chatBox) return;
       const key = draftKey(props.chatBox.threadId);
       const draft = getDraft(key);
@@ -216,6 +218,10 @@ const DirectChatBox = memo(
         switch (iconId) {
           case "Copy":
             break;
+          case "Reply":
+            setReplyToItem(item);
+            requestAnimationFrame(() => textareaRef.current?.focus());
+            break;
           case "React":
             await props.hub.send("SendReaction", props.chatBox.recp.igId, item.itemId);
             break;
@@ -316,22 +322,25 @@ const DirectChatBox = memo(
       try {
         const text = truncateTextToBytes(answerBox.replaceAll("</br>", "\n"), MAX_MESSAGE_BYTES);
         if (text.length === 0) return;
+        const replyTo = replyToItem?.itemId ?? null;
         props.handleSendMessage({
           itemType: ItemType.Text,
           message: text,
           threadId: props.chatBox.threadId,
           igId: props.chatBox.recp.igId,
           file: new File([], "text.txt"),
+          replyTo,
         });
+        setReplyToItem(null);
         if (props.hub?.state === HubConnectionState.Connected) {
-          await props.hub.send("SendTextMessage", props.chatBox.recp.igId, text);
+          await props.hub.send("SendTextMessage", props.chatBox.recp.igId, text, replyTo);
         }
         setAnswerBox("");
       } catch (error) {
         setAnswerBox("");
         notify(ResponseType.Unexpected, NotifType.Error, "socket error");
       }
-    }, [answerBox, props.handleSendMessage, props.chatBox.threadId, props.chatBox.recp.igId, props.hub]);
+    }, [answerBox, replyToItem, props.handleSendMessage, props.chatBox.threadId, props.chatBox.recp.igId, props.hub]);
 
     const handleTextareaKeyDown = useCallback(
       (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -437,6 +446,8 @@ const DirectChatBox = memo(
         if (event.key === "Escape") {
           if (showEmojiPicker) {
             setShowEmojiPicker(false);
+          } else if (replyToItem) {
+            setReplyToItem(null);
           } else {
             props.showUserList();
           }
@@ -446,7 +457,7 @@ const DirectChatBox = memo(
       return () => {
         window.removeEventListener("keydown", handleKeyDown);
       };
-    }, [props.showUserList, showEmojiPicker]);
+    }, [props.showUserList, showEmojiPicker, replyToItem]);
 
     useEffect(() => {
       if (!showEmojiPicker) return;
@@ -536,7 +547,7 @@ const DirectChatBox = memo(
             </>
           )}
           {sortedChatItems.map((item) => (
-            <div key={item.itemId}>
+            <div key={item.itemId} className={replyToItem?.itemId === item.itemId ? styles.replyTarget : undefined}>
               {!item.sentByOwner ? (
                 <LeftChatWrapper
                   item={item}
@@ -610,6 +621,28 @@ const DirectChatBox = memo(
                 {/* {props.chatBox.isActive && props.hub?.state === HubConnectionState.Connected && ( */}
                 {props.hub?.state === HubConnectionState.Connected && props.chatBox.isActive && (
                   <>
+                    {replyToItem && (
+                      <div className={styles.replyPreview} role="status">
+                        <img className={styles.replymsgsvg} src="/icon-reply.svg" alt="" aria-hidden="true" />
+                        <div className={styles.replyPreviewContent}>
+                          <div className={styles.replyPreviewName}>
+                            {handleSpecifyRepliedItemFullName(replyToItem.itemId, replyToItem)}
+                          </div>
+                          <div className={styles.replyPreviewText}>
+                            {handleSpecifyRepliedItemType(replyToItem.itemId, replyToItem)}
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          className={styles.replyPreviewClose}
+                          onClick={() => setReplyToItem(null)}
+                          aria-label="cancel reply">
+                          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
+                          </svg>
+                        </button>
+                      </div>
+                    )}
                     <div
                       className={styles.answercontainer}
                       onSubmit={(e) => {
