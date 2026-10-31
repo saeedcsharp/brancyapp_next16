@@ -425,6 +425,8 @@ const DirectChatBox = memo(
         });
         setReplyToItem(null);
         handleBackToButton();
+        // Sending ends the typing session, so the next keystroke must emit SendTypingOn immediately.
+        unixTypingTimeRef.current = 0;
         if (props.hub?.state === HubConnectionState.Connected) {
           await props.hub.send("SendTextMessage", props.chatBox.recp.igId, text, replyTo);
         }

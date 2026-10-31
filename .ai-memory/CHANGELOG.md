@@ -1,3 +1,4 @@
+- 2026-10-31: Fixed delayed Direct typing indicator after sending a text: `handleSendText` resets the typing throttle so the next keystroke sends `SendTypingOn` immediately instead of waiting up to 8s.
 - 2026-10-31: Connected post thumbnails on Flow/AI history cards open `/page/posts/postinfo/{postId}` (keyboard-accessible `role="link"` tiles, not `<button>`, so free-mode slider drag-scrolling still works; clicks ending a drag are ignored).
 - 2026-10-31: Direct reactions can use any emoji: `React` opens a reaction picker and `SendReaction` now passes the emoji as a third argument (`null` = heart).
 - 2026-10-31: Replied images/videos in Direct no longer show an empty gap under the reply quote (`MediaDetector` `autoHeight`).
