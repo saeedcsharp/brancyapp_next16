@@ -228,7 +228,16 @@ export default function FlowAndAIInbox() {
   const moreRequestRef = useRef<AbortController | null>(null);
   const mountedRef = useRef(false);
   const handledDeepLink = useRef<string | null>(null);
-  const posts = useAutomationPosts(session);
+  const listedAutomations = [
+    ...pages[ToggleOrder.FirstToggle].items,
+    ...pages[ToggleOrder.SecondToggle].items,
+    ...searchPage.items,
+  ];
+  const posts = useAutomationPosts(
+    session,
+    listedAutomations.filter((item) => item.type === "flow").map(automationIdentity),
+    listedAutomations.filter((item) => item.type === "ai").map(automationIdentity),
+  );
   const searchMode = searchbox.trim().length > 0;
   const activePage = searchMode ? searchPage : pages[toggleOrder];
   const listFailed = searchMode ? searchFailed : failedTabs[toggleOrder];
@@ -549,6 +558,7 @@ export default function FlowAndAIInbox() {
                 posts.allowed && (automation.type === "ai" || !!session?.user.messagePermission)
               }
               connections={posts.connections}
+              generals={posts.generals}
               connectionStatus={posts.status}
               canReadConnections={posts.allowed}
               onRetryConnections={posts.retry}
