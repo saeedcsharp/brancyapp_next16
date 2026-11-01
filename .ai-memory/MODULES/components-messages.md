@@ -92,6 +92,8 @@ React components are present when the folder contains `.tsx` UI files.
 
 `aiflow/flowNode/TextNode.tsx` enforces a 1,000-byte UTF-8 limit for text input, paste, and existing node data. The counter reports bytes rather than JavaScript string length, and truncation preserves complete Unicode characters.
 
+`direct/directChatBox.tsx` decides whether to show the composer, "Waiting for connection", or "not active" from the `isHubConnected` prop (React state in `directInbox.tsx`), not from the mutable `hub.state`, so it re-renders when the socket connects or closes.
+
 `direct/directChatBox.tsx` applies the same 1,000-byte UTF-8 limit to loaded drafts, typed text, emoji insertion, and outgoing text; truncation preserves complete Unicode characters.
 
 Choosing `React` from a direct message's three-dot menu opens an `emoji-picker-react` reaction popup (`.reactionPickerPopup`; closes on outside click, Escape, or thread change). The chosen emoji is sent as `SendReaction(igId, itemId, emoji)`; the backend treats a `null` emoji as the default heart. `ticket/directChatBox.tsx` still calls `SendReaction` with two arguments.

@@ -107,6 +107,7 @@ const DirectInbox = () => {
   }, [userSelectedId]);
   const [searchLocked, setSearchLocked] = useState<boolean>(false);
   const [ws, setWs] = useState<HubConnection | null>(null);
+  const [isHubConnected, setIsHubConnected] = useState(false);
   const refWs = useRef(ws);
   useEffect(() => {
     refWs.current = ws;
@@ -1020,10 +1021,13 @@ const DirectInbox = () => {
       var s = new HubConnectionBuilder()
         .withUrl(`${getClientGraphBaseUrl()}/Hubs/GraphClient?access_token=` + str)
         .build();
-      s.start().catch((error) => {
-        console.log(error);
-        handleRestartSignalR();
-      });
+      s.start()
+        .then(() => setIsHubConnected(true))
+        .catch((error) => {
+          console.log(error);
+          setIsHubConnected(false);
+          handleRestartSignalR();
+        });
       s.on("Unknown", (message: string) => {
         setMessages((prevMessages) => [...prevMessages, "Unknown:" + message]);
       });
@@ -1054,7 +1058,10 @@ const DirectInbox = () => {
         setMessages((prevMessages) => [...prevMessages, "Error:" + message]);
         console.log("Error", message, body);
       });
-      s.onclose(() => handleRestartSignalR());
+      s.onclose(() => {
+        setIsHubConnected(false);
+        handleRestartSignalR();
+      });
       console.log(s.state);
       setWs(s);
     }, 1000);
@@ -2696,6 +2703,7 @@ const DirectInbox = () => {
                     toggleOrder === MessageCategoryType.General ? generalInbox!.ownerInbox : businessInbox!.ownerInbox
                   }
                   hub={ws}
+                  isHubConnected={isHubConnected}
                   showUserList={showUserList}
                   fetchItemData={fetchItemData}
                   sendingMessages={sendingMessages.filter((x) => x.threadId === userSelectedId)}

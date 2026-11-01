@@ -52,6 +52,7 @@ const DirectChatBox = memo(
   (props: {
     userSelectId: string | null;
     hub: HubConnection | null;
+    isHubConnected: boolean;
     chatBox: IThread;
     sendingMessages: IIsSendingMessage[];
     ownerInbox: IDirectOwnerInbox;
@@ -762,7 +763,7 @@ const DirectChatBox = memo(
               <>
                 {/* active message */}
                 {/* {props.chatBox.isActive && props.hub?.state === HubConnectionState.Connected && ( */}
-                {props.hub?.state === HubConnectionState.Connected && props.chatBox.isActive && (
+                {props.isHubConnected && props.chatBox.isActive && (
                   <>
                     {replyToItem && (
                       <div className={styles.replyPreview} role="status">
@@ -943,13 +944,13 @@ const DirectChatBox = memo(
                   </>
                 )}
                 {/* waiting for connection */}
-                {props.hub?.state !== HubConnectionState.Connected && (
+                {!props.isHubConnected && (
                   <div className={styles.blockeduser}>
                     <div className={styles.blockeduserbtn}>{t(LanguageKey.waitingforconnection)}</div>
                   </div>
                 )}
                 {/* not active message */}
-                {props.hub?.state === HubConnectionState.Connected && !props.chatBox.isActive && (
+                {props.isHubConnected && !props.chatBox.isActive && (
                   <div className={styles.blockeduser}>
                     <div className={styles.blockeduserbtn}>{t(LanguageKey.notactivemessage)}</div>
                     <Tooltip tooltipValue={t(LanguageKey.notactivemessageexplain)} position="top" onClick>
