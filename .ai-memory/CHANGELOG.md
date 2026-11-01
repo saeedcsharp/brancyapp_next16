@@ -1,3 +1,4 @@
+- 2026-11-01: Direct reaction and composer emoji pickers no longer autofocus their search input (`autoFocusSearch={false}`), so opening them on mobile does not open the keyboard.
 - 2026-10-31: Payment success page now calls `Instagramer/Account/GetInfo` through the new `refreshAccountInfo` context function (`InstaProvider`) once the session is loaded for a selected account, so a newly purchased package is written into the session. If another account/token update is in flight it retries on the next session change.
 - 2026-10-31: Fixed delayed Direct typing indicator after sending a text: `handleSendText` resets the typing throttle so the next keystroke sends `SendTypingOn` immediately instead of waiting up to 8s.
 - 2026-10-31: Connected post thumbnails on Flow/AI history cards open `/page/posts/postinfo/{postId}` (keyboard-accessible `role="link"` tiles, not `<button>`, so free-mode slider drag-scrolling still works; clicks ending a drag are ignored).

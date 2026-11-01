@@ -723,6 +723,7 @@ const DirectChatBox = memo(
             <EmojiPicker
               onReactionClick={(emojiData: EmojiClickData) => handleSendReaction(emojiData.emoji)}
               onEmojiClick={(emojiData: EmojiClickData) => handleSendReaction(emojiData.emoji)}
+              autoFocusSearch={false}
               theme={"auto" as any}
               lazyLoadEmojis
               reactionsDefaultOpen
@@ -823,6 +824,7 @@ const DirectChatBox = memo(
                           <div className={styles.emojiPickerPopup}>
                             <EmojiPicker
                               onEmojiClick={handleEmojiClick}
+                              autoFocusSearch={false}
                               theme={"auto" as any}
                               lazyLoadEmojis
                               reactionsDefaultOpen
