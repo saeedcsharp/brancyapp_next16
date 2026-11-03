@@ -1257,7 +1257,14 @@ const DirectInbox = () => {
   async function handleAddMessageHook(item: IHookItem) {
     if (!item.DirectItem) return;
     let respItem: IDirectMessageItem | null = null;
-    if (item.DirectItem.RepliedToItemId) {
+    const repliedToItemId = item.DirectItem.RepliedToItemId;
+    if (repliedToItemId) {
+      const thread =
+        gInbox.current?.threads.find((x) => x.threadId === item.ThreadId) ??
+        bInbox.current?.threads.find((x) => x.threadId === item.ThreadId);
+      respItem = thread?.items.find((x) => x.itemId === repliedToItemId) ?? null;
+    }
+    if (repliedToItemId && !respItem) {
       try {
         let res = await clientFetchApi<boolean, IDirectMessageItem>("/api/message/GetDirectParentItem", {
           methodType: MethodType.get,
@@ -1265,7 +1272,7 @@ const DirectInbox = () => {
           data: null,
           queries: [
             { key: "recpId", value: item.RecpId },
-            { key: "itemId", value: item.DirectItem.RepliedToItemId },
+            { key: "itemId", value: repliedToItemId },
           ],
           onUploadProgress: undefined,
         });
