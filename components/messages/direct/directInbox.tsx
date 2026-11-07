@@ -1468,15 +1468,9 @@ const DirectInbox = () => {
         });
         console.log("newThreadFetch", newThread);
         if (newThread.succeeded) {
-          for (
-            let i = 0;
-            (i < 10 && newThread.value.recp.username == null) ||
-            newThread.value.recp.username == undefined ||
-            newThread.value.recp.username?.length == 0;
-            i++
-          ) {
+          for (let i = 0; i < 10 && !newThread.value.recp.username; i++) {
             await delay(1000);
-            newThread = await clientFetchApi<IGetDirectInboxItems, IThread>("Instagramer" + "/Message/GetThread", {
+            const retry = await clientFetchApi<IGetDirectInboxItems, IThread>("Instagramer" + "/Message/GetThread", {
               methodType: MethodType.get,
               session: session,
               data: null,
@@ -1486,6 +1480,16 @@ const DirectInbox = () => {
               ],
               onUploadProgress: undefined,
             });
+            if (!retry.succeeded) break;
+            newThread = retry;
+          }
+          // GetThread for a freshly created thread can flag every item as sentByOwner; derive it from the hook sender instead.
+          const hookSenderId = item.DirectItem.UserId;
+          const hookSentByOwner = item.DirectItem.SentByOwner;
+          if (hookSenderId) {
+            newThread.value.items = newThread.value.items.map((x) =>
+              x.userId ? { ...x, sentByOwner: x.userId === hookSenderId ? hookSentByOwner : !hookSentByOwner } : x,
+            );
           }
           console.log("threadId", newThread.value.threadId);
           console.log("tempThreadIds", tempThreadIds);
