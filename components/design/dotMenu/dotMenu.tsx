@@ -44,6 +44,40 @@ const getPlacementCoordinates = (triggerRect: DOMRect, placement?: DotMenuPlacem
       return { position: "fixed", right: viewportWidth - triggerRect.left, top: triggerRect.bottom };
   }
 };
+const VIEWPORT_MARGIN = 8;
+const fitMenuInViewport = (
+  triggerRect: DOMRect,
+  placement: DotMenuPlacement,
+  width: number,
+  height: number,
+): { coordinates: React.CSSProperties; placement: DotMenuPlacement } => {
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  const clamp = (value: number, size: number, max: number) =>
+    Math.max(VIEWPORT_MARGIN, Math.min(value, max - size - VIEWPORT_MARGIN));
+  let isTop = placement === "topLeft" || placement === "topRight";
+  let isRight = placement === "topRight" || placement === "bottomRight";
+  let left = isRight ? triggerRect.right : triggerRect.left - width;
+  if (isRight && left + width > vw - VIEWPORT_MARGIN && triggerRect.left - width >= VIEWPORT_MARGIN) {
+    isRight = false;
+    left = triggerRect.left - width;
+  } else if (!isRight && left < VIEWPORT_MARGIN && triggerRect.right + width <= vw - VIEWPORT_MARGIN) {
+    isRight = true;
+    left = triggerRect.right;
+  }
+  let top = isTop ? triggerRect.top - height : triggerRect.bottom;
+  if (isTop && top < VIEWPORT_MARGIN && triggerRect.bottom + height <= vh - VIEWPORT_MARGIN) {
+    isTop = false;
+    top = triggerRect.bottom;
+  } else if (!isTop && top + height > vh - VIEWPORT_MARGIN && triggerRect.top - height >= VIEWPORT_MARGIN) {
+    isTop = true;
+    top = triggerRect.top - height;
+  }
+  return {
+    coordinates: { position: "fixed", left: clamp(left, width, vw), top: clamp(top, height, vh) },
+    placement: `${isTop ? "top" : "bottom"}${isRight ? "Right" : "Left"}` as DotMenuPlacement,
+  };
+};
 const DotMenu: React.FC<DotMenuProps> = ({
   data,
   options,
@@ -54,7 +88,8 @@ const DotMenu: React.FC<DotMenuProps> = ({
   ariaLabel = "More options",
 }) => {
   const menuOptions = options ?? data ?? [];
-  const resolvedPlacement = placement;
+  const [resolvedPlacement, setResolvedPlacement] = useState<DotMenuPlacement | undefined>(placement);
+  const measuredRef = useRef(false);
   const [isOpen, setIsOpen] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [focusIndex, setFocusIndex] = useState<number | null>(null);
@@ -84,10 +119,28 @@ const DotMenu: React.FC<DotMenuProps> = ({
       setIsOpen(true);
       setFocusIndex(nextFocusIndex);
       setMenuCoordinates(null);
+      setResolvedPlacement(placement);
+      measuredRef.current = false;
       onToggle?.(true);
     },
-    [menuOptions.length, onToggle],
+    [menuOptions.length, onToggle, placement],
   );
+  const updatePlacement = useCallback(() => {
+    const trigger = triggerRef.current;
+    if (!trigger) return;
+    const triggerRect = trigger.getBoundingClientRect();
+    const menu = menuRef.current;
+    if (!menu) {
+      setMenuCoordinates(getPlacementCoordinates(triggerRect, placement));
+      return;
+    }
+    // offsetWidth/Height ignore the scale animation transform
+    const basePlacement = placement ?? (document.documentElement.dir === "rtl" ? "bottomRight" : "bottomLeft");
+    const fitted = fitMenuInViewport(triggerRect, basePlacement, menu.offsetWidth, menu.offsetHeight);
+    measuredRef.current = true;
+    setMenuCoordinates(fitted.coordinates);
+    setResolvedPlacement(fitted.placement);
+  }, [placement]);
   useEffect(() => {
     if (!isOpen) return;
     const handlePointerDownOutside = (event: PointerEvent) => {
@@ -102,13 +155,10 @@ const DotMenu: React.FC<DotMenuProps> = ({
     };
   }, [closeMenu, isOpen]);
   useLayoutEffect(() => {
+    if (showMenu && menuCoordinates && !measuredRef.current) updatePlacement();
+  }, [menuCoordinates, showMenu, updatePlacement]);
+  useLayoutEffect(() => {
     if (!showMenu) return;
-
-    const updatePlacement = () => {
-      const trigger = triggerRef.current;
-      if (!trigger) return;
-      setMenuCoordinates(getPlacementCoordinates(trigger.getBoundingClientRect(), resolvedPlacement));
-    };
 
     updatePlacement();
     window.addEventListener("resize", updatePlacement);
@@ -117,7 +167,7 @@ const DotMenu: React.FC<DotMenuProps> = ({
       window.removeEventListener("resize", updatePlacement);
       window.removeEventListener("scroll", updatePlacement, true);
     };
-  }, [resolvedPlacement, showMenu]);
+  }, [showMenu, updatePlacement]);
   useEffect(() => {
     if (isOpen && focusIndex !== null) optionRefs.current[focusIndex]?.focus();
   }, [focusIndex, isOpen]);

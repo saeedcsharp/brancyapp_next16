@@ -107,6 +107,7 @@ const DirectInbox = () => {
   }, [userSelectedId]);
   const [searchLocked, setSearchLocked] = useState<boolean>(false);
   const [ws, setWs] = useState<HubConnection | null>(null);
+  const [isHubConnected, setIsHubConnected] = useState(false);
   const refWs = useRef(ws);
   useEffect(() => {
     refWs.current = ws;
@@ -136,6 +137,7 @@ const DirectInbox = () => {
     file: File;
     threadId: string;
     igid: string;
+    replyTo?: string | null;
   } | null>(null);
 
   const [showSearchThread, setShowSearchThread] = useState({
@@ -592,12 +594,12 @@ const DirectInbox = () => {
     setPopupImage("");
   };
 
-  const handleSendFile = (sendFile: { file: File; threadId: string; igid: string }) => {
+  const handleSendFile = (sendFile: { file: File; threadId: string; igid: string; replyTo?: string | null }) => {
     setFileContent(sendFile);
     setShowSendFile(true);
   };
 
-  const handleSendVideoFile = (sendVideo: { file: File; threadId: string; igid: string }) => {
+  const handleSendVideoFile = (sendVideo: { file: File; threadId: string; igid: string; replyTo?: string | null }) => {
     setFileContent(sendVideo);
     setShowSendVideoFile(true);
   };
@@ -608,7 +610,7 @@ const DirectInbox = () => {
     setShowSendFile(false);
     setFileContent(null);
     if (ws && ws.state === HubConnectionState.Connected)
-      await ws.send("SendImageMessage", sendImage.igId, sendImage.imageUrl);
+      await ws.send("SendImageMessage", sendImage.igId, sendImage.imageUrl, sendImage.replyTo ?? null);
   };
 
   const handleSendVideo = async (sendVideo: IIsSendingMessage) => {
@@ -618,7 +620,7 @@ const DirectInbox = () => {
     setShowSendVideoFile(false);
     setFileContent(null);
     if (ws && ws.state === HubConnectionState.Connected)
-      await ws.send("SendVideoMessage", sendVideo.igId, sendVideo.imageUrl);
+      await ws.send("SendVideoMessage", sendVideo.igId, sendVideo.imageUrl, sendVideo.replyTo ?? null);
   };
 
   const fetchData = async (
@@ -1019,10 +1021,13 @@ const DirectInbox = () => {
       var s = new HubConnectionBuilder()
         .withUrl(`${getClientGraphBaseUrl()}/Hubs/GraphClient?access_token=` + str)
         .build();
-      s.start().catch((error) => {
-        console.log(error);
-        handleRestartSignalR();
-      });
+      s.start()
+        .then(() => setIsHubConnected(true))
+        .catch((error) => {
+          console.log(error);
+          setIsHubConnected(false);
+          handleRestartSignalR();
+        });
       s.on("Unknown", (message: string) => {
         setMessages((prevMessages) => [...prevMessages, "Unknown:" + message]);
       });
@@ -1053,7 +1058,10 @@ const DirectInbox = () => {
         setMessages((prevMessages) => [...prevMessages, "Error:" + message]);
         console.log("Error", message, body);
       });
-      s.onclose(() => handleRestartSignalR());
+      s.onclose(() => {
+        setIsHubConnected(false);
+        handleRestartSignalR();
+      });
       console.log(s.state);
       setWs(s);
     }, 1000);
@@ -1249,7 +1257,14 @@ const DirectInbox = () => {
   async function handleAddMessageHook(item: IHookItem) {
     if (!item.DirectItem) return;
     let respItem: IDirectMessageItem | null = null;
-    if (item.DirectItem.RepliedToItemId) {
+    const repliedToItemId = item.DirectItem.RepliedToItemId;
+    if (repliedToItemId) {
+      const thread =
+        gInbox.current?.threads.find((x) => x.threadId === item.ThreadId) ??
+        bInbox.current?.threads.find((x) => x.threadId === item.ThreadId);
+      respItem = thread?.items.find((x) => x.itemId === repliedToItemId) ?? null;
+    }
+    if (repliedToItemId && !respItem) {
       try {
         let res = await clientFetchApi<boolean, IDirectMessageItem>("/api/message/GetDirectParentItem", {
           methodType: MethodType.get,
@@ -1257,7 +1272,7 @@ const DirectInbox = () => {
           data: null,
           queries: [
             { key: "recpId", value: item.RecpId },
-            { key: "itemId", value: item.DirectItem.RepliedToItemId },
+            { key: "itemId", value: repliedToItemId },
           ],
           onUploadProgress: undefined,
         });
@@ -1453,15 +1468,9 @@ const DirectInbox = () => {
         });
         console.log("newThreadFetch", newThread);
         if (newThread.succeeded) {
-          for (
-            let i = 0;
-            (i < 10 && newThread.value.recp.username == null) ||
-            newThread.value.recp.username == undefined ||
-            newThread.value.recp.username?.length == 0;
-            i++
-          ) {
+          for (let i = 0; i < 10 && !newThread.value.recp.username; i++) {
             await delay(1000);
-            newThread = await clientFetchApi<IGetDirectInboxItems, IThread>("Instagramer" + "/Message/GetThread", {
+            const retry = await clientFetchApi<IGetDirectInboxItems, IThread>("Instagramer" + "/Message/GetThread", {
               methodType: MethodType.get,
               session: session,
               data: null,
@@ -1471,6 +1480,16 @@ const DirectInbox = () => {
               ],
               onUploadProgress: undefined,
             });
+            if (!retry.succeeded) break;
+            newThread = retry;
+          }
+          // GetThread for a freshly created thread can flag every item as sentByOwner; derive it from the hook sender instead.
+          const hookSenderId = item.DirectItem.UserId;
+          const hookSentByOwner = item.DirectItem.SentByOwner;
+          if (hookSenderId) {
+            newThread.value.items = newThread.value.items.map((x) =>
+              x.userId ? { ...x, sentByOwner: x.userId === hookSenderId ? hookSentByOwner : !hookSentByOwner } : x,
+            );
           }
           console.log("threadId", newThread.value.threadId);
           console.log("tempThreadIds", tempThreadIds);
@@ -1644,18 +1663,19 @@ const DirectInbox = () => {
     for (let message of sendingMessages) {
       switch (message.itemType) {
         case ItemType.Text:
-          await ws?.send("SendTextMessage", message.igId, message.message);
+          await ws?.send("SendTextMessage", message.igId, message.message, message.replyTo ?? null);
           break;
         case ItemType.Media:
           const res = await UploadFile(session, message.file);
-          if (message.mediaType === MediaType.Image) await ws?.send("SendVideoMessage", message.igId, res.fileName);
+          if (message.mediaType === MediaType.Image)
+            await ws?.send("SendVideoMessage", message.igId, res.fileName, message.replyTo ?? null);
           else if (message.mediaType === MediaType.Video)
-            await ws?.send("SendVideoMessage", message.igId, res.fileName);
+            await ws?.send("SendVideoMessage", message.igId, res.fileName, message.replyTo ?? null);
           break;
         case ItemType.AudioShare:
           const msg = message.message;
           const res2 = await UploadFile(session, message.file);
-          await ws?.send("SendAudioMessage", message.igId, res2.fileName);
+          await ws?.send("SendAudioMessage", message.igId, res2.fileName, message.replyTo ?? null);
           break;
       }
     }
@@ -2694,6 +2714,7 @@ const DirectInbox = () => {
                     toggleOrder === MessageCategoryType.General ? generalInbox!.ownerInbox : businessInbox!.ownerInbox
                   }
                   hub={ws}
+                  isHubConnected={isHubConnected}
                   showUserList={showUserList}
                   fetchItemData={fetchItemData}
                   sendingMessages={sendingMessages.filter((x) => x.threadId === userSelectedId)}

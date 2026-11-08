@@ -7,6 +7,7 @@ import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { MethodType } from "brancy/helper/api";
 import { IPrompts, ITotalPrompt } from "brancy/models/interfaces";
 import styles from "./AiNode.module.css";
+import DragDrop from "brancy/components/design/dragDrop/dragDrop";
 
 const MAX_PAGES = 10;
 
@@ -51,23 +52,29 @@ export const AiNode: React.FC<BaseNodeProps> = ({ node, updateNodeData }) => {
 
   return (
     <div className={styles.container}>
-      <select
-        className={styles.select}
-        value={node.data?.promptId ?? ""}
-        onChange={(e) => {
-          const selected = prompts.find((p) => p.promptId === e.target.value);
+      <DragDrop
+        data={[
+          <div key="" id="">
+            {t(LanguageKey.New_Flow_ai_select)}
+          </div>,
+          ...(node.data?.promptId && !prompts.some((p) => p.promptId === node.data.promptId)
+            ? [
+                <div key={node.data.promptId} id={node.data.promptId}>
+                  {node.data.promptTitle || node.data.promptId}
+                </div>,
+              ]
+            : []),
+          ...prompts.map((p) => (
+            <div key={p.promptId} id={p.promptId}>
+              {p.title}
+            </div>
+          )),
+        ]}
+        handleOptionSelect={(id: string) => {
+          const selected = prompts.find((p) => p.promptId === id);
           updateNodeData(node.id, { promptId: selected?.promptId ?? "", promptTitle: selected?.title ?? "" });
-        }}>
-        <option value="">{t(LanguageKey.New_Flow_ai_select)}</option>
-        {node.data?.promptId && !prompts.some((p) => p.promptId === node.data.promptId) && (
-          <option value={node.data.promptId}>{node.data.promptTitle || node.data.promptId}</option>
-        )}
-        {prompts.map((p) => (
-          <option key={p.promptId} value={p.promptId}>
-            {p.title}
-          </option>
-        ))}
-      </select>
+        }}
+      />
     </div>
   );
 };

@@ -19,6 +19,7 @@ const DragDrop = (props: {
   handleGetMoreItems?: () => Promise<void>;
   externalSearchLoading?: boolean;
   externalSearchText?: string;
+  disabled?: boolean;
 }) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const dropdownMenuRef = useRef<HTMLDivElement>(null);
@@ -84,6 +85,7 @@ const DragDrop = (props: {
   }
 
   function toggleOptions() {
+    if (props.disabled) return;
     if (closed) {
       updateDropdownPosition();
       setIsVisible(true);
@@ -380,7 +382,7 @@ const DragDrop = (props: {
           ref={dropdownRef}
           className={`${props.dangerBorder && itemValue === 0 ? styles.dangerselectbox : styles.selectbox} ${
             !closed ? styles.activeSelectbox : ""
-          }`}
+          } ${props.disabled ? styles.disabledSelectbox : ""}`}
           onClick={toggleOptions}>
           <div className={styles.selectoption}>
             <div className={styles.titleheader}>{props.data[itemValue]}</div>

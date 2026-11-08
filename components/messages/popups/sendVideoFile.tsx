@@ -18,7 +18,7 @@ function _arrayBufferToBase64(buffer: ArrayBuffer) {
 }
 const SendVideoFile = (props: {
   removeMask: () => void;
-  data: { file: File; threadId: string; igid: string };
+  data: { file: File; threadId: string; igid: string; replyTo?: string | null };
   send: (sendٰVideo: IIsSendingMessage) => void;
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -82,6 +82,7 @@ const SendVideoFile = (props: {
           mediaType: MediaType.Video,
           threadId: props.data.threadId,
           message: "",
+          replyTo: props.data.replyTo ?? null,
         };
         props.send(sendVideo);
         props.removeMask();

@@ -110,7 +110,7 @@ const NavbarMobile = (prop: { handleShowHamMenu: (ham: string) => void; gooli: b
         );
       case "page":
         return (
-          <>
+          <svg width="32" height="32" viewBox="0 0 36 36" aria-hidden="true" role="img">
             <path
               opacity=".3"
               fill="var(--color-ffffff)"
@@ -120,7 +120,7 @@ const NavbarMobile = (prop: { handleShowHamMenu: (ham: string) => void; gooli: b
               fill="var(--color-ffffff)"
               d="M22.48 16.45a6.2 6.2 0 0 0-6.23-6.17 6.2 6.2 0 0 0-6.22 6.17 6.2 6.2 0 0 0 6.22 6.17v2.48a8.7 8.7 0 0 1-8.72-8.65c0-4.78 3.9-8.65 8.72-8.65a8.7 8.7 0 0 1 8.73 8.65c0 4.78-3.9 8.65-8.73 8.65v-2.48a6.2 6.2 0 0 0 6.23-6.17m1.75-10.49c0-1.02.84-1.84 1.87-1.84s1.87.82 1.87 1.84-.84 1.84-1.87 1.84a1.86 1.86 0 0 1-1.87-1.84"
             />
-          </>
+          </svg>
         );
       case "message":
         return (

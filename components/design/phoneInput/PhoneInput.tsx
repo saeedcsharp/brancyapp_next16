@@ -250,7 +250,7 @@ const PhoneInput = (props: PhoneInputProps) => {
   const emit = (nextCountry: PhoneCountry, nextNumber: string) =>
     onChange?.(getPhoneValue(nextCountry, nextNumber, format));
   const handleNumberChange = (next: string) => {
-    const digits = normalizeDigits(next);
+    const digits = normalizeDigits(next).replace(/^0/, "");
     const maxLen = selected?.format?.match(/[_.]/g)?.length ?? 15;
     const limited = digits.slice(0, maxLen);
     setNationalNumber(limited);

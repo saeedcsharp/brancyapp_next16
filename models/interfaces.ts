@@ -1650,6 +1650,7 @@ export interface IIsSendingMessage {
   file: File;
   imageBase64?: string;
   imageUrl?: string;
+  replyTo?: string | null;
 }
 
 export interface IThread {
@@ -2264,6 +2265,27 @@ export interface ITotalMasterFlow {
 export interface IMasterFlow {
   items: ITotalMasterFlow[];
   nextMaxId: string | null;
+}
+
+export interface IRelatedAutomationMedia {
+  mediaId: number;
+  productType: MediaProductType;
+  postId: number;
+  thumbnailMediaUrl: string;
+  storyId: number;
+}
+
+export interface IRelatedAutomationGeneral {
+  id: number;
+  productType: MediaProductType;
+  title: string;
+}
+
+// Response of GetRelatedMasterFlows / GetRelatedPrompts (not typed in Swagger; shape from backend sample).
+export interface IRelatedAutomation {
+  id: string;
+  relatedMedias: IRelatedAutomationMedia[];
+  relatedGenerals: IRelatedAutomationGeneral[];
 }
 
 export interface IFlowPhoneNumber {

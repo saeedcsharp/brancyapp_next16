@@ -375,6 +375,10 @@ export const LiveTestModal: React.FC<LiveTestModalProps> = ({ isOpen, onClose, e
           appendBot({ kind: "text", text: t(LanguageKey.New_Flow_ai_livetest) });
           break;
         }
+        case "masterflow": {
+          appendBot({ kind: "text", text: t(LanguageKey.New_Flow_masterflow_livetest) });
+          break;
+        }
         default: {
           await cont();
         }

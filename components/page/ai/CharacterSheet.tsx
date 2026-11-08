@@ -1,27 +1,43 @@
 import InputBox from "brancy/components/design/inputBox/inputBox";
+import DragDrop from "brancy/components/design/dragDrop/dragDrop";
 import SwitchButton from "brancy/components/design/switchButton/switchButton";
 import TextArea from "brancy/components/design/textArea/textArea";
-import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
-import { ChangeEvent, Dispatch, ReactNode, SetStateAction, useEffect, useMemo, useRef, useState } from "react";
+import { ChangeEvent, ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./CharacterSheet.module.css";
 
 type IdentityType = "human" | "product" | "object" | "animal" | "custom";
-type EditorMode = "auto" | "advanced";
-type StepKey = "type" | "identity" | "structure" | "details" | "views" | "style" | "consistency" | "review";
+type CharacterSheetMode = "auto" | "advanced";
+type SectionKey = "type" | "references" | "attributes" | "prompt" | "settings";
 type FieldKind = "text" | "select" | "number" | "color";
-type ConstraintType = "required" | "forbidden";
+type PromptPreviewMode = "readable" | "json";
 
-interface WizardStep {
-  key: StepKey;
-  label: string;
-  shortLabel: string;
+interface ReferenceItem {
+  id: string;
+  name: string;
+  url: string;
+  slotId: string;
+  slotLabel: string;
 }
 
-interface IdentityTypeOption {
-  id: IdentityType;
+interface ReferenceSlot {
+  id: string;
   label: string;
   description: string;
+}
+
+interface CharacterSettings {
+  identityName: string;
+  visualStyle: string;
+  lighting: string;
+  background: string;
+  views: string[];
+  detailLevel: string;
+  consistency: number;
+  creativity: number;
+  outputCount: number;
+  aspectRatio: string;
+  resolution: string;
 }
 
 interface AttributeField {
@@ -38,81 +54,192 @@ interface AttributeSection {
   fields: AttributeField[];
 }
 
-interface ReferenceItem {
-  id: string;
-  name: string;
-  url: string;
-  view: string;
-  purpose: string;
-  priority: number;
+interface EditorSnapshot {
+  identityType: IdentityType;
+  characterSheetMode: CharacterSheetMode;
+  prompt: string;
+  negativePrompt: string;
+  description: string;
+  identityRules: string;
+  consistencyRules: string;
+  attributes: Record<string, string>;
+  lockedAttributes: Record<string, boolean>;
+  settings: CharacterSettings;
 }
 
-interface IdentityConstraint {
-  id: number;
-  type: ConstraintType;
-  text: string;
-}
-
-const ADVANCED_STEPS: WizardStep[] = [
-  { key: "type", label: "What are you creating?", shortLabel: "Type" },
-  { key: "identity", label: "Define identity", shortLabel: "Identity" },
-  { key: "structure", label: "Appearance and structure", shortLabel: "Structure" },
-  { key: "details", label: "Identity details", shortLabel: "Details" },
-  { key: "views", label: "Views and poses", shortLabel: "Views" },
-  { key: "style", label: "Visual direction", shortLabel: "Style" },
-  { key: "consistency", label: "Consistency controls", shortLabel: "Consistency" },
-  { key: "review", label: "Review and generate", shortLabel: "Generate" },
+const MAX_REFERENCES = 14;
+const IDENTITY_TYPES: Array<{ id: IdentityType; label: string; description: string }> = [
+  { id: "human", label: "Human", description: "People, characters, faces, clothing, and poses" },
+  { id: "product", label: "Product", description: "Products, packaging, materials, and branding" },
+  { id: "object", label: "Object", description: "Objects, shape, scale, texture, and details" },
+  { id: "animal", label: "Animal", description: "Animals, anatomy, fur, and markings" },
+  { id: "custom", label: "Custom", description: "Any other subject with a flexible identity" },
 ];
-
-const AUTO_STEPS = ADVANCED_STEPS.filter((step) =>
-  (["type", "identity", "style", "review"] as StepKey[]).includes(step.key),
-);
-
-const IDENTITY_TYPES: IdentityTypeOption[] = [
-  { id: "human", label: "Human", description: "Face, body, hair, clothing, expressions, and poses" },
-  { id: "product", label: "Product", description: "Shape, materials, branding, dimensions, and components" },
-  { id: "object", label: "Object", description: "Form, scale, texture, colors, and distinctive details" },
-  { id: "animal", label: "Animal", description: "Species, breed, fur, anatomy, accessories, and markings" },
-  { id: "custom", label: "Custom", description: "A flexible visual identity for any other subject" },
+const REFERENCE_SLOTS: Record<IdentityType, ReferenceSlot[]> = {
+  human: [
+    { id: "face", label: "Face", description: "Clear front and 3/4 face references with visible features." },
+    { id: "full-body", label: "Full body", description: "Head-to-toe view for proportions and silhouette." },
+    { id: "style", label: "Style and clothing", description: "Outfit, styling, colors, and clothing details." },
+    { id: "hair", label: "Hair and makeup", description: "Hair shape, color, texture, and makeup details." },
+    { id: "body", label: "Body and proportions", description: "Clear body shape, posture, and proportion references." },
+    { id: "accessories", label: "Accessories", description: "Glasses, jewelry, bags, shoes, or signature items." },
+    { id: "details", label: "Distinctive details", description: "Scars, tattoos, marks, or other identity details." },
+  ],
+  product: [
+    { id: "front", label: "Front view", description: "Primary product view with the full silhouette visible." },
+    { id: "back-sides", label: "Back and sides", description: "Back, side, and construction details." },
+    { id: "logo-branding", label: "Brand and logo", description: "Logo, brand mark, typography, and placement." },
+    { id: "packaging", label: "Packaging", description: "Packaging shape, labels, and printed details." },
+    { id: "material", label: "Material and surface", description: "Texture, finish, reflectivity, and material response." },
+    { id: "scale", label: "Scale and dimensions", description: "Product scale beside a hand, person, or known object." },
+    { id: "details", label: "Product details", description: "Buttons, ports, seams, caps, and distinctive components." },
+  ],
+  object: [
+    { id: "main-view", label: "Main view", description: "Primary view showing the complete object silhouette." },
+    { id: "all-sides", label: "All sides", description: "Side, back, top, or underside views." },
+    { id: "scale", label: "Scale reference", description: "Object beside a hand, person, table, or known object." },
+    { id: "material", label: "Material and texture", description: "Surface, texture, finish, and material details." },
+    { id: "components", label: "Components", description: "Separate parts, attachments, and construction details." },
+    { id: "distinctive-details", label: "Distinctive details", description: "Marks, damage, patterns, or unique features." },
+  ],
+  animal: [
+    { id: "face", label: "Face and eyes", description: "Clear face, eyes, muzzle, and expression references." },
+    { id: "full-body", label: "Full body", description: "Head-to-tail view for anatomy and proportions." },
+    { id: "fur-markings", label: "Fur and markings", description: "Fur texture, colors, patterns, and markings." },
+    { id: "profile", label: "Profile and ears", description: "Profile, ears, tail, and species-defining shape." },
+    { id: "pose", label: "Pose and movement", description: "Natural standing, sitting, or movement references." },
+    { id: "accessories", label: "Accessories", description: "Collar, tags, clothing, or identification details." },
+  ],
+  custom: [
+    { id: "main-view", label: "Main view", description: "Primary reference showing the complete subject." },
+    { id: "all-sides", label: "All sides", description: "Additional angles for silhouette and structure." },
+    { id: "scale", label: "Scale reference", description: "A known object or environment for size comparison." },
+    { id: "material", label: "Material and texture", description: "Surface, finish, texture, and material behavior." },
+    { id: "components", label: "Components", description: "Parts, attachments, and internal or external details." },
+    { id: "distinctive-details", label: "Distinctive details", description: "Any feature that must remain recognizable." },
+  ],
+};
+const VISUAL_STYLES = [
+  "Photorealistic",
+  "Cinematic",
+  "Editorial",
+  "Commercial",
+  "3D",
+  "Anime",
+  "Illustration",
+  "Stylized",
 ];
+const LIGHTING_OPTIONS = ["Neutral Studio", "Studio", "Softbox", "Cinematic", "Natural", "Hard Light", "Soft Light"];
+const BACKGROUND_OPTIONS = ["White", "Gray", "Black", "Transparent", "Gradient", "Studio"];
+const VIEW_OPTIONS = ["Front", "Back", "Left", "Right", "3/4 Left", "3/4 Right", "Profile", "Top", "Detail"];
+const DETAIL_LEVELS = ["Standard", "High", "Ultra", "Maximum"];
+const DEFAULT_PROMPT =
+  "Create a consistent character sheet for the selected subject. Preserve the subject's identity across every view, pose, expression, material, color, and detail. Use the reference images as the visual source of truth and keep the result clear, coherent, and production-ready.";
+const DEFAULT_ATTRIBUTE_COLOR = "#2977ff";
+const CHARACTER_SHEET_DRAFT_KEY = "character-sheet-local-draft-v1";
+const DEFAULT_OPEN_SECTIONS: SectionKey[] = ["type", "references", "prompt", "settings"];
 
-const PRESETS: Record<IdentityType, string[]> = {
-  human: ["Basic Character", "Full Character", "Professional Character", "Animation", "Brand Character"],
-  product: ["Product Identity", "E-commerce", "Advertising", "Technical Product", "Packaging Sheet"],
-  object: ["Object Reference", "Game Asset", "3D Asset", "Illustration Reference"],
-  animal: ["Companion Animal", "Wildlife Reference", "Mascot", "Animation Character"],
-  custom: ["Flexible Identity", "Visual Reference", "Technical Sheet", "Editorial Sheet"],
+const TYPE_PROMPT_CONFIG: Record<
+  IdentityType,
+  {
+    prompt: string;
+    negativePrompt: string;
+    identityRules: string;
+    consistencyRules: string;
+  }
+> = {
+  human: {
+    prompt:
+      "Create a consistent human character sheet with stable facial features, body proportions, clothing, expressions, and poses across every view.",
+    negativePrompt: "No distorted anatomy, extra limbs, duplicate accessories, inconsistent face, or heavy blur.",
+    identityRules:
+      "Preserve facial proportions, hairline, skin details, signature clothing, and recognizable accessories.",
+    consistencyRules: "Keep identity and outfit stable while allowing controlled pose and expression changes.",
+  },
+  product: {
+    prompt:
+      "Create a product identity sheet with accurate shape, dimensions, materials, colors, branding, and details across every view.",
+    negativePrompt: "No floating logos, no fake text, no warped geometry, no dramatic shadows.",
+    identityRules: "Preserve the exact silhouette, material response, color accents, dimensions, and logo placement.",
+    consistencyRules: "Keep geometry, branding, materials, and proportions stable between all selected views.",
+  },
+  object: {
+    prompt:
+      "Create a consistent object identity sheet with clear shape, scale, materials, texture, silhouette, and distinctive details.",
+    negativePrompt: "No altered proportions, missing components, random accessories, clutter, or unclear textures.",
+    identityRules:
+      "Preserve the object's silhouette, scale reference, materials, surface texture, and distinctive features.",
+    consistencyRules: "Keep shape, proportions, components, and surface details stable across every view.",
+  },
+  animal: {
+    prompt:
+      "Create a consistent animal identity sheet with stable species, anatomy, fur, markings, colors, and distinctive features across every view.",
+    negativePrompt: "No incorrect anatomy, extra legs, changed markings, unnatural fur, or distorted face.",
+    identityRules: "Preserve species traits, face shape, eyes, fur pattern, markings, and identification accessories.",
+    consistencyRules: "Keep anatomy, markings, colors, and recognizable features stable while allowing natural poses.",
+  },
+  custom: {
+    prompt:
+      "Create a consistent custom subject identity sheet with stable silhouette, materials, colors, components, and user-defined identity rules.",
+    negativePrompt:
+      "No unintended components, inconsistent silhouette, random materials, clutter, or unexplained details.",
+    identityRules: "Preserve the described silhouette, materials, colors, components, and distinctive custom features.",
+    consistencyRules: "Keep all user-defined identity rules stable across every selected view and variation.",
+  },
 };
 
-const REFERENCE_VIEWS = [
-  "Front",
-  "Back",
-  "Left",
-  "Right",
-  "Three-quarter",
-  "Profile",
-  "Close-up",
-  "Full body",
-  "Detail",
-  "Environment",
-  "Custom",
-];
+function createDefaultSettings(): CharacterSettings {
+  return {
+    identityName: "",
+    visualStyle: "Photorealistic",
+    lighting: "Neutral Studio",
+    background: "White",
+    views: ["Front", "Back", "Left", "Right"],
+    detailLevel: "High",
+    consistency: 95,
+    creativity: 40,
+    outputCount: 12,
+    aspectRatio: "4:5",
+    resolution: "High",
+  };
+}
 
-const REFERENCE_PURPOSES = [
-  "Identity",
-  "Shape",
-  "Color",
-  "Material",
-  "Clothing",
-  "Face",
-  "Hair",
-  "Accessory",
-  "Logo",
-  "Texture",
-  "All",
-];
+function AttributeLockIcon({ locked }: { locked: boolean }) {
+  return (
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true">
+      <rect x="5" y="10" width="14" height="11" rx="2" />
+      <path d={locked ? "M8 10V7a4 4 0 0 1 8 0v3" : "M8 10V7a4 4 0 0 1 7-3"} />
+    </svg>
+  );
+}
 
-const STRUCTURE_SECTIONS: Record<IdentityType, AttributeSection[]> = {
+function isMeaningfulAttributeValue(field: AttributeField, value: string | undefined): boolean {
+  if (!value) return false;
+  const normalized = value.trim();
+  if (!normalized) return false;
+  if (field.kind === "select" && normalized.toLowerCase() === "auto") return false;
+  if (field.kind === "color" && normalized.toLowerCase() === DEFAULT_ATTRIBUTE_COLOR) return false;
+  return true;
+}
+
+function toSlug(value: string): string {
+  const slug = value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+  return slug || "untitled-identity";
+}
+
+const ATTRIBUTE_SECTIONS: Record<IdentityType, AttributeSection[]> = {
   human: [
     {
       title: "Basic appearance",
@@ -170,6 +297,45 @@ const STRUCTURE_SECTIONS: Record<IdentityType, AttributeSection[]> = {
         { key: "waist", label: "Waist", placeholder: "Auto" },
         { key: "legProportion", label: "Leg proportion", placeholder: "Auto" },
         { key: "armProportion", label: "Arm proportion", placeholder: "Auto" },
+      ],
+    },
+    {
+      title: "Clothing and styling",
+      fields: [
+        { key: "top", label: "Top", placeholder: "Auto" },
+        { key: "bottom", label: "Bottom", placeholder: "Auto" },
+        { key: "shoes", label: "Shoes", placeholder: "Auto" },
+        { key: "outerwear", label: "Outerwear", placeholder: "Auto" },
+        { key: "headwear", label: "Headwear", placeholder: "Auto" },
+        { key: "glasses", label: "Glasses", placeholder: "Auto" },
+        { key: "jewelry", label: "Jewelry", placeholder: "Auto" },
+        { key: "bag", label: "Bag", placeholder: "Auto" },
+        { key: "watch", label: "Watch", placeholder: "Auto" },
+        {
+          key: "clothingConsistency",
+          label: "Clothing consistency",
+          kind: "select",
+          options: ["Always Preserve", "Preserve Style", "Allow Variation"],
+        },
+        {
+          key: "culturalClothing",
+          label: "Clothing direction",
+          kind: "select",
+          options: [
+            "Auto",
+            "Hijab",
+            "Chador",
+            "Headscarf",
+            "Modest Clothing",
+            "Formal",
+            "Casual",
+            "Traditional",
+            "Uniform",
+            "Custom",
+          ],
+        },
+        { key: "accessories", label: "Accessories", placeholder: "Auto" },
+        { key: "distinguishingHumanFeatures", label: "Distinctive features", placeholder: "Auto" },
       ],
     },
   ],
@@ -266,122 +432,6 @@ const STRUCTURE_SECTIONS: Record<IdentityType, AttributeSection[]> = {
         },
       ],
     },
-  ],
-  object: [
-    {
-      title: "Object structure",
-      fields: [
-        { key: "objectCategory", label: "Category", placeholder: "Auto" },
-        { key: "objectShape", label: "Shape", placeholder: "Auto" },
-        { key: "objectSize", label: "Size", placeholder: "Auto" },
-        { key: "objectProportions", label: "Proportions", placeholder: "Auto" },
-        { key: "objectMaterial", label: "Material", placeholder: "Auto" },
-        { key: "objectTexture", label: "Texture", placeholder: "Auto" },
-        { key: "objectStyle", label: "Style", placeholder: "Auto" },
-      ],
-    },
-    {
-      title: "Dimensions and scale",
-      fields: [
-        { key: "objectWidth", label: "Width", kind: "number", unit: "cm" },
-        { key: "objectHeight", label: "Height", kind: "number", unit: "cm" },
-        { key: "objectDepth", label: "Depth", kind: "number", unit: "cm" },
-        {
-          key: "objectScale",
-          label: "Scale reference",
-          kind: "select",
-          options: ["Auto", "Human", "Hand", "Table", "Room", "Vehicle", "Custom"],
-        },
-      ],
-    },
-  ],
-  animal: [
-    {
-      title: "Animal definition",
-      fields: [
-        { key: "species", label: "Species", placeholder: "Auto" },
-        { key: "breed", label: "Breed", placeholder: "Auto" },
-        { key: "animalAge", label: "Age", placeholder: "Auto" },
-        { key: "animalSize", label: "Size", placeholder: "Auto" },
-        { key: "animalFace", label: "Face", placeholder: "Auto" },
-        { key: "animalBody", label: "Body", placeholder: "Auto" },
-        { key: "animalEyes", label: "Eyes", placeholder: "Auto" },
-      ],
-    },
-    {
-      title: "Fur and markings",
-      fields: [
-        { key: "furColor", label: "Fur color", placeholder: "Auto" },
-        { key: "furPattern", label: "Fur pattern", placeholder: "Auto" },
-        { key: "furLength", label: "Fur length", placeholder: "Auto" },
-        { key: "furTexture", label: "Fur texture", placeholder: "Auto" },
-        { key: "markings", label: "Distinctive markings", placeholder: "Auto" },
-      ],
-    },
-  ],
-  custom: [
-    {
-      title: "Custom subject",
-      fields: [
-        { key: "customCategory", label: "Subject category", placeholder: "Describe the subject" },
-        { key: "customShape", label: "Shape and silhouette", placeholder: "Auto" },
-        { key: "customScale", label: "Scale", placeholder: "Auto" },
-        { key: "customMaterial", label: "Material", placeholder: "Auto" },
-        { key: "customTexture", label: "Texture", placeholder: "Auto" },
-        { key: "customFeatures", label: "Distinctive features", placeholder: "Auto" },
-      ],
-    },
-  ],
-};
-
-const DETAIL_SECTIONS: Record<IdentityType, AttributeSection[]> = {
-  human: [
-    {
-      title: "Clothing",
-      fields: [
-        { key: "top", label: "Top", placeholder: "Auto" },
-        { key: "bottom", label: "Bottom", placeholder: "Auto" },
-        { key: "shoes", label: "Shoes", placeholder: "Auto" },
-        { key: "outerwear", label: "Outerwear", placeholder: "Auto" },
-        { key: "headwear", label: "Headwear", placeholder: "Auto" },
-        { key: "glasses", label: "Glasses", placeholder: "Auto" },
-        { key: "jewelry", label: "Jewelry", placeholder: "Auto" },
-        { key: "bag", label: "Bag", placeholder: "Auto" },
-        { key: "watch", label: "Watch", placeholder: "Auto" },
-        {
-          key: "clothingConsistency",
-          label: "Clothing consistency",
-          kind: "select",
-          options: ["Always Preserve", "Preserve Style", "Allow Variation"],
-        },
-      ],
-    },
-    {
-      title: "Cultural and styling details",
-      fields: [
-        {
-          key: "culturalClothing",
-          label: "Clothing direction",
-          kind: "select",
-          options: [
-            "Auto",
-            "Hijab",
-            "Chador",
-            "Headscarf",
-            "Modest Clothing",
-            "Formal",
-            "Casual",
-            "Traditional",
-            "Uniform",
-            "Custom",
-          ],
-        },
-        { key: "accessories", label: "Accessories", placeholder: "Auto" },
-        { key: "distinguishingHumanFeatures", label: "Distinctive features", placeholder: "Auto" },
-      ],
-    },
-  ],
-  product: [
     {
       title: "Colors and branding",
       fields: [
@@ -412,6 +462,32 @@ const DETAIL_SECTIONS: Record<IdentityType, AttributeSection[]> = {
   ],
   object: [
     {
+      title: "Object structure",
+      fields: [
+        { key: "objectCategory", label: "Category", placeholder: "Auto" },
+        { key: "objectShape", label: "Shape", placeholder: "Auto" },
+        { key: "objectSize", label: "Size", placeholder: "Auto" },
+        { key: "objectProportions", label: "Proportions", placeholder: "Auto" },
+        { key: "objectMaterial", label: "Material", placeholder: "Auto" },
+        { key: "objectTexture", label: "Texture", placeholder: "Auto" },
+        { key: "objectStyle", label: "Style", placeholder: "Auto" },
+      ],
+    },
+    {
+      title: "Dimensions and scale",
+      fields: [
+        { key: "objectWidth", label: "Width", kind: "number", unit: "cm" },
+        { key: "objectHeight", label: "Height", kind: "number", unit: "cm" },
+        { key: "objectDepth", label: "Depth", kind: "number", unit: "cm" },
+        {
+          key: "objectScale",
+          label: "Scale reference",
+          kind: "select",
+          options: ["Auto", "Human", "Hand", "Table", "Room", "Vehicle", "Custom"],
+        },
+      ],
+    },
+    {
       title: "Object details",
       fields: [
         { key: "objectPrimaryColor", label: "Primary color", kind: "color" },
@@ -424,6 +500,28 @@ const DETAIL_SECTIONS: Record<IdentityType, AttributeSection[]> = {
   ],
   animal: [
     {
+      title: "Animal definition",
+      fields: [
+        { key: "species", label: "Species", placeholder: "Auto" },
+        { key: "breed", label: "Breed", placeholder: "Auto" },
+        { key: "animalAge", label: "Age", placeholder: "Auto" },
+        { key: "animalSize", label: "Size", placeholder: "Auto" },
+        { key: "animalFace", label: "Face", placeholder: "Auto" },
+        { key: "animalBody", label: "Body", placeholder: "Auto" },
+        { key: "animalEyes", label: "Eyes", placeholder: "Auto" },
+      ],
+    },
+    {
+      title: "Fur and markings",
+      fields: [
+        { key: "furColor", label: "Fur color", placeholder: "Auto" },
+        { key: "furPattern", label: "Fur pattern", placeholder: "Auto" },
+        { key: "furLength", label: "Fur length", placeholder: "Auto" },
+        { key: "furTexture", label: "Fur texture", placeholder: "Auto" },
+        { key: "markings", label: "Distinctive markings", placeholder: "Auto" },
+      ],
+    },
+    {
       title: "Animal details",
       fields: [
         { key: "animalAccessories", label: "Accessories", placeholder: "Auto" },
@@ -434,6 +532,17 @@ const DETAIL_SECTIONS: Record<IdentityType, AttributeSection[]> = {
     },
   ],
   custom: [
+    {
+      title: "Custom subject",
+      fields: [
+        { key: "customCategory", label: "Subject category", placeholder: "Describe the subject" },
+        { key: "customShape", label: "Shape and silhouette", placeholder: "Auto" },
+        { key: "customScale", label: "Scale", placeholder: "Auto" },
+        { key: "customMaterial", label: "Material", placeholder: "Auto" },
+        { key: "customTexture", label: "Texture", placeholder: "Auto" },
+        { key: "customFeatures", label: "Distinctive features", placeholder: "Auto" },
+      ],
+    },
     {
       title: "Custom details",
       fields: [
@@ -446,93 +555,6 @@ const DETAIL_SECTIONS: Record<IdentityType, AttributeSection[]> = {
     },
   ],
 };
-
-const HUMAN_EXPRESSIONS = [
-  "Neutral",
-  "Happy",
-  "Sad",
-  "Angry",
-  "Surprised",
-  "Confident",
-  "Serious",
-  "Laughing",
-  "Thinking",
-  "Worried",
-];
-const HUMAN_POSES = [
-  "Standing",
-  "Walking",
-  "Sitting",
-  "Running",
-  "Hands on waist",
-  "Crossed arms",
-  "Pointing",
-  "Holding object",
-];
-const STANDARD_VIEWS = [
-  "Front",
-  "Back",
-  "Left",
-  "Right",
-  "3/4 Left",
-  "3/4 Right",
-  "Profile Left",
-  "Profile Right",
-  "Top",
-  "Bottom",
-];
-const PRODUCT_VIEWS = [...STANDARD_VIEWS, "Open", "Closed", "Exploded View", "Detail View"];
-const VISUAL_STYLES = [
-  "Photorealistic",
-  "Cinematic",
-  "Editorial",
-  "Commercial",
-  "3D",
-  "Anime",
-  "Illustration",
-  "Comic",
-  "Stylized",
-  "Minimal",
-];
-const LIGHTING_OPTIONS = [
-  "Neutral Studio",
-  "Studio",
-  "Softbox",
-  "Cinematic",
-  "Natural",
-  "Hard Light",
-  "Soft Light",
-  "Rim Light",
-  "Product Photography",
-];
-const BACKGROUND_OPTIONS = ["White", "Gray", "Black", "Transparent", "Gradient", "Studio", "Custom"];
-const LAYOUT_OPTIONS = ["Grid", "Presentation", "Technical", "Minimal", "Editorial", "Storyboard", "Custom"];
-const DETAIL_LEVELS = ["Standard", "High", "Ultra", "Maximum"];
-const OUTPUT_PRESETS = [
-  { id: "quick", label: "Quick", count: 6 },
-  { id: "standard", label: "Standard", count: 12 },
-  { id: "complete", label: "Complete", count: 24 },
-  { id: "pro", label: "Pro", count: 36 },
-  { id: "custom", label: "Custom", count: 0 },
-];
-const GLOBAL_LOCKS = [
-  "Face",
-  "Body",
-  "Hair",
-  "Clothing",
-  "Color",
-  "Material",
-  "Shape",
-  "Proportions",
-  "Logo",
-  "Branding",
-  "Accessories",
-  "Pose",
-  "Expression",
-  "Background",
-  "Environment",
-];
-const REFERENCE_STRATEGIES = ["Identity", "Face", "Shape", "Material", "Style", "Logo"];
 
 function TypeIcon({ type }: { type: IdentityType }) {
   const commonProps = {
@@ -562,8 +584,7 @@ function TypeIcon({ type }: { type: IdentityType }) {
   if (type === "object")
     return (
       <svg {...commonProps}>
-        <path d="M8 21h8M12 17v4M5 5.5 12 2l7 3.5v8L12 17l-7-3.5z" />
-        <path d="m5 5.5 7 4 7-4M12 9.5V17" />
+        <path d="M8 21h8M12 17v4M5 5.5 12 2l7 3.5v8L12 17l-7-3.5zM5 5.5l7 4 7-4M12 9.5V17" />
       </svg>
     );
   if (type === "animal")
@@ -580,40 +601,6 @@ function TypeIcon({ type }: { type: IdentityType }) {
     <svg {...commonProps}>
       <path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6 5.6 18.4" />
       <circle cx="12" cy="12" r="4" />
-    </svg>
-  );
-}
-
-function LockIcon({ locked }: { locked: boolean }) {
-  return (
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      aria-hidden="true">
-      {locked ? (
-        <path d="M7 10V7a5 5 0 0 1 10 0v3M5 10h14v11H5z" />
-      ) : (
-        <path d="M8 10V7a5 5 0 0 1 9.5-2M5 10h14v11H5z" />
-      )}
-    </svg>
-  );
-}
-
-function SparkIcon() {
-  return (
-    <svg
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.7"
-      aria-hidden="true">
-      <path d="m12 2 1.5 5.1A5 5 0 0 0 17 10.5L22 12l-5 1.5a5 5 0 0 0-3.5 3.4L12 22l-1.5-5.1A5 5 0 0 0 7 13.5L2 12l5-1.5a5 5 0 0 0 3.5-3.4z" />
     </svg>
   );
 }
@@ -650,69 +637,68 @@ function ChoiceGroup({
   );
 }
 
+function AccordionSection({
+  sectionKey,
+  sectionNumber,
+  title,
+  description,
+  openSections,
+  onToggle,
+  children,
+}: {
+  sectionKey: SectionKey;
+  sectionNumber: string;
+  title: string;
+  description: string;
+  openSections: Set<SectionKey>;
+  onToggle: (key: SectionKey) => void;
+  children: ReactNode;
+}) {
+  const isOpen = openSections.has(sectionKey);
+  return (
+    <section className={`${styles.accordionSection} ${isOpen ? styles.accordionSectionOpen : ""}`}>
+      <button
+        type="button"
+        className={styles.accordionHeader}
+        aria-expanded={isOpen}
+        onClick={() => onToggle(sectionKey)}>
+        <span className={styles.accordionIndex}>{sectionNumber}</span>
+        <span className={styles.accordionCopy}>
+          <strong>{title}</strong>
+          <small>{description}</small>
+        </span>
+        <span className={styles.accordionChevron} aria-hidden="true">
+          {isOpen ? "−" : "+"}
+        </span>
+      </button>
+      {isOpen && <div className={styles.accordionBody}>{children}</div>}
+    </section>
+  );
+}
+
 export default function CharacterSheet() {
-  const { t } = useTranslation();
-  const [mode, setMode] = useState<EditorMode>("advanced");
-  const [currentStep, setCurrentStep] = useState<StepKey>("type");
+  const { t, i18n } = useTranslation();
   const [identityType, setIdentityType] = useState<IdentityType>("human");
-  const [selectedPreset, setSelectedPreset] = useState(PRESETS.human[1]);
-  const [identityName, setIdentityName] = useState("");
-  const [description, setDescription] = useState("");
+  const [characterSheetMode, setCharacterSheetMode] = useState<CharacterSheetMode>("auto");
   const [references, setReferences] = useState<ReferenceItem[]>([]);
-  const [analysisPreview, setAnalysisPreview] = useState(false);
+  const [prompt, setPrompt] = useState(DEFAULT_PROMPT);
+  const [negativePrompt, setNegativePrompt] = useState("");
+  const [description, setDescription] = useState("");
+  const [identityRules, setIdentityRules] = useState("");
+  const [consistencyRules, setConsistencyRules] = useState("");
+  const [previewMode, setPreviewMode] = useState<PromptPreviewMode>("readable");
+  const [copied, setCopied] = useState<"idle" | "ok" | "error">("idle");
   const [attributes, setAttributes] = useState<Record<string, string>>({});
-  const [lockedAttributes, setLockedAttributes] = useState<Set<string>>(new Set(["Face", "Color"]));
-  const [selectedViews, setSelectedViews] = useState<string[]>(["Front", "Back", "Left", "Right", "3/4 Left"]);
-  const [selectedExpressions, setSelectedExpressions] = useState<string[]>(["Neutral", "Happy", "Confident"]);
-  const [selectedPoses, setSelectedPoses] = useState<string[]>(["Standing", "Walking", "Sitting"]);
-  const [poseCount, setPoseCount] = useState("8");
-  const [visualStyle, setVisualStyle] = useState("Photorealistic");
-  const [lighting, setLighting] = useState("Neutral Studio");
-  const [background, setBackground] = useState("White");
-  const [sheetLayout, setSheetLayout] = useState("Grid");
-  const [backgroundConsistency, setBackgroundConsistency] = useState(true);
-  const [customStylePrompt, setCustomStylePrompt] = useState("");
-  const [colorPalette, setColorPalette] = useState(["#2977ff", "#44cb8c", "#ffb700", "#ff4e85"]);
-  const [identityConsistency, setIdentityConsistency] = useState(95);
-  const [creativity, setCreativity] = useState(40);
-  const [detailLevel, setDetailLevel] = useState("High");
-  const [outputPreset, setOutputPreset] = useState("standard");
-  const [customOutputCount, setCustomOutputCount] = useState("12");
-  const [aspectRatio, setAspectRatio] = useState("4:5");
-  const [resolution, setResolution] = useState("High");
-  const [modelStrategy, setModelStrategy] = useState("Automatic provider and model");
-  const [referenceStrategies, setReferenceStrategies] = useState<string[]>(["Identity", "Face", "Shape"]);
-  const [constraints, setConstraints] = useState<IdentityConstraint[]>([]);
-  const [constraintDraft, setConstraintDraft] = useState("");
-  const [constraintType, setConstraintType] = useState<ConstraintType>("forbidden");
-  const [logoFileName, setLogoFileName] = useState("");
-  const [previewGenerated, setPreviewGenerated] = useState(false);
+  const [lockedAttributes, setLockedAttributes] = useState<Record<string, boolean>>({});
+  const [openSections, setOpenSections] = useState<Set<SectionKey>>(new Set(DEFAULT_OPEN_SECTIONS));
+  const [settings, setSettings] = useState<CharacterSettings>(createDefaultSettings);
   const referenceUrlsRef = useRef(new Set<string>());
   const referenceIdRef = useRef(0);
-  const constraintIdRef = useRef(0);
-
-  const modeOptions = [
-    { id: 0, label: t("Auto") },
-    { id: 1, label: t("Advanced") },
-  ];
-  const steps = mode === "auto" ? AUTO_STEPS : ADVANCED_STEPS;
-  const currentStepIndex = Math.max(
-    0,
-    steps.findIndex((step) => step.key === currentStep),
-  );
-  const currentStepDefinition = steps[currentStepIndex];
-  const outputCount =
-    outputPreset === "custom"
-      ? Math.max(1, Number(customOutputCount) || 1)
-      : (OUTPUT_PRESETS.find((preset) => preset.id === outputPreset)?.count ?? 12);
-  const automaticConstraints = useMemo(
-    () =>
-      Array.from(lockedAttributes).map((attribute) => ({
-        id: `lock-${attribute}`,
-        text: `Do not change ${attribute.toLowerCase()}`,
-      })),
-    [lockedAttributes],
-  );
+  const draftLoadedRef = useRef(false);
+  const historyRef = useRef<EditorSnapshot[]>([]);
+  const historyIndexRef = useRef(-1);
+  const restoringHistoryRef = useRef(false);
+  const [, refreshHistory] = useState(0);
 
   useEffect(
     () => () => {
@@ -722,987 +708,470 @@ export default function CharacterSheet() {
     [],
   );
 
-  const setModeAndStep = (nextMode: EditorMode) => {
-    setMode(nextMode);
-    const nextSteps = nextMode === "auto" ? AUTO_STEPS : ADVANCED_STEPS;
-    if (!nextSteps.some((step) => step.key === currentStep)) setCurrentStep("identity");
-    setPreviewGenerated(false);
-  };
-  const selectIdentityType = (nextType: IdentityType) => {
-    setIdentityType(nextType);
-    setSelectedPreset(PRESETS[nextType][0]);
-    setAnalysisPreview(false);
-    setPreviewGenerated(false);
-  };
-  const updateAttribute = (key: string, value: string) => {
-    setAttributes((current) => ({ ...current, [key]: value }));
-    setPreviewGenerated(false);
-  };
-  const toggleLock = (key: string) => {
-    setLockedAttributes((current) => {
+  const selectedType = IDENTITY_TYPES.find((item) => item.id === identityType) ?? IDENTITY_TYPES[0];
+  const isRtl = i18n.dir() === "rtl";
+  const visibleSectionKeys = useMemo<SectionKey[]>(
+    () =>
+      characterSheetMode === "advanced"
+        ? ["type", "references", "attributes", "prompt", "settings"]
+        : DEFAULT_OPEN_SECTIONS,
+    [characterSheetMode],
+  );
+  const sectionNumberMap = useMemo(
+    () => new Map(visibleSectionKeys.map((key, index) => [key, String(index + 1).padStart(2, "0")])),
+    [visibleSectionKeys],
+  );
+  const selectedAttributeSections = ATTRIBUTE_SECTIONS[identityType];
+  const referenceSlots = REFERENCE_SLOTS[identityType];
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      const rawDraft = localStorage.getItem(CHARACTER_SHEET_DRAFT_KEY);
+      if (!rawDraft) {
+        draftLoadedRef.current = true;
+        return;
+      }
+      const draft = JSON.parse(rawDraft) as {
+        identityType?: IdentityType;
+        characterSheetMode?: CharacterSheetMode;
+        prompt?: string;
+        negativePrompt?: string;
+        description?: string;
+        identityRules?: string;
+        consistencyRules?: string;
+        attributes?: Record<string, string>;
+        lockedAttributes?: Record<string, boolean>;
+        settings?: Partial<CharacterSettings>;
+        openSections?: SectionKey[];
+        previewMode?: PromptPreviewMode;
+      };
+      if (draft.identityType && IDENTITY_TYPES.some((option) => option.id === draft.identityType)) {
+        setIdentityType(draft.identityType);
+      }
+      if (draft.characterSheetMode === "auto" || draft.characterSheetMode === "advanced") {
+        setCharacterSheetMode(draft.characterSheetMode);
+      }
+      if (typeof draft.prompt === "string") setPrompt(draft.prompt);
+      if (typeof draft.negativePrompt === "string") setNegativePrompt(draft.negativePrompt);
+      if (typeof draft.description === "string") setDescription(draft.description);
+      if (typeof draft.identityRules === "string") setIdentityRules(draft.identityRules);
+      if (typeof draft.consistencyRules === "string") setConsistencyRules(draft.consistencyRules);
+      if (draft.attributes && typeof draft.attributes === "object") setAttributes(draft.attributes);
+      if (draft.lockedAttributes && typeof draft.lockedAttributes === "object")
+        setLockedAttributes(draft.lockedAttributes);
+      if (draft.settings && typeof draft.settings === "object") {
+        setSettings({
+          ...createDefaultSettings(),
+          ...draft.settings,
+          views: Array.isArray(draft.settings.views)
+            ? draft.settings.views.filter((view): view is string => typeof view === "string")
+            : createDefaultSettings().views,
+        });
+      }
+      if (Array.isArray(draft.openSections)) {
+        const safeKeys = draft.openSections.filter(
+          (key): key is SectionKey =>
+            key === "type" || key === "references" || key === "attributes" || key === "prompt" || key === "settings",
+        );
+        setOpenSections(new Set(safeKeys));
+      }
+      if (draft.previewMode === "json" || draft.previewMode === "readable") setPreviewMode(draft.previewMode);
+    } catch {
+      localStorage.removeItem(CHARACTER_SHEET_DRAFT_KEY);
+    } finally {
+      draftLoadedRef.current = true;
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !draftLoadedRef.current) return;
+    const draftToPersist = {
+      identityType,
+      characterSheetMode,
+      prompt,
+      negativePrompt,
+      description,
+      identityRules,
+      consistencyRules,
+      attributes,
+      lockedAttributes,
+      settings,
+      openSections: Array.from(openSections),
+      previewMode,
+    };
+    try {
+      localStorage.setItem(CHARACTER_SHEET_DRAFT_KEY, JSON.stringify(draftToPersist));
+    } catch {
+      // Storage can fail in privacy mode or quota errors. Keep local state only.
+    }
+  }, [
+    attributes,
+    characterSheetMode,
+    description,
+    identityRules,
+    identityType,
+    lockedAttributes,
+    negativePrompt,
+    openSections,
+    previewMode,
+    prompt,
+    settings,
+    consistencyRules,
+  ]);
+
+  useEffect(() => {
+    setOpenSections((current) => {
       const next = new Set(current);
-      if (next.has(key)) next.delete(key);
-      else next.add(key);
+      if (characterSheetMode !== "advanced") next.delete("attributes");
       return next;
     });
-    setPreviewGenerated(false);
+  }, [characterSheetMode]);
+
+  const createSnapshot = (): EditorSnapshot => ({
+    identityType,
+    characterSheetMode,
+    prompt,
+    negativePrompt,
+    description,
+    identityRules,
+    consistencyRules,
+    attributes,
+    lockedAttributes,
+    settings,
+  });
+
+  useEffect(() => {
+    if (restoringHistoryRef.current) {
+      restoringHistoryRef.current = false;
+      return;
+    }
+    const snapshot = createSnapshot();
+    const currentSnapshot = historyRef.current[historyIndexRef.current];
+    if (currentSnapshot && JSON.stringify(currentSnapshot) === JSON.stringify(snapshot)) return;
+    const nextHistory = historyRef.current.slice(0, historyIndexRef.current + 1);
+    nextHistory.push(snapshot);
+    historyRef.current = nextHistory.slice(-30);
+    historyIndexRef.current = historyRef.current.length - 1;
+    refreshHistory((value) => value + 1);
+  }, [
+    attributes,
+    characterSheetMode,
+    consistencyRules,
+    description,
+    identityRules,
+    identityType,
+    negativePrompt,
+    prompt,
+    settings,
+  ]);
+
+  const restoreSnapshot = (snapshot: EditorSnapshot) => {
+    restoringHistoryRef.current = true;
+    setIdentityType(snapshot.identityType);
+    setCharacterSheetMode(snapshot.characterSheetMode);
+    setPrompt(snapshot.prompt);
+    setNegativePrompt(snapshot.negativePrompt);
+    setDescription(snapshot.description);
+    setIdentityRules(snapshot.identityRules);
+    setConsistencyRules(snapshot.consistencyRules);
+    setAttributes(snapshot.attributes);
+    setLockedAttributes(snapshot.lockedAttributes);
+    setSettings(snapshot.settings);
   };
-  const toggleArrayValue = (value: string, setter: Dispatch<SetStateAction<string[]>>) => {
-    setter((current) => (current.includes(value) ? current.filter((item) => item !== value) : [...current, value]));
-    setPreviewGenerated(false);
+
+  const undo = () => {
+    if (historyIndexRef.current <= 0) return;
+    historyIndexRef.current -= 1;
+    restoreSnapshot(historyRef.current[historyIndexRef.current]);
+    refreshHistory((value) => value + 1);
   };
-  const handleReferenceFiles = (event: ChangeEvent<HTMLInputElement>) => {
+
+  const redo = () => {
+    if (historyIndexRef.current >= historyRef.current.length - 1) return;
+    historyIndexRef.current += 1;
+    restoreSnapshot(historyRef.current[historyIndexRef.current]);
+    refreshHistory((value) => value + 1);
+  };
+
+  const updateSettings = (patch: Partial<CharacterSettings>) => setSettings((current) => ({ ...current, ...patch }));
+  const updateAttribute = (key: string, value: string) => setAttributes((current) => ({ ...current, [key]: value }));
+  const toggleAttributeLock = (key: string) => setLockedAttributes((current) => ({ ...current, [key]: !current[key] }));
+  const toggleSection = (sectionKey: SectionKey) =>
+    setOpenSections((current) => {
+      const next = new Set(current);
+      if (next.has(sectionKey)) next.delete(sectionKey);
+      else next.add(sectionKey);
+      return next;
+    });
+  const toggleView = (view: string) =>
+    updateSettings({
+      views: settings.views.includes(view) ? settings.views.filter((item) => item !== view) : [...settings.views, view],
+    });
+  const handleReferenceFiles = (
+    event: ChangeEvent<HTMLInputElement>,
+    slotId = "general",
+    slotLabel = "General reference",
+  ) => {
     const files = Array.from(event.target.files ?? [])
       .filter((file) => file.type.startsWith("image/"))
-      .slice(0, Math.max(0, 12 - references.length));
-    const addedReferences = files.map((file, index) => {
+      .slice(0, MAX_REFERENCES - references.length);
+    const addedReferences = files.map((file) => {
       const url = URL.createObjectURL(file);
       referenceUrlsRef.current.add(url);
       referenceIdRef.current += 1;
-      return {
-        id: `reference-${referenceIdRef.current}`,
-        name: file.name,
-        url,
-        view: REFERENCE_VIEWS[(references.length + index) % 5],
-        purpose: "Identity",
-        priority: Math.max(1, 10 - references.length - index),
-      };
+      return { id: `reference-${referenceIdRef.current}`, name: file.name, url, slotId, slotLabel };
     });
-    if (addedReferences.length) {
-      setReferences((current) => [...current, ...addedReferences]);
-      setAnalysisPreview(false);
-      setPreviewGenerated(false);
-    }
+    if (addedReferences.length) setReferences((current) => [...current, ...addedReferences]);
     event.target.value = "";
-  };
-  const updateReference = (id: string, patch: Partial<ReferenceItem>) => {
-    setReferences((current) =>
-      current.map((reference) => (reference.id === id ? { ...reference, ...patch } : reference)),
-    );
-    setAnalysisPreview(false);
   };
   const removeReference = (reference: ReferenceItem) => {
     URL.revokeObjectURL(reference.url);
     referenceUrlsRef.current.delete(reference.url);
     setReferences((current) => current.filter((item) => item.id !== reference.id));
-    setAnalysisPreview(false);
-  };
-  const addConstraint = () => {
-    const text = constraintDraft.trim();
-    if (!text) return;
-    constraintIdRef.current += 1;
-    setConstraints((current) => [...current, { id: constraintIdRef.current, type: constraintType, text }]);
-    setConstraintDraft("");
-  };
-  const goToPreviousStep = () => {
-    if (currentStepIndex > 0) setCurrentStep(steps[currentStepIndex - 1].key);
-  };
-  const goToNextStep = () => {
-    if (currentStepIndex < steps.length - 1) setCurrentStep(steps[currentStepIndex + 1].key);
   };
 
-  const renderField = (field: AttributeField) => {
-    const value = attributes[field.key] ?? (field.kind === "color" ? "#2977ff" : "");
-    const locked = lockedAttributes.has(field.key);
+  const applyTypePrompt = (type: IdentityType) => {
+    const typePrompt = TYPE_PROMPT_CONFIG[type];
+    setPrompt(typePrompt.prompt);
+    setNegativePrompt(typePrompt.negativePrompt);
+    setIdentityRules(typePrompt.identityRules);
+    setConsistencyRules(typePrompt.consistencyRules);
+  };
+
+  const resetAttributes = () => {
+    setAttributes({});
+    setLockedAttributes({});
+  };
+
+  const resetAllDraft = () => {
+    referenceUrlsRef.current.forEach((url) => URL.revokeObjectURL(url));
+    referenceUrlsRef.current.clear();
+    setReferences([]);
+    setIdentityType("human");
+    setCharacterSheetMode("auto");
+    setPrompt(DEFAULT_PROMPT);
+    setNegativePrompt("");
+    setDescription("");
+    setIdentityRules("");
+    setConsistencyRules("");
+    setAttributes({});
+    setLockedAttributes({});
+    setPreviewMode("readable");
+    setOpenSections(new Set(DEFAULT_OPEN_SECTIONS));
+    setSettings(createDefaultSettings());
+    if (typeof window !== "undefined") {
+      localStorage.removeItem(CHARACTER_SHEET_DRAFT_KEY);
+    }
+  };
+
+  const attributeCompletion = useMemo(() => {
+    let total = 0;
+    let completed = 0;
+    selectedAttributeSections.forEach((section) => {
+      section.fields.forEach((field) => {
+        total += 1;
+        if (isMeaningfulAttributeValue(field, attributes[field.key])) completed += 1;
+      });
+    });
+    return { total, completed };
+  }, [attributes, selectedAttributeSections]);
+
+  const renderAttributeField = (field: AttributeField) => {
+    const value = attributes[field.key] ?? (field.kind === "color" ? DEFAULT_ATTRIBUTE_COLOR : "");
+    const isLocked = Boolean(lockedAttributes[field.key]);
     return (
-      <label className={`${styles.attributeField} ${locked ? styles.attributeFieldLocked : ""}`} key={field.key}>
-        <span className={styles.fieldHeader}>
+      <div className={styles.attributeField} key={field.key}>
+        <div className={styles.attributeFieldHeader}>
           <span>{t(field.label)}</span>
           <button
             type="button"
-            className={`${styles.lockButton} ${locked ? styles.lockButtonActive : ""}`}
-            onClick={() => toggleLock(field.key)}
-            aria-pressed={locked}
-            aria-label={t(locked ? `Unlock ${field.label}` : `Lock ${field.label}`)}
-            title={t(locked ? "Unlock attribute" : "Lock attribute")}>
-            <LockIcon locked={locked} />
+            className={styles.attributeLockButton}
+            aria-label={t(isLocked ? "Unlock attribute" : "Lock attribute")}
+            aria-pressed={isLocked}
+            title={t(isLocked ? "Unlock attribute" : "Lock attribute")}
+            onClick={() => toggleAttributeLock(field.key)}>
+            <AttributeLockIcon locked={isLocked} />
           </button>
-        </span>
-        {field.kind === "select" ? (
-          <select
-            className={styles.selectInput}
-            value={value || field.options?.[0]}
-            onChange={(event) => updateAttribute(field.key, event.target.value)}>
-            {field.options?.map((option) => (
-              <option value={option} key={option}>
-                {t(option)}
-              </option>
-            ))}
-          </select>
-        ) : field.kind === "color" ? (
-          <span className={styles.colorInputWrap}>
-            <input
-              className={styles.colorInput}
-              type="color"
-              value={value}
-              onChange={(event) => updateAttribute(field.key, event.target.value)}
-              aria-label={t(field.label)}
+        </div>
+        <div className={isLocked ? "fadeDiv" : ""}>
+          {field.kind === "select" ? (
+            <DragDrop
+              data={(field.options ?? []).map((option) => (
+                <div id={option} key={option}>
+                  {t(option)}
+                </div>
+              ))}
+              item={Math.max(0, (field.options ?? []).findIndex((option) => option === value))}
+              handleOptionSelect={(id) => updateAttribute(field.key, String(id))}
+              disabled={isLocked}
             />
-            <span>{value.toUpperCase()}</span>
-          </span>
-        ) : (
-          <InputBox
-            value={value}
-            handleInputChange={(event) => updateAttribute(field.key, event.target.value)}
-            placeholder={t(field.placeholder ?? "Auto")}
-            variant={field.kind === "number" ? "number" : "default"}
-            inputMode={field.kind === "number" ? "numeric" : "text"}
-            unit={field.unit}
-            clearable={false}
-            ariaLabel={t(field.label)}
-          />
-        )}
-      </label>
+          ) : field.kind === "color" ? (
+            <span className={styles.colorInputWrap}>
+              <input
+                type="color"
+                value={value}
+                disabled={isLocked}
+                onChange={(event) => updateAttribute(field.key, event.target.value)}
+                aria-label={t(field.label)}
+              />
+              <code>{value.toUpperCase()}</code>
+            </span>
+          ) : (
+            <InputBox
+              value={value}
+              handleInputChange={(event) => updateAttribute(field.key, event.target.value)}
+              placeholder={t(field.placeholder ?? "Auto")}
+              variant={field.kind === "number" ? "number" : "default"}
+              inputMode={field.kind === "number" ? "numeric" : "text"}
+              unit={field.unit}
+              disabled={isLocked}
+              clearable={false}
+              ariaLabel={t(field.label)}
+            />
+          )}
+        </div>
+      </div>
     );
   };
-  const renderAttributeSections = (sections: AttributeSection[]) => (
-    <div className={styles.sectionList}>
-      {sections.map((section) => (
+  const renderAttributeSections = () => (
+    <div className={styles.attributeSections}>
+      {selectedAttributeSections.map((section) => (
         <section className={styles.attributeSection} key={section.title}>
-          <div className={styles.sectionHeading}>
-            <h3>{t(section.title)}</h3>
-          </div>
-          <div className={styles.attributeGrid}>{section.fields.map(renderField)}</div>
+          <h3>{t(section.title)}</h3>
+          <div className={styles.attributeGrid}>{section.fields.map(renderAttributeField)}</div>
         </section>
       ))}
     </div>
   );
-
-  const renderTypeStep = () => (
-    <div className={styles.stepContent}>
-      <div className={styles.stepHeading}>
-        <div>
-          <span className={styles.eyebrow}>{t("Step 1")}</span>
-          <h2>{t("What are you creating?")}</h2>
-        </div>
-        <span className={styles.statusBadge}>{t("Source of truth")}</span>
-      </div>
-      <div className={styles.typeGrid} role="radiogroup" aria-label={t("Identity type")}>
-        {IDENTITY_TYPES.map((option) => {
-          const selected = identityType === option.id;
-          return (
-            <button
-              type="button"
-              className={`${styles.typeButton} ${selected ? styles.typeButtonActive : ""}`}
-              key={option.id}
-              role="radio"
-              aria-checked={selected}
-              onClick={() => selectIdentityType(option.id)}>
-              <span className={styles.typeIcon}>
-                <TypeIcon type={option.id} />
-              </span>
-              <span className={styles.typeText}>
-                <strong>{t(option.label)}</strong>
-                <small>{t(option.description)}</small>
-              </span>
-              <span className={styles.selectionMark} aria-hidden="true" />
-            </button>
-          );
-        })}
-      </div>
-      <section className={styles.inlineSection}>
-        <div className={styles.sectionHeading}>
-          <h3>{t("Starting preset")}</h3>
-          <p>{t("Choose a baseline. Every setting remains editable.")}</p>
-        </div>
-        <ChoiceGroup
-          options={PRESETS[identityType]}
-          selected={selectedPreset}
-          onChange={(preset) => setSelectedPreset(preset)}
-          ariaLabel={t("Identity preset")}
-        />
-      </section>
-    </div>
+  const promptPayload = useMemo(
+    () => ({
+      identity: {
+        type: identityType,
+        name: settings.identityName || "Untitled identity",
+        description,
+        rules: identityRules,
+      },
+      mode: characterSheetMode,
+      prompt: {
+        base: prompt.trim() || DEFAULT_PROMPT,
+        negative: negativePrompt,
+        consistencyRules,
+      },
+      attributes,
+      lockedAttributes: Object.fromEntries(
+        Object.entries(lockedAttributes)
+          .filter(([, isLocked]) => isLocked)
+          .map(([key]) => [
+            key,
+            {
+              value: attributes[key] || "Auto",
+              instruction:
+                "Preserve this attribute exactly without any change. Use the reference images as the source of truth.",
+            },
+          ]),
+      ),
+      references: references.map(({ name, slotId, slotLabel }) => ({ name, slotId, slotLabel })),
+      settings,
+    }),
+    [
+      attributes,
+      characterSheetMode,
+      consistencyRules,
+      description,
+      identityRules,
+      identityType,
+      lockedAttributes,
+      negativePrompt,
+      prompt,
+      references,
+      settings,
+    ],
   );
+  const promptJson = useMemo(() => JSON.stringify(promptPayload, null, 2), [promptPayload]);
+  const readablePrompt = useMemo(() => {
+    const lines = [
+      `Identity type: ${selectedType.label}`,
+      `Identity name: ${settings.identityName || "Untitled identity"}`,
+      `Mode: ${characterSheetMode}`,
+      "",
+      "Main prompt:",
+      prompt.trim() || DEFAULT_PROMPT,
+      "",
+      "Negative prompt:",
+      negativePrompt || "-",
+      "",
+      "Identity rules:",
+      identityRules || "-",
+      "",
+      "Consistency rules:",
+      consistencyRules || "-",
+      "",
+      "Locked attributes:",
+      Object.entries(promptPayload.lockedAttributes).length
+        ? Object.entries(promptPayload.lockedAttributes)
+            .map(([key, item]) => `${key}: ${item.value} (preserve exactly; use reference images as source of truth)`)
+            .join("\n")
+        : "-",
+      "",
+      `References: ${references.length ? references.map((item) => item.name).join(", ") : "none"}`,
+      `Attributes completed: ${attributeCompletion.completed}/${attributeCompletion.total}`,
+    ];
+    return lines.join("\n");
+  }, [
+    attributeCompletion.completed,
+    attributeCompletion.total,
+    characterSheetMode,
+    consistencyRules,
+    identityRules,
+    promptPayload.lockedAttributes,
+    negativePrompt,
+    prompt,
+    references,
+    selectedType.label,
+    settings.identityName,
+  ]);
+  const previewText = previewMode === "json" ? promptJson : readablePrompt;
 
-  const analysisLabels: Record<IdentityType, string[]> = {
-    human: ["Face", "Hair", "Skin", "Body", "Clothing", "Accessories", "Colors", "Proportions"],
-    product: ["Shape", "Dimensions", "Material", "Surface", "Colors", "Components", "Logo", "Typography"],
-    object: ["Shape", "Size", "Material", "Texture", "Components", "Scale", "Distinctive features"],
-    animal: ["Species", "Breed", "Fur", "Eyes", "Face", "Body", "Markings", "Accessories"],
-    custom: ["Silhouette", "Materials", "Colors", "Components", "Scale", "Style", "Distinctive features"],
+  const copyPreview = async () => {
+    if (typeof navigator === "undefined" || !navigator.clipboard?.writeText) {
+      setCopied("error");
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(previewText);
+      setCopied("ok");
+    } catch {
+      setCopied("error");
+    }
   };
-  const renderIdentityStep = () => (
-    <div className={styles.stepContent}>
-      <div className={styles.stepHeading}>
-        <div>
-          <span className={styles.eyebrow}>{t("Identity definition")}</span>
-          <h2>{t("Name and reference images")}</h2>
-        </div>
-        <span className={styles.typePill}>
-          <TypeIcon type={identityType} />{" "}
-          {t(IDENTITY_TYPES.find((option) => option.id === identityType)?.label ?? "Custom")}
-        </span>
-      </div>
-      <div className={styles.identityBasics}>
-        <label className={styles.labeledControl}>
-          <span>{t("Identity name")}</span>
-          <InputBox
-            value={identityName}
-            handleInputChange={(event) => setIdentityName(event.target.value)}
-            placeholder={t(identityType === "product" ? "Example: Brancy Phone" : "Example: Alex")}
-            clearable
-            required
-            dangerOnEmpty
-            ariaLabel={t("Identity name")}
-          />
-        </label>
-        <label className={styles.labeledControl}>
-          <span>{t("Identity description")}</span>
-          <TextArea
-            className="textArea"
-            minRows={2}
-            maxRows={5}
-            autoResize
-            value={description}
-            placeholder={t("Describe the subject and the visual traits that must remain recognizable.")}
-            onChange={(event) => setDescription(event.target.value)}
-          />
-        </label>
-      </div>
-      <section className={styles.referenceSection}>
-        <div className={styles.sectionHeadingRow}>
-          <div className={styles.sectionHeading}>
-            <h3>{t("Reference images")}</h3>
-            <p>{t("Add up to 12 angles or detail references and assign a role to each one.")}</p>
-          </div>
-          <span className={styles.referenceCount}>{references.length} / 12</span>
-        </div>
-        <div className={styles.referenceGrid}>
-          <label className={styles.referenceUpload}>
-            <span className={styles.uploadSymbol} aria-hidden="true">
-              +
-            </span>
-            <strong>{t("Add references")}</strong>
-            <small>{t("JPG, PNG, WEBP")}</small>
-            <input
-              type="file"
-              accept="image/*"
-              multiple
-              onChange={handleReferenceFiles}
-              disabled={references.length >= 12}
-            />
-          </label>
-          {references.map((reference) => (
-            <article className={styles.referenceCard} key={reference.id}>
-              <div className={styles.referencePreview}>
-                <img src={reference.url} alt={reference.name} />
-                <button
-                  type="button"
-                  className={styles.removeReference}
-                  onClick={() => removeReference(reference)}
-                  aria-label={t("Remove reference")}
-                  title={t("Remove reference")}>
-                  x
-                </button>
-                <span className={styles.priorityBadge}>P{reference.priority}</span>
-              </div>
-              <div className={styles.referenceMeta}>
-                <select
-                  value={reference.view}
-                  onChange={(event) => updateReference(reference.id, { view: event.target.value })}
-                  aria-label={t("Reference view")}>
-                  {REFERENCE_VIEWS.map((view) => (
-                    <option value={view} key={view}>
-                      {t(view)}
-                    </option>
-                  ))}
-                </select>
-                <select
-                  value={reference.purpose}
-                  onChange={(event) => updateReference(reference.id, { purpose: event.target.value })}
-                  aria-label={t("Reference purpose")}>
-                  {REFERENCE_PURPOSES.map((purpose) => (
-                    <option value={purpose} key={purpose}>
-                      {t(purpose)}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
-      <section className={styles.autoDefineSection}>
-        <div className={styles.autoDefineCopy}>
-          <span className={styles.sparkIcon}>
-            <SparkIcon />
-          </span>
-          <div>
-            <h3>{t("AI Auto-Define")}</h3>
-            <p>{t("Stage the attributes that Visual Identity will extract from the selected references.")}</p>
-          </div>
-        </div>
-        <button
-          type="button"
-          className={references.length ? styles.autoDefineButton : styles.autoDefineButtonDisabled}
-          disabled={!references.length}
-          onClick={() => setAnalysisPreview((current) => !current)}>
-          <SparkIcon /> {t(analysisPreview ? "Hide attribute preview" : "Preview auto-defined fields")}
-        </button>
-        {analysisPreview && (
-          <div className={styles.analysisPreview}>
-            {analysisLabels[identityType].map((label) => (
-              <span key={label}>
-                <span aria-hidden="true" />
-                {t(label)}
-              </span>
-            ))}
-          </div>
-        )}
-      </section>
-    </div>
-  );
 
-  const renderStructureStep = () => (
-    <div className={styles.stepContent}>
-      <div className={styles.stepHeading}>
-        <div>
-          <span className={styles.eyebrow}>
-            {t(IDENTITY_TYPES.find((option) => option.id === identityType)?.label ?? "Custom")}
-          </span>
-          <h2>{t("Appearance and structure")}</h2>
-        </div>
-        <span className={styles.lockSummary}>
-          <LockIcon locked /> {lockedAttributes.size} {t("locked")}
-        </span>
-      </div>
-      {renderAttributeSections(STRUCTURE_SECTIONS[identityType])}
-    </div>
-  );
-
-  const renderDetailsStep = () => (
-    <div className={styles.stepContent}>
-      <div className={styles.stepHeading}>
-        <div>
-          <span className={styles.eyebrow}>{t("Fine control")}</span>
-          <h2>{t("Colors, materials, clothing, and components")}</h2>
-        </div>
-      </div>
-      {identityType === "product" && (
-        <section className={styles.brandAssetRow}>
-          <div>
-            <h3>{t("Logo asset")}</h3>
-            <p>{logoFileName || t("No logo selected")}</p>
-          </div>
-          <label className={styles.fileButton}>
-            {t("Choose logo")}
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(event) => {
-                setLogoFileName(event.target.files?.[0]?.name ?? "");
-                event.target.value = "";
-              }}
-            />
-          </label>
-          <button
-            type="button"
-            className={`${styles.lockButtonLarge} ${lockedAttributes.has("Branding") ? styles.lockButtonActive : ""}`}
-            aria-pressed={lockedAttributes.has("Branding")}
-            onClick={() => toggleLock("Branding")}>
-            <LockIcon locked={lockedAttributes.has("Branding")} /> {t("Brand Lock")}
-          </button>
-        </section>
-      )}
-      {renderAttributeSections(DETAIL_SECTIONS[identityType])}
-    </div>
-  );
-
-  const viewOptions = identityType === "product" ? PRODUCT_VIEWS : STANDARD_VIEWS;
-  const renderViewsStep = () => (
-    <div className={styles.stepContent}>
-      <div className={styles.stepHeading}>
-        <div>
-          <span className={styles.eyebrow}>{t("Sheet coverage")}</span>
-          <h2>{t("Views, poses, and expressions")}</h2>
-        </div>
-        <span className={styles.selectionCount}>
-          {selectedViews.length} {t("views")}
-        </span>
-      </div>
-      <section className={styles.inlineSection}>
-        <div className={styles.sectionHeading}>
-          <h3>{t(identityType === "product" ? "Product views" : "Camera and view angles")}</h3>
-          <p>{t("Front, back, side, and three-quarter views form the standard identity set.")}</p>
-        </div>
-        <ChoiceGroup
-          options={viewOptions}
-          selected={selectedViews}
-          multiple
-          onChange={(value) => toggleArrayValue(value, setSelectedViews)}
-          ariaLabel={t("Selected views")}
-        />
-      </section>
-      {(identityType === "human" || identityType === "animal") && (
-        <>
-          <section className={styles.inlineSection}>
-            <div className={styles.sectionHeadingRow}>
-              <div className={styles.sectionHeading}>
-                <h3>{t("Expression sheet")}</h3>
-                <p>{t("Keep identity stable while the facial expression changes.")}</p>
-              </div>
-              <span className={styles.selectionCount}>{selectedExpressions.length}</span>
-            </div>
-            <ChoiceGroup
-              options={HUMAN_EXPRESSIONS}
-              selected={selectedExpressions}
-              multiple
-              onChange={(value) => toggleArrayValue(value, setSelectedExpressions)}
-              ariaLabel={t("Expressions")}
-            />
-          </section>
-          <section className={styles.inlineSection}>
-            <div className={styles.sectionHeadingRow}>
-              <div className={styles.sectionHeading}>
-                <h3>{t("Pose sheet")}</h3>
-                <p>{t("Select pose families and the preferred sheet size.")}</p>
-              </div>
-              <select
-                className={styles.compactSelect}
-                value={poseCount}
-                onChange={(event) => setPoseCount(event.target.value)}
-                aria-label={t("Pose count")}>
-                {["4", "6", "8", "12", "16", "Custom"].map((count) => (
-                  <option value={count} key={count}>
-                    {count}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <ChoiceGroup
-              options={HUMAN_POSES}
-              selected={selectedPoses}
-              multiple
-              onChange={(value) => toggleArrayValue(value, setSelectedPoses)}
-              ariaLabel={t("Poses")}
-            />
-          </section>
-        </>
-      )}
-      {(identityType === "product" || identityType === "object") && (
-        <section className={styles.inlineSection}>
-          <div className={styles.sectionHeading}>
-            <h3>{t("Scale reference")}</h3>
-            <p>{t("Keep the subject proportionate to familiar people, objects, or environments.")}</p>
-          </div>
-          <ChoiceGroup
-            options={["Human", "Hand", "Table", "Room", "Vehicle", "Custom"]}
-            selected={attributes.scaleReference ?? "Hand"}
-            onChange={(value) => updateAttribute("scaleReference", value)}
-            ariaLabel={t("Scale reference")}
-          />
-        </section>
-      )}
-    </div>
-  );
-
-  const renderStyleStep = () => (
-    <div className={styles.stepContent}>
-      <div className={styles.stepHeading}>
-        <div>
-          <span className={styles.eyebrow}>{t("Visual direction")}</span>
-          <h2>{t("Style, lighting, background, and layout")}</h2>
-        </div>
-      </div>
-      <div className={styles.styleSections}>
-        <section className={styles.inlineSection}>
-          <div className={styles.sectionHeading}>
-            <h3>{t("Visual style")}</h3>
-          </div>
-          <ChoiceGroup
-            options={VISUAL_STYLES}
-            selected={visualStyle}
-            onChange={setVisualStyle}
-            ariaLabel={t("Visual style")}
-          />
-        </section>
-        <section className={styles.inlineSection}>
-          <div className={styles.sectionHeading}>
-            <h3>{t("Lighting")}</h3>
-            <p>{t("Neutral Studio is recommended for accurate identity definition.")}</p>
-          </div>
-          <ChoiceGroup
-            options={LIGHTING_OPTIONS}
-            selected={lighting}
-            onChange={setLighting}
-            ariaLabel={t("Lighting")}
-          />
-        </section>
-        <section className={styles.inlineSection}>
-          <div className={styles.sectionHeadingRow}>
-            <div className={styles.sectionHeading}>
-              <h3>{t("Background")}</h3>
-            </div>
-            <label className={styles.switchControl}>
-              <span>{t("Background consistency")}</span>
-              <SwitchButton
-                checked={backgroundConsistency}
-                name="background-consistency"
-                role="switch"
-                handleToggle={(event) => setBackgroundConsistency(event.target.checked)}
-                aria-label={t("Background consistency")}
-              />
-            </label>
-          </div>
-          <ChoiceGroup
-            options={BACKGROUND_OPTIONS}
-            selected={background}
-            onChange={setBackground}
-            ariaLabel={t("Background")}
-          />
-        </section>
-        <section className={styles.inlineSection}>
-          <div className={styles.sectionHeading}>
-            <h3>{t("Sheet layout")}</h3>
-          </div>
-          <ChoiceGroup
-            options={LAYOUT_OPTIONS}
-            selected={sheetLayout}
-            onChange={setSheetLayout}
-            ariaLabel={t("Sheet layout")}
-          />
-        </section>
-        <section className={styles.paletteSection}>
-          <div className={styles.sectionHeading}>
-            <h3>{t("Identity color palette")}</h3>
-            <p>{t("These colors remain available to consistency rules.")}</p>
-          </div>
-          <div className={styles.paletteList}>
-            {colorPalette.map((color, index) => (
-              <label className={styles.paletteSwatch} key={`${index}-${color}`} title={color.toUpperCase()}>
-                <input
-                  type="color"
-                  value={color}
-                  onChange={(event) =>
-                    setColorPalette((current) =>
-                      current.map((item, itemIndex) => (itemIndex === index ? event.target.value : item)),
-                    )
-                  }
-                  aria-label={`${t("Palette color")} ${index + 1}`}
-                />
-                <span style={{ backgroundColor: color }} />
-              </label>
-            ))}
-          </div>
-        </section>
-        <label className={styles.labeledControl}>
-          <span>{t("Custom style direction")}</span>
-          <TextArea
-            className="textArea"
-            minRows={3}
-            maxRows={7}
-            autoResize
-            value={customStylePrompt}
-            placeholder={t("Optional visual direction. Prompt engineering is not required.")}
-            onChange={(event) => setCustomStylePrompt(event.target.value)}
-          />
-        </label>
-      </div>
-    </div>
-  );
-
-  const renderConsistencyStep = () => (
-    <div className={styles.stepContent}>
-      <div className={styles.stepHeading}>
-        <div>
-          <span className={styles.eyebrow}>{t("Generation policy")}</span>
-          <h2>{t("Consistency, creativity, and constraints")}</h2>
-        </div>
-      </div>
-      <div className={styles.sliderGrid}>
-        <label className={styles.sliderControl}>
-          <span className={styles.sliderHeader}>
-            <strong>{t("Identity Consistency")}</strong>
-            <output>{identityConsistency}%</output>
-          </span>
-          <input
-            type="range"
-            min="0"
-            max="100"
-            value={identityConsistency}
-            onChange={(event) => setIdentityConsistency(event.currentTarget.valueAsNumber)}
-          />
-          <span className={styles.rangeLabels}>
-            <small>{t("Low")}</small>
-            <small>{t("Maximum")}</small>
-          </span>
-        </label>
-        <label className={styles.sliderControl}>
-          <span className={styles.sliderHeader}>
-            <strong>{t("Creativity")}</strong>
-            <output>{creativity}%</output>
-          </span>
-          <input
-            type="range"
-            min="0"
-            max="100"
-            value={creativity}
-            onChange={(event) => setCreativity(event.currentTarget.valueAsNumber)}
-          />
-          <span className={styles.rangeLabels}>
-            <small>{t("Conservative")}</small>
-            <small>{t("Creative")}</small>
-          </span>
-        </label>
-      </div>
-      <section className={styles.inlineSection}>
-        <div className={styles.sectionHeading}>
-          <h3>{t("Detail level")}</h3>
-        </div>
-        <ChoiceGroup
-          options={DETAIL_LEVELS}
-          selected={detailLevel}
-          onChange={setDetailLevel}
-          ariaLabel={t("Detail level")}
-        />
-      </section>
-      <section className={styles.inlineSection}>
-        <div className={styles.sectionHeading}>
-          <h3>{t("Number of outputs")}</h3>
-        </div>
-        <div className={styles.outputPresetGrid}>
-          {OUTPUT_PRESETS.map((preset) => (
-            <button
-              type="button"
-              className={`${styles.outputPreset} ${outputPreset === preset.id ? styles.outputPresetActive : ""}`}
-              key={preset.id}
-              aria-pressed={outputPreset === preset.id}
-              onClick={() => setOutputPreset(preset.id)}>
-              <strong>{t(preset.label)}</strong>
-              <span>{preset.count ? `${preset.count} ${t("images")}` : t("Choose count")}</span>
-            </button>
-          ))}
-        </div>
-        {outputPreset === "custom" && (
-          <div className={styles.customCount}>
-            <InputBox
-              value={customOutputCount}
-              handleInputChange={(event) => setCustomOutputCount(event.target.value)}
-              variant="number"
-              inputMode="numeric"
-              unit={t("images")}
-              clearable={false}
-              ariaLabel={t("Custom output count")}
-            />
-          </div>
-        )}
-      </section>
-      <section className={styles.inlineSection}>
-        <div className={styles.sectionHeadingRow}>
-          <div className={styles.sectionHeading}>
-            <h3>{t("Lock system")}</h3>
-            <p>{t("Locked attributes become immutable identity constraints.")}</p>
-          </div>
-          <span className={styles.lockSummary}>
-            <LockIcon locked /> {lockedAttributes.size}
-          </span>
-        </div>
-        <div className={styles.lockGrid}>
-          {GLOBAL_LOCKS.map((lock) => {
-            const locked = lockedAttributes.has(lock);
-            return (
-              <button
-                type="button"
-                className={`${styles.globalLock} ${locked ? styles.globalLockActive : ""}`}
-                key={lock}
-                aria-pressed={locked}
-                onClick={() => toggleLock(lock)}>
-                <LockIcon locked={locked} />
-                <span>{t(lock)}</span>
-              </button>
-            );
-          })}
-        </div>
-      </section>
-      <section className={styles.inlineSection}>
-        <div className={styles.sectionHeading}>
-          <h3>{t("Reference strategy")}</h3>
-          <p>{t("Define reference roles without coupling the identity to a provider or model.")}</p>
-        </div>
-        <ChoiceGroup
-          options={REFERENCE_STRATEGIES}
-          selected={referenceStrategies}
-          multiple
-          onChange={(value) => toggleArrayValue(value, setReferenceStrategies)}
-          ariaLabel={t("Reference strategy")}
-        />
-      </section>
-      <section className={styles.configurationGrid}>
-        <label className={styles.labeledControl}>
-          <span>{t("Model strategy")}</span>
-          <select
-            className={styles.selectInput}
-            value={modelStrategy}
-            onChange={(event) => setModelStrategy(event.target.value)}>
-            {["Automatic provider and model", "Prefer image quality", "Prefer speed", "Prefer cost efficiency"].map(
-              (option) => (
-                <option value={option} key={option}>
-                  {t(option)}
-                </option>
-              ),
-            )}
-          </select>
-        </label>
-        <label className={styles.labeledControl}>
-          <span>{t("Aspect ratio")}</span>
-          <select
-            className={styles.selectInput}
-            value={aspectRatio}
-            onChange={(event) => setAspectRatio(event.target.value)}>
-            {["1:1", "4:5", "3:4", "16:9", "9:16"].map((option) => (
-              <option value={option} key={option}>
-                {option}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className={styles.labeledControl}>
-          <span>{t("Resolution")}</span>
-          <select
-            className={styles.selectInput}
-            value={resolution}
-            onChange={(event) => setResolution(event.target.value)}>
-            {["Standard", "High", "Ultra"].map((option) => (
-              <option value={option} key={option}>
-                {t(option)}
-              </option>
-            ))}
-          </select>
-        </label>
-      </section>
-      <section className={styles.constraintSection}>
-        <div className={styles.sectionHeading}>
-          <h3>{t("Constraints")}</h3>
-          <p>{t("Locks compile into negative constraints. Add custom required or forbidden features here.")}</p>
-        </div>
-        <div className={styles.constraintComposer}>
-          <select
-            value={constraintType}
-            onChange={(event) => setConstraintType(event.target.value as ConstraintType)}
-            aria-label={t("Constraint type")}>
-            <option value="required">{t("Required feature")}</option>
-            <option value="forbidden">{t("Forbidden feature")}</option>
-          </select>
-          <InputBox
-            value={constraintDraft}
-            handleInputChange={(event) => setConstraintDraft(event.target.value)}
-            placeholder={t("Example: Do not add text")}
-            clearable={false}
-            onKeyDown={(event) => {
-              if (event.key === "Enter") {
-                event.preventDefault();
-                addConstraint();
-              }
-            }}
-            ariaLabel={t("Custom constraint")}
-          />
-          <button
-            type="button"
-            className={styles.addConstraintButton}
-            onClick={addConstraint}
-            disabled={!constraintDraft.trim()}>
-            +
-          </button>
-        </div>
-        <div className={styles.constraintList}>
-          {automaticConstraints.map((constraint) => (
-            <span className={styles.generatedConstraint} key={constraint.id}>
-              <LockIcon locked />
-              {t(constraint.text)}
-            </span>
-          ))}
-          {constraints.map((constraint) => (
-            <span
-              className={constraint.type === "required" ? styles.requiredConstraint : styles.forbiddenConstraint}
-              key={constraint.id}>
-              {t(constraint.text)}
-              <button
-                type="button"
-                onClick={() => setConstraints((current) => current.filter((item) => item.id !== constraint.id))}
-                aria-label={t("Remove constraint")}>
-                x
-              </button>
-            </span>
-          ))}
-        </div>
-      </section>
-    </div>
-  );
-
-  const previewViews = selectedViews.length ? selectedViews : ["Front", "Back", "Left", "Right"];
-  const consistencyMetrics = [
-    { label: identityType === "human" ? "Face" : "Shape", value: 96 },
-    { label: identityType === "product" ? "Material" : identityType === "human" ? "Body" : "Proportions", value: 93 },
-    { label: "Color", value: 98 },
-    { label: identityType === "product" ? "Logo" : "Reference adherence", value: 95 },
-  ];
-  const renderReviewStep = () => (
-    <div className={styles.stepContent}>
-      <div className={styles.stepHeading}>
-        <div>
-          <span className={styles.eyebrow}>{t("Identity profile")}</span>
-          <h2>{identityName.trim() || t("Untitled Visual Identity")}</h2>
-        </div>
-        <span className={`${styles.lifecycleBadge} ${previewGenerated ? styles.lifecycleReady : ""}`}>
-          {t(previewGenerated ? "Ready" : "Draft")} - v1
-        </span>
-      </div>
-      <div className={styles.reviewLayout}>
-        <section className={styles.sheetPreview}>
-          <div className={styles.sheetHeader}>
-            <div>
-              <strong>{identityName.trim() || t("Visual Identity")}</strong>
-              <span>
-                {t(selectedPreset)} - {t(sheetLayout)}
-              </span>
-            </div>
-            <span>
-              {outputCount} {t("outputs")}
-            </span>
-          </div>
-          <div className={styles.sheetGrid}>
-            {Array.from({ length: Math.min(6, Math.max(4, previewViews.length)) }, (_, index) => {
-              const reference = references[index % Math.max(1, references.length)];
-              const view = previewViews[index % previewViews.length];
-              return (
-                <figure key={`${view}-${index}`}>
-                  {reference ? (
-                    <img src={reference.url} alt={reference.name} />
-                  ) : (
-                    <span>
-                      <TypeIcon type={identityType} />
-                    </span>
-                  )}
-                  <figcaption>{t(view)}</figcaption>
-                </figure>
-              );
-            })}
-          </div>
-          <div className={styles.paletteStrip}>
-            {colorPalette.map((color) => (
-              <span key={color} style={{ backgroundColor: color }} />
-            ))}
-          </div>
-          {!previewGenerated && (
-            <div className={styles.previewOverlay}>
-              <SparkIcon />
-              <span>{t("Generate the local sheet preview")}</span>
-            </div>
-          )}
-        </section>
-        <aside className={styles.identitySummary}>
-          <dl className={styles.summaryGrid}>
-            <div>
-              <dt>{t("Type")}</dt>
-              <dd>{t(IDENTITY_TYPES.find((option) => option.id === identityType)?.label ?? "Custom")}</dd>
-            </div>
-            <div>
-              <dt>{t("Preset")}</dt>
-              <dd>{t(selectedPreset)}</dd>
-            </div>
-            <div>
-              <dt>{t("References")}</dt>
-              <dd>{references.length}</dd>
-            </div>
-            <div>
-              <dt>{t("Locked attributes")}</dt>
-              <dd>{lockedAttributes.size}</dd>
-            </div>
-            <div>
-              <dt>{t("Consistency")}</dt>
-              <dd>{identityConsistency}%</dd>
-            </div>
-            <div>
-              <dt>{t("Creativity")}</dt>
-              <dd>{creativity}%</dd>
-            </div>
-            <div>
-              <dt>{t("Detail")}</dt>
-              <dd>{t(detailLevel)}</dd>
-            </div>
-            <div>
-              <dt>{t("Output")}</dt>
-              <dd>
-                {outputCount} - {aspectRatio}
-              </dd>
-            </div>
-          </dl>
-          <section className={styles.snapshotPanel}>
-            <div className={styles.sectionHeading}>
-              <h3>{t("Immutable generation context")}</h3>
-              <p>{t("Version 1 keeps its attributes, locks, constraints, style, and generation settings together.")}</p>
-            </div>
-            <div className={styles.snapshotTags}>
-              <span>{t("Attributes")}</span>
-              <span>{t("Locks")}</span>
-              <span>{t("References")}</span>
-              <span>{t("Style")}</span>
-              <span>{t("Constraints")}</span>
-            </div>
-          </section>
-        </aside>
-      </div>
-      {previewGenerated && (
-        <section className={styles.qualityPanel}>
-          <div className={styles.sectionHeadingRow}>
-            <div className={styles.sectionHeading}>
-              <h3>{t("Consistency test preview")}</h3>
-              <p>{t("The score breakdown flags low-consistency outputs.")}</p>
-            </div>
-            <strong className={styles.overallScore}>96%</strong>
-          </div>
-          <div className={styles.metricGrid}>
-            {consistencyMetrics.map((metric) => (
-              <div className={styles.metric} key={metric.label}>
-                <span>
-                  <strong>{t(metric.label)}</strong>
-                  <output>{metric.value}%</output>
-                </span>
-                <div>
-                  <i style={{ width: `${metric.value}%` }} />
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className={styles.qualityActions}>
-            <button type="button" className="cancelButton">
-              {t("Regenerate low-consistency images")}
-            </button>
-            <button type="button" className={styles.publishButton}>
-              {t("Publish identity")}
-            </button>
-          </div>
-        </section>
-      )}
-    </div>
-  );
-
-  const stepContent: Record<StepKey, ReactNode> = {
-    type: renderTypeStep(),
-    identity: renderIdentityStep(),
-    structure: renderStructureStep(),
-    details: renderDetailsStep(),
-    views: renderViewsStep(),
-    style: renderStyleStep(),
-    consistency: renderConsistencyStep(),
-    review: renderReviewStep(),
+  const downloadPreview = () => {
+    if (typeof window === "undefined") return;
+    const extension = previewMode === "json" ? "json" : "txt";
+    const fileName = `${toSlug(settings.identityName || `${identityType}-character-sheet`)}.${extension}`;
+    const contentType = previewMode === "json" ? "application/json;charset=utf-8" : "text/plain;charset=utf-8";
+    const blob = new Blob([previewText], { type: contentType });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(link.href);
   };
-  const identityNameMissing = !identityName.trim();
-  const actionNeedsName = identityNameMissing && (currentStep === "identity" || currentStep === "review");
+
+  useEffect(() => {
+    if (copied === "idle") return;
+    const timer = window.setTimeout(() => setCopied("idle"), 1800);
+    return () => window.clearTimeout(timer);
+  }, [copied]);
 
   return (
     <form
       className={`${styles.right} ${styles.characterSheet}`}
-      onSubmit={(event) => {
-        event.preventDefault();
-        if (actionNeedsName) return;
-        if (currentStepIndex < steps.length - 1) {
-          goToNextStep();
-          return;
-        }
-        setPreviewGenerated(true);
-      }}>
+      dir={isRtl ? "rtl" : "ltr"}
+      onSubmit={(event) => event.preventDefault()}>
       <div className={`${styles.mediaCreatorContainer} ${styles.identityContainer}`}>
         <header className={styles.identityHeader}>
           <div className={styles.identityTitle}>
@@ -1710,62 +1179,404 @@ export default function CharacterSheet() {
               <TypeIcon type={identityType} />
             </span>
             <div>
-              <h1>{t("Visual Identity")}</h1>
-              <p>{t("Create consistent visual references for characters, products, and objects.")}</p>
+              <h1>{t("Character Sheet")}</h1>
+              <p>{t("Build one consistent visual identity from references, a prompt, and editable settings.")}</p>
             </div>
           </div>
-          <div className={styles.modeControl}>
-            <span>{t("Editor mode")}</span>
-            <ToggleButton
-              options={modeOptions}
-              selectedValue={mode === "auto" ? 0 : 1}
-              onChange={(value) => setModeAndStep(value === 0 ? "auto" : "advanced")}
-              ariaLabel={t("Editor mode")}
-            />
-          </div>
+          <span className={styles.statusBadge}>{t("Local draft")}</span>
         </header>
-        <nav
-          className={styles.stepNavigation}
-          aria-label={t("Visual Identity steps")}
-          style={{ gridTemplateColumns: `repeat(${steps.length}, minmax(88px, 1fr))` }}>
-          {steps.map((step, index) => {
-            const active = step.key === currentStepDefinition.key;
-            const complete = index < currentStepIndex;
-            return (
-              <button
-                type="button"
-                className={`${styles.stepButton} ${active ? styles.stepButtonActive : ""} ${complete ? styles.stepButtonComplete : ""}`}
-                key={step.key}
-                aria-current={active ? "step" : undefined}
-                onClick={() => setCurrentStep(step.key)}>
-                <span>{complete ? "OK" : index + 1}</span>
-                <small>{t(step.shortLabel)}</small>
-              </button>
-            );
-          })}
-        </nav>
-        <div className={styles.stepViewport} key={currentStepDefinition.key}>
-          {stepContent[currentStepDefinition.key]}
+        <div className={styles.topActions}>
+          <div className={styles.expandCollapseActions} role="group" aria-label={t("History controls")}>
+            <button
+              type="button"
+              className={styles.secondaryButton}
+              onClick={undo}
+              disabled={historyIndexRef.current <= 0}>
+              {t("Undo")}
+            </button>
+            <button
+              type="button"
+              className={styles.secondaryButton}
+              onClick={redo}
+              disabled={historyIndexRef.current >= historyRef.current.length - 1}>
+              {t("Redo")}
+            </button>
+          </div>
+          <button
+            type="button"
+            className={styles.dangerButton}
+            onClick={() => {
+              if (typeof window === "undefined") return;
+              if (window.confirm(t("Reset all local draft data?"))) resetAllDraft();
+            }}>
+            {t("Reset all local draft")}
+          </button>
+        </div>
+        <div className={styles.accordionList}>
+          <AccordionSection
+            sectionKey="type"
+            sectionNumber={sectionNumberMap.get("type") ?? "01"}
+            title={t("Choose the subject type")}
+            description={t("Select what the character sheet represents.")}
+            openSections={openSections}
+            onToggle={toggleSection}>
+            <div className={styles.typeGrid} role="radiogroup" aria-label={t("Identity type")}>
+              {IDENTITY_TYPES.map((option) => (
+                <button
+                  type="button"
+                  className={`${styles.typeButton} ${identityType === option.id ? styles.typeButtonActive : ""}`}
+                  key={option.id}
+                  role="radio"
+                  aria-checked={identityType === option.id}
+                  onClick={() => {
+                    setIdentityType(option.id);
+                    applyTypePrompt(option.id);
+                  }}>
+                  <span className={styles.typeIcon}>
+                    <TypeIcon type={option.id} />
+                  </span>
+                  <span className={styles.typeText}>
+                    <strong>{t(option.label)}</strong>
+                    <small>{t(option.description)}</small>
+                  </span>
+                  <span className={styles.selectionMark} aria-hidden="true" />
+                </button>
+              ))}
+            </div>
+            <p className={styles.selectionHint}>
+              {t("Selected type")}: <strong>{t(selectedType.label)}</strong>
+            </p>
+            <div className={styles.modeControl}>
+              <div className={styles.modeCopy}>
+                <strong>{t("Attribute mode")}</strong>
+                <small>{t("Auto uses the selected subject type without manual attributes.")}</small>
+              </div>
+              <div className={styles.modeSwitch}>
+                <span>{t("Auto")}</span>
+                <SwitchButton
+                  name="character-sheet-mode"
+                  checked={characterSheetMode === "advanced"}
+                  handleToggle={(event) => setCharacterSheetMode(event.target.checked ? "advanced" : "auto")}
+                  role="switch"
+                  aria-label={t("Attribute mode")}
+                />
+                <span>{t("Advanced")}</span>
+              </div>
+            </div>
+          </AccordionSection>
+          <AccordionSection
+            sectionKey="references"
+            sectionNumber={sectionNumberMap.get("references") ?? "02"}
+            title={t("Add reference images")}
+            description={t("Add up to 14 images. They stay in this browser only.")}
+            openSections={openSections}
+            onToggle={toggleSection}>
+            {characterSheetMode === "advanced" && (
+              <div className={styles.referenceSlotGrid}>
+                {referenceSlots.map((slot) => {
+                  const slotReferences = references.filter((reference) => reference.slotId === slot.id);
+                  return (
+                    <article className={styles.referenceSlot} key={slot.id}>
+                      <div className={styles.referenceSlotHeader}>
+                        <div>
+                          <strong>{t(slot.label)}</strong>
+                          <small>{t(slot.description)}</small>
+                        </div>
+                        <span>{slotReferences.length}</span>
+                      </div>
+                      <label
+                        className={references.length >= MAX_REFERENCES ? styles.fileButtonDisabled : styles.fileButton}>
+                        {t("Add reference")}
+                        <input
+                          type="file"
+                          accept="image/*"
+                          multiple
+                          onChange={(event) => handleReferenceFiles(event, slot.id, slot.label)}
+                          disabled={references.length >= MAX_REFERENCES}
+                        />
+                      </label>
+                    </article>
+                  );
+                })}
+              </div>
+            )}
+            <div className={styles.referenceToolbar}>
+              <span>
+                {references.length} / {MAX_REFERENCES} {t("references")}
+              </span>
+              <label className={references.length >= MAX_REFERENCES ? styles.fileButtonDisabled : styles.fileButton}>
+                {t(characterSheetMode === "advanced" ? "Add other references" : "Add images")}
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  onChange={(event) => handleReferenceFiles(event)}
+                  disabled={references.length >= MAX_REFERENCES}
+                />
+              </label>
+            </div>
+            <div className={styles.referenceGrid}>
+              {references.map((reference) => (
+                <article className={styles.referenceCard} key={reference.id}>
+                  <div className={styles.referencePreview}>
+                    <img src={reference.url} alt={reference.name} />
+                    <button
+                      type="button"
+                      className={styles.removeReference}
+                      onClick={() => removeReference(reference)}
+                      aria-label={t("Remove reference")}>
+                      ×
+                    </button>
+                  </div>
+                  <span title={`${reference.slotLabel}: ${reference.name}`}>
+                    <strong>{t(reference.slotLabel)}</strong>
+                    {reference.name}
+                  </span>
+                </article>
+              ))}
+              {!references.length && (
+                <div className={styles.emptyReferences}>{t("No reference images selected yet.")}</div>
+              )}
+            </div>
+          </AccordionSection>
+          {characterSheetMode === "advanced" && (
+            <AccordionSection
+              sectionKey="attributes"
+              sectionNumber={sectionNumberMap.get("attributes") ?? "03"}
+              title={t("Define identity attributes")}
+              description={t("All options from the selected Human, Product, Object, Animal, or Custom model.")}
+              openSections={openSections}
+              onToggle={toggleSection}>
+              <div className={styles.referenceToolbar}>
+                <span>
+                  {t("Completed")}: {attributeCompletion.completed} / {attributeCompletion.total}
+                </span>
+                <button type="button" className={styles.secondaryButton} onClick={resetAttributes}>
+                  {t("Reset attributes")}
+                </button>
+              </div>
+              {renderAttributeSections()}
+            </AccordionSection>
+          )}
+          <AccordionSection
+            sectionKey="prompt"
+            sectionNumber={sectionNumberMap.get("prompt") ?? "04"}
+            title={t("Write the prompt")}
+            description={t("Start with the prepared prompt and edit it for this identity.")}
+            openSections={openSections}
+            onToggle={toggleSection}>
+            <label className={styles.labeledControl}>
+              <span>{t("Identity name")}</span>
+              <InputBox
+                value={settings.identityName}
+                handleInputChange={(event) => updateSettings({ identityName: event.target.value })}
+                placeholder={t("Example: Alex or Brancy Phone")}
+                clearable={false}
+                ariaLabel={t("Identity name")}
+              />
+            </label>
+            <label className={styles.labeledControl}>
+              <span>{t("Identity description")}</span>
+              <TextArea
+                className="textArea"
+                minRows={2}
+                maxRows={5}
+                autoResize
+                value={description}
+                placeholder={t("Describe the subject and the traits that must remain recognizable.")}
+                onChange={(event) => setDescription(event.target.value)}
+              />
+            </label>
+            <label className={styles.labeledControl}>
+              <span>{t("Prompt")}</span>
+              <TextArea
+                className="textArea"
+                minRows={7}
+                maxRows={16}
+                autoResize
+                value={prompt}
+                onChange={(event) => setPrompt(event.target.value)}
+              />
+            </label>
+            <label className={styles.labeledControl}>
+              <span>{t("Negative prompt")}</span>
+              <TextArea
+                className="textArea"
+                minRows={2}
+                maxRows={6}
+                autoResize
+                value={negativePrompt}
+                placeholder={t("Describe what must be avoided in outputs.")}
+                onChange={(event) => setNegativePrompt(event.target.value)}
+              />
+            </label>
+            <label className={styles.labeledControl}>
+              <span>{t("Identity rules")}</span>
+              <TextArea
+                className="textArea"
+                minRows={2}
+                maxRows={6}
+                autoResize
+                value={identityRules}
+                placeholder={t("Always-preserve identity constraints.")}
+                onChange={(event) => setIdentityRules(event.target.value)}
+              />
+            </label>
+            <label className={styles.labeledControl}>
+              <span>{t("Consistency rules")}</span>
+              <TextArea
+                className="textArea"
+                minRows={2}
+                maxRows={6}
+                autoResize
+                value={consistencyRules}
+                placeholder={t("Rules for keeping consistency across all views.")}
+                onChange={(event) => setConsistencyRules(event.target.value)}
+              />
+            </label>
+          </AccordionSection>
+          <AccordionSection
+            sectionKey="settings"
+            sectionNumber={sectionNumberMap.get("settings") ?? "05"}
+            title={t("Configure the output")}
+            description={t("Every change is included in the JSON prompt below.")}
+            openSections={openSections}
+            onToggle={toggleSection}>
+            <div className={styles.settingsGrid}>
+              <div className={styles.settingBlock}>
+                <strong>{t("Visual style")}</strong>
+                <ChoiceGroup
+                  options={VISUAL_STYLES}
+                  selected={settings.visualStyle}
+                  onChange={(visualStyle) => updateSettings({ visualStyle })}
+                  ariaLabel={t("Visual style")}
+                />
+              </div>
+              <div className={styles.settingBlock}>
+                <strong>{t("Lighting")}</strong>
+                <ChoiceGroup
+                  options={LIGHTING_OPTIONS}
+                  selected={settings.lighting}
+                  onChange={(lighting) => updateSettings({ lighting })}
+                  ariaLabel={t("Lighting")}
+                />
+              </div>
+              <div className={styles.settingBlock}>
+                <strong>{t("Background")}</strong>
+                <ChoiceGroup
+                  options={BACKGROUND_OPTIONS}
+                  selected={settings.background}
+                  onChange={(background) => updateSettings({ background })}
+                  ariaLabel={t("Background")}
+                />
+              </div>
+              <div className={styles.settingBlock}>
+                <strong>{t("Detail level")}</strong>
+                <ChoiceGroup
+                  options={DETAIL_LEVELS}
+                  selected={settings.detailLevel}
+                  onChange={(detailLevel) => updateSettings({ detailLevel })}
+                  ariaLabel={t("Detail level")}
+                />
+              </div>
+              <div className={`${styles.settingBlock} ${styles.settingBlockWide}`}>
+                <strong>{t("Views")}</strong>
+                <ChoiceGroup
+                  options={VIEW_OPTIONS}
+                  selected={settings.views}
+                  multiple
+                  onChange={toggleView}
+                  ariaLabel={t("Views")}
+                />
+              </div>
+              <label className={styles.rangeControl}>
+                <span>
+                  <strong>{t("Identity consistency")}</strong>
+                  <output>{settings.consistency}%</output>
+                </span>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value={settings.consistency}
+                  onChange={(event) => updateSettings({ consistency: event.currentTarget.valueAsNumber })}
+                />
+              </label>
+              <label className={styles.rangeControl}>
+                <span>
+                  <strong>{t("Creativity")}</strong>
+                  <output>{settings.creativity}%</output>
+                </span>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value={settings.creativity}
+                  onChange={(event) => updateSettings({ creativity: event.currentTarget.valueAsNumber })}
+                />
+              </label>
+              <div className={styles.compactSettings}>
+                <label>
+                  <span>{t("Output count")}</span>
+                  <input
+                    type="number"
+                    min="1"
+                    max="100"
+                    value={settings.outputCount}
+                    onChange={(event) => updateSettings({ outputCount: Math.max(1, Number(event.target.value) || 1) })}
+                  />
+                </label>
+                <label>
+                  <span>{t("Aspect ratio")}</span>
+                  <select
+                    value={settings.aspectRatio}
+                    onChange={(event) => updateSettings({ aspectRatio: event.target.value })}>
+                    {["1:1", "4:5", "3:4", "16:9", "9:16"].map((value) => (
+                      <option key={value}>{value}</option>
+                    ))}
+                  </select>
+                </label>
+                <label>
+                  <span>{t("Resolution")}</span>
+                  <select
+                    value={settings.resolution}
+                    onChange={(event) => updateSettings({ resolution: event.target.value })}>
+                    {["Standard", "High", "Ultra"].map((value) => (
+                      <option key={value}>{t(value)}</option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+            </div>
+            <div className={styles.jsonPrompt}>
+              <div className={styles.jsonPromptHeader}>
+                <strong>{t("Prompt preview")}</strong>
+                <small>{t("This is the local request preview. No request is sent.")}</small>
+              </div>
+              <div className={styles.previewControls}>
+                <ChoiceGroup
+                  options={["Readable", "JSON"]}
+                  selected={previewMode === "json" ? "JSON" : "Readable"}
+                  onChange={(value) => setPreviewMode(value === "JSON" ? "json" : "readable")}
+                  ariaLabel={t("Prompt preview mode")}
+                />
+                <div className={styles.expandCollapseActions}>
+                  <button type="button" className={styles.secondaryButton} onClick={copyPreview}>
+                    {t("Copy")}
+                  </button>
+                  <button type="button" className={styles.secondaryButton} onClick={downloadPreview}>
+                    {t("Download")}
+                  </button>
+                </div>
+              </div>
+              <span className={styles.copyStatus} aria-live="polite">
+                {copied === "ok" ? t("Copied") : copied === "error" ? t("Copy failed") : ""}
+              </span>
+              <textarea className={styles.jsonTextarea} value={previewText} readOnly aria-label={t("Prompt preview")} />
+            </div>
+          </AccordionSection>
         </div>
       </div>
-      <footer className={`${styles.actionBar} ${styles.identityActionBar}`}>
-        <div className={styles.actionProgress}>
-          <span>
-            {t("Step")} {currentStepIndex + 1} / {steps.length}
-          </span>
-          <strong>{t(currentStepDefinition.label)}</strong>
-        </div>
-        <div className={styles.actionButtons}>
-          <button type="button" className="cancelButton" onClick={goToPreviousStep} disabled={currentStepIndex === 0}>
-            {t("Previous")}
-          </button>
-          <button type="submit" className={actionNeedsName ? "disableButton" : "saveButton"} disabled={actionNeedsName}>
-            {currentStepIndex === steps.length - 1
-              ? t(previewGenerated ? "Refresh preview" : "Generate sheet")
-              : t("Continue")}
-          </button>
-        </div>
-      </footer>
     </form>
   );
 }

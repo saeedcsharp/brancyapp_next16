@@ -17,6 +17,8 @@ export interface MediaDetectorProps {
   showPlayIcon?: boolean;
   mediaType?: "image" | "video"; // Force media type (skip detection)
   isBase64?: boolean; // For base64/data URL sources (skip API call)
+  // Keep the fixed width but size height to the media's aspect ratio (no letterboxing).
+  autoHeight?: boolean;
 }
 export function MediaDetector({
   src,
@@ -29,6 +31,7 @@ export function MediaDetector({
   showPlayIcon = false,
   mediaType: forcedMediaType,
   isBase64 = false,
+  autoHeight = false,
 }: MediaDetectorProps) {
   const { data: session } = useSession();
   const [mediaType, setMediaType] = useState<"video" | "image" | "loading" | "error">(forcedMediaType || "loading");
@@ -57,12 +60,13 @@ export function MediaDetector({
       return;
     }
     try {
-      const requestContentType = () => fetch(src + "/contenttype", {
-        method: "GET",
-        headers: {
-          Authorization: session.user.accessToken,
-        },
-      });
+      const requestContentType = () =>
+        fetch(src + "/contenttype", {
+          method: "GET",
+          headers: {
+            Authorization: session.user.accessToken,
+          },
+        });
       let content = await requestContentType();
       if (content.status !== 200) {
         await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -157,7 +161,7 @@ export function MediaDetector({
         role={onVideoClick ? "button" : undefined}
         aria-label={onVideoClick ? "Play video" : alt}>
         <video
-          style={{ width: `${normalizedWidth}px`, height: `${normalizedHeight}px` }}
+          style={{ width: `${normalizedWidth}px`, height: autoHeight ? "auto" : `${normalizedHeight}px` }}
           className={styles.media}
           controls={!onVideoClick}
           preload="metadata"
@@ -189,7 +193,7 @@ export function MediaDetector({
         alt={alt}
         width={normalizedWidth}
         height={normalizedHeight}
-        style={{ width: `${normalizedWidth}px`, height: `${normalizedHeight}px` }}
+        style={{ width: `${normalizedWidth}px`, height: autoHeight ? "auto" : `${normalizedHeight}px` }}
         className={styles.media}
         onError={handleImageError}
         loading="lazy"

@@ -11,6 +11,7 @@ type SharedStateContextType = {
   setValue: React.Dispatch<React.SetStateAction<PushNotif[]>>;
   userInfo: IOrderUserInfo | null;
   setUserInfo: React.Dispatch<React.SetStateAction<IOrderUserInfo | null>>;
+  refreshAccountInfo: () => Promise<boolean>;
 };
 export const InstaInfoContext = React.createContext<SharedStateContextType | undefined>(undefined);
 export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -18,7 +19,6 @@ export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const router = useRouter();
   const [value, setValue] = React.useState<PushNotif[]>([]);
   const [userInfo, setUserInfo] = React.useState<IOrderUserInfo | null>(null);
-  const contextValue = useMemo(() => ({ value, setValue, userInfo, setUserInfo }), [value, userInfo]);
   const lastUpdateRef = useRef<number>(0);
   const isUpdatingRef = useRef<boolean>(false);
 
@@ -86,8 +86,9 @@ export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     } catch (_) {}
   }, [session]);
 
-  const GetAccountInfo = useCallback(async () => {
-    if (isUpdatingRef.current) return;
+  // Returns false when skipped because another account/token update is in flight.
+  const GetAccountInfo = useCallback(async (): Promise<boolean> => {
+    if (isUpdatingRef.current) return false;
     isUpdatingRef.current = true;
 
     try {
@@ -157,7 +158,12 @@ export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     } finally {
       isUpdatingRef.current = false;
     }
+    return true;
   }, [session, update, refreshToken]);
+  const contextValue = useMemo(
+    () => ({ value, setValue, userInfo, setUserInfo, refreshAccountInfo: GetAccountInfo }),
+    [value, userInfo, GetAccountInfo],
+  );
   useEffect(() => {
     if (!session) return;
 

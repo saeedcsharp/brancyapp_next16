@@ -1,5 +1,37 @@
 export default {
   translation: {
+    Automation_flow_templates: "Flow-Vorlagen",
+    Automation_ai_templates: "KI-Vorlagen",
+    Automation_sample: "Beispiel",
+    Automation_sample_notice: "Sie können vorgefertigte Vorlagen verwenden und anpassen",
+    Automation_template_number: "Vorlage Nr. {{number}}",
+    Automation_beginner: "Anfänger",
+    Automation_intermediate: "Fortgeschritten",
+    Automation_advanced: "Experte",
+    Automation_trending: "Im Trend",
+    Automation_sample_cart: "Warenkorb wiederherstellen",
+    Automation_sample_cart_description: "Beispielidee: Kunden zum Warenkorb zurückführen und Kauffragen beantworten.",
+    Automation_sample_language: "Mehrsprachige Gespräche",
+    Automation_sample_language_description:
+      "Beispielidee: Besucher zu einem Gespräch in ihrer bevorzugten Sprache führen.",
+    Automation_sample_support: "Kundensupport-Assistent",
+    Automation_sample_support_description:
+      "Beispielidee: Häufige Fragen beantworten und Kunden zum nächsten Schritt führen.",
+    Automation_sample_welcome: "Neue Kunden begrüßen",
+    Automation_sample_welcome_description:
+      "Beispielidee: Besucher begrüßen und Ihre Produkte und Leistungen vorstellen.",
+    Automation_flow_history: "Flow-Verlauf",
+    Automation_ai_history: "KI-Verlauf",
+    Automation_loaded_count: "Geladene Einträge; + zeigt weitere verfügbare Einträge an.",
+    Automation_sort_newest: " neueste zuerst",
+    Automation_sort_oldest: " älteste zuerst",
+    Automation_sort_title: " nach Titel",
+    Automation_connected_posts: "Verknüpfte Beiträge",
+    Automation_not_connected: "Mit keinem Beitrag verknüpft.",
+    Automation_connections_access:
+      "Kommentarberechtigung und Zugriff auf Automatisierung/Kommentare sind erforderlich.",
+    Automation_checking_connections: "Beitragsverknüpfungen werden geprüft...",
+    Automation_connections_retry: "Nicht alle Verknüpfungen konnten geprüft werden. Erneut versuchen.",
     aiSuggestedPrompts_title: "Vorgeschlagene Prompts",
     aiSuggestedPrompts_openImage: "Bild im Vollbild öffnen",
     aiSuggestedPrompts_explain: "Wählen Sie einen Prompt als Ausgangspunkt.",
@@ -2789,6 +2821,23 @@ export default {
     AIFlow_block_title_required: "Bitte geben Sie den Blocktitel ein (erforderlich)",
     AIFlow_item_title: "Elementtitel:",
     AIFlow_show_graph: "Flow-Diagramm anzeigen",
+    AIFlow_connect_post: "Mit Beitrag verbinden",
+    AIFlow_connect_post_access:
+      "Instagram-Berechtigungen für Kommentare und Nachrichten sowie Zugriff auf Automatisierung und Kommentare sind erforderlich.",
+    AIFlow_connect_post_save_first: "Speichern Sie diesen Flow, bevor Sie ihn mit einem Beitrag verbinden.",
+    AIFlow_connect_post_confirm:
+      "Dieser Flow ersetzt die aktuelle automatische Antwort des Beitrags und wird aktiviert. Schlüsselwörter und Abgleichseinstellungen bleiben erhalten; ohne Schlüsselwörter antwortet der Flow auf alle Kommentare.",
+    AIFlow_connect_post_resume:
+      "Die Flow-Verknüpfung wurde gespeichert, aber die Aktivierung ist fehlgeschlagen. Versuchen Sie die Aktivierung erneut.",
+    AIFlow_connect_post_incompatible:
+      "Dieser Flow ist nicht mit privaten Kommentarantworten kompatibel. Bearbeiten und speichern Sie ihn vor dem Verbinden.",
+    AIFlow_retry: "Erneut versuchen",
+    AIPrompt_connect_post_access:
+      "Die Instagram-Kommentarberechtigung sowie Zugriff auf Automatisierung und Kommentare sind erforderlich.",
+    AIPrompt_connect_post_confirm:
+      "Diese KI ersetzt die aktuelle automatische Antwort des Beitrags und wird aktiviert. Schlüsselwörter und Abgleichseinstellungen bleiben erhalten; ohne Schlüsselwörter werden alle Kommentare beantwortet. Private Zustellung bleibt nur mit Nachrichtenberechtigung erhalten; andernfalls werden Antworten als Kommentare gesendet.",
+    AIPrompt_connect_post_resume:
+      "Die KI-Verknüpfung wurde gespeichert, aber die Aktivierung ist fehlgeschlagen. Versuchen Sie die Aktivierung erneut.",
     messagesetting_PhoneNumbers: "Telefonnummern",
     messagesetting_PhoneNumbersExplain: "Telefonnummern, die über Flows von Ihren Kunden gesammelt wurden",
     messagesetting_PhoneNumbersEmpty: "Es wurden noch keine Telefonnummern gesammelt",
@@ -2890,6 +2939,9 @@ export default {
     New_Flow_ai_block: "KI",
     New_Flow_ai_select: "KI auswählen",
     New_Flow_ai_livetest: "Ihr KI-Block wird hier ausgeführt",
+    New_Flow_masterflow_block: "Unterflow",
+    New_Flow_masterflow_select: "Flow auswählen",
+    New_Flow_masterflow_livetest: "Der ausgewählte Unterflow wird hier fortgesetzt",
     New_Flow_Tutorials_buttongroup_title: "Schaltflächengruppen-Block",
     New_Flow_Tutorials_buttongroup_description:
       "Dieser Block sendet eine Nachricht mit bis zu drei Schaltflächen; jede Schaltfläche hat einen eigenen Ausgang, und der Block hat zusätzlich einen normalen Ausgang, der den Flow fortsetzt.",
@@ -2920,6 +2972,22 @@ export default {
     New_Flow_Tutorials_ai_limitation_1: "Hat nur einen Eingang und keinen Ausgang, beendet also den Flow",
     New_Flow_Tutorials_ai_limitation_2: "Pro Block kann nur eine KI ausgewählt werden",
     New_Flow_Tutorials_ai_limitation_3: "Kann nicht der erste Block des Flows sein",
+    New_Flow_Tutorials_masterflow_title: "Unterflow-Block",
+    New_Flow_Tutorials_masterflow_description:
+      "Leitet das Gespräch an einen bereits erstellten Flow weiter, wenn der Nutzer auf eine Schaltfläche tippt.",
+    New_Flow_Tutorials_masterflow_usageType: "Einen vorhandenen Flow als Fortsetzung einer Schaltfläche wiederverwenden",
+    New_Flow_Tutorials_masterflow_feature_1: "Listet alle von Ihnen erstellten Flows zur Auswahl auf",
+    New_Flow_Tutorials_masterflow_feature_2: "Der ausgewählte Flow setzt das Gespräch ab diesem Punkt fort",
+    New_Flow_Tutorials_masterflow_tip_1:
+      "Erstellen und speichern Sie zuerst den Ziel-Flow, damit er in der Liste erscheint",
+    New_Flow_Tutorials_masterflow_tip_2: "Nutzen Sie ihn für gemeinsame Pfade (z. B. Support oder Preise) zwischen Flows",
+    New_Flow_Tutorials_masterflow_limitation_1: "Hat nur einen Eingang und keinen Ausgang und beendet daher diesen Flow",
+    New_Flow_Tutorials_masterflow_limitation_2:
+      "Kann nur mit Schaltflächen verbunden werden, nicht mit normalen Ausgängen",
+    New_Flow_Tutorials_masterflow_limitation_3: "Der gerade bearbeitete Flow kann nicht ausgewählt werden",
+    New_Flow_Tutorials_masterflow_connection_1: "Schaltflächen des Schnellantwort-Blocks",
+    New_Flow_Tutorials_masterflow_connection_2: "Schaltflächen des Schaltflächengruppen-Blocks",
+    New_Flow_Tutorials_masterflow_connection_3: "Schaltflächen des Galerie-Unterblocks",
     New_Flow_generic_block: "Galerie-Block (Karussell)",
     New_Flow_add_general_block: "Galerieblock hinzufügen",
     New_Flow_add_text_block: "Textblock hinzufügen",

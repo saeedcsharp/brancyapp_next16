@@ -33,6 +33,8 @@ interface SliderProps {
   itemsPerSlide?: number; // تعداد آیتم‌ها در هر اسلاید (برای گروه‌بندی خودکار)
   freeMode?: boolean; // اسکرول آزاد افقی بدون snap
   initialIndex?: number; // اسلایدی که هنگام mount نمایش داده می‌شود
+  scrollContainerRef?: React.RefObject<HTMLDivElement | null>;
+  ariaLabel?: string;
 }
 
 interface SliderSlideProps {
@@ -203,41 +205,50 @@ PaginationBullet.displayName = "PaginationBullet";
 //#endregion
 
 //#region FreeModeSlider Component
-const FreeModeSlider: React.FC<{ children: ReactNode[]; className?: string; spaceBetween?: number }> = ({
+const FreeModeSlider: React.FC<{
+  children: ReactNode[];
+  className?: string;
+  spaceBetween?: number;
+  scrollContainerRef?: React.RefObject<HTMLDivElement | null>;
+  ariaLabel?: string;
+}> = ({
   children,
   className = "",
   spaceBetween = 10,
+  scrollContainerRef,
+  ariaLabel,
 }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const internalContainerRef = useRef<HTMLDivElement>(null);
+  const containerRef = scrollContainerRef ?? internalContainerRef;
   const isDraggingRef = useRef(false);
   const startXRef = useRef(0);
   const scrollLeftRef = useRef(0);
 
-  const handleMouseDown = useCallback((e: React.MouseEvent) => {
-    if (!containerRef.current) return;
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!containerRef.current || isInteractiveTarget(e.target) || e.button !== 0) return;
     isDraggingRef.current = true;
     startXRef.current = e.pageX - containerRef.current.offsetLeft;
     scrollLeftRef.current = containerRef.current.scrollLeft;
     containerRef.current.style.cursor = "grabbing";
-  }, []);
+  };
 
-  const handleMouseUp = useCallback(() => {
+  const handleMouseUp = () => {
     isDraggingRef.current = false;
     if (containerRef.current) containerRef.current.style.cursor = "grab";
-  }, []);
+  };
 
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+  const handleMouseMove = (e: React.MouseEvent) => {
     if (!isDraggingRef.current || !containerRef.current) return;
     e.preventDefault();
     const x = e.pageX - containerRef.current.offsetLeft;
     const walk = x - startXRef.current;
     containerRef.current.scrollLeft = scrollLeftRef.current - walk;
-  }, []);
+  };
 
-  const handleMouseLeave = useCallback(() => {
+  const handleMouseLeave = () => {
     isDraggingRef.current = false;
     if (containerRef.current) containerRef.current.style.cursor = "grab";
-  }, []);
+  };
 
   const childrenArray = React.Children.toArray(children);
 
@@ -261,7 +272,7 @@ const FreeModeSlider: React.FC<{ children: ReactNode[]; className?: string; spac
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       role="region"
-      aria-label="Scrollable list">
+      aria-label={ariaLabel ?? "Scrollable list"}>
       {childrenArray.map((child, i) => (
         <div key={i} style={{ flexShrink: 0 }}>
           {child}
@@ -291,11 +302,17 @@ const Slider: React.FC<SliderProps> = ({
   isLoading = false,
   itemsPerSlide,
   initialIndex = 0,
+  scrollContainerRef,
+  ariaLabel,
 }) => {
   //#region FreeMode
   if (freeMode) {
     return (
-      <FreeModeSlider className={className} spaceBetween={spaceBetween}>
+      <FreeModeSlider
+        className={className}
+        spaceBetween={spaceBetween}
+        scrollContainerRef={scrollContainerRef}
+        ariaLabel={ariaLabel}>
         {children}
       </FreeModeSlider>
     );

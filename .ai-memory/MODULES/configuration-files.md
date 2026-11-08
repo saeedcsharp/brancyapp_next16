@@ -90,6 +90,11 @@ Enums are in local files or shared `models/enums.ts`.
 
 ## Configuration
 
+`.vscode/mcp.json` registers the project-scoped `patran-swagger` documentation-only
+stdio MCP server. Its pinned package, public OpenAPI source, trust/startup steps,
+verification status, and cache/security limitations are documented in
+[CONFIGURATIONS.md](../CONFIGURATIONS.md#patran-swagger-mcp).
+
 Configuration is local to the folder unless documented in `CONFIGURATIONS.md`.
 
 ## Database Usage

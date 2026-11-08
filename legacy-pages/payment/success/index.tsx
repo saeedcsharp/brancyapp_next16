@@ -1,7 +1,9 @@
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
+import { useSession } from "next-auth/react";
 import { LanguageKey } from "brancy/i18n";
+import { InstaInfoContext } from "brancy/context/instaInfoContext";
 import styles from "./success.module.css";
 export default function SuccessfulPaymentPage() {
   const { t } = useTranslation();
@@ -19,6 +21,25 @@ export default function SuccessfulPaymentPage() {
     setTransactionIdFromQuery(params.get("transactionId") ?? undefined);
     setInvoiceId(params.get("invoiceId") ?? undefined);
   }, []);
+
+  const { data: session } = useSession();
+  const { refreshAccountInfo } = use(InstaInfoContext) ?? {};
+  const accountRefreshedRef = useRef(false);
+  const accountRefreshingRef = useRef(false);
+
+  // Persist the newly purchased package into the session; retried on the next session change if skipped.
+  useEffect(() => {
+    if (!session || !refreshAccountInfo || session.user.currentIndex < 0) return;
+    if (accountRefreshedRef.current || accountRefreshingRef.current) return;
+    accountRefreshingRef.current = true;
+    refreshAccountInfo()
+      .then((ran) => {
+        if (ran) accountRefreshedRef.current = true;
+      })
+      .finally(() => {
+        accountRefreshingRef.current = false;
+      });
+  }, [session, refreshAccountInfo]);
   return (
     <div className={styles.paymentsuccess}>
       <div className={styles.loader}>

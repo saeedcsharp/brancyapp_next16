@@ -32,6 +32,7 @@ import VoiceRecorder from "brancy/components/messages/popups/voiceRecorder";
 import { LeftChatWrapper } from "brancy/components/messages/direct/chatComponents/LeftChatWrapper";
 import { RightChatWrapper } from "brancy/components/messages/direct/chatComponents/RightChatWrapper";
 import { ChatSending } from "brancy/components/messages/direct/chatComponents/shared/messageTypes/ChatSending";
+import { JUMP_TO_ITEM_EVENT } from "brancy/components/messages/direct/chatComponents/shared/utils/RepliedMessage";
 import styles from "./directChatBox.module.css";
 import { ItemType } from "brancy/models/enums";
 import {
@@ -45,11 +46,13 @@ import {
 
 //#region تعریف کامپوننت و Props
 const MAX_MESSAGE_BYTES = 1000;
+const MAX_JUMP_PAGES = 15;
 
 const DirectChatBox = memo(
   (props: {
     userSelectId: string | null;
     hub: HubConnection | null;
+    isHubConnected: boolean;
     chatBox: IThread;
     sendingMessages: IIsSendingMessage[];
     ownerInbox: IDirectOwnerInbox;
@@ -59,8 +62,8 @@ const DirectChatBox = memo(
     onImageClick?: (imageUrl: string) => void;
     onImageContainerClick?: (info: { url: string; height: number; width: number }) => void;
     onVideoContainerClick?: (info: { url: string; height: number; width: number; isExpired: boolean }) => void;
-    onSendFile?: (sendFile: { file: File; threadId: string; igid: string }) => void;
-    onSendVideoFile?: (sendVideo: { file: File; threadId: string; igid: string }) => void;
+    onSendFile?: (sendFile: { file: File; threadId: string; igid: string; replyTo?: string | null }) => void;
+    onSendVideoFile?: (sendVideo: { file: File; threadId: string; igid: string; replyTo?: string | null }) => void;
   }) => {
     //#endregion
 
@@ -85,12 +88,16 @@ const DirectChatBox = memo(
     const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
     const [lock, setLock] = useState(false);
     const [seenItem, setSeenItem] = useState<IDirectMessageItem | null>(null);
+    const [replyToItem, setReplyToItem] = useState<IDirectMessageItem | null>(null);
+    const [reactionItemId, setReactionItemId] = useState<string | null>(null);
+    const reactionPickerRef = useRef<HTMLDivElement | null>(null);
     const [dateFormatToggle, setDateFormatToggle] = useState("");
     const prevUserSelectIdRef = useRef<string | null>(null);
     const textareaRef = useRef<HTMLTextAreaElement | null>(null);
     const emojiPickerContainerRef = useRef<HTMLDivElement | null>(null);
     // load draft for this thread when selected
     useEffect(() => {
+      setReplyToItem(null);
       if (!props.chatBox) return;
       const key = draftKey(props.chatBox.threadId);
       const draft = getDraft(key);
@@ -185,6 +192,54 @@ const DirectChatBox = memo(
       setBackToButton(true);
     }, []);
 
+    const latestChatBoxRef = useRef(props.chatBox);
+    latestChatBoxRef.current = props.chatBox;
+    const jumpingRef = useRef(false);
+
+    const findRenderedItem = useCallback((itemId: string) => {
+      return chatBoxRef.current?.querySelector<HTMLElement>(`[data-itemid="${CSS.escape(itemId)}"]`) ?? null;
+    }, []);
+
+    const jumpToItem = useCallback(
+      async (itemId: string) => {
+        if (jumpingRef.current) return;
+        jumpingRef.current = true;
+        try {
+          let target = findRenderedItem(itemId);
+          for (let page = 0; !target && page < MAX_JUMP_PAGES; page++) {
+            const chatBox = latestChatBoxRef.current;
+            if (!chatBox.nextMaxId) break;
+            await props.fetchItemData(chatBox);
+            // wait for React to commit the newly loaded items
+            await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+            target = findRenderedItem(itemId);
+          }
+          const container = chatBoxRef.current;
+          if (!target || !container) return;
+          const offset = target.getBoundingClientRect().top - container.getBoundingClientRect().top;
+          container.scrollTo({
+            top: container.scrollTop + offset - container.clientHeight / 2 + target.clientHeight / 2,
+            behavior: "smooth",
+          });
+          target.classList.remove(styles.shake);
+          void target.offsetWidth;
+          target.classList.add(styles.shake);
+          setTimeout(() => target?.classList.remove(styles.shake), 1000);
+        } finally {
+          jumpingRef.current = false;
+        }
+      },
+      [findRenderedItem, props.fetchItemData],
+    );
+
+    useEffect(() => {
+      const container = chatBoxRef.current;
+      if (!container) return;
+      const handleJumpEvent = (e: Event) => jumpToItem((e as CustomEvent<string>).detail);
+      container.addEventListener(JUMP_TO_ITEM_EVENT, handleJumpEvent);
+      return () => container.removeEventListener(JUMP_TO_ITEM_EVENT, handleJumpEvent);
+    }, [jumpToItem]);
+
     const handleEmojiClick = useCallback(
       (emojiData: EmojiClickData) => {
         const emoji = emojiData.emoji;
@@ -216,8 +271,13 @@ const DirectChatBox = memo(
         switch (iconId) {
           case "Copy":
             break;
+          case "Reply":
+            setReplyToItem(item);
+            requestAnimationFrame(() => textareaRef.current?.focus());
+            break;
           case "React":
-            await props.hub.send("SendReaction", props.chatBox.recp.igId, item.itemId);
+            setShowEmojiPicker(false);
+            setReactionItemId(item.itemId);
             break;
           case "UnReact":
             await props.hub.send("SendUnReaction", props.chatBox.recp.igId, item.itemId);
@@ -225,6 +285,17 @@ const DirectChatBox = memo(
         }
       },
       [props.chatBox.items, props.chatBox.recp.igId, props.hub],
+    );
+
+    // A null emoji makes the backend send the default heart.
+    const handleSendReaction = useCallback(
+      async (emoji: string | null) => {
+        const itemId = reactionItemId;
+        setReactionItemId(null);
+        if (!itemId || !props.hub || props.hub.state !== HubConnectionState.Connected) return;
+        await props.hub.send("SendReaction", props.chatBox.recp.igId, itemId, emoji);
+      },
+      [reactionItemId, props.hub, props.chatBox.recp.igId],
     );
 
     const handleDrop = useCallback(
@@ -238,10 +309,13 @@ const DirectChatBox = memo(
             file,
             threadId: props.chatBox.threadId,
             igid: props.chatBox.recp.igId,
+            replyTo: replyToItem?.itemId ?? null,
           });
+          setReplyToItem(null);
+          handleBackToButton();
         }
       },
-      [props.chatBox.threadId, props.chatBox.recp.igId, props.onSendFile],
+      [props.chatBox.threadId, props.chatBox.recp.igId, props.onSendFile, handleBackToButton, replyToItem],
     );
 
     const handleDragOver = useCallback((event: React.DragEvent) => {
@@ -268,19 +342,32 @@ const DirectChatBox = memo(
             file,
             threadId: props.chatBox.threadId,
             igid: props.chatBox.recp.igId,
+            replyTo: replyToItem?.itemId ?? null,
           });
+          setReplyToItem(null);
+          handleBackToButton();
         } else if (file.type === "video/mp4" || file.type === "video/quicktime") {
           props.onSendVideoFile?.({
             file,
             threadId: props.chatBox.threadId,
             igid: props.chatBox.recp.igId,
+            replyTo: replyToItem?.itemId ?? null,
           });
+          setReplyToItem(null);
+          handleBackToButton();
         } else {
           internalNotify(InternalResponseType.NotPermittedMediaType, NotifType.Warning);
         }
         e.target.value = "";
       },
-      [props.chatBox.threadId, props.chatBox.recp.igId, props.onSendFile, props.onSendVideoFile],
+      [
+        props.chatBox.threadId,
+        props.chatBox.recp.igId,
+        props.onSendFile,
+        props.onSendVideoFile,
+        handleBackToButton,
+        replyToItem,
+      ],
     );
 
     const handleClickOnVoiceIcon = useCallback(async () => {
@@ -296,18 +383,30 @@ const DirectChatBox = memo(
       async (uploadVoice: IUploadVoice) => {
         if (!props.hub || props.hub.state !== HubConnectionState.Connected) return;
         setShowVoiceRecorder(false);
+        const replyTo = replyToItem?.itemId ?? null;
         props.handleSendMessage({
           itemType: ItemType.AudioShare,
           message: ("data:video/mp4;base64," + uploadVoice.voiceBase64) as string,
           threadId: props.chatBox.threadId,
           igId: props.chatBox.recp.igId,
           file: uploadVoice.file,
+          replyTo,
         });
+        setReplyToItem(null);
+        handleBackToButton();
         const res = await UploadFile(session, uploadVoice.file);
         if (!props.hub || props.hub.state !== HubConnectionState.Connected) return;
-        await props.hub.send("SendAudioMessage", props.chatBox.recp.igId, res.fileName);
+        await props.hub.send("SendAudioMessage", props.chatBox.recp.igId, res.fileName, replyTo);
       },
-      [props.hub, props.chatBox.threadId, props.chatBox.recp.igId, props.handleSendMessage, session],
+      [
+        props.hub,
+        props.chatBox.threadId,
+        props.chatBox.recp.igId,
+        props.handleSendMessage,
+        session,
+        handleBackToButton,
+        replyToItem,
+      ],
     );
     //#endregion
 
@@ -316,22 +415,40 @@ const DirectChatBox = memo(
       try {
         const text = truncateTextToBytes(answerBox.replaceAll("</br>", "\n"), MAX_MESSAGE_BYTES);
         if (text.length === 0) return;
+        const replyTo = replyToItem?.itemId ?? null;
         props.handleSendMessage({
           itemType: ItemType.Text,
           message: text,
           threadId: props.chatBox.threadId,
           igId: props.chatBox.recp.igId,
           file: new File([], "text.txt"),
+          replyTo,
         });
+        setReplyToItem(null);
+        handleBackToButton();
+        // Sending ends the typing session, so the next keystroke must emit SendTypingOn immediately.
+        unixTypingTimeRef.current = 0;
         if (props.hub?.state === HubConnectionState.Connected) {
-          await props.hub.send("SendTextMessage", props.chatBox.recp.igId, text);
+          await props.hub.send("SendTextMessage", props.chatBox.recp.igId, text, replyTo);
         }
         setAnswerBox("");
       } catch (error) {
         setAnswerBox("");
         notify(ResponseType.Unexpected, NotifType.Error, "socket error");
       }
-    }, [answerBox, props.handleSendMessage, props.chatBox.threadId, props.chatBox.recp.igId, props.hub]);
+    }, [
+      answerBox,
+      replyToItem,
+      handleBackToButton,
+      props.handleSendMessage,
+      props.chatBox.threadId,
+      props.chatBox.recp.igId,
+      props.hub,
+    ]);
+
+    const handleScrollToReplyTarget = useCallback(() => {
+      if (replyToItem) jumpToItem(replyToItem.itemId);
+    }, [replyToItem, jumpToItem]);
 
     const handleTextareaKeyDown = useCallback(
       (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -435,8 +552,12 @@ const DirectChatBox = memo(
     useEffect(() => {
       const handleKeyDown = (event: KeyboardEvent) => {
         if (event.key === "Escape") {
-          if (showEmojiPicker) {
+          if (reactionItemId) {
+            setReactionItemId(null);
+          } else if (showEmojiPicker) {
             setShowEmojiPicker(false);
+          } else if (replyToItem) {
+            setReplyToItem(null);
           } else {
             props.showUserList();
           }
@@ -446,7 +567,22 @@ const DirectChatBox = memo(
       return () => {
         window.removeEventListener("keydown", handleKeyDown);
       };
-    }, [props.showUserList, showEmojiPicker]);
+    }, [props.showUserList, showEmojiPicker, replyToItem, reactionItemId]);
+
+    useEffect(() => {
+      if (!reactionItemId) return;
+      const handleClickOutside = (event: MouseEvent) => {
+        if (reactionPickerRef.current && !reactionPickerRef.current.contains(event.target as Node)) {
+          setReactionItemId(null);
+        }
+      };
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, [reactionItemId]);
+
+    useEffect(() => {
+      setReactionItemId(null);
+    }, [props.chatBox.threadId]);
 
     useEffect(() => {
       if (!showEmojiPicker) return;
@@ -536,7 +672,10 @@ const DirectChatBox = memo(
             </>
           )}
           {sortedChatItems.map((item) => (
-            <div key={item.itemId}>
+            <div
+              key={item.itemId}
+              data-itemid={item.itemId}
+              className={replyToItem?.itemId === item.itemId ? styles.replyTarget : undefined}>
               {!item.sentByOwner ? (
                 <LeftChatWrapper
                   item={item}
@@ -580,6 +719,22 @@ const DirectChatBox = memo(
           ))}
           {isLoadingMore && <RingLoader />}
         </main>
+        {reactionItemId && (
+          <div className={styles.reactionPickerPopup} ref={reactionPickerRef}>
+            <EmojiPicker
+              onReactionClick={(emojiData: EmojiClickData) => handleSendReaction(emojiData.emoji)}
+              onEmojiClick={(emojiData: EmojiClickData) => handleSendReaction(emojiData.emoji)}
+              autoFocusSearch={false}
+              theme={"auto" as any}
+              lazyLoadEmojis
+              reactionsDefaultOpen
+              allowExpandReactions
+              previewConfig={{ showPreview: false }}
+              height={350}
+              width={300}
+            />
+          </div>
+        )}
         {
           //#endregion
           //#region بخش دکمه بازگشت به آخرین پیام
@@ -608,8 +763,40 @@ const DirectChatBox = memo(
               <>
                 {/* active message */}
                 {/* {props.chatBox.isActive && props.hub?.state === HubConnectionState.Connected && ( */}
-                {props.hub?.state === HubConnectionState.Connected && props.chatBox.isActive && (
+                {props.isHubConnected && props.chatBox.isActive && (
                   <>
+                    {replyToItem && (
+                      <div className={styles.replyPreview} role="status">
+                        <img className={styles.replymsgsvg} src="/icon-reply.svg" alt="" aria-hidden="true" />
+                        <div
+                          className={styles.replyPreviewContent}
+                          role="button"
+                          tabIndex={0}
+                          onClick={handleScrollToReplyTarget}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                              e.preventDefault();
+                              handleScrollToReplyTarget();
+                            }
+                          }}>
+                          <div className={styles.replyPreviewName}>
+                            {handleSpecifyRepliedItemFullName(replyToItem.itemId, replyToItem)}
+                          </div>
+                          <div className={styles.replyPreviewText}>
+                            {handleSpecifyRepliedItemType(replyToItem.itemId, replyToItem)}
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          className={styles.replyPreviewClose}
+                          onClick={() => setReplyToItem(null)}
+                          aria-label="cancel reply">
+                          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
+                          </svg>
+                        </button>
+                      </div>
+                    )}
                     <div
                       className={styles.answercontainer}
                       onSubmit={(e) => {
@@ -638,6 +825,7 @@ const DirectChatBox = memo(
                           <div className={styles.emojiPickerPopup}>
                             <EmojiPicker
                               onEmojiClick={handleEmojiClick}
+                              autoFocusSearch={false}
                               theme={"auto" as any}
                               lazyLoadEmojis
                               reactionsDefaultOpen
@@ -756,13 +944,13 @@ const DirectChatBox = memo(
                   </>
                 )}
                 {/* waiting for connection */}
-                {props.hub?.state !== HubConnectionState.Connected && (
+                {!props.isHubConnected && (
                   <div className={styles.blockeduser}>
                     <div className={styles.blockeduserbtn}>{t(LanguageKey.waitingforconnection)}</div>
                   </div>
                 )}
                 {/* not active message */}
-                {props.hub?.state === HubConnectionState.Connected && !props.chatBox.isActive && (
+                {props.isHubConnected && !props.chatBox.isActive && (
                   <div className={styles.blockeduser}>
                     <div className={styles.blockeduserbtn}>{t(LanguageKey.notactivemessage)}</div>
                     <Tooltip tooltipValue={t(LanguageKey.notactivemessageexplain)} position="top" onClick>

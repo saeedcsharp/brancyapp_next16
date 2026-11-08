@@ -17,12 +17,21 @@
 }
 
 .thumbnailMask {
+  border: 0;
+  padding: 0;
+  background: transparent;
   display: flex;
   width: 85px;
   height: 85px;
   justify-content: center;
   align-items: center;
   cursor: pointer;
+}
+
+.thumbnailMask:focus-visible {
+  outline: 2px solid var(--color-dark-blue);
+  outline-offset: 2px;
+  border-radius: var(--br15);
 }
 
 .thumbnailImage {

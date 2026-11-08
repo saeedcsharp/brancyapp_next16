@@ -1,5 +1,37 @@
 export default {
   translation: {
+    Automation_flow_templates: "Modèles de flux",
+    Automation_ai_templates: "Modèles IA",
+    Automation_sample: "Exemple",
+    Automation_sample_notice: "Vous pouvez utiliser des modèles prédéfinis et les personnaliser",
+    Automation_template_number: "Modèle n° {{number}}",
+    Automation_beginner: "Débutant",
+    Automation_intermediate: "Intermédiaire",
+    Automation_advanced: "Avancé",
+    Automation_trending: "Tendance",
+    Automation_sample_cart: "Récupération du panier",
+    Automation_sample_cart_description:
+      "Exemple : aidez les clients à retrouver leur panier et répondez à leurs questions.",
+    Automation_sample_language: "Conversations multilingues",
+    Automation_sample_language_description:
+      "Exemple : guidez les visiteurs vers une conversation dans leur langue préférée.",
+    Automation_sample_support: "Assistant du service client",
+    Automation_sample_support_description:
+      "Exemple : répondez aux questions fréquentes et indiquez la prochaine étape.",
+    Automation_sample_welcome: "Accueil des nouveaux clients",
+    Automation_sample_welcome_description: "Exemple : accueillez les visiteurs et présentez vos produits et services.",
+    Automation_flow_history: "Historique des flux",
+    Automation_ai_history: "Historique IA",
+    Automation_loaded_count: "Éléments chargés ; + indique que d’autres sont disponibles.",
+    Automation_sort_newest: " plus récents",
+    Automation_sort_oldest: " plus anciens",
+    Automation_sort_title: " par titre",
+    Automation_connected_posts: "Publications connectées",
+    Automation_not_connected: "Aucune publication connectée.",
+    Automation_connections_access:
+      "L’autorisation des commentaires et l’accès Automatisation/Commentaires sont requis.",
+    Automation_checking_connections: "Vérification des connexions...",
+    Automation_connections_retry: "Certaines connexions n’ont pas pu être vérifiées. Réessayer.",
     aiSuggestedPrompts_title: "Prompts suggérés",
     aiSuggestedPrompts_openImage: "Ouvrir l’image en plein écran",
     aiSuggestedPrompts_explain: "Choisissez un prompt pour commencer.",
@@ -2807,6 +2839,23 @@ export default {
     AIFlow_block_title_required: "Veuillez saisir le titre du bloc (obligatoire)",
     AIFlow_item_title: "Titre de l’Élément:",
     AIFlow_show_graph: "Afficher le graphique du flux",
+    AIFlow_connect_post: "Associer à une publication",
+    AIFlow_connect_post_access:
+      "Les autorisations Instagram de commentaires et de messages et les accès Automatisation et Commentaires sont requis.",
+    AIFlow_connect_post_save_first: "Enregistrez ce flux avant de l'associer à une publication.",
+    AIFlow_connect_post_confirm:
+      "Ce flux remplace la réponse automatique actuelle de la publication et est activé. Les mots-clés et leur mode de correspondance sont conservés ; sans mots-clés, le flux répond à tous les commentaires.",
+    AIFlow_connect_post_resume:
+      "L'association du flux est enregistrée, mais l'activation a échoué. Réessayez de l'activer.",
+    AIFlow_connect_post_incompatible:
+      "Ce flux est incompatible avec les réponses privées aux commentaires. Modifiez-le et enregistrez-le avant de l'associer.",
+    AIFlow_retry: "Réessayer",
+    AIPrompt_connect_post_access:
+      "L'autorisation de commentaires Instagram et les accès Automatisation et Commentaires sont requis.",
+    AIPrompt_connect_post_confirm:
+      "Cette IA remplace la réponse automatique actuelle de la publication et est activée. Les mots-clés et leur mode de correspondance sont conservés ; sans mots-clés, tous les commentaires reçoivent une réponse. L'envoi privé est conservé uniquement si l'autorisation de messages est disponible ; sinon, les réponses sont envoyées en commentaires.",
+    AIPrompt_connect_post_resume:
+      "L'association de l'IA est enregistrée, mais l'activation a échoué. Réessayez de l'activer.",
     messagesetting_PhoneNumbers: "Numéros de téléphone",
     messagesetting_PhoneNumbersExplain: "Numéros de téléphone collectés auprès de vos clients via les flux",
     messagesetting_PhoneNumbersEmpty: "Aucun numéro de téléphone n'a encore été collecté",
@@ -2908,6 +2957,9 @@ export default {
     New_Flow_ai_block: "IA",
     New_Flow_ai_select: "Sélectionner une IA",
     New_Flow_ai_livetest: "Votre bloc d’IA est en cours d’exécution ici",
+    New_Flow_masterflow_block: "Sous-flux",
+    New_Flow_masterflow_select: "Sélectionner un flux",
+    New_Flow_masterflow_livetest: "Le sous-flux sélectionné continue à partir d’ici",
     New_Flow_Tutorials_buttongroup_title: "Bloc Groupe de boutons",
     New_Flow_Tutorials_buttongroup_description:
       "Ce bloc envoie un message avec jusqu'à trois boutons ; chaque bouton a sa propre sortie, et le bloc possède aussi une sortie classique qui poursuit le flux.",
@@ -2936,6 +2988,20 @@ export default {
     New_Flow_Tutorials_ai_limitation_1: "Possède une entrée mais aucune sortie, il termine donc le flux",
     New_Flow_Tutorials_ai_limitation_2: "Une seule IA peut être sélectionnée par bloc",
     New_Flow_Tutorials_ai_limitation_3: "Ne peut pas être le premier bloc du flux",
+    New_Flow_Tutorials_masterflow_title: "Bloc Sous-flux",
+    New_Flow_Tutorials_masterflow_description:
+      "Redirige la conversation vers un autre flux déjà créé lorsque l’utilisateur appuie sur un bouton.",
+    New_Flow_Tutorials_masterflow_usageType: "Réutiliser un flux existant comme suite d’un bouton",
+    New_Flow_Tutorials_masterflow_feature_1: "Liste tous les flux que vous avez créés pour en choisir un",
+    New_Flow_Tutorials_masterflow_feature_2: "Le flux sélectionné poursuit la conversation à partir de ce point",
+    New_Flow_Tutorials_masterflow_tip_1: "Créez et enregistrez d’abord le flux cible pour qu’il apparaisse dans la liste",
+    New_Flow_Tutorials_masterflow_tip_2: "Utilisez-le pour partager des parcours communs (support, tarifs) entre flux",
+    New_Flow_Tutorials_masterflow_limitation_1: "Possède une entrée uniquement et aucune sortie, il termine donc ce flux",
+    New_Flow_Tutorials_masterflow_limitation_2: "Ne peut être relié qu’à des boutons, pas aux sorties normales",
+    New_Flow_Tutorials_masterflow_limitation_3: "Le flux en cours de modification ne peut pas être sélectionné",
+    New_Flow_Tutorials_masterflow_connection_1: "Boutons du bloc Réponse rapide",
+    New_Flow_Tutorials_masterflow_connection_2: "Boutons du bloc Groupe de boutons",
+    New_Flow_Tutorials_masterflow_connection_3: "Boutons du sous-bloc Galerie",
     New_Flow_generic_block: "Bloc Galerie (Carrousel)",
     New_Flow_add_general_block: "Ajouter un bloc de galerie",
     New_Flow_add_text_block: "Ajouter un bloc de texte",

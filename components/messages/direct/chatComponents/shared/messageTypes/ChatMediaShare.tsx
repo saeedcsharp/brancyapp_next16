@@ -54,6 +54,10 @@ export const ChatMediaShare: React.FC<BaseChatProps> = memo(
     const dotMenuData = useMemo(
       () => [
         {
+          icon: "/icon-reply.svg",
+          value: "Reply",
+        },
+        {
           icon: "/msg-like.svg",
           value: item.ownerEmojiReaction ? "UnReact" : "React",
         },
