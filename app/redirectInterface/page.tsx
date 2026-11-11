@@ -107,7 +107,12 @@ export default async function RedirectInterfacePage({
   }
 
   const countryCode = await getCountryCode();
-  const isIran = countryCode === "IR" || countryCode === "AZ";
+  // Comma-separated extra country codes treated as Iran (e.g. "AZ,TR").
+  const extraIranCountryCodes = (process.env.IRAN_EXTRA_COUNTRY_CODES || "")
+    .split(",")
+    .map((code) => code.trim().toUpperCase())
+    .filter(Boolean);
+  const isIran = countryCode === "IR" || (!!countryCode && extraIranCountryCodes.includes(countryCode));
 
   if (!isIran && isIranOnlyDomain(redirectUrl)) {
     return (

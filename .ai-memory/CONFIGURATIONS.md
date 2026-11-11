@@ -13,6 +13,7 @@
 - `Dockerfile`: multi-stage Node 24 Alpine standalone build.
 - `web.config`: IIS/iisnode rewrite to `server.js`.
 - `.env`: local environment file, values intentionally undocumented.
+  - `IRAN_EXTRA_COUNTRY_CODES` (server-only, runtime): comma-separated country codes treated like `IR` by `app/redirectInterface/page.tsx` (e.g. `AZ`). Empty/unset means only `IR`.
 - `.vscode/mcp.json`: team-shared, documentation-only Patran Swagger MCP configuration.
 
 ## Modification Guidelines
@@ -81,16 +82,16 @@ discovery in addition to standalone protocol operation.
 
 Successful actual Copilot MCP calls included:
 
-| Tool | Input | Observed result |
-| --- | --- | --- |
-| `get_api_overview` | Configured default source | `Mad_NetCore`, OpenAPI `3.0.1`, 409 operations, 189 schemas |
-| `search_endpoints` | `/Instagramer/Account/GetInfo` | Matching GET operation |
-| `search_endpoints` | `/Instagramer/Account/BlockUserId` | Matching GET operation |
-| `search_endpoints` | `/Instagramer/Account/CreatePartner` | Matching POST operation definition only |
-| `get_endpoint` | GET `/Instagramer/Account/BlockUserId` | `userId` integer and `reason` string query parameters |
-| `get_endpoint` | POST `/Instagramer/Account/CreatePartner` | Resolved JSON request fields and `200 Success` without a response schema |
-| `get_schema` | `CreatePartnerInfo`, then `PartnerRole` | Request properties and the referenced integer enum |
-| `search_schemas` | `CreatePartnerInfo` | Matching named schema |
+| Tool               | Input                                     | Observed result                                                          |
+| ------------------ | ----------------------------------------- | ------------------------------------------------------------------------ |
+| `get_api_overview` | Configured default source                 | `Mad_NetCore`, OpenAPI `3.0.1`, 409 operations, 189 schemas              |
+| `search_endpoints` | `/Instagramer/Account/GetInfo`            | Matching GET operation                                                   |
+| `search_endpoints` | `/Instagramer/Account/BlockUserId`        | Matching GET operation                                                   |
+| `search_endpoints` | `/Instagramer/Account/CreatePartner`      | Matching POST operation definition only                                  |
+| `get_endpoint`     | GET `/Instagramer/Account/BlockUserId`    | `userId` integer and `reason` string query parameters                    |
+| `get_endpoint`     | POST `/Instagramer/Account/CreatePartner` | Resolved JSON request fields and `200 Success` without a response schema |
+| `get_schema`       | `CreatePartnerInfo`, then `PartnerRole`   | Request properties and the referenced integer enum                       |
+| `search_schemas`   | `CreatePartnerInfo`                       | Matching named schema                                                    |
 
 No described API operation was executed, including the displayed POST and
 potentially mutating GET operation. There were no application dependency,
