@@ -29,7 +29,7 @@ Both auto-reply keyword editors expose a localized `Contain` switch. `isContain:
 The Message Properties panel no longer renders the automatic/bot reply filtering toggle; its related parent callback and `ToggleHideCommentAutoReply` request were removed while the remaining reply settings continue to use the existing backend model.
 
 The FollowUp template setting uses the `Custom FollowUp Template` label and the requested Persian explanation in all eight locales.
-The `Custom Initial Engagement Message` setting sits below it with the same UI (toggle, title max 50, button text max 15, save). It reads `GetAutoReplySetting.initialEngagmentTemplate` and uses `ToggleInitialEngagmentTemplate` / `UpdateInitialEngagmentTemplate` (`{title, buttonText}`); state and handlers live in `legacy-pages/message/Properties.tsx`.
+The `Custom Initial Engagement Message` setting sits below it with the same UI (toggle, title max 200, button text max 15, save). It reads `GetAutoReplySetting.initialEngagmentTemplate` and uses `ToggleInitialEngagmentTemplate` / `UpdateInitialEngagmentTemplate` (`{title, buttonText}`); state and handlers live in `legacy-pages/message/Properties.tsx`. Both templates render in the `properties/customization.tsx` card (title `messagesetting_Customization`); `properties/messagePanel.tsx` (Advance Settings) keeps only auto-like, automatic reply control, and default direct language.
 
 ## Business Purpose
 
@@ -131,7 +131,7 @@ The same component validates an optional `/Ai/FlowandAgent?id=...` query against
 
 The automatic-reply Flow Graph action uses the localized `AIFlow_show_graph` key across all eight supported locales.
 
-The Flow entries in `properties/persistentMenu.tsx` and `properties/iceBreaker.tsx` use the same localized Flow Graph action and open `/Ai/FlowandAgent?id=<masterFlowId>` when activated.
+The Flow entries in `properties/persistentMenu.tsx` and `properties/iceBreaker.tsx` use the same localized Flow Graph action and open `/Ai/FlowandAgent?id=<masterFlowId>` when activated. The empty-state create buttons in `popups/specialPayLoad.tsx` (no prompts / no flows) open `/Ai/FlowandAgent`.
 
 `properties/phoneNumbers.tsx` is the fifth card on the message properties page. It renders the phone numbers collected by Flows (`IFlowPhoneNumber`) in the shared `Slider` (2 items per slide), shows profile, phone number, flow title, and creation date, and opens `/Ai/FlowandAgent?id=<masterFlowId>` from the Flow Graph action. It requests the next page through `handleGetNextPhoneNumbers` on slider reach-end only while `hasMore` is true.
 The Flow Graph action uses the dedicated `/flow-redirect.svg` external-navigation icon immediately beside each Flow title, rather than the unrelated statistics graph artwork or a full-width button. Its localized name is available on hover and to assistive technology.

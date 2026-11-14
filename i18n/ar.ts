@@ -1489,6 +1489,7 @@ export default {
 
     Addpeopleexplain: "*بعد وضع علامة على الأشخاص، اضبط العلامة أو انقر مرتين لإزالتها",
     AdvanceSettings: "إعدادات متقدمة",
+    messagesetting_Customization: "التخصيص",
     sharepreviewtofeed: "مشاركة المعاينة إلى الخلاصة",
     Videocopyrightbypass: "تجاوز حقوق الطبع والنشر للفيديو",
     SetScheduledPost: "جدولة المنشور",

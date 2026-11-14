@@ -98,6 +98,7 @@ function InstagramerSidebar(props: { newRoute: string; router?: any }) {
           InstagramerRoute.MessageDirect,
           InstagramerRoute.MessageComments,
           InstagramerRoute.MessageTicket,
+          InstagramerRoute.MessageTools,
           InstagramerRoute.MessageProperties,
         ],
       },

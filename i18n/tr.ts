@@ -1542,6 +1542,7 @@ export default {
 
     Addpeopleexplain: "*İnsanları etiketledikten sonra, etiketi ayarlayın veya kaldırmak için çift tıklayın",
     AdvanceSettings: "Gelişmiş Ayarlar",
+    messagesetting_Customization: "Özelleştirme",
     sharepreviewtofeed: "Önizlemeyi Akışa Paylaş",
     Videocopyrightbypass: "Video telif hakkı baypas",
     SetScheduledPost: "Gönderiyi Zamanla",

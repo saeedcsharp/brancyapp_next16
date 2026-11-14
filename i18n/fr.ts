@@ -1602,6 +1602,7 @@ export default {
 
     Addpeopleexplain: "*Après avoir tagué des personnes, ajustez le tag ou double-cliquez pour le supprimer",
     AdvanceSettings: "Paramètres avancés",
+    messagesetting_Customization: "Personnalisation",
     sharepreviewtofeed: "Partager l'aperçu sur le fil",
     Videocopyrightbypass: "Contournement des droits d'auteur vidéo",
     SetScheduledPost: "Programmer une Publication",

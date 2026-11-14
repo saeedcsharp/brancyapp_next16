@@ -1586,6 +1586,7 @@ export default {
 
     Addpeopleexplain: "*Nach dem Markieren von Personen, Markierung anpassen oder Doppelklicken zum Entfernen",
     AdvanceSettings: "Erweiterte Einstellungen",
+    messagesetting_Customization: "Anpassung",
     sharepreviewtofeed: "Vorschau im Feed teilen",
     Videocopyrightbypass: "Video-Copyright-Umgehung",
     SetScheduledPost: "Beitrag Planen",

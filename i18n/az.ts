@@ -1506,6 +1506,7 @@ export default {
 
     Addpeopleexplain: "*İnsanları tag etdikdən sonra tag-i tənzimləyin və ya iki dəfə klikləyərək silin",
     AdvanceSettings: "Ətraflı parametrlər",
+    messagesetting_Customization: "Fərdiləşdirmə",
     sharepreviewtofeed: "Preview-i feed-də paylaş",
     Videocopyrightbypass: "Videonun müəllif hüquqlarını keç",
     SetScheduledPost: "Postu planla",

@@ -1506,6 +1506,7 @@ export default {
 
     Addpeopleexplain: "*پس از تگ کردن افراد، تگ را تنظیم کنید یا با دوبار کلیک حذف کنید",
     AdvanceSettings: "تنظیمات پیشرفته",
+    messagesetting_Customization: "شخصی‌سازی",
     sharepreviewtofeed: "پیش‌نمایش را به فید به اشتراک بگذارید",
     Videocopyrightbypass: "دور زدن حق کپی‌رایت ویدیو",
     SetScheduledPost: "زمان‌بندی پست",

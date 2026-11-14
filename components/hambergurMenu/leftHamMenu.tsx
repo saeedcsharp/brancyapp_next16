@@ -132,6 +132,7 @@ const menuItems = [
       "messageticket",
       "messageAIAndFlow",
       "messageAIAndFlowflowGraph",
+      "messagetools",
       "messageProperties",
     ], // Removed commented routes
   },

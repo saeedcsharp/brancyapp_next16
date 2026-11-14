@@ -74,6 +74,7 @@ export enum InstagramerRoute {
   MessageWhatsup = "messagewhatsup",
   MessageTelegram = "messagetelegram",
   MessageAIANDFlow = "aiflowandagent",
+  MessageTools = "messagetools",
   MessageProperties = "messageProperties",
   WalletPayment = "walletpayment",
   biolinkHome = "market",

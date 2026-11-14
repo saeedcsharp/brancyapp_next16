@@ -185,7 +185,7 @@ export const featureCatalog: FeatureRecord[] = [
     prerequisites: ["instagramConnection", "activePackage", "messagePermission"],
     limitation: "persistentMenu",
     contentIdea: "workflow",
-    routes: ["/message/Properties"],
+    routes: ["/message/tools", "/message/Properties"],
     sourceKinds: ["route", "component", "api", "permission", "enum", "translation"],
   },
   {

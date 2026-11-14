@@ -1563,6 +1563,7 @@ export default {
 
     Addpeopleexplain: "*После добавления метки людей, настройте метку или дважды щелкните для удаления",
     AdvanceSettings: "Дополнительные настройки",
+    messagesetting_Customization: "Персонализация",
     sharepreviewtofeed: "Поделиться предпросмотром в ленте",
     Videocopyrightbypass: "Обход авторских прав на видео",
     SetScheduledPost: "Запланировать Пост",

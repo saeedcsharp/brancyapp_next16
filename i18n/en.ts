@@ -1540,6 +1540,7 @@ export default {
 
     Addpeopleexplain: "*After tagging people, Adjust Tag or Double Click to remove",
     AdvanceSettings: "Advance Settings",
+    messagesetting_Customization: "Customization",
     sharepreviewtofeed: "Share Preview to Feed",
     Videocopyrightbypass: "Video copyright bypass",
     SetScheduledPost: "Schedule Post",

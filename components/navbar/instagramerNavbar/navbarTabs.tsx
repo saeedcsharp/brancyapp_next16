@@ -312,27 +312,33 @@ const NavbarTabs = () => {
     },
     messagedirect: {
       id: "direct",
-      items: ["direct", "comments", "ticket", "Properties"],
+      items: ["direct", "comments", "ticket", "tools", "Properties"],
       indexValue: "message",
       initialSlide: 0,
     },
     messagecomments: {
       id: "comments",
-      items: ["direct", "comments", "ticket", "Properties"],
+      items: ["direct", "comments", "ticket", "tools", "Properties"],
       indexValue: "message",
       initialSlide: 1,
     },
     messageticket: {
       id: "ticket",
-      items: ["direct", "comments", "ticket", "Properties"],
+      items: ["direct", "comments", "ticket", "tools", "Properties"],
       indexValue: "message",
       initialSlide: 2,
     },
-    messageproperties: {
-      id: "Properties",
-      items: ["direct", "comments", "ticket", "Properties"],
+    messagetools: {
+      id: "tools",
+      items: ["direct", "comments", "ticket", "tools", "Properties"],
       indexValue: "message",
       initialSlide: 3,
+    },
+    messageproperties: {
+      id: "Properties",
+      items: ["direct", "comments", "ticket", "tools", "Properties"],
+      indexValue: "message",
+      initialSlide: 4,
     },
     walletpayment: {
       id: "payment",
