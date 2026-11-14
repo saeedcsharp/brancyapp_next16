@@ -341,18 +341,6 @@ const Properties = () => {
         {loadingStatus && <Loading />}
         {!LoginStatus(session) && (
           <main className="pinContainer">
-            <MessagePanel
-              messagePanel={{
-                followTemplate: { isActive: false, content: "", title: "" },
-                initialEngagementTemplate: { isActive: false, content: "", title: "" },
-                language: Language.English,
-                likeReplyStory: false,
-                robotReply: false,
-              }}
-              handleLikeRobotReply={() => {}}
-              handleChangeDragDrop={() => {}}
-              handleSaveLanguage={() => {}}
-            />
             <Customization
               messagePanel={{
                 followTemplate: { isActive: false, content: "", title: "" },
@@ -371,6 +359,18 @@ const Properties = () => {
               handleSaveInitialEngagementTemplate={() => {}}
             />
             <PhoneNumbers phoneNumbers={[]} hasMore={false} handleGetNextPhoneNumbers={() => {}} />
+            <MessagePanel
+              messagePanel={{
+                followTemplate: { isActive: false, content: "", title: "" },
+                initialEngagementTemplate: { isActive: false, content: "", title: "" },
+                language: Language.English,
+                likeReplyStory: false,
+                robotReply: false,
+              }}
+              handleLikeRobotReply={() => {}}
+              handleChangeDragDrop={() => {}}
+              handleSaveLanguage={() => {}}
+            />
             {/* <GhostFollower /> */}
           </main>
         )}
@@ -378,12 +378,6 @@ const Properties = () => {
           <main className="pinContainer">
             {/* <WelcomeMessage /> */}
             {/* <BusinessFilter /> */}
-            <MessagePanel
-              messagePanel={messagePanel}
-              handleLikeRobotReply={handleLikeRobotReply}
-              handleChangeDragDrop={handleChangeDragDrop}
-              handleSaveLanguage={handleSaveLanguage}
-            />
             <Customization
               messagePanel={messagePanel}
               handleToggleFollowTemplate={handleToggleFollowTemplate}
@@ -399,6 +393,12 @@ const Properties = () => {
               phoneNumbers={phoneNumbers}
               hasMore={phoneNumbersNextMaxId !== null}
               handleGetNextPhoneNumbers={handleGetNextPhoneNumbers}
+            />
+            <MessagePanel
+              messagePanel={messagePanel}
+              handleLikeRobotReply={handleLikeRobotReply}
+              handleChangeDragDrop={handleChangeDragDrop}
+              handleSaveLanguage={handleSaveLanguage}
             />
             {/* <GhostFollower /> */}
           </main>

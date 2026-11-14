@@ -508,17 +508,6 @@ const MessageTools = () => {
         {loadingStatus && <Loading />}
         {!LoginStatus(session) && (
           <main className="pinContainer">
-            <IceBreaker
-              iceBeakerUpdateLoading={false}
-              iceBreakers={{
-                isActive: false,
-                profileButtons: { items: [] },
-                updateTime: 0,
-              }}
-              handleShowSpecialPayLoad={() => {}}
-              handleActiveIceBreaker={() => {}}
-              handleDeletePrompt={() => {}}
-            />
             <PersistentMenu
               updateLoading={false}
               persiatantMenus={{
@@ -530,6 +519,17 @@ const MessageTools = () => {
               handleActivePersistentMenu={() => {}}
               handleShowSpecialPayLoad={() => {}}
             />
+            <IceBreaker
+              iceBeakerUpdateLoading={false}
+              iceBreakers={{
+                isActive: false,
+                profileButtons: { items: [] },
+                updateTime: 0,
+              }}
+              handleShowSpecialPayLoad={() => {}}
+              handleActiveIceBreaker={() => {}}
+              handleDeletePrompt={() => {}}
+            />
             <AutoReply
               autoReplies={[]}
               handleShowEditAutoreply={() => {}}
@@ -540,19 +540,19 @@ const MessageTools = () => {
         )}
         {!loadingStatus && LoginStatus(session) && (
           <main className="pinContainer">
-            <IceBreaker
-              iceBeakerUpdateLoading={iceBeakerUpdateLoading}
-              iceBreakers={iceBreakers}
-              handleShowSpecialPayLoad={handleShowSpecialPayLoad}
-              handleActiveIceBreaker={handleToggleIceBreaker}
-              handleDeletePrompt={handleDeletePrompt}
-            />
             <PersistentMenu
               updateLoading={persistentMenusUpdateLoading}
               persiatantMenus={persistentMenus}
               handleDeletePrompt={handleDeletePromptPersistentMenu}
               handleActivePersistentMenu={handleTogglePersistentMenu}
               handleShowSpecialPayLoad={handleShowSpecialPayLoad}
+            />
+            <IceBreaker
+              iceBeakerUpdateLoading={iceBeakerUpdateLoading}
+              iceBreakers={iceBreakers}
+              handleShowSpecialPayLoad={handleShowSpecialPayLoad}
+              handleActiveIceBreaker={handleToggleIceBreaker}
+              handleDeletePrompt={handleDeletePrompt}
             />
             <AutoReply
               autoReplies={autoReplies}
