@@ -378,7 +378,7 @@ const Properties = () => {
       notify(ResponseType.Unexpected, NotifType.Error);
     }
   }
-  function handleChangeInitialEngagementTitle(e: ChangeEvent<HTMLInputElement>) {
+  function handleChangeInitialEngagementTitle(e: ChangeEvent<HTMLTextAreaElement>) {
     setMessagePanel((prev) => ({
       ...prev,
       initialEngagementTemplate: { ...prev.initialEngagementTemplate, title: e.target.value },
