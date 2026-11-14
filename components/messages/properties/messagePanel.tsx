@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
 import DragDrop from "brancy/components/design/dragDrop/dragDrop";
 import InputBox from "brancy/components/design/inputBox/inputBox";
+import TextArea from "brancy/components/design/textArea/textArea";
 import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
 import {
@@ -43,7 +44,7 @@ function MessagePanel({
   handleChangeDragDrop: (id: any) => void;
   handleSaveFollowerTemplate: () => void;
   handleToggleInitialEngagementTemplate: (e: ChangeEvent<HTMLInputElement>) => void;
-  handleChangeInitialEngagementTitle: (e: ChangeEvent<HTMLInputElement>) => void;
+  handleChangeInitialEngagementTitle: (e: ChangeEvent<HTMLTextAreaElement>) => void;
   handleChangeInitialEngagementContent: (e: ChangeEvent<HTMLInputElement>) => void;
   handleSaveInitialEngagementTemplate: () => void;
   handleSaveLanguage: () => void;
@@ -318,17 +319,19 @@ function MessagePanel({
                     <div className="headerparent">
                       <div className="headertext">{t(LanguageKey.messagesetting_AutoReplyPerFollowtitle)}</div>
                       <div className="counter">
-                        <>{messagePanel.initialEngagementTemplate.title.length}/50</>
+                        <>{messagePanel.initialEngagementTemplate.title.length}/200</>
                       </div>
                     </div>
-                    <InputBox
+                    <TextArea
                       name="initialEngagementTitle"
-                      className={"textinputbox"}
-                      handleInputChange={handleChangeInitialEngagementTitle}
+                      className="TextArea"
+                      onChange={handleChangeInitialEngagementTitle}
                       value={messagePanel.initialEngagementTemplate.title}
-                      placeHolder={t(LanguageKey.messagesetting_InitialEngagementtitlesample)}
+                      placeholder={t(LanguageKey.messagesetting_InitialEngagementtitlesample)}
                       fadeTextArea={!messagePanel.initialEngagementTemplate.isActive}
-                      maxLength={50}
+                      maxLength={200}
+                      role="textbox"
+                      title="initialEngagementTitle"
                     />
                   </div>
                   <div className="headerandinput">
