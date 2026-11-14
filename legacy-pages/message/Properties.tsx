@@ -299,6 +299,7 @@ const Properties = () => {
   //-----------Message panel----------------------//
   const [messagePanel, setMessagePanel] = useState<IMessagePanel>({
     followTemplate: { isActive: true, content: "", title: "" },
+    initialEngagementTemplate: { isActive: false, content: "", title: "" },
     language: Language.English,
     likeReplyStory: true,
     robotReply: true,
@@ -372,6 +373,61 @@ const Properties = () => {
         onUploadProgress: undefined,
       });
       if (res.succeeded) internalNotify(InternalResponseType.SaveFollowTemplate, NotifType.Success);
+      else notify(res.info.responseType, NotifType.Warning);
+    } catch (error) {
+      notify(ResponseType.Unexpected, NotifType.Error);
+    }
+  }
+  function handleChangeInitialEngagementTitle(e: ChangeEvent<HTMLInputElement>) {
+    setMessagePanel((prev) => ({
+      ...prev,
+      initialEngagementTemplate: { ...prev.initialEngagementTemplate, title: e.target.value },
+    }));
+  }
+  function handleChangeInitialEngagementContent(e: ChangeEvent<HTMLInputElement>) {
+    setMessagePanel((prev) => ({
+      ...prev,
+      initialEngagementTemplate: { ...prev.initialEngagementTemplate, content: e.target.value },
+    }));
+  }
+  async function handleToggleInitialEngagementTemplate(e: ChangeEvent<HTMLInputElement>) {
+    try {
+      const toggle = e.target.checked;
+      const res = await clientFetchApi<boolean, boolean>("/api/message/ToggleInitialEngagmentTemplate", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "isEnable", value: toggle.toString() }],
+        onUploadProgress: undefined,
+      });
+      if (res.succeeded) {
+        setMessagePanel((prev) => ({
+          ...prev,
+          initialEngagementTemplate: { ...prev.initialEngagementTemplate, isActive: toggle },
+        }));
+      } else {
+        notify(res.info.responseType, NotifType.Warning);
+      }
+    } catch (error) {
+      notify(ResponseType.Unexpected, NotifType.Error);
+    }
+  }
+  async function handleSaveInitialEngagementTemplate() {
+    try {
+      const res = await clientFetchApi<{ title: string; buttonText: string }, boolean>(
+        "/api/message/UpdateInitialEngagmentTemplate",
+        {
+          methodType: MethodType.post,
+          session: session,
+          data: {
+            title: messagePanel.initialEngagementTemplate.title,
+            buttonText: messagePanel.initialEngagementTemplate.content,
+          },
+          queries: undefined,
+          onUploadProgress: undefined,
+        },
+      );
+      if (res.succeeded) internalNotify(InternalResponseType.SaveInitialEngagementTemplate, NotifType.Success);
       else notify(res.info.responseType, NotifType.Warning);
     } catch (error) {
       notify(ResponseType.Unexpected, NotifType.Error);
@@ -625,6 +681,11 @@ const Properties = () => {
               : "",
             title: replySettingRes.value.checkFollowerTemplate ? replySettingRes.value.checkFollowerTemplate.title : "",
           },
+          initialEngagementTemplate: {
+            isActive: replySettingRes.value.initialEngagmentTemplate?.isActive ?? false,
+            content: replySettingRes.value.initialEngagmentTemplate?.buttonText ?? "",
+            title: replySettingRes.value.initialEngagmentTemplate?.title ?? "",
+          },
           language: replySettingRes.value.language,
           likeReplyStory: replySettingRes.value.autoReplyCustomAction.likeReply,
           robotReply: replySettingRes.value.autoReplyCustomAction.hideComment,
@@ -828,6 +889,7 @@ const Properties = () => {
             <MessagePanel
               messagePanel={{
                 followTemplate: { isActive: false, content: "", title: "" },
+                initialEngagementTemplate: { isActive: false, content: "", title: "" },
                 language: Language.English,
                 likeReplyStory: false,
                 robotReply: false,
@@ -837,6 +899,10 @@ const Properties = () => {
               handleChangeTitle={() => {}}
               handleChangeContent={() => {}}
               handleSaveFollowerTemplate={() => {}}
+              handleToggleInitialEngagementTemplate={() => {}}
+              handleChangeInitialEngagementTitle={() => {}}
+              handleChangeInitialEngagementContent={() => {}}
+              handleSaveInitialEngagementTemplate={() => {}}
               handleChangeDragDrop={() => {}}
               handleSaveLanguage={() => {}}
             />
@@ -876,6 +942,10 @@ const Properties = () => {
               handleChangeTitle={handleChangeFollowTempTitle}
               handleChangeContent={handleChangeFollowTempContent}
               handleSaveFollowerTemplate={handleSaveFollowerTemplate}
+              handleToggleInitialEngagementTemplate={handleToggleInitialEngagementTemplate}
+              handleChangeInitialEngagementTitle={handleChangeInitialEngagementTitle}
+              handleChangeInitialEngagementContent={handleChangeInitialEngagementContent}
+              handleSaveInitialEngagementTemplate={handleSaveInitialEngagementTemplate}
               handleChangeDragDrop={handleChangeDragDrop}
               handleSaveLanguage={handleSaveLanguage}
             />

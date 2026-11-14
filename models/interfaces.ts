@@ -2141,12 +2141,24 @@ export interface IAutoReplySetting {
     title: string;
     buttonText: string;
   } | null;
+  initialEngagmentTemplate: {
+    isActive: boolean;
+    updateTime: number;
+    ownerId: string;
+    title: string;
+    buttonText: string;
+  } | null;
 }
 
 export interface IMessagePanel {
   language: number;
   robotReply: boolean;
   followTemplate: {
+    isActive: boolean;
+    title: string;
+    content: string;
+  };
+  initialEngagementTemplate: {
     isActive: boolean;
     title: string;
     content: string;

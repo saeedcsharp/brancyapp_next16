@@ -430,6 +430,7 @@ const getInternalResponseTextLegacy = (responseType: InternalResponseType): stri
     [InternalResponseType.ExceedBasefeatureTime]: LanguageKey.InternalNotify_ExceedBasefeatureTime,
     [InternalResponseType.ChannelIdNotStartedWithUC]: LanguageKey.InternalNotify_ChannelIdNotStartedWithUC,
     [InternalResponseType.PageAnalysisNotCompleted]: LanguageKey.InternalNotify_PageAnalysisNotCompleted,
+    [InternalResponseType.SaveInitialEngagementTemplate]: LanguageKey.InternalNotify_SaveInitialEngagementTemplate,
   };
 
   const languageKey = internalResponseTextMap[responseType];
@@ -914,6 +915,7 @@ const getInternalResponseText = (responseType: InternalResponseType, t: (key: La
     [InternalResponseType.ExceedBasefeatureTime]: LanguageKey.InternalNotify_ExceedBasefeatureTime,
     [InternalResponseType.ChannelIdNotStartedWithUC]: LanguageKey.InternalNotify_ChannelIdNotStartedWithUC,
     [InternalResponseType.PageAnalysisNotCompleted]: LanguageKey.InternalNotify_PageAnalysisNotCompleted,
+    [InternalResponseType.SaveInitialEngagementTemplate]: LanguageKey.InternalNotify_SaveInitialEngagementTemplate,
   };
 
   const languageKey = internalResponseTextMap[responseType];
@@ -1380,5 +1382,6 @@ export enum InternalResponseType {
   ExceedBasefeatureTime,
   ChannelIdNotStartedWithUC,
   PageAnalysisNotCompleted,
+  SaveInitialEngagementTemplate,
 }
 export default Notification;

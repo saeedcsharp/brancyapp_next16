@@ -1796,11 +1796,18 @@ export default {
     messagesetting_AutoReplyPerFollow: "Custom FollowUp Template",
     messagesetting_AutoReplyPerFollowExplain: "Use this template when asking a user to follow the page.",
     messagesetting_AutoReplyPerFollowtooltip:
-      "Users who do not follow you will first receive a follow request. After following your page, the automatic message will be sent to them",
+      "Enable this option to set a custom message and button text for the follow-up request",
     messagesetting_AutoReplyPerFollowtitle: "Message Text",
     messagesetting_AutoReplyPerFollowtitlesample: "Example: Follow our page first to receive the message",
     messagesetting_AutoReplyPerFollowbtn: "Button Text",
     messagesetting_AutoReplyPerFollowbtnsample: "Example: I Followed, Send the Message",
+    messagesetting_InitialEngagement: "Custom Initial Engagement Message",
+    messagesetting_InitialEngagementExplain:
+      "Use this template for the first message that starts a conversation with a user.",
+    messagesetting_InitialEngagementtooltip:
+      "Enable this option to set a custom message and button text for the initial engagement message",
+    messagesetting_InitialEngagementtitlesample: "Example: Hi! Tap the button below to continue",
+    messagesetting_InitialEngagementbtnsample: "Example: Continue",
     messagesetting_automaticreplysystemexplain:
       "The system automatically responds with a preset message whenever a message or comment is received in any section of the page (Feed, Story, Reels, Live, etc.).",
     messagesetting_KeywordSensitive: "Keyword Sensitive",
@@ -3558,6 +3565,7 @@ export default {
     InternalNotify_SavePersistenceMenu: "Persistence menu added successfully",
     InternalNotify_SelectLanguage: "Language changed successfully",
     InternalNotify_SaveFollowTemplate: "Follow template saved successfully",
+    InternalNotify_SaveInitialEngagementTemplate: "Initial engagement template saved successfully",
     InternalNotify_AutoReplyOn: "Auto-reply activated successfully",
     InternalNotify_AutoReplyOff: "Auto-reply deactivated successfully",
     InternalNotify_AutoGeneralOn: "General auto-reply activated successfully",

@@ -29,6 +29,7 @@ Both auto-reply keyword editors expose a localized `Contain` switch. `isContain:
 The Message Properties panel no longer renders the automatic/bot reply filtering toggle; its related parent callback and `ToggleHideCommentAutoReply` request were removed while the remaining reply settings continue to use the existing backend model.
 
 The FollowUp template setting uses the `Custom FollowUp Template` label and the requested Persian explanation in all eight locales.
+The `Custom Initial Engagement Message` setting sits below it with the same UI (toggle, title max 50, button text max 15, save). It reads `GetAutoReplySetting.initialEngagmentTemplate` and uses `ToggleInitialEngagmentTemplate` / `UpdateInitialEngagmentTemplate` (`{title, buttonText}`); state and handlers live in `legacy-pages/message/Properties.tsx`.
 
 ## Business Purpose
 

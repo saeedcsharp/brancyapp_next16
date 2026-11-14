@@ -3530,24 +3530,6 @@ export default function Flow({
     );
   }, [editorState.nodes, searchQuery]);
 
-  const requiresFollowerForPrivateReply = useMemo(() => {
-    if (checkFollower || editorState.nodes.length <= 2) return false;
-
-    return editorState.connections.some((connection) => {
-      if (connection.sourceNodeId !== "node_onmessage") return false;
-
-      const targetNode = editorState.nodes.find((node) => node.id === connection.targetNodeId);
-      if (targetNode?.type === "buttongroup" || targetNode?.type === "generic") {
-        // Button/gallery-item outputs are ignored; only a connection from the regular output counts
-        return editorState.connections.some(
-          (c) =>
-            c.sourceNodeId === targetNode.id && targetNode.outputs?.some((output) => output?.id === c.sourceSocketId),
-        );
-      }
-      return targetNode?.outputs?.some((output) => output !== null && output !== undefined) ?? false;
-    });
-  }, [checkFollower, editorState.connections, editorState.nodes]);
-
   /**
    * useEffect برای انتخاب خودکار نودهای جستجو شده
    */
@@ -4313,16 +4295,12 @@ export default function Flow({
       {!loading && (
         <>
           <div className={styles.header}>
-            <button
-              type="button"
-              onClick={showUserList}
-              className={styles.backicon}
-              aria-label={t(LanguageKey.back)}>
+            <button type="button" onClick={showUserList} className={styles.backicon} aria-label={t(LanguageKey.back)}>
               <svg width="18" height="15" fill="none" viewBox="0 0 14 11" aria-hidden="true">
-              <path
-                d="M13 4.4H3.3l3-3A1 1 0 0 0 5 0L.3 4.7A1 1 0 0 0 .3 6l4.6 4.7a1 1 0 0 0 1.4-1.4l-3-3H13a1 1 0 0 0 0-2"
-                fill="var(--color-light-blue)"
-              />
+                <path
+                  d="M13 4.4H3.3l3-3A1 1 0 0 0 5 0L.3 4.7A1 1 0 0 0 .3 6l4.6 4.7a1 1 0 0 0 1.4-1.4l-3-3H13a1 1 0 0 0 0-2"
+                  fill="var(--color-light-blue)"
+                />
               </svg>
             </button>
             <Tooltip tooltipValue={t(LanguageKey.save)} position="top">
@@ -4347,17 +4325,6 @@ export default function Flow({
                 </svg>
               </button>
             </Tooltip>
-            {requiresFollowerForPrivateReply && (
-              <Tooltip tooltipValue={t(LanguageKey.flowProperties_privateReply_requiresFollower)} position="top">
-                <button
-                  type="button"
-                  className={styles.toolbardesktopitem}
-                  aria-label={t(LanguageKey.flowProperties_privateReply_requiresFollower)}
-                  style={{ color: "var(--color-dark-red)", fontSize: "24px", fontWeight: "700" }}>
-                  !
-                </button>
-              </Tooltip>
-            )}
           </div>
 
           {/* ================================================================= */}

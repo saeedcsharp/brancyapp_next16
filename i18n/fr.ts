@@ -1870,11 +1870,18 @@ export default {
     messagesetting_AutoReplyPerFollowExplain:
       "Utilisez ce modèle lorsque vous demandez à un utilisateur de suivre la page.",
     messagesetting_AutoReplyPerFollowtooltip:
-      "Les utilisateurs qui ne vous follow pas recevront d'abord une demande de Follow. Après avoir follow votre page, le message automatique leur sera envoyé",
+      "Activez cette option pour définir un message et un texte de bouton personnalisés pour la demande de Follow",
     messagesetting_AutoReplyPerFollowtitle: "Texte du message",
     messagesetting_AutoReplyPerFollowtitlesample: "Exemple : Follow notre page pour recevoir le message",
     messagesetting_AutoReplyPerFollowbtn: "Texte du bouton",
     messagesetting_AutoReplyPerFollowbtnsample: "Exemple : J'ai Follow, envoyez le message",
+    messagesetting_InitialEngagement: "Message d'engagement initial personnalisé",
+    messagesetting_InitialEngagementExplain:
+      "Utilisez ce modèle pour le premier message qui démarre une conversation avec un utilisateur.",
+    messagesetting_InitialEngagementtooltip:
+      "Activez cette option pour définir un message et un texte de bouton personnalisés pour le message d'engagement initial",
+    messagesetting_InitialEngagementtitlesample: "Exemple : Bonjour ! Appuyez sur le bouton ci-dessous pour continuer",
+    messagesetting_InitialEngagementbtnsample: "Exemple : Continuer",
     messagesetting_automaticreplysystemexplain:
       "Le système répond automatiquement avec un message prédéfini à chaque message ou commentaire reçu dans n'importe quelle section de la page (Feed, Story, Reels, Live, etc.).",
 
@@ -2994,9 +3001,11 @@ export default {
     New_Flow_Tutorials_masterflow_usageType: "Réutiliser un flux existant comme suite d’un bouton",
     New_Flow_Tutorials_masterflow_feature_1: "Liste tous les flux que vous avez créés pour en choisir un",
     New_Flow_Tutorials_masterflow_feature_2: "Le flux sélectionné poursuit la conversation à partir de ce point",
-    New_Flow_Tutorials_masterflow_tip_1: "Créez et enregistrez d’abord le flux cible pour qu’il apparaisse dans la liste",
+    New_Flow_Tutorials_masterflow_tip_1:
+      "Créez et enregistrez d’abord le flux cible pour qu’il apparaisse dans la liste",
     New_Flow_Tutorials_masterflow_tip_2: "Utilisez-le pour partager des parcours communs (support, tarifs) entre flux",
-    New_Flow_Tutorials_masterflow_limitation_1: "Possède une entrée uniquement et aucune sortie, il termine donc ce flux",
+    New_Flow_Tutorials_masterflow_limitation_1:
+      "Possède une entrée uniquement et aucune sortie, il termine donc ce flux",
     New_Flow_Tutorials_masterflow_limitation_2: "Ne peut être relié qu’à des boutons, pas aux sorties normales",
     New_Flow_Tutorials_masterflow_limitation_3: "Le flux en cours de modification ne peut pas être sélectionné",
     New_Flow_Tutorials_masterflow_connection_1: "Boutons du bloc Réponse rapide",
@@ -3651,6 +3660,7 @@ export default {
     InternalNotify_SavePersistenceMenu: "Menu de persistance ajouté avec succès",
     InternalNotify_SelectLanguage: "Langue changée avec succès",
     InternalNotify_SaveFollowTemplate: "Modèle de follow enregistré avec succès",
+    InternalNotify_SaveInitialEngagementTemplate: "Modèle d'engagement initial enregistré avec succès",
     InternalNotify_AutoReplyOn: "Réponse automatique activée avec succès",
     InternalNotify_AutoReplyOff: "Réponse automatique désactivée avec succès",
     InternalNotify_AutoGeneralOn: "Réponse automatique générale activée avec succès",

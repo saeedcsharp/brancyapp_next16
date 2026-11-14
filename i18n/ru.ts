@@ -1824,11 +1824,18 @@ export default {
     messagesetting_AutoReplyPerFollowExplain:
       "Используйте этот шаблон, когда просите пользователя подписаться на страницу.",
     messagesetting_AutoReplyPerFollowtooltip:
-      "Пользователи, которые не follow вас, сначала получат запрос на Follow. После этого им автоматически будет отправлено сообщение",
+      "Включите эту опцию, чтобы задать собственный текст сообщения и текст кнопки для запроса на Follow",
     messagesetting_AutoReplyPerFollowtitle: "Текст сообщения",
     messagesetting_AutoReplyPerFollowtitlesample: "Пример: Чтобы получить сообщение, сначала Follow нашу страницу",
     messagesetting_AutoReplyPerFollowbtn: "Текст кнопки",
     messagesetting_AutoReplyPerFollowbtnsample: "Пример: Я Follow, отправьте сообщение",
+    messagesetting_InitialEngagement: "Пользовательское первоначальное сообщение",
+    messagesetting_InitialEngagementExplain:
+      "Используйте этот шаблон для первого сообщения, которое начинает диалог с пользователем.",
+    messagesetting_InitialEngagementtooltip:
+      "Включите эту опцию, чтобы задать собственный текст сообщения и текст кнопки для первоначального сообщения",
+    messagesetting_InitialEngagementtitlesample: "Пример: Привет! Нажмите кнопку ниже, чтобы продолжить",
+    messagesetting_InitialEngagementbtnsample: "Пример: Продолжить",
     messagesetting_automaticreplysystemexplain:
       "Система автоматически отвечает заданным текстом при получении любого сообщения или комментария в любом разделе страницы (Лента, История, Рилс, Прямой эфир и т. д.).",
 
@@ -3590,6 +3597,7 @@ export default {
     InternalNotify_SavePersistenceMenu: "Меню сохранения добавлено успешно",
     InternalNotify_SelectLanguage: "Язык успешно изменен",
     InternalNotify_SaveFollowTemplate: "Шаблон follow успешно сохранен",
+    InternalNotify_SaveInitialEngagementTemplate: "Шаблон первоначального сообщения успешно сохранен",
     InternalNotify_AutoReplyOn: "Автоответ включен успешно",
     InternalNotify_AutoReplyOff: "Автоответ отключен успешно",
     InternalNotify_AutoGeneralOn: "Общий автоответ включен успешно",

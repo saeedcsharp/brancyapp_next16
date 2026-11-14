@@ -215,10 +215,12 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/message/toggleCheckFollowerTemplate": "Instagramer/Message/ToggleCheckFollowerTemplate",
   "/api/message/toggleHideCommentAutoReply": "Instagramer/Message/ToggleHideCommentAutoReply",
   "/api/message/toggleIceBreaker": "Instagramer/Message/ToggleIceBreaker",
+  "/api/message/toggleInitialEngagmentTemplate": "Instagramer/Message/ToggleInitialEngagmentTemplate",
   "/api/message/toggleLikeReplyAutoReply": "Instagramer/Message/ToggleLikeReplyAutoReply",
   "/api/message/togglePersistentMenu": "Instagramer/Message/TogglePersistentMenu",
   "/api/message/updateCheckFollowerTemplate": "Instagramer/Message/UpdateCheckFollowerTemplate",
   "/api/message/updateIceBreaker": "Instagramer/Message/UpdateIceBreaker",
+  "/api/message/updateInitialEngagmentTemplate": "Instagramer/Message/UpdateInitialEngagmentTemplate",
   "/api/message/updatePersistentMenu": "Instagramer/Message/UpdatePersistentMenu",
 
   // ── order ─────────────────────────────────────────────

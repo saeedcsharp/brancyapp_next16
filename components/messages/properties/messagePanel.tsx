@@ -28,6 +28,10 @@ function MessagePanel({
   handleChangeTitle,
   handleChangeContent,
   handleSaveFollowerTemplate,
+  handleToggleInitialEngagementTemplate,
+  handleChangeInitialEngagementTitle,
+  handleChangeInitialEngagementContent,
+  handleSaveInitialEngagementTemplate,
   handleSaveLanguage,
   handleChangeDragDrop,
 }: {
@@ -38,6 +42,10 @@ function MessagePanel({
   handleChangeContent: (e: ChangeEvent<HTMLInputElement>) => void;
   handleChangeDragDrop: (id: any) => void;
   handleSaveFollowerTemplate: () => void;
+  handleToggleInitialEngagementTemplate: (e: ChangeEvent<HTMLInputElement>) => void;
+  handleChangeInitialEngagementTitle: (e: ChangeEvent<HTMLInputElement>) => void;
+  handleChangeInitialEngagementContent: (e: ChangeEvent<HTMLInputElement>) => void;
+  handleSaveInitialEngagementTemplate: () => void;
   handleSaveLanguage: () => void;
 }) {
   const { t } = useTranslation();
@@ -143,7 +151,7 @@ function MessagePanel({
   console.log("messagePanel:", messagePanel);
   return (
     <>
-      <div className="tooBigCard" style={{ gridRowEnd: isHidden ? "span 10" : "span 82" }}>
+      <div className="tooBigCard" style={{ gridRowEnd: isHidden ? "span 10" : "span 118" }}>
         <div className="headerChild" onClick={handleCircleClick}>
           <div className="circle"></div>
           <div className="Title">{t(LanguageKey.AdvanceSettings)}</div>
@@ -277,6 +285,75 @@ function MessagePanel({
                     onClick={handleSaveFollowerTemplate}
                     style={{ minHeight: "40px" }}
                     className={messagePanel.followTemplate.isActive ? "saveButton" : "disableButton"}>
+                    {t(LanguageKey.save)}
+                  </button>
+                </div>
+              </div>
+              <div className={styles.answercontainer}>
+                <div className="headerandinput">
+                  <div className="headerparent">
+                    <div className="title2">
+                      {t(LanguageKey.messagesetting_InitialEngagement)}
+                      <Tooltip
+                        triggerType="tooltip"
+                        tooltipValue={t(LanguageKey.messagesetting_InitialEngagementtooltip)}
+                        onClick={true}
+                        position="bottom"
+                      />
+                    </div>
+
+                    <ToggleCheckBoxButton
+                      handleToggle={handleToggleInitialEngagementTemplate}
+                      checked={messagePanel.initialEngagementTemplate.isActive}
+                      name="initialEngagementTemplate"
+                      title={"initialEngagementTemplate"}
+                      role={"switch"}
+                    />
+                  </div>
+                  <div className="explain">{t(LanguageKey.messagesetting_InitialEngagementExplain)}</div>
+                </div>
+
+                <div className={`headerandinput ${!messagePanel.initialEngagementTemplate.isActive && "fadeDiv"}`}>
+                  <div className="headerandinput">
+                    <div className="headerparent">
+                      <div className="headertext">{t(LanguageKey.messagesetting_AutoReplyPerFollowtitle)}</div>
+                      <div className="counter">
+                        <>{messagePanel.initialEngagementTemplate.title.length}/50</>
+                      </div>
+                    </div>
+                    <InputBox
+                      name="initialEngagementTitle"
+                      className={"textinputbox"}
+                      handleInputChange={handleChangeInitialEngagementTitle}
+                      value={messagePanel.initialEngagementTemplate.title}
+                      placeHolder={t(LanguageKey.messagesetting_InitialEngagementtitlesample)}
+                      fadeTextArea={!messagePanel.initialEngagementTemplate.isActive}
+                      maxLength={50}
+                    />
+                  </div>
+                  <div className="headerandinput">
+                    <div className="headerparent">
+                      <div className="headertext">{t(LanguageKey.messagesetting_AutoReplyPerFollowbtn)}</div>
+                      <div className="counter">
+                        <>{messagePanel.initialEngagementTemplate.content.length}/15</>
+                      </div>
+                    </div>
+                    <InputBox
+                      name="initialEngagementContent"
+                      handleInputChange={handleChangeInitialEngagementContent}
+                      className={"textinputbox"}
+                      value={messagePanel.initialEngagementTemplate.content}
+                      placeHolder={t(LanguageKey.messagesetting_InitialEngagementbtnsample)}
+                      fadeTextArea={!messagePanel.initialEngagementTemplate.isActive}
+                      maxLength={15}
+                    />
+                  </div>
+
+                  <button
+                    disabled={!messagePanel.initialEngagementTemplate.isActive}
+                    onClick={handleSaveInitialEngagementTemplate}
+                    style={{ minHeight: "40px" }}
+                    className={messagePanel.initialEngagementTemplate.isActive ? "saveButton" : "disableButton"}>
                     {t(LanguageKey.save)}
                   </button>
                 </div>

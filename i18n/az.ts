@@ -1759,11 +1759,18 @@ export default {
     messagesetting_AutoReplyPerFollowExplain:
       "İstifadəçidən səhifəni izləməsi tələb olunduqda bu şablondan istifadə edilir.",
     messagesetting_AutoReplyPerFollowtooltip:
-      "Sizi follow etməyən istifadəçilər əvvəlcə follow sorğusu alacaqlar. Səhifənizi follow etdikdən sonra avtomatik mesaj göndəriləcək",
+      "Follow sorğusu üçün xüsusi mesaj və düymə mətni təyin etmək üçün bu seçimi aktiv edin",
     messagesetting_AutoReplyPerFollowtitle: "Mesaj Mətni",
     messagesetting_AutoReplyPerFollowtitlesample: "Nümunə: Mesajı almaq üçün əvvəlcə səhifəmizi follow edin",
     messagesetting_AutoReplyPerFollowbtn: "Düymə Mətni",
     messagesetting_AutoReplyPerFollowbtnsample: "Nümunə: Follow etdim, Mesajı Göndərin",
+    messagesetting_InitialEngagement: "Fərdi ilkin ünsiyyət mesajı",
+    messagesetting_InitialEngagementExplain:
+      "Bu şablon istifadəçi ilə söhbəti başlayan ilk mesaj üçün istifadə olunur.",
+    messagesetting_InitialEngagementtooltip:
+      "İlkin ünsiyyət mesajı üçün xüsusi mesaj və düymə mətni təyin etmək üçün bu seçimi aktiv edin",
+    messagesetting_InitialEngagementtitlesample: "Nümunə: Salam! Davam etmək üçün aşağıdakı düyməyə toxunun",
+    messagesetting_InitialEngagementbtnsample: "Nümunə: Davam et",
     messagesetting_automaticreplysystemexplain:
       "Hər mesaj və ya şərh alındıqda, səhifənin hər yerində (feed, story, reels, live və s.) sistem avtomatik olaraq təyin etdiyiniz mətnlə cavab verir.",
 
@@ -2868,7 +2875,8 @@ export default {
     New_Flow_Tutorials_masterflow_feature_1: "Yaratdığınız bütün axınları siyahılayır ki, birini seçəsiniz",
     New_Flow_Tutorials_masterflow_feature_2: "Seçilmiş axın söhbəti bu nöqtədən davam etdirir",
     New_Flow_Tutorials_masterflow_tip_1: "Siyahıda görünməsi üçün əvvəlcə hədəf axını yaradıb yadda saxlayın",
-    New_Flow_Tutorials_masterflow_tip_2: "Axınlar arasında ümumi yollar (dəstək və ya qiymətlər kimi) üçün istifadə edin",
+    New_Flow_Tutorials_masterflow_tip_2:
+      "Axınlar arasında ümumi yollar (dəstək və ya qiymətlər kimi) üçün istifadə edin",
     New_Flow_Tutorials_masterflow_limitation_1: "Yalnız girişi var, çıxışı yoxdur, buna görə bu axını bitirir",
     New_Flow_Tutorials_masterflow_limitation_2: "Yalnız düymələrə qoşula bilər, adi çıxışlara yox",
     New_Flow_Tutorials_masterflow_limitation_3: "Redaktə etdiyiniz axın seçilə bilməz",
@@ -3509,6 +3517,7 @@ export default {
     InternalNotify_SavePersistenceMenu: "Davamlı menyu uğurla əlavə edildi",
     InternalNotify_SelectLanguage: "Dil uğurla dəyişdirildi",
     InternalNotify_SaveFollowTemplate: "Follow şablonu uğurla yadda saxlanıldı",
+    InternalNotify_SaveInitialEngagementTemplate: "İlkin ünsiyyət şablonu uğurla yadda saxlanıldı",
     InternalNotify_AutoReplyOn: "Avtomatik cavab uğurla aktiv edildi",
     InternalNotify_AutoReplyOff: "Avtomatik cavab uğurla deaktiv edildi",
     InternalNotify_AutoGeneralOn: "Ümumi avtomatik cavab uğurla aktiv edildi",

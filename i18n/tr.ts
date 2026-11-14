@@ -1827,11 +1827,17 @@ export default {
     messagesetting_AutoReplyPerFollowExplain:
       "Kullanıcıdan sayfayı takip etmesini istediğiniz durumlarda bu şablonu kullanın.",
     messagesetting_AutoReplyPerFollowtooltip:
-      "Sizi follow etmeyen kullanıcılar önce bir follow isteği alır. Sayfanızı follow ettikten sonra otomatik mesaj gönderilir",
+      "Follow isteği için özel mesaj ve buton metni belirlemek üzere bu seçeneği etkinleştirin",
     messagesetting_AutoReplyPerFollowtitle: "Mesaj Metni",
     messagesetting_AutoReplyPerFollowtitlesample: "Örnek: Mesajı almak için önce sayfamızı follow edin",
     messagesetting_AutoReplyPerFollowbtn: "Buton Metni",
     messagesetting_AutoReplyPerFollowbtnsample: "Örnek: Follow Ettim, Mesajı Gönder",
+    messagesetting_InitialEngagement: "Özel İlk Etkileşim Mesajı",
+    messagesetting_InitialEngagementExplain: "Bu şablonu kullanıcıyla sohbeti başlatan ilk mesaj için kullanın.",
+    messagesetting_InitialEngagementtooltip:
+      "İlk etkileşim mesajı için özel mesaj ve buton metni belirlemek üzere bu seçeneği etkinleştirin",
+    messagesetting_InitialEngagementtitlesample: "Örnek: Merhaba! Devam etmek için aşağıdaki butona dokunun",
+    messagesetting_InitialEngagementbtnsample: "Örnek: Devam",
     messagesetting_automaticreplysystemexplain:
       "Sayfanın herhangi bir bölümünde (Feed, Story, Reels, Canlı vb.) bir mesaj veya yorum alındığında, sistem belirlediğiniz metinle otomatik olarak yanıt verir.",
 
@@ -3545,6 +3551,7 @@ export default {
     InternalNotify_SavePersistenceMenu: "Kalıcı menü başarıyla eklendi",
     InternalNotify_SelectLanguage: "Dil başarıyla değiştirildi",
     InternalNotify_SaveFollowTemplate: "Follow şablonu başarıyla kaydedildi",
+    InternalNotify_SaveInitialEngagementTemplate: "İlk etkileşim şablonu başarıyla kaydedildi",
     InternalNotify_AutoReplyOn: "Otomatik yanıt başarıyla etkinleştirildi",
     InternalNotify_AutoReplyOff: "Otomatik yanıt başarıyla devre dışı bırakıldı",
     InternalNotify_AutoGeneralOn: "Genel otomatik yanıt başarıyla etkinleştirildi",

@@ -1765,11 +1765,18 @@ export default {
     messagesetting_AutoReplyPerFollowExplain:
       "در مواردی که از کاربر درخواست می شود پیج را فالو کند از این تمپلیت استفاده می شود.",
     messagesetting_AutoReplyPerFollowtooltip:
-      "کاربرانی که شما را فالو نکرده‌اند، ابتدا درخواست فالو دریافت می‌کنند و پس از فالو کردن، پیام خودکار برای آن‌ها ارسال می‌شود",
+      "با فعال کردن این گزینه می‌توانید متن پیام و متن دکمه سفارشی برای درخواست فالو تعیین کنید",
     messagesetting_AutoReplyPerFollowtitle: "متن پیام",
     messagesetting_AutoReplyPerFollowtitlesample: "مثال: برای دریافت پیام، ابتدا صفحه ما را فالو کنید",
     messagesetting_AutoReplyPerFollowbtn: "متن دکمه",
     messagesetting_AutoReplyPerFollowbtnsample: "مثال: فالو کردم، پیام را ارسال کنید",
+    messagesetting_InitialEngagement: "پیام شروع گفتگو",
+    messagesetting_InitialEngagementExplain:
+      "این تمپلیت برای اولین پیامی که گفتگو با کاربر را شروع می‌کند استفاده می‌شود.",
+    messagesetting_InitialEngagementtooltip:
+      "با فعال کردن این گزینه می‌توانید متن پیام و متن دکمه سفارشی برای پیام شروع گفتگو تعیین کنید",
+    messagesetting_InitialEngagementtitlesample: "مثال: سلام! برای ادامه روی دکمه زیر بزنید",
+    messagesetting_InitialEngagementbtnsample: "مثال: ادامه",
     messagesetting_automaticreplysystemexplain:
       "با دریافت هر پیام یا کامنت، در هر بخش پیج (فید، استوری، ریلز، لایو و غیره)، سیستم به‌طور خودکار با متنی که تنظیم می‌کنید پاسخ می‌دهد.",
     messagesetting_KeywordSensitive: "حساس به کلمه",
@@ -3532,6 +3539,7 @@ export default {
     InternalNotify_SavePersistenceMenu: "منوی پایدار با موفقیت اضافه شد",
     InternalNotify_SelectLanguage: "زبان با موفقیت تغییر یافت",
     InternalNotify_SaveFollowTemplate: "قالب فالو با موفقیت ذخیره شد",
+    InternalNotify_SaveInitialEngagementTemplate: "قالب پیام شروع گفتگو با موفقیت ذخیره شد",
     InternalNotify_AutoReplyOn: "پاسخ خودکار با موفقیت فعال شد",
     InternalNotify_AutoReplyOff: "پاسخ خودکار با موفقیت غیرفعال شد",
     InternalNotify_AutoGeneralOn: "پاسخ خودکار عمومی با موفقیت فعال شد",

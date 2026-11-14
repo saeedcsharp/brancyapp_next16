@@ -1881,12 +1881,19 @@ export default {
     messagesetting_AutoReplyPerFollowExplain:
       "Verwenden Sie diese Vorlage, wenn Sie einen Benutzer auffordern, der Seite zu folgen.",
     messagesetting_AutoReplyPerFollowtooltip:
-      "Benutzer, die Ihnen noch nicht follow, erhalten zunächst eine Follow-Aufforderung. Nach dem Follow wird die automatische Nachricht gesendet",
+      "Aktivieren Sie diese Option, um eine eigene Nachricht und einen eigenen Button-Text für die Follow-Aufforderung festzulegen",
     messagesetting_AutoReplyPerFollowtitle: "Nachrichtentext",
     messagesetting_AutoReplyPerFollowtitlesample:
       "Beispiel: Follow Sie zuerst unserer Seite, um die Nachricht zu erhalten",
     messagesetting_AutoReplyPerFollowbtn: "Button-Text",
     messagesetting_AutoReplyPerFollowbtnsample: "Beispiel: Ich habe Follow, Nachricht senden",
+    messagesetting_InitialEngagement: "Individuelle Erstkontakt-Nachricht",
+    messagesetting_InitialEngagementExplain:
+      "Verwenden Sie diese Vorlage für die erste Nachricht, die eine Unterhaltung mit einem Benutzer beginnt.",
+    messagesetting_InitialEngagementtooltip:
+      "Aktivieren Sie diese Option, um eine eigene Nachricht und einen eigenen Button-Text für die Erstkontakt-Nachricht festzulegen",
+    messagesetting_InitialEngagementtitlesample: "Beispiel: Hallo! Tippen Sie auf den Button unten, um fortzufahren",
+    messagesetting_InitialEngagementbtnsample: "Beispiel: Weiter",
     messagesetting_automaticreplysystemexplain:
       "Das System antwortet automatisch mit einer voreingestellten Nachricht, wenn eine Nachricht oder ein Kommentar in einem beliebigen Bereich der Seite (Feed, Story, Reels, Live usw.) empfangen wird.",
 
@@ -2975,13 +2982,16 @@ export default {
     New_Flow_Tutorials_masterflow_title: "Unterflow-Block",
     New_Flow_Tutorials_masterflow_description:
       "Leitet das Gespräch an einen bereits erstellten Flow weiter, wenn der Nutzer auf eine Schaltfläche tippt.",
-    New_Flow_Tutorials_masterflow_usageType: "Einen vorhandenen Flow als Fortsetzung einer Schaltfläche wiederverwenden",
+    New_Flow_Tutorials_masterflow_usageType:
+      "Einen vorhandenen Flow als Fortsetzung einer Schaltfläche wiederverwenden",
     New_Flow_Tutorials_masterflow_feature_1: "Listet alle von Ihnen erstellten Flows zur Auswahl auf",
     New_Flow_Tutorials_masterflow_feature_2: "Der ausgewählte Flow setzt das Gespräch ab diesem Punkt fort",
     New_Flow_Tutorials_masterflow_tip_1:
       "Erstellen und speichern Sie zuerst den Ziel-Flow, damit er in der Liste erscheint",
-    New_Flow_Tutorials_masterflow_tip_2: "Nutzen Sie ihn für gemeinsame Pfade (z. B. Support oder Preise) zwischen Flows",
-    New_Flow_Tutorials_masterflow_limitation_1: "Hat nur einen Eingang und keinen Ausgang und beendet daher diesen Flow",
+    New_Flow_Tutorials_masterflow_tip_2:
+      "Nutzen Sie ihn für gemeinsame Pfade (z. B. Support oder Preise) zwischen Flows",
+    New_Flow_Tutorials_masterflow_limitation_1:
+      "Hat nur einen Eingang und keinen Ausgang und beendet daher diesen Flow",
     New_Flow_Tutorials_masterflow_limitation_2:
       "Kann nur mit Schaltflächen verbunden werden, nicht mit normalen Ausgängen",
     New_Flow_Tutorials_masterflow_limitation_3: "Der gerade bearbeitete Flow kann nicht ausgewählt werden",
@@ -3635,6 +3645,7 @@ export default {
     InternalNotify_SavePersistenceMenu: "Persistenzmenü erfolgreich hinzugefügt",
     InternalNotify_SelectLanguage: "Sprache erfolgreich geändert",
     InternalNotify_SaveFollowTemplate: "Follow-Vorlage erfolgreich gespeichert",
+    InternalNotify_SaveInitialEngagementTemplate: "Erstkontakt-Vorlage erfolgreich gespeichert",
     InternalNotify_AutoReplyOn: "Automatische Antwort erfolgreich aktiviert",
     InternalNotify_AutoReplyOff: "Automatische Antwort erfolgreich deaktiviert",
     InternalNotify_AutoGeneralOn: "Allgemeine automatische Antwort erfolgreich aktiviert",

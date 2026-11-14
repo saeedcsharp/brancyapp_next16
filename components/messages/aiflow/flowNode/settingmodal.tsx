@@ -246,12 +246,6 @@ export const SettingModal: React.FC<SettingModalProps> = ({
                   checked={checkFollower}
                 />
               </div>
-
-              {!privateReplyCompability && (
-                <div className="explain" style={{ color: "var(--color-dark-yellow)" }}>
-                  {t(LanguageKey.flowProperties_notworking_privateReply)}
-                </div>
-              )}
             </div>
           )}
           {!isAutoSaving && (
