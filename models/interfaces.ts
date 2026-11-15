@@ -3159,7 +3159,7 @@ export interface IStoryVideoInfo {
     uploadImageUrl: string | null;
     imageUri: string | null;
   } | null;
-  automaticDirectReply: IMediaUpdateAutoReply | null;
+  automaticMediaReply: IMediaUpdateAutoReply | null;
 }
 
 export interface IPreStory {
