@@ -495,8 +495,12 @@ export interface IGetMedia {
   metadata: string;
   prompt: string;
   videoUrl: string | null;
+  // Audio response fields are not documented in Swagger yet.
+  mediaUrl?: string | null;
+  audioUrl?: string | null;
+  text?: string | null;
 }
-export type PendingMediaType = "image" | "video";
+export type PendingMediaType = "image" | "video" | "audio";
 export interface PendingGeneration {
   clientContext: string;
   mediaType: PendingMediaType;
@@ -561,6 +565,7 @@ export interface IMediaCreatorInput {
   fileTypes: string[] | null;
   isRequiredForToken: boolean;
   defaultValue: any;
+  tags?: string[] | null;
 }
 
 export interface IImageUsageInput {

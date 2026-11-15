@@ -14,22 +14,56 @@ type MediaLibraryProps = {
   onFilterChange: (filter: PendingMediaType) => void;
   images: IGetMedia[];
   videos: IGetMedia[];
+  audios: IGetMedia[];
   loading: boolean;
   isLoadingMore: boolean;
   isLoadingMoreVideos: boolean;
+  isLoadingMoreAudios: boolean;
   setSelectedImage: (image: IGetMedia) => void;
   setSelectedVideo: (video: IGetMedia) => void;
+  setSelectedAudio: (audio: IGetMedia) => void;
   pendingGenerations: PendingGeneration[];
   containerRef: RefObject<HTMLDivElement | null>;
 };
 type MediaItem = {
   media: IGetMedia;
-  type: "image" | "video";
+  type: PendingMediaType;
 };
 const mediaFilterOptions = [
   { id: 0, label: "Images" },
   { id: 1, label: "Videos" },
+  { id: 2, label: "Voices" },
 ];
+const filterById: PendingMediaType[] = ["image", "video", "audio"];
+const emptyTitle: Record<PendingMediaType, string> = {
+  image: "No images yet",
+  video: "No videos yet",
+  audio: "No voices yet",
+};
+const emptyDescription: Record<PendingMediaType, string> = {
+  image: "Your successful image generations will appear here.",
+  video: "Your successful video generations will appear here.",
+  audio: "Your successful voice generations will appear here.",
+};
+const generatingLabel: Record<PendingMediaType, string> = {
+  image: "Generating image",
+  video: "Generating video",
+  audio: "Generating voice",
+};
+const typeLabel: Record<PendingMediaType, string> = { image: "photo", video: "video", audio: "voice" };
+function AudioCardIcon() {
+  return (
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M9 18V6l10-2v12M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm10-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+        stroke="var(--text-h2)"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
 function getCreatedDate(timestamp: number): Date | null {
   if (!Number.isFinite(timestamp)) return null;
   const date = new Date(timestamp * 1000);
@@ -48,11 +82,14 @@ export default function MediaLibrary({
   onFilterChange,
   images,
   videos,
+  audios,
   loading,
   isLoadingMore,
   isLoadingMoreVideos,
+  isLoadingMoreAudios,
   setSelectedImage,
   setSelectedVideo,
+  setSelectedAudio,
   pendingGenerations,
   containerRef,
 }: MediaLibraryProps) {
@@ -60,11 +97,13 @@ export default function MediaLibrary({
   const pendingMedia = pendingGenerations
     .filter((pending) => pending.mediaType === filter)
     .map((pending) => ({ pending }));
-  const mediaItems: MediaItem[] = (filter === "image" ? images : videos)
+  const mediaItems: MediaItem[] = (filter === "image" ? images : filter === "video" ? videos : audios)
     .map((media) => ({ media, type: filter }))
     .sort((first, second) => second.media.createdTime - first.media.createdTime);
   const hasMedia = mediaItems.length > 0 || pendingMedia.length > 0;
-  const filterValue = filter === "image" ? 0 : 1;
+  const filterValue = filterById.indexOf(filter);
+  const loadingMore =
+    filter === "image" ? isLoadingMore : filter === "video" ? isLoadingMoreVideos : isLoadingMoreAudios;
   return (
     <>
       <div className="headerparent">
@@ -77,7 +116,7 @@ export default function MediaLibrary({
               </div>
             ))}
             item={filterValue}
-            handleOptionSelect={(value) => onFilterChange(Number(value) === 1 ? "video" : "image")}
+            handleOptionSelect={(value) => onFilterChange(filterById[Number(value)] ?? "image")}
           />
         </div>
       </div>
@@ -91,7 +130,7 @@ export default function MediaLibrary({
             <article className={styles.imageCard} key={pending.clientContext}>
               <div
                 className={`${styles.imagePreview} ${styles.pendingPreview}`}
-                aria-label={t(pending.mediaType === "video" ? "Generating video" : "Generating image")}>
+                aria-label={t(generatingLabel[pending.mediaType])}>
                 {/* <RingLoader width={36} height={36} /> */}
 
                 <AIWithPrompt
@@ -115,19 +154,31 @@ export default function MediaLibrary({
               <article
                 className={styles.imageCard}
                 key={`${type}-${media.id}`}
-                onClick={() => (type === "image" ? setSelectedImage(media) : setSelectedVideo(media))}>
-                <img
-                  className={styles.imagePreview}
-                  src={getClientMediaBaseUrl() + (type === "image" ? media.thumbnailUrl : media.imageUrl)}
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = "/cover.svg";
-                  }}
-                />
+                onClick={() =>
+                  type === "image"
+                    ? setSelectedImage(media)
+                    : type === "video"
+                      ? setSelectedVideo(media)
+                      : setSelectedAudio(media)
+                }>
+                {type === "audio" ? (
+                  <div className={styles.imagePreview}>
+                    <AudioCardIcon />
+                  </div>
+                ) : (
+                  <img
+                    className={styles.imagePreview}
+                    src={getClientMediaBaseUrl() + (type === "image" ? media.thumbnailUrl : media.imageUrl)}
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = "/cover.svg";
+                    }}
+                  />
+                )}
                 <div className={styles.instagramprofiledetail}>
                   <div className={styles.imageTitle}>{media.prompt || t("Untitled generation")}</div>
                   <div className={styles.version}>
                     <div className="translate"> #{media.id}</div>
-                    <div className="IDgray">{t(type === "image" ? "photo" : "video")}</div>
+                    <div className="IDgray">{t(typeLabel[type])}</div>
                   </div>
                   {createdDate ? (
                     <time className={styles.version} dateTime={createdDate.toISOString()}>
@@ -143,17 +194,11 @@ export default function MediaLibrary({
         </div>
       ) : (
         <div className={styles.emptyLibrary}>
-          <h2>{t(filter === "video" ? "No videos yet" : "No images yet")}</h2>
-          <p>
-            {t(
-              filter === "video"
-                ? "Your successful video generations will appear here."
-                : "Your successful image generations will appear here.",
-            )}
-          </p>
+          <h2>{t(emptyTitle[filter])}</h2>
+          <p>{t(emptyDescription[filter])}</p>
         </div>
       )}
-      {(filter === "image" ? isLoadingMore : isLoadingMoreVideos) && (
+      {loadingMore && (
         <div className={styles.loadMore}>
           <DotLoaders />
         </div>

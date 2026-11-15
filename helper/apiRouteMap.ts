@@ -47,6 +47,10 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/mediaai/getVideoUsage": "Instagramer/MediaAi/GetVideoUsage",
   "/api/mediaai/createImage": "Instagramer/MediaAi/CreateImage",
   "/api/mediaai/createVideo": "Instagramer/MediaAi/CreateVideo",
+  "/api/mediaai/getAudios": "Instagramer/MediaAi/GetAudios",
+  "/api/mediaai/getAudioCreators": "Instagramer/MediaAi/GetAudioCreators",
+  "/api/mediaai/getAudioUsage": "Instagramer/MediaAi/GetAudioUsage",
+  "/api/mediaai/createAudio": "Instagramer/MediaAi/CreateAudio",
 
   // ── business ─────────────────────────────────────────
   "/api/business/get": "User/Business/Get",

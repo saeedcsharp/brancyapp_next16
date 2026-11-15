@@ -11,7 +11,7 @@ import NotAllowed from "brancy/components/notOk/notAllowed";
 function AiCreatorRoute() {
   const searchParams = useSearchParams();
   const type = searchParams.get("type");
-  const initialType = type === "1" || type === "2" ? type : undefined;
+  const initialType = type === "1" || type === "2" || type === "3" ? type : undefined;
 
   return <PageComponent initialType={initialType} />;
 }

@@ -21,7 +21,7 @@ import Loading from "brancy/components/notOk/loading";
 import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
 import AiModelList from "brancy/components/page/ai/popup/AiModelList";
 type InputValue = string | number | boolean | string[];
-export type MediaTab = "image" | "video" | "createimage" | "createvideo";
+export type MediaTab = "image" | "video" | "audio" | "createimage" | "createvideo" | "createaudio";
 interface UploadedMediaPreview {
   fileName: string;
   showUrl: string;
@@ -367,12 +367,15 @@ export default function MediaCreator({
   const { data: session } = useSession();
   const { t, i18n } = useTranslation();
   const isVideoCreator = activeTab === "createvideo";
+  const isAudioCreator = activeTab === "createaudio";
   const mediaTabOptions = [
     { id: 0, label: t("Images") },
     { id: 1, label: t("Videos") },
+    { id: 2, label: t("Voices") },
   ];
-  const selectedMediaTab = isVideoCreator ? 1 : 0;
-  const handleMediaTabChange = (tab: number) => setActiveTab(tab === 1 ? "video" : "image");
+  const selectedMediaTab = isAudioCreator ? 2 : isVideoCreator ? 1 : 0;
+  const handleMediaTabChange = (tab: number) => setActiveTab(tab === 2 ? "audio" : tab === 1 ? "video" : "image");
+  const creatorLabel = isAudioCreator ? "Voice" : isVideoCreator ? "Video" : "Image";
   const [isSettingsOpen, setIsSettingsOpen] = useState(true);
   const availableCreators = creators
     .map((item) => ({ ...item, inputModels: getUniqueModels(item.inputModels) }))
@@ -444,7 +447,7 @@ export default function MediaCreator({
         <div className={styles.stateBox}>
           {error ? (
             <>
-              <h1>{t(isVideoCreator ? "Video creator is unavailable" : "Image creator is unavailable")}</h1>
+              <h1>{t(`${creatorLabel} creator is unavailable`)}</h1>
               <p>{error}</p>
               {onRetry && (
                 <button type="button" onClick={onRetry}>
@@ -478,7 +481,7 @@ export default function MediaCreator({
     };
     setUsageLoading(true);
     const response = await clientFetchApi<IGetImageUsageRequest, number>(
-      `/api/mediaai/${activeTab === "createimage" ? "GetImageUsage" : "GetVideoUsage"}`,
+      `/api/mediaai/Get${creatorLabel === "Voice" ? "Audio" : creatorLabel}Usage`,
       {
         session,
         methodType: MethodType.post,
@@ -514,6 +517,24 @@ export default function MediaCreator({
     }
   };
   const invalidateUsage = () => setTokenUsage(null);
+  const insertTag = (input: IMediaCreatorInput, tag: string) => {
+    const current = String(values[input.key] ?? "");
+    const prefix = current && !current.endsWith("\n") ? `${current}\n` : current;
+    const next = `${prefix}[${tag}]\n`;
+    if (input.maxTextLength && next.length > input.maxTextLength) {
+      internalNotify(InternalResponseType.InvalidMetaData, NotifType.Warning, t("Maximum text length reached."));
+      return;
+    }
+    setValues((currentValues) => ({ ...currentValues, [input.key]: next }));
+    invalidateUsage();
+    requestAnimationFrame(() => {
+      const textArea = document.getElementById(`media-input-${input.key}`) as HTMLTextAreaElement | null;
+      if (!textArea) return;
+      textArea.focus();
+      textArea.setSelectionRange(next.length, next.length);
+      textArea.scrollTop = textArea.scrollHeight;
+    });
+  };
   const tokenUsagePercentage =
     tokenBalance && tokenBalance.total > 0 && tokenUsage !== null
       ? Math.min(100, (tokenUsage / tokenBalance.total) * 100)
@@ -631,7 +652,7 @@ export default function MediaCreator({
               invalidateUsage();
             }}
           />
-          {!isVideoCreator && onOpenImagePrompts && (
+          {activeTab === "createimage" && onOpenImagePrompts && (
             <button type="button" className="cancelButton" onClick={onOpenImagePrompts}>
               {t("aiSuggestedPrompts_title")}
             </button>
@@ -1026,6 +1047,7 @@ export default function MediaCreator({
                     </div>
                     <TextArea
                       className="textArea"
+                      id={`media-input-${input.key}`}
                       minLength={input.minTextLength || undefined}
                       maxLength={input.maxTextLength || undefined}
                       value={String(value ?? "")}
@@ -1037,6 +1059,22 @@ export default function MediaCreator({
                         invalidateUsage();
                       }}
                     />
+                    {inputType === InputType.Text && input.tags && input.tags.length > 0 && (
+                      <div className={styles.optionGrid}>
+                        {input.tags.map((tag) => (
+                          <button
+                            type="button"
+                            key={tag}
+                            className={styles.option}
+                            onClick={(event) => {
+                              event.preventDefault();
+                              insertTag(input, tag);
+                            }}>
+                            {tag}
+                          </button>
+                        ))}
+                      </div>
+                    )}
                   </label>
                 );
               })}
@@ -1106,7 +1144,7 @@ export default function MediaCreator({
           type="submit"
           className={!promptIsValid || !requiredInputsAreValid || createMediaLoading ? "disableButton" : "saveButton"}
           disabled={!promptIsValid || !requiredInputsAreValid || createMediaLoading}>
-          {createMediaLoading ? <RingLoader /> : t(isVideoCreator ? "Create video" : "Create image")}
+          {createMediaLoading ? <RingLoader /> : t(`Create ${creatorLabel.toLowerCase()}`)}
         </button>
       </footer>
     </form>

@@ -734,6 +734,9 @@ export enum PushResponseType {
   SuspendAccount,
   AIVideoSuccess,
   AIVideoFailed,
+  // Ordinals assumed to follow the video values; not documented in Swagger.
+  AIAudioFailed,
+  AIAudioSuccess,
 }
 
 export enum PushResponseTitle {
