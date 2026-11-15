@@ -190,7 +190,7 @@ const CreateStory = ({ showNotAllowed = false }: { showNotAllowed?: boolean }) =
                     uploadImageUrl: !showMedias.coverUri ? showMedias.coverId : null,
                   }
                 : null,
-            automaticDirectReply: handleActiveAutoComment
+            automaticMediaReply: handleActiveAutoComment
               ? {
                   automaticType: autoReply.automaticType,
                   keys: autoReply.items.map((x) => x.text),
