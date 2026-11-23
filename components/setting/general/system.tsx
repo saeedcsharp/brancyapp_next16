@@ -14,7 +14,6 @@ import { ILangauge, ICalendar, InitialSetupState } from "brancy/models/interface
 function System() {
   const { i18n, t } = useTranslation();
   const { data: session } = useSession();
-  const [isIranDomain, setIsIranDomain] = useState(false);
   const changeLanguage = (lang: string) => {
     i18n.changeLanguage(lang);
   };
@@ -268,11 +267,6 @@ function System() {
     setIsHidden(!isHidden); // Toggle visibility and grid-row-end state
   };
   useEffect(() => {
-    setIsIranDomain(
-      window.location.hostname.includes("brancy.ir") ||
-        window.location.hostname === "localhost" ||
-        window.location.hostname === "patran.ir",
-    );
     const lng = window.localStorage.getItem("language");
     // Sync i18n instance with the stored language (i18n.ts already reads it on init,
     // but this covers cases where the instance was created before localStorage was set)
@@ -361,20 +355,6 @@ function System() {
                     title={"English"}
                   />
                 </div>
-
-                {isIranDomain && (
-                  <div className={styles.radiobtn}>
-                    <RadioButton
-                      name={"persian"}
-                      id={"فارسی "}
-                      checked={language.persian}
-                      handleOptionChanged={handleChnageLanguage}
-                      textlabel={"فارسی"}
-                      title={"فارسی"}
-                    />
-                  </div>
-                )}
-
                 <div className={styles.radiobtn}>
                   <RadioButton
                     name={"arabic"}
@@ -434,6 +414,16 @@ function System() {
                     handleOptionChanged={handleChnageLanguage}
                     textlabel={"Azərbaycan"}
                     title={"Azərbaycan"}
+                  />
+                </div>
+                <div className={styles.radiobtn}>
+                  <RadioButton
+                    name={"persian"}
+                    id={"فارسی "}
+                    checked={language.persian}
+                    handleOptionChanged={handleChnageLanguage}
+                    textlabel={"فارسی"}
+                    title={"فارسی"}
                   />
                 </div>
               </div>
