@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 - 2026-11-15: Added optional `IGetMedia.tokenUsage` (number, not documented in Swagger — `GetImages`/`GetVideos`/`GetAudios` have no response schema). Generated image/video/voice modals show it as "Token usage" in the details grid only when present; added en/fa `Token usage` key.
 - 2026-11-15: Character Sheet restored the 03 Write the prompt and 04 Configure the output accordions; they wrap `MediaCreator`'s prompt and model settings via new `renderPromptSection`/`renderSettingsSection` props.
 - 2026-11-15: Character Sheet now wraps `MediaCreator` (new props `hideMediaTabs`, `headerContent`, `externalMediaValues`, `requestExtras`). Only Subject type and Reference images sections remain; the reference limit/file types come from the selected model's ImageArray input (`GetImageCreators`), references upload immediately, and prompt/settings are the AI creator's. Attributes, custom prompt/settings, prompt preview, and undo/redo were removed.
@@ -15,6 +16,9 @@
 - 2026-11-14: AI creator (`/Ai/creator`) now has a third Voices mode next to Images/Videos (`type=3`): `GetAudioCreators`, `GetAudioUsage`, `CreateAudio`, and paginated `GetAudios` (route-map entries added), voice history cards in `MediaLibrary`, and the new `GeneratedAudioModal` that plays/downloads mp3 output or shows/copies text output. Added `PushResponseType.AIAudioSuccess`/`AIAudioFailed`, optional `IGetMedia.audioUrl`/`text`, `PendingMediaType` `"audio"`, and en/fa voice keys.
 =======
 =======
+=======
+- 2026-11-23: `redirectInterface`: redirects to `ig.me` from Iran-equivalent countries (`IR` + `IRAN_EXTRA_COUNTRY_CODES`) now show a "turn on your VPN" page (same `data-vpn-block` + `ReloadTimer` mechanism) and redirect automatically once the VPN is on.
+>>>>>>> saeed
 - 2026-11-23: `redirectInterface` VPN-block page: `ReloadTimer` no longer calls `location.reload()` blindly every second (Safari showed "The network connection was lost" when the VPN dropped mid-reload and the timer died). It now probes the current URL with `fetch` (no-store), swallows network errors, and reloads only when the response lacks the `data-vpn-block` marker.
 >>>>>>> saeed
 - 2026-11-23: `redirectInterface` in-app-browser flow now carries the target in the path: in-app requests to `/redirectInterface?redirectUrl=...` are redirected to `/redirectInterface/<base64url(redirectUrl)>` (new route `app/redirectInterface/[target]/page.tsx`), and that path URL is what the external browser opens, because Instagram iOS "Open in external browser" drops the query string. Shared logic lives in `app/redirectInterface/renderRedirectInterface.tsx`.
