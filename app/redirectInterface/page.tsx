@@ -101,7 +101,7 @@ export default async function RedirectInterfacePage({
     // Open the ORIGINAL page URI (this redirect interface) in the real browser,
     // not the final redirectUrl, so the full check flow runs again outside the
     // Instagram in-app browser. Fall back to redirectUrl if we cannot rebuild it.
-    const search = new URLSearchParams({ redirectUrl }).toString();
+    const search = `redirectUrl=${encodeURIComponent(redirectUrl)}`;
     const currentPageUrl = (await getCurrentPageUrl(search)) || redirectUrl;
     return <EscapeInAppBrowser openUrl={currentPageUrl} platform={platform} />;
   }
