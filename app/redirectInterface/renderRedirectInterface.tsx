@@ -14,6 +14,8 @@ const ALLOWED_DOMAINS = [
   "ig.me",
 ];
 const IRAN_ONLY_DOMAINS = ["zarinpal.com", "pod.ir", "zibal.ir"];
+// Filtered in Iran: visitors from Iran-equivalent countries must enable a VPN first.
+const VPN_REQUIRED_DOMAINS = ["ig.me"];
 
 function matchesDomainList(hostname: string, domainList: string[]): boolean {
   return domainList.some((domain) => hostname === domain || hostname.endsWith(`.${domain}`));
@@ -35,6 +37,33 @@ function isIranOnlyDomain(redirectUrl: string): boolean {
   } catch {
     return false;
   }
+}
+
+function isVpnRequiredDomain(redirectUrl: string): boolean {
+  try {
+    const url = new URL(redirectUrl);
+    return matchesDomainList(url.hostname, VPN_REQUIRED_DOMAINS);
+  } catch {
+    return false;
+  }
+}
+
+function VpnBlockPage({ message }: { message: string }) {
+  return (
+    <div
+      data-vpn-block=""
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100vh",
+        textAlign: "center",
+        padding: "1rem",
+      }}>
+      <ReloadTimer />
+      <p>{message}</p>
+    </div>
+  );
 }
 
 async function getCountryCode(): Promise<string | null> {
@@ -116,21 +145,10 @@ export async function renderRedirectInterface(redirectUrl: string | undefined, i
   const isIran = countryCode === "IR" || (!!countryCode && extraIranCountryCodes.includes(countryCode));
 
   if (!isIran && isIranOnlyDomain(redirectUrl)) {
-    return (
-      <div
-        data-vpn-block=""
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          height: "100vh",
-          textAlign: "center",
-          padding: "1rem",
-        }}>
-        <ReloadTimer />
-        <p>لطفاً فیلترشکن خود را خاموش کنید و دوباره تلاش کنید.</p>
-      </div>
-    );
+    return <VpnBlockPage message="لطفاً فیلترشکن خود را خاموش کنید و دوباره تلاش کنید." />;
+  }
+  if (isIran && isVpnRequiredDomain(redirectUrl)) {
+    return <VpnBlockPage message="لطفاً فیلترشکن خود را روشن کنید تا به صورت خودکار منتقل شوید." />;
   }
   // HTTP redirects keep the previous page's Referer; navigating from this document sends the brancy.app origin.
   return <ClientRedirect url={redirectUrl} />;
