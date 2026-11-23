@@ -31,6 +31,7 @@ import {
   GauranteeStatus,
   ITicketMediaType,
   InputType,
+  CharacterType,
   InvoiceStatus,
   InvoiceType,
   ItemType,
@@ -499,6 +500,7 @@ export interface IGetMedia {
   mediaUrl?: string | null;
   audioUrl?: string | null;
   text?: string | null;
+  tokenUsage?: number | null;
 }
 export type PendingMediaType = "image" | "video" | "audio";
 export interface PendingGeneration {
@@ -578,6 +580,9 @@ export interface IGetImageUsageRequest {
   version: string;
   inputs: IImageUsageInput[];
   prompt: string;
+  characterType?: CharacterType | null;
+  characterName?: string | null;
+  characterDescription?: string | null;
 }
 
 export interface ITool {

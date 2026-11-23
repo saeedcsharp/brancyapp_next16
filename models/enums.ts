@@ -93,6 +93,15 @@ export enum InputType {
   IntRange,
   AudioArray,
 }
+
+export enum CharacterType {
+  All = -1,
+  Human = 0,
+  Product = 1,
+  Object = 2,
+  Animal = 3,
+  Custom = 4,
+}
 // #endregion AI
 
 // #region ApiModels

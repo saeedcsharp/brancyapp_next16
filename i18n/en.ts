@@ -3642,6 +3642,7 @@ export default {
     "Voice generation request sent.": "Voice generation request sent.",
     "Voice ID": "Voice ID",
     "Download voice": "Download voice",
+    "Token usage": "Token usage",
     "Output text": "Output text",
     "Copy text": "Copy text",
     Lyrics: "Lyrics",

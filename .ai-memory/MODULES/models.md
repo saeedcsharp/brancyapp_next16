@@ -84,7 +84,7 @@ Types are in local files or shared `models/` and `types/`.
 
 Interfaces are in local files or shared `models/interfaces.ts`.
 
-The image-creator API contract uses `IImageCreator`, `IImageCreatorModel`, and `IImageCreatorInput`. Generated images use `IGetImage`; paginated image history uses `IGetImages` with `items: IGetImage[]` and a nullable string `nextMaxId`. Generated videos use the parallel `IGetVideo` contract with `videoUrl`, and paginated video history uses `IGetVideos`. Token estimation uses `IGetImageUsageRequest` and `IImageUsageInput`; every dynamic value is serialized to a string, including JSON-stringified media filename arrays.
+The image-creator API contract uses `IImageCreator`, `IImageCreatorModel`, and `IImageCreatorInput`. Generated images use `IGetImage`; paginated image history uses `IGetImages` with `items: IGetImage[]` and a nullable string `nextMaxId`. Generated videos use the parallel `IGetVideo` contract with `videoUrl`, and paginated video history uses `IGetVideos`. Token estimation uses `IGetImageUsageRequest` and `IImageUsageInput`; every dynamic value is serialized to a string, including JSON-stringified media filename arrays. `IGetImageUsageRequest` also has optional nullable `characterType` (`CharacterType` enum: All=-1, Human=0, Product=1, Object=2, Animal=3, Custom=4), `characterName`, and `characterDescription`, used by the Character Sheet for `GetImageUsage`/`CreateImage`.
 
 ## Enums
 

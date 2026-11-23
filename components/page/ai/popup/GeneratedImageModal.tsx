@@ -87,6 +87,12 @@ export default function GeneratedImageModal({ image }: GeneratedImageModalProps)
               <dt>{t("Created Time")}</dt>
               <dd>{formatGeneratedMediaTime(image.createdTime)}</dd>
             </div>
+            {image.tokenUsage != null && (
+              <div>
+                <dt>{t("Token usage")}</dt>
+                <dd>{image.tokenUsage.toLocaleString()}</dd>
+              </div>
+            )}
 
             {image.jobId && (
               <div className={styles.resultWideDetail}>

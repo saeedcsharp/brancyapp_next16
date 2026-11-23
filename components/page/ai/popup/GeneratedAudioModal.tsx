@@ -199,6 +199,12 @@ export default function GeneratedAudioModal({ audio }: GeneratedAudioModalProps)
               <dt>{t("Created Time")}</dt>
               <dd>{formatGeneratedMediaTime(audio.createdTime)}</dd>
             </div>
+            {audio.tokenUsage != null && (
+              <div>
+                <dt>{t("Token usage")}</dt>
+                <dd>{audio.tokenUsage.toLocaleString()}</dd>
+              </div>
+            )}
             {audio.jobId && (
               <div className={styles.resultWideDetail}>
                 <dt>{t("Job ID")}</dt>

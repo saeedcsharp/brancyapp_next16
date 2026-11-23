@@ -3612,6 +3612,7 @@ export default {
     "Voice generation request sent.": "درخواست ساخت صدا ارسال شد.",
     "Voice ID": "شناسه صدا",
     "Download voice": "دانلود صدا",
+    "Token usage": "توکن مصرفی",
     "Output text": "متن خروجی",
     "Copy text": "کپی متن",
     Lyrics: "متن آهنگ",

@@ -1,7 +1,7 @@
 "use client";
 
-import CharacterSheet from "../../../components/page/ai/CharacterSheet";
+import PageAI from "../../../legacy-pages/page/ai/index";
 
 export default function CharacterSheetPage() {
-  return <CharacterSheet />;
+  return <PageAI initialType="1" characterSheet />;
 }

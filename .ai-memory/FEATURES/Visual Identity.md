@@ -24,32 +24,20 @@ High when backend contracts exist; prototype only today.
 
 ## Current Scope
 
-The Dev Panel links to `/dev/characterSheet`, which renders the full-width Visual Identity editor independently from the AI creator. The AI creator exposes only Images and Videos.
+The Dev Panel links to `/dev/characterSheet`, which renders `PageAI` (`legacy-pages/page/ai/index.tsx`) with `initialType="1"` and `characterSheet`: `MediaLibrary` on the left and `CharacterSheet` on the right. `PageAI` loads image creators and owns the model-list popup, `hasFeatureCount`/NotFeature popup, `CreateImage` (with `clientContext`), pending generations, and SignalR results. In character-sheet mode `PageAI` removes Text to Image models (name/displayName normalized to `texttoimage`) from the creators passed to `CharacterSheet` and the model-list popup; creators left with no models are hidden.
 
-The current implementation is a frontend-only prototype. It supports:
+`CharacterSheet` renders `MediaCreator` (media tabs hidden) and injects two accordion sections through `headerContent`, after the model selector:
 
-- A subject-type section with an Auto/Advanced mode switch; the type-specific attributes accordion is rendered only in Advanced mode.
-- Dynamic section numbering that automatically reindexes when the Advanced-only attributes section is hidden.
-- Independently collapsible sections instead of a step-by-step wizard.
-- Local Undo and Redo controls for serializable editor changes.
-- Human, Product, Object, Animal, and Custom identity types.
-- A type-specific attributes accordion restores the available Human appearance, face, hair, body, clothing, Product structure/material/branding, Object scale/material/details, Animal species/fur/markings, and Custom subject options.
-- Completion counters, local reset of attribute values, and an individual lock control for every attribute.
-- Locked attributes are visually faded, non-editable, and included in the final local prompt payload with an instruction to preserve them exactly from the reference images.
-- Up to 14 browser-local reference-image previews with remove controls; Advanced mode groups uploads into type-specific slots such as Human face/style/body and Product brand/logo/packaging/material.
-- Each reference stores its slot label in the local prompt payload, while Auto mode keeps the general reference uploader.
-- A prepared prompt and identity description that users can edit directly.
-- Negative prompt, identity rules, and consistency rules inputs.
-- Visual style, lighting, background, views, detail, consistency, creativity, output count, aspect ratio, and resolution settings.
-- Type-specific local prompt templates update the prompt, negative prompt, identity rules, and consistency rules when Human, Product, Object, Animal, or Custom is selected.
-- Prompt preview modes for Readable and JSON views, with local copy and download actions.
-- A local reset-all action that clears the full draft state.
-- Safe browser draft persistence with localStorage for serializable state only.
-- A live final prompt payload preview that includes mode, editable prompt fields, type-specific attributes, references, and settings.
+- 01 Choose the subject type: Human, Product, Object, Animal, Custom; Auto/Advanced reference mode; local reset. Identity name (`characterName`) and description (`characterDescription`) inputs live at the top of 03 Write the prompt.
+- 02 Add reference images: the limit and accepted file types come from the selected model's first `InputType.ImageArray` input (`maxArrayLength`, `fileTypes`) from `GetImageCreators`, like the AI creator. Files upload immediately via `UploadFile` (progress shown); Advanced mode groups uploads into type-specific slots. If the model has no image input, the section says references are not accepted.
+
+Prompt and output settings are the AI creator's own prompt textarea and dynamic model settings, rendered inside the Character Sheet accordions 03 Write the prompt and 04 Configure the output through the `MediaCreator` render props `renderPromptSection` and `renderSettingsSection` (when `renderSettingsSection` is set, MediaCreator's own settings header/collapse is hidden and fields are always expanded inside the accordion). The reference input is hidden from the settings and filled from `externalMediaValues`; `requestExtras` adds `characterType` (`CharacterType`: All=-1, Human=0, Product=1, Object=2, Animal=3, Custom=4), `characterName`, and `characterDescription` (`null` when empty) to both `GetImageUsage` and `CreateImage`. The selected type's prompt template is applied through `promptToUse` whenever the type or model changes. Identity type, mode, name, description, and open sections persist in localStorage (`character-sheet-local-draft-v2`).
+
+The previous attributes, custom prompt/negative/rules, style/lighting/view settings, prompt preview, and undo/redo were removed.
 
 ## Explicit Non-Goals
 
-This implementation does not call an API and does not use a session, upload helper, backend model, server action, or database. The payload output is a local request preview only. Selected image files remain in browser memory as object URLs and are revoked on removal or component unmount. Only serializable editor fields may persist in browser localStorage; reference image binaries and object URLs are never persisted.
+Apart from the Image Generation flow above, the editor does not use a backend model, server action, or database. Selected image files remain in browser memory as object URLs and are revoked on removal or component unmount. Only serializable editor fields may persist in browser localStorage; reference image binaries and object URLs are never persisted.
 
 ## Future Architecture Boundary
 
@@ -60,7 +48,7 @@ Generation must reference an immutable identity version/snapshot so later identi
 ## Change Impact
 
 - Keep the Character Sheet state out of image/video creator-loading effects until a dedicated contract exists.
-- Do not reuse image/video endpoints for Visual Identity behavior.
+- Keep `CharacterType` mapping (`CHARACTER_TYPE_BY_IDENTITY`) aligned with the backend enum.
 - Keep the feature catalog record audit-only while behavior remains local or mocked.
 - Preserve Image and Video creation behavior when changing the shared Create toggle.
 - Update this document, module docs, `CURRENT_STATE.md`, `CHANGELOG.md`, `TODO.md`, and feature knowledge when the prototype scope changes.

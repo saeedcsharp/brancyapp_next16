@@ -14,7 +14,7 @@ import { convertDigitsToEnglish, formatEnglishNumber } from "brancy/helper/numbe
 import { InputType, PsgFeatureType } from "brancy/models/enums";
 import { IGetImageUsageRequest, IMediaCreator, IMediaCreatorInput, IMediaCreatorModel } from "brancy/models/interfaces";
 import { useSession } from "next-auth/react";
-import { ChangeEvent, CSSProperties, Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { ChangeEvent, CSSProperties, Dispatch, ReactNode, SetStateAction, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./mediaCreator.module.css";
 import Loading from "brancy/components/notOk/loading";
@@ -43,6 +43,12 @@ interface MediaCreatorProps {
   modelSelection: { creatorKey: string; modelName: string };
   onModelSelectionChange: (selection: { creatorKey: string; modelName: string }) => void;
   onOpenModelList: () => void;
+  hideMediaTabs?: boolean;
+  headerContent?: ReactNode;
+  externalMediaValues?: Record<string, string[]>;
+  requestExtras?: Pick<IGetImageUsageRequest, "characterType" | "characterName" | "characterDescription">;
+  renderPromptSection?: (content: ReactNode) => ReactNode;
+  renderSettingsSection?: (content: ReactNode) => ReactNode;
 }
 export interface MediaCreatorSelection {
   creatorKey: string;
@@ -109,7 +115,7 @@ function getDefaultInputValue(input: IMediaCreatorInput): InputValue | null {
 function allowsEmptyValue(input: IMediaCreatorInput): boolean {
   return Number(input.inputType) === InputType.Text && input.min === 0;
 }
-function getInitialValues(model: IMediaCreatorModel | undefined): Record<string, InputValue> {
+export function getInitialValues(model: IMediaCreatorModel | undefined): Record<string, InputValue> {
   if (!model) return {};
   return model.inputModelTypes.reduce<Record<string, InputValue>>((values, input) => {
     const inputType = Number(input.inputType);
@@ -131,7 +137,7 @@ function getInitialValues(model: IMediaCreatorModel | undefined): Record<string,
     return values;
   }, {});
 }
-function getUniqueModels(models: IMediaCreatorModel[]): IMediaCreatorModel[] {
+export function getUniqueModels(models: IMediaCreatorModel[]): IMediaCreatorModel[] {
   return models.filter((model, index) => models.findIndex((candidate) => candidate.name === model.name) === index);
 }
 type RangeSide = "top" | "right" | "bottom" | "left";
@@ -163,7 +169,7 @@ function clampRangeValue(input: IMediaCreatorInput, value: InputValue): number {
   const numericValue = Number(value);
   return Math.min(Math.max(Number.isFinite(numericValue) ? numericValue : min, min), max);
 }
-function serializeInputValue(value: InputValue): string {
+export function serializeInputValue(value: InputValue): string {
   return Array.isArray(value) ? JSON.stringify(value) : String(value ?? "");
 }
 function getAspectRatio(value: string): { width: number; height: number } | null {
@@ -363,6 +369,12 @@ export default function MediaCreator({
   modelSelection,
   onModelSelectionChange,
   onOpenModelList,
+  hideMediaTabs = false,
+  headerContent,
+  externalMediaValues,
+  requestExtras,
+  renderPromptSection,
+  renderSettingsSection,
 }: MediaCreatorProps) {
   const { data: session } = useSession();
   const { t, i18n } = useTranslation();
@@ -435,15 +447,22 @@ export default function MediaCreator({
     setPrompt(promptToUse.text);
     setTokenUsage(null);
   }, [promptToUse]);
+  const externalValuesKey = JSON.stringify(externalMediaValues ?? null);
+  const requestExtrasKey = JSON.stringify(requestExtras ?? null);
+  useEffect(() => {
+    setTokenUsage(null);
+  }, [externalValuesKey, requestExtrasKey]);
   if (error || !creator || !model) {
     return (
       <div className={styles.right}>
-        <ToggleButton
-          options={mediaTabOptions}
-          selectedValue={selectedMediaTab}
-          onChange={handleMediaTabChange}
-          ariaLabel={t("Media type")}
-        />
+        {!hideMediaTabs && (
+          <ToggleButton
+            options={mediaTabOptions}
+            selectedValue={selectedMediaTab}
+            onChange={handleMediaTabChange}
+            ariaLabel={t("Media type")}
+          />
+        )}
         <div className={styles.stateBox}>
           {error ? (
             <>
@@ -463,22 +482,25 @@ export default function MediaCreator({
     );
   }
   const promptIsValid = prompt.length >= model.minPromptLength && prompt.length <= model.maxPromptLength;
+  const resolveValue = (key: string): InputValue => externalMediaValues?.[key] ?? values[key];
+  const buildRequest = (): IGetImageUsageRequest => ({
+    creatorKey: creator.key,
+    version: model.name,
+    inputs: model.inputModelTypes.map((input) => ({
+      key: input.key,
+      value: serializeInputValue(resolveValue(input.key)),
+    })),
+    prompt,
+    ...requestExtras,
+  });
   const requiredInputsAreValid = model.inputModelTypes.every((input) => {
     if (!input.isRequired || allowsEmptyValue(input)) return true;
-    const value = values[input.key];
+    const value = resolveValue(input.key);
     return Array.isArray(value) ? value.length >= input.minArrayLength : value !== "" && value !== undefined;
   });
   const getImageUsage = async (): Promise<number | null> => {
     if (!session || !promptIsValid || !requiredInputsAreValid) return null;
-    const request: IGetImageUsageRequest = {
-      creatorKey: creator.key,
-      version: model.name,
-      inputs: model.inputModelTypes.map((input) => ({
-        key: input.key,
-        value: serializeInputValue(values[input.key]),
-      })),
-      prompt,
-    };
+    const request = buildRequest();
     setUsageLoading(true);
     const response = await clientFetchApi<IGetImageUsageRequest, number>(
       `/api/mediaai/Get${creatorLabel === "Voice" ? "Audio" : creatorLabel}Usage`,
@@ -579,6 +601,9 @@ export default function MediaCreator({
     setDraggingSide(null);
     setDragStart(null);
   };
+  const wrapPrompt = (content: ReactNode) => (renderPromptSection ? renderPromptSection(content) : content);
+  const wrapSettings = (content: ReactNode) => (renderSettingsSection ? renderSettingsSection(content) : content);
+  const settingsOpen = isSettingsOpen || !!renderSettingsSection;
   return (
     <form
       className={styles.right}
@@ -587,28 +612,19 @@ export default function MediaCreator({
         if (createMediaLoading || !promptIsValid || !requiredInputsAreValid || !onCreateMedia) return;
         const usage = tokenUsage ?? (await getImageUsage());
         if (usage === null) return;
-        const created = await onCreateMedia(
-          {
-            creatorKey: creator.key,
-            version: model.name,
-            inputs: model.inputModelTypes.map((input) => ({
-              key: input.key,
-              value: serializeInputValue(values[input.key]),
-            })),
-            prompt,
-          },
-          usage,
-        );
+        const created = await onCreateMedia(buildRequest(), usage);
         if (created) resetForm();
       }}>
       {/* type */}
 
-      <ToggleButton
-        options={mediaTabOptions}
-        selectedValue={selectedMediaTab}
-        onChange={handleMediaTabChange}
-        ariaLabel={t("Media type")}
-      />
+      {!hideMediaTabs && (
+        <ToggleButton
+          options={mediaTabOptions}
+          selectedValue={selectedMediaTab}
+          onChange={handleMediaTabChange}
+          ariaLabel={t("Media type")}
+        />
+      )}
 
       <div className={styles.mediaCreatorContainer}>
         {/* model type */}
@@ -621,124 +637,131 @@ export default function MediaCreator({
             onOpen={onOpenModelList}
           />
         </div>
+        {headerContent}
         {/* prompt section */}
-        <label className="headerandinput">
-          <span className="headerparent">
-            <span className="title2">{t("Prompt")}</span>
-            <span className="counter">
-              ({prompt.length} / {model.maxPromptLength}){" "}
-              <button
-                type="button"
-                aria-label={t("Paste")}
-                title={t("Paste")}
-                onClick={() => void pastePromptFromClipboard()}
-                style={{ height: "20px", padding: 0, border: 0, background: "transparent", cursor: "pointer" }}>
-                <img style={{ width: "20px", height: "20px" }} src="/copy.svg" alt="" />
-              </button>
+        {wrapPrompt(
+          <label className="headerandinput">
+            <span className="headerparent">
+              <span className="title2">{t("Prompt")}</span>
+              <span className="counter">
+                ({prompt.length} / {model.maxPromptLength}){" "}
+                <button
+                  type="button"
+                  aria-label={t("Paste")}
+                  title={t("Paste")}
+                  onClick={() => void pastePromptFromClipboard()}
+                  style={{ height: "20px", padding: 0, border: 0, background: "transparent", cursor: "pointer" }}>
+                  <img style={{ width: "20px", height: "20px" }} src="/copy.svg" alt="" />
+                </button>
+              </span>
             </span>
-          </span>
-          <TextArea
-            className="textArea"
-            id="prompt"
-            minRows={5}
-            maxRows={10}
-            value={prompt}
-            autoResize
-            minLength={model.minPromptLength}
-            maxLength={model.maxPromptLength}
-            placeholder={t("Describe the subject, setting, light, composition, and style...")}
-            onChange={(event) => {
-              setPrompt(event.target.value);
-              invalidateUsage();
-            }}
-          />
-          {activeTab === "createimage" && onOpenImagePrompts && (
-            <button type="button" className="cancelButton" onClick={onOpenImagePrompts}>
-              {t("aiSuggestedPrompts_title")}
-            </button>
-          )}
-          {/* {prompt.length > 0 && prompt.length < model.minPromptLength && (
+            <TextArea
+              className="textArea"
+              id="prompt"
+              minRows={5}
+              maxRows={10}
+              value={prompt}
+              autoResize
+              minLength={model.minPromptLength}
+              maxLength={model.maxPromptLength}
+              placeholder={t("Describe the subject, setting, light, composition, and style...")}
+              onChange={(event) => {
+                setPrompt(event.target.value);
+                invalidateUsage();
+              }}
+            />
+            {activeTab === "createimage" && onOpenImagePrompts && (
+              <button type="button" className="cancelButton" onClick={onOpenImagePrompts}>
+                {t("aiSuggestedPrompts_title")}
+              </button>
+            )}
+            {/* {prompt.length > 0 && prompt.length < model.minPromptLength && (
             <span className={styles.validation}>
               {t("Use at least {count} characters.", { count: model.minPromptLength })}
             </span>
           )} */}
-        </label>
+          </label>,
+        )}
 
         {/* settings section */}
-        <div className="headerandinput">
-          <div className="headerparent">
-            <div className="title2">{t("sidebar_Setting")}</div>
-            <svg
-              className={styles.foldingicon}
-              width="21"
-              height="21"
-              viewBox="0 0 22 22"
-              fill="none"
-              role="button"
-              tabIndex={0}
-              aria-label={isSettingsOpen ? t("Collapse settings") : t("Expand settings")}
-              aria-expanded={isSettingsOpen}
-              onClick={() => setIsSettingsOpen((current) => !current)}
-              onKeyDown={(event) => {
-                if (event.key === "Enter" || event.key === " ") {
-                  event.preventDefault();
-                  setIsSettingsOpen((current) => !current);
-                }
-              }}
-              style={{
-                transform: `rotate(${isSettingsOpen ? -90 : 90}deg)`,
-              }}>
-              <path stroke="var(--text-h2)" d="M11 21a10 10 0 1 0 0-20 10 10 0 0 0 0 20Z" opacity=".5"></path>
-              <path
-                fill="var(--text-h1)"
-                d="M10 14.6q-.4 0-.6-.2a1 1 0 0 1 0-1l2.1-2.2.2-.4-.2-.4-2.1-2.1a1 1 0 0 1 0-1q.5-.5 1 0l2.1 2q.6.8.6 1.5 0 .8-.6 1.5l-2 2.1z"></path>
-            </svg>
-          </div>
-          <div
-            className={`${styles.dynamicFields} ${!isSettingsOpen ? styles.dynamicFieldsCollapsed : ""}`}
-            id="media-creator-settings-fields"
-            aria-hidden={!isSettingsOpen}>
-            {[...model.inputModelTypes]
-              .sort((first, second) => first.orderId - second.orderId)
-              .map((input, _, orderedInputs) => {
-                const inputType = Number(input.inputType);
-                const value = values[input.key];
-                const title = getInputTitle(input, i18n.language || "en");
-                const options = input.enumValues ?? [];
-                const rangeInputs = orderedInputs.filter((item) => Number(item.inputType) === InputType.Range);
-                const hasFourDirectionalRange =
-                  rangeInputs.length === rangeSquareKeyParts.length &&
-                  rangeSquareKeyParts.every((keyPart) =>
-                    rangeInputs.some((rangeInput) => hasRangeSquareKey(rangeInput, keyPart)),
-                  );
-                const firstRangeInput = rangeInputs[0];
-                const shouldRenderRangeSquare =
-                  inputType === InputType.Range && hasFourDirectionalRange && input.key === firstRangeInput?.key;
-                if (inputType === InputType.Range && hasFourDirectionalRange && !shouldRenderRangeSquare) return null;
-                if (
-                  inputType === InputType.ImageArray ||
-                  inputType === InputType.VideoArray ||
-                  inputType === InputType.AudioArray
-                ) {
-                  const isVideo = inputType === InputType.VideoArray;
-                  const isAudio = inputType === InputType.AudioArray;
-                  const fileTypes = input.fileTypes
-                    ?.map((type) => type.trim())
-                    .filter(Boolean)
-                    .map((type) => (type.startsWith(".") ? type : `.${type}`));
-                  const accept = fileTypes?.join(",") || (isVideo ? "video/*" : isAudio ? "audio/*" : "image/*");
-                  const maximum = input.maxArrayLength || 1;
-                  const mediaValue = Array.isArray(value) ? value : [];
-                  const isUploading = uploadingInputKey === input.key;
-                  return (
-                    <div className="headerandinput" key={input.key}>
-                      <legend className="headertext" style={{ textAlign: "start" }}>
-                        {title}
-                      </legend>
-                      <div className={styles.fileContainer}>
-                        <label className={styles.uploadBox}>
-                          <img title="" width="40px" src="/icon-plus2.svg" />
-                          {/* <span class {/* {styles.uploadTitle}>
+        {wrapSettings(
+          <div className="headerandinput">
+            {!renderSettingsSection && (
+              <div className="headerparent">
+                <div className="title2">{t("sidebar_Setting")}</div>
+                <svg
+                  className={styles.foldingicon}
+                  width="21"
+                  height="21"
+                  viewBox="0 0 22 22"
+                  fill="none"
+                  role="button"
+                  tabIndex={0}
+                  aria-label={isSettingsOpen ? t("Collapse settings") : t("Expand settings")}
+                  aria-expanded={isSettingsOpen}
+                  onClick={() => setIsSettingsOpen((current) => !current)}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                      event.preventDefault();
+                      setIsSettingsOpen((current) => !current);
+                    }
+                  }}
+                  style={{
+                    transform: `rotate(${isSettingsOpen ? -90 : 90}deg)`,
+                  }}>
+                  <path stroke="var(--text-h2)" d="M11 21a10 10 0 1 0 0-20 10 10 0 0 0 0 20Z" opacity=".5"></path>
+                  <path
+                    fill="var(--text-h1)"
+                    d="M10 14.6q-.4 0-.6-.2a1 1 0 0 1 0-1l2.1-2.2.2-.4-.2-.4-2.1-2.1a1 1 0 0 1 0-1q.5-.5 1 0l2.1 2q.6.8.6 1.5 0 .8-.6 1.5l-2 2.1z"></path>
+                </svg>
+              </div>
+            )}
+            <div
+              className={`${styles.dynamicFields} ${!settingsOpen ? styles.dynamicFieldsCollapsed : ""}`}
+              id="media-creator-settings-fields"
+              aria-hidden={!settingsOpen}>
+              {[...model.inputModelTypes]
+                .sort((first, second) => first.orderId - second.orderId)
+                .map((input, _, orderedInputs) => {
+                  const inputType = Number(input.inputType);
+                  const value = values[input.key];
+                  const title = getInputTitle(input, i18n.language || "en");
+                  const options = input.enumValues ?? [];
+                  const rangeInputs = orderedInputs.filter((item) => Number(item.inputType) === InputType.Range);
+                  const hasFourDirectionalRange =
+                    rangeInputs.length === rangeSquareKeyParts.length &&
+                    rangeSquareKeyParts.every((keyPart) =>
+                      rangeInputs.some((rangeInput) => hasRangeSquareKey(rangeInput, keyPart)),
+                    );
+                  const firstRangeInput = rangeInputs[0];
+                  const shouldRenderRangeSquare =
+                    inputType === InputType.Range && hasFourDirectionalRange && input.key === firstRangeInput?.key;
+                  if (inputType === InputType.Range && hasFourDirectionalRange && !shouldRenderRangeSquare) return null;
+                  if (externalMediaValues && input.key in externalMediaValues) return null;
+                  if (
+                    inputType === InputType.ImageArray ||
+                    inputType === InputType.VideoArray ||
+                    inputType === InputType.AudioArray
+                  ) {
+                    const isVideo = inputType === InputType.VideoArray;
+                    const isAudio = inputType === InputType.AudioArray;
+                    const fileTypes = input.fileTypes
+                      ?.map((type) => type.trim())
+                      .filter(Boolean)
+                      .map((type) => (type.startsWith(".") ? type : `.${type}`));
+                    const accept = fileTypes?.join(",") || (isVideo ? "video/*" : isAudio ? "audio/*" : "image/*");
+                    const maximum = input.maxArrayLength || 1;
+                    const mediaValue = Array.isArray(value) ? value : [];
+                    const isUploading = uploadingInputKey === input.key;
+                    return (
+                      <div className="headerandinput" key={input.key}>
+                        <legend className="headertext" style={{ textAlign: "start" }}>
+                          {title}
+                        </legend>
+                        <div className={styles.fileContainer}>
+                          <label className={styles.uploadBox}>
+                            <img title="" width="40px" src="/icon-plus2.svg" />
+                            {/* <span class {/* {styles.uploadTitle}>
                           {isUploading
                             ? t("Uploading"  { percent: uploadProgress })
                             : isVideo
@@ -748,338 +771,341 @@ export default function MediaCreator({
                                 : t("Add refer  ce image")}
                         </span> */}
 
-                          {/* <div className="IDblue" style={{ textTransform: "uppercase" }}>
+                            {/* <div className="IDblue" style={{ textTransform: "uppercase" }}>
                           {fileTypes?.join(" - ") || (isVideo ? t("video") : isAudio ? t("audio") : t("image"))}
                         </div> */}
-                          <span className={styles.hint}>
-                            ({mediaValue.length} / {maximum})
-                          </span>
-                          {isUploading && (
-                            <span className={styles.uploadProgress}>
-                              <span style={{ width: `${uploadProgress}%` }} />
+                            <span className={styles.hint}>
+                              ({mediaValue.length} / {maximum})
                             </span>
+                            {isUploading && (
+                              <span className={styles.uploadProgress}>
+                                <span style={{ width: `${uploadProgress}%` }} />
+                              </span>
+                            )}
+                            <input
+                              className={styles.visuallyHidden}
+                              type="file"
+                              accept={accept}
+                              multiple={maximum > 1}
+                              disabled={isUploading || !session}
+                              onChange={(event) => handleFiles(event, input, mediaValue)}
+                            />
+                          </label>
+                          {mediaValue.length > 0 && (
+                            <div className={styles.fileList}>
+                              {mediaValue.map((fileName, fileIndex) => {
+                                const previewUrl = previews[input.key]?.find(
+                                  (preview) => preview.fileName === fileName,
+                                )?.showUrl;
+                                return (
+                                  <div className={styles.fileItem} key={fileName}>
+                                    {previewUrl &&
+                                      (isAudio ? (
+                                        <audio className={styles.mediaPreview} src={previewUrl} controls />
+                                      ) : isVideo ? (
+                                        <video className={styles.mediaPreview} src={previewUrl} muted />
+                                      ) : (
+                                        <img className={styles.mediaPreview} src={previewUrl} alt={fileName} />
+                                      ))}
+                                    <img
+                                      onClick={() => {
+                                        setValues((current) => ({
+                                          ...current,
+                                          [input.key]: mediaValue.filter((_, index) => index !== fileIndex),
+                                        }));
+                                        setPreviews((current) => ({
+                                          ...current,
+                                          [input.key]: (current[input.key] ?? []).filter(
+                                            (preview) => preview.fileName !== fileName,
+                                          ),
+                                        }));
+                                        invalidateUsage();
+                                      }}
+                                      className={styles.deleteHashtag}
+                                      src="/deleteHashtag.svg"
+                                    />
+                                  </div>
+                                );
+                              })}
+                            </div>
                           )}
-                          <input
-                            className={styles.visuallyHidden}
-                            type="file"
-                            accept={accept}
-                            multiple={maximum > 1}
-                            disabled={isUploading || !session}
-                            onChange={(event) => handleFiles(event, input, mediaValue)}
-                          />
-                        </label>
-                        {mediaValue.length > 0 && (
-                          <div className={styles.fileList}>
-                            {mediaValue.map((fileName, fileIndex) => {
-                              const previewUrl = previews[input.key]?.find(
-                                (preview) => preview.fileName === fileName,
-                              )?.showUrl;
-                              return (
-                                <div className={styles.fileItem} key={fileName}>
-                                  {previewUrl &&
-                                    (isAudio ? (
-                                      <audio className={styles.mediaPreview} src={previewUrl} controls />
-                                    ) : isVideo ? (
-                                      <video className={styles.mediaPreview} src={previewUrl} muted />
-                                    ) : (
-                                      <img className={styles.mediaPreview} src={previewUrl} alt={fileName} />
-                                    ))}
-                                  <img
-                                    onClick={() => {
-                                      setValues((current) => ({
-                                        ...current,
-                                        [input.key]: mediaValue.filter((_, index) => index !== fileIndex),
-                                      }));
-                                      setPreviews((current) => ({
-                                        ...current,
-                                        [input.key]: (current[input.key] ?? []).filter(
-                                          (preview) => preview.fileName !== fileName,
-                                        ),
-                                      }));
-                                      invalidateUsage();
-                                    }}
-                                    className={styles.deleteHashtag}
-                                    src="/deleteHashtag.svg"
-                                  />
-                                </div>
-                              );
-                            })}
-                          </div>
-                        )}
-                      </div>{" "}
-                    </div>
-                  );
-                }
-                if (inputType === InputType.Boolean) {
-                  const booleanInputs = orderedInputs.filter((item) => Number(item.inputType) === InputType.Boolean);
-                  if (input.key !== booleanInputs[0]?.key) return null;
-                  return (
-                    <div className="headerandinput" key={input.key}>
-                      <legend className="headertext" style={{ textAlign: "start" }}>
-                        {t("product_Properties")}
-                      </legend>
-                      <div className={styles.Propertieslist}>
-                        {booleanInputs.map((booleanInput) => (
-                          <CheckBoxButton
-                            key={booleanInput.key}
-                            value={Boolean(values[booleanInput.key])}
-                            textlabel={`${getInputTitle(booleanInput, i18n.language || "en")}
+                        </div>{" "}
+                      </div>
+                    );
+                  }
+                  if (inputType === InputType.Boolean) {
+                    const booleanInputs = orderedInputs.filter((item) => Number(item.inputType) === InputType.Boolean);
+                    if (input.key !== booleanInputs[0]?.key) return null;
+                    return (
+                      <div className="headerandinput" key={input.key}>
+                        <legend className="headertext" style={{ textAlign: "start" }}>
+                          {t("product_Properties")}
+                        </legend>
+                        <div className={styles.Propertieslist}>
+                          {booleanInputs.map((booleanInput) => (
+                            <CheckBoxButton
+                              key={booleanInput.key}
+                              value={Boolean(values[booleanInput.key])}
+                              textlabel={`${getInputTitle(booleanInput, i18n.language || "en")}
 
                           `}
-                            handleToggle={(event) => {
-                              setValues((current) => ({
-                                ...current,
-                                [booleanInput.key]: event.target.checked,
-                              }));
-                              invalidateUsage();
-                            }}
-                          />
-                        ))}
-                      </div>
-                    </div>
-                  );
-                }
-                if (inputType === InputType.EnumV1 || inputType === InputType.EnumV2) {
-                  const isAspectRatio = isAspectRatioInput(input);
-                  const isQuality = isQualityInput(input);
-                  const isSize = isSizeInput(input);
-                  const isBackground = isBackgroundInput(input);
-                  const isModeration = isModerationInput(input);
-                  const isThinkingLevel = isThinkingLevelInput(input);
-                  return (
-                    <div className="headerandinput" key={input.key}>
-                      <legend className="headertext" style={{ textAlign: "start" }}>
-                        {title}
-                      </legend>
-                      <div className={styles.optionGrid}>
-                        {options.map((option) => (
-                          <button
-                            className={String(value) === option ? styles.optionActive : styles.option}
-                            type="button"
-                            key={option}
-                            onClick={() => {
-                              setValues((current) => ({ ...current, [input.key]: option }));
-                              invalidateUsage();
-                            }}>
-                            <span className={styles.optionContent}>
-                              {isAspectRatio && <AspectRatioIcon value={option} />}
-                              {isSize && <SizeIcon value={option} />}
-                              {isQuality && <QualityIcon value={option} />}
-                              {isBackground && <BackgroundIcon value={option} />}
-                              {isModeration && <ModerationIcon value={option} />}
-                              {isThinkingLevel && <ThinkingLevelIcon value={option} />}
-                              <span>{convertDigitsToEnglish(option)}</span>
-                            </span>
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  );
-                }
-                if (shouldRenderRangeSquare) {
-                  const sideInputs = rangeInputs.map((rangeInput, rangeIndex) => ({
-                    input: rangeInput,
-                    side: getRangeSide(rangeInput, rangeIndex),
-                  }));
-                  const getSideInput = (side: RangeSide) => sideInputs.find((item) => item.side === side);
-                  const getExpansion = (side: RangeSide) => {
-                    const sideInput = getSideInput(side);
-                    if (!sideInput) return 0;
-                    const { min, max } = getRangeBounds(sideInput.input);
-                    return ((clampRangeValue(sideInput.input, values[sideInput.input.key]) - min) / (max - min)) * 75;
-                  };
-                  return (
-                    <div className="headerandinput" key="range-square">
-                      <span className="headerparent">
-                        <span className="headertext" style={{ textAlign: "start" }}>
-                          {getInputTitle(rangeInputs[0], i18n.language || "en")}
-                        </span>
-                      </span>
-                      <div className={styles.rangeSquare} ref={squareRef}>
-                        <span
-                          className={styles.rangeExpansionFrame}
-                          style={{
-                            top: `${75 - getExpansion("top")}px`,
-                            right: `${75 - getExpansion("right")}px`,
-                            bottom: `${75 - getExpansion("bottom")}px`,
-                            left: `${75 - getExpansion("left")}px`,
-                          }}
-                          aria-hidden="true"
-                        />
-                        <div className={styles.rangeSquareInner}>
-                          {sideInputs.map(({ input: sideInput, side }) => (
-                            <output
-                              className={`${styles.rangeValue} ${styles[`rangeValue${side[0].toUpperCase()}${side.slice(1)}`]}`}
-                              key={sideInput.key}>
-                              {(Number(clampRangeValue(sideInput, values[sideInput.key]).toFixed(2)) * 10).toFixed(1)}
-                            </output>
-                          ))}
-                        </div>
-                        {sideInputs.map(({ input: sideInput, side }) => {
-                          const { min, max } = getRangeBounds(sideInput);
-                          return (
-                            <button
-                              type="button"
-                              key={sideInput.key}
-                              className={`${styles.rangeHandle} ${styles[`rangeHandle${side[0].toUpperCase()}${side.slice(1)}`]}`}
-                              style={{ "--range-expansion": `${getExpansion(side)}px` } as CSSProperties}
-                              role="slider"
-                              tabIndex={0}
-                              aria-label={getInputTitle(sideInput, i18n.language || "en")}
-                              aria-valuemin={min}
-                              aria-valuemax={max}
-                              aria-valuenow={clampRangeValue(sideInput, values[sideInput.key])}
-                              onPointerDown={(event) => {
-                                event.currentTarget.setPointerCapture(event.pointerId);
-                                setDraggingSide(side);
-                                setDragStart({
-                                  coordinate: side === "top" || side === "bottom" ? event.clientY : event.clientX,
-                                  value: clampRangeValue(sideInput, values[sideInput.key]),
-                                });
-                              }}
-                              onPointerMove={(event) => {
-                                if (!draggingSide || !dragStart || draggingSide !== side) return;
-                                const squareSize = squareRef.current?.getBoundingClientRect().width || 250;
-                                const expandableDistance = Math.max(1, (squareSize - 100) / 2);
-                                const coordinate = side === "top" || side === "bottom" ? event.clientY : event.clientX;
-                                const direction = side === "top" || side === "left" ? -1 : 1;
-                                const nextValue =
-                                  dragStart.value +
-                                  (direction * (coordinate - dragStart.coordinate) * (max - min)) / expandableDistance;
+                              handleToggle={(event) => {
                                 setValues((current) => ({
                                   ...current,
-                                  [sideInput.key]: Number(Math.min(Math.max(nextValue, min), max).toFixed(2)),
+                                  [booleanInput.key]: event.target.checked,
                                 }));
                                 invalidateUsage();
                               }}
-                              onPointerUp={() => {
-                                setDraggingSide(null);
-                                setDragStart(null);
-                              }}
-                              onPointerCancel={() => {
-                                setDraggingSide(null);
-                                setDragStart(null);
-                              }}
                             />
-                          );
-                        })}
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  );
-                }
-                if (inputType === InputType.Range || inputType === InputType.IntRange) {
-                  const { min: rangeMin, max: rangeMax } = getRangeBounds(input);
-                  const isIntegerRange = inputType === InputType.IntRange;
-                  const normalizedValue = isIntegerRange ? Math.round(Number(value)) : Number(value);
-                  const rangeValue = Math.min(
-                    Math.max(Number.isFinite(normalizedValue) ? normalizedValue : rangeMin, rangeMin),
-                    rangeMax,
-                  );
-                  return (
-                    <label className="headerandinput" key={input.key}>
-                      <span className="headerparent">
+                    );
+                  }
+                  if (inputType === InputType.EnumV1 || inputType === InputType.EnumV2) {
+                    const isAspectRatio = isAspectRatioInput(input);
+                    const isQuality = isQualityInput(input);
+                    const isSize = isSizeInput(input);
+                    const isBackground = isBackgroundInput(input);
+                    const isModeration = isModerationInput(input);
+                    const isThinkingLevel = isThinkingLevelInput(input);
+                    return (
+                      <div className="headerandinput" key={input.key}>
+                        <legend className="headertext" style={{ textAlign: "start" }}>
+                          {title}
+                        </legend>
+                        <div className={styles.optionGrid}>
+                          {options.map((option) => (
+                            <button
+                              className={String(value) === option ? styles.optionActive : styles.option}
+                              type="button"
+                              key={option}
+                              onClick={() => {
+                                setValues((current) => ({ ...current, [input.key]: option }));
+                                invalidateUsage();
+                              }}>
+                              <span className={styles.optionContent}>
+                                {isAspectRatio && <AspectRatioIcon value={option} />}
+                                {isSize && <SizeIcon value={option} />}
+                                {isQuality && <QualityIcon value={option} />}
+                                {isBackground && <BackgroundIcon value={option} />}
+                                {isModeration && <ModerationIcon value={option} />}
+                                {isThinkingLevel && <ThinkingLevelIcon value={option} />}
+                                <span>{convertDigitsToEnglish(option)}</span>
+                              </span>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  }
+                  if (shouldRenderRangeSquare) {
+                    const sideInputs = rangeInputs.map((rangeInput, rangeIndex) => ({
+                      input: rangeInput,
+                      side: getRangeSide(rangeInput, rangeIndex),
+                    }));
+                    const getSideInput = (side: RangeSide) => sideInputs.find((item) => item.side === side);
+                    const getExpansion = (side: RangeSide) => {
+                      const sideInput = getSideInput(side);
+                      if (!sideInput) return 0;
+                      const { min, max } = getRangeBounds(sideInput.input);
+                      return ((clampRangeValue(sideInput.input, values[sideInput.input.key]) - min) / (max - min)) * 75;
+                    };
+                    return (
+                      <div className="headerandinput" key="range-square">
+                        <span className="headerparent">
+                          <span className="headertext" style={{ textAlign: "start" }}>
+                            {getInputTitle(rangeInputs[0], i18n.language || "en")}
+                          </span>
+                        </span>
+                        <div className={styles.rangeSquare} ref={squareRef}>
+                          <span
+                            className={styles.rangeExpansionFrame}
+                            style={{
+                              top: `${75 - getExpansion("top")}px`,
+                              right: `${75 - getExpansion("right")}px`,
+                              bottom: `${75 - getExpansion("bottom")}px`,
+                              left: `${75 - getExpansion("left")}px`,
+                            }}
+                            aria-hidden="true"
+                          />
+                          <div className={styles.rangeSquareInner}>
+                            {sideInputs.map(({ input: sideInput, side }) => (
+                              <output
+                                className={`${styles.rangeValue} ${styles[`rangeValue${side[0].toUpperCase()}${side.slice(1)}`]}`}
+                                key={sideInput.key}>
+                                {(Number(clampRangeValue(sideInput, values[sideInput.key]).toFixed(2)) * 10).toFixed(1)}
+                              </output>
+                            ))}
+                          </div>
+                          {sideInputs.map(({ input: sideInput, side }) => {
+                            const { min, max } = getRangeBounds(sideInput);
+                            return (
+                              <button
+                                type="button"
+                                key={sideInput.key}
+                                className={`${styles.rangeHandle} ${styles[`rangeHandle${side[0].toUpperCase()}${side.slice(1)}`]}`}
+                                style={{ "--range-expansion": `${getExpansion(side)}px` } as CSSProperties}
+                                role="slider"
+                                tabIndex={0}
+                                aria-label={getInputTitle(sideInput, i18n.language || "en")}
+                                aria-valuemin={min}
+                                aria-valuemax={max}
+                                aria-valuenow={clampRangeValue(sideInput, values[sideInput.key])}
+                                onPointerDown={(event) => {
+                                  event.currentTarget.setPointerCapture(event.pointerId);
+                                  setDraggingSide(side);
+                                  setDragStart({
+                                    coordinate: side === "top" || side === "bottom" ? event.clientY : event.clientX,
+                                    value: clampRangeValue(sideInput, values[sideInput.key]),
+                                  });
+                                }}
+                                onPointerMove={(event) => {
+                                  if (!draggingSide || !dragStart || draggingSide !== side) return;
+                                  const squareSize = squareRef.current?.getBoundingClientRect().width || 250;
+                                  const expandableDistance = Math.max(1, (squareSize - 100) / 2);
+                                  const coordinate =
+                                    side === "top" || side === "bottom" ? event.clientY : event.clientX;
+                                  const direction = side === "top" || side === "left" ? -1 : 1;
+                                  const nextValue =
+                                    dragStart.value +
+                                    (direction * (coordinate - dragStart.coordinate) * (max - min)) /
+                                      expandableDistance;
+                                  setValues((current) => ({
+                                    ...current,
+                                    [sideInput.key]: Number(Math.min(Math.max(nextValue, min), max).toFixed(2)),
+                                  }));
+                                  invalidateUsage();
+                                }}
+                                onPointerUp={() => {
+                                  setDraggingSide(null);
+                                  setDragStart(null);
+                                }}
+                                onPointerCancel={() => {
+                                  setDraggingSide(null);
+                                  setDragStart(null);
+                                }}
+                              />
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  }
+                  if (inputType === InputType.Range || inputType === InputType.IntRange) {
+                    const { min: rangeMin, max: rangeMax } = getRangeBounds(input);
+                    const isIntegerRange = inputType === InputType.IntRange;
+                    const normalizedValue = isIntegerRange ? Math.round(Number(value)) : Number(value);
+                    const rangeValue = Math.min(
+                      Math.max(Number.isFinite(normalizedValue) ? normalizedValue : rangeMin, rangeMin),
+                      rangeMax,
+                    );
+                    return (
+                      <label className="headerandinput" key={input.key}>
+                        <span className="headerparent">
+                          <span className="headertext" style={{ textAlign: "start" }}>
+                            {title}
+                          </span>
+                          <output className="headertext" style={{ textAlign: "start" }}>
+                            {isIntegerRange ? String(Math.round(rangeValue)) : rangeValue.toFixed(2)}
+                          </output>
+                        </span>
+                        <input
+                          type="range"
+                          min={rangeMin}
+                          max={rangeMax}
+                          step={isIntegerRange ? 1 : "any"}
+                          value={rangeValue}
+                          onChange={(event) => {
+                            const nextValue = isIntegerRange
+                              ? Math.round(event.currentTarget.valueAsNumber)
+                              : Number(event.currentTarget.valueAsNumber.toFixed(2));
+                            setValues((current) => ({ ...current, [input.key]: nextValue }));
+                            invalidateUsage();
+                          }}
+                        />
+                      </label>
+                    );
+                  }
+                  if (inputType === InputType.Number) {
+                    return (
+                      <label className="headerandinput" key={input.key}>
                         <span className="headertext" style={{ textAlign: "start" }}>
                           {title}
                         </span>
-                        <output className="headertext" style={{ textAlign: "start" }}>
-                          {isIntegerRange ? String(Math.round(rangeValue)) : rangeValue.toFixed(2)}
-                        </output>
-                      </span>
-                      <input
-                        type="range"
-                        min={rangeMin}
-                        max={rangeMax}
-                        step={isIntegerRange ? 1 : "any"}
-                        value={rangeValue}
-                        onChange={(event) => {
-                          const nextValue = isIntegerRange
-                            ? Math.round(event.currentTarget.valueAsNumber)
-                            : Number(event.currentTarget.valueAsNumber.toFixed(2));
-                          setValues((current) => ({ ...current, [input.key]: nextValue }));
-                          invalidateUsage();
-                        }}
-                      />
-                    </label>
-                  );
-                }
-                if (inputType === InputType.Number) {
+
+                        <input
+                          type="number"
+                          min={input.min}
+                          max={input.max || undefined}
+                          value={Number(value)}
+                          required={input.isRequired}
+                          onChange={(event) => {
+                            setValues((current) => ({ ...current, [input.key]: Number(event.target.value) }));
+                            invalidateUsage();
+                          }}
+                        />
+                      </label>
+                    );
+                  }
                   return (
                     <label className="headerandinput" key={input.key}>
-                      <span className="headertext" style={{ textAlign: "start" }}>
-                        {title}
-                      </span>
-
-                      <input
-                        type="number"
-                        min={input.min}
-                        max={input.max || undefined}
-                        value={Number(value)}
-                        required={input.isRequired}
+                      <div className="headerparent">
+                        <span className="headertext" style={{ textAlign: "start" }}>
+                          {title}
+                        </span>
+                        <img
+                          style={{ cursor: "pointer", width: "20px", height: "20px" }}
+                          title="ℹ️ paste"
+                          role="button"
+                          tabIndex={0}
+                          src="/copy.svg"
+                          alt="Paste"
+                          onClick={() => void pasteInputFromClipboard(input.key)}
+                          onKeyDown={(event) => {
+                            if (event.key === "Enter" || event.key === " ") {
+                              event.preventDefault();
+                              void pasteInputFromClipboard(input.key);
+                            }
+                          }}
+                        />
+                      </div>
+                      <TextArea
+                        className="textArea"
+                        id={`media-input-${input.key}`}
+                        minLength={input.minTextLength || undefined}
+                        maxLength={input.maxTextLength || undefined}
+                        value={String(value ?? "")}
+                        required={input.isRequired && !allowsEmptyValue(input)}
+                        minRows={1}
+                        maxRows={4}
                         onChange={(event) => {
-                          setValues((current) => ({ ...current, [input.key]: Number(event.target.value) }));
+                          setValues((current) => ({ ...current, [input.key]: event.target.value }));
                           invalidateUsage();
                         }}
                       />
+                      {inputType === InputType.Text && input.tags && input.tags.length > 0 && (
+                        <div className={styles.optionGrid}>
+                          {input.tags.map((tag) => (
+                            <button
+                              type="button"
+                              key={tag}
+                              className={styles.option}
+                              onClick={(event) => {
+                                event.preventDefault();
+                                insertTag(input, tag);
+                              }}>
+                              {tag}
+                            </button>
+                          ))}
+                        </div>
+                      )}
                     </label>
                   );
-                }
-                return (
-                  <label className="headerandinput" key={input.key}>
-                    <div className="headerparent">
-                      <span className="headertext" style={{ textAlign: "start" }}>
-                        {title}
-                      </span>
-                      <img
-                        style={{ cursor: "pointer", width: "20px", height: "20px" }}
-                        title="ℹ️ paste"
-                        role="button"
-                        tabIndex={0}
-                        src="/copy.svg"
-                        alt="Paste"
-                        onClick={() => void pasteInputFromClipboard(input.key)}
-                        onKeyDown={(event) => {
-                          if (event.key === "Enter" || event.key === " ") {
-                            event.preventDefault();
-                            void pasteInputFromClipboard(input.key);
-                          }
-                        }}
-                      />
-                    </div>
-                    <TextArea
-                      className="textArea"
-                      id={`media-input-${input.key}`}
-                      minLength={input.minTextLength || undefined}
-                      maxLength={input.maxTextLength || undefined}
-                      value={String(value ?? "")}
-                      required={input.isRequired && !allowsEmptyValue(input)}
-                      minRows={1}
-                      maxRows={4}
-                      onChange={(event) => {
-                        setValues((current) => ({ ...current, [input.key]: event.target.value }));
-                        invalidateUsage();
-                      }}
-                    />
-                    {inputType === InputType.Text && input.tags && input.tags.length > 0 && (
-                      <div className={styles.optionGrid}>
-                        {input.tags.map((tag) => (
-                          <button
-                            type="button"
-                            key={tag}
-                            className={styles.option}
-                            onClick={(event) => {
-                              event.preventDefault();
-                              insertTag(input, tag);
-                            }}>
-                            {tag}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </label>
-                );
-              })}
-          </div>
-        </div>
+                })}
+            </div>
+          </div>,
+        )}
       </div>
 
       {/* create Media and Token Usage */}

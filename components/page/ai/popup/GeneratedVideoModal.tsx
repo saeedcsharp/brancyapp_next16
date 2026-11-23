@@ -94,6 +94,12 @@ export default function GeneratedVideoModal({ video }: GeneratedVideoModalProps)
               <dt>{t("Created Time")}</dt>
               <dd>{formatGeneratedMediaTime(video.createdTime)}</dd>
             </div>
+            {video.tokenUsage != null && (
+              <div>
+                <dt>{t("Token usage")}</dt>
+                <dd>{video.tokenUsage.toLocaleString()}</dd>
+              </div>
+            )}
 
             {video.jobId && (
               <div className={styles.resultWideDetail}>

@@ -60,6 +60,7 @@
 =======
 
 - Add a route smoke test confirming the Dev Panel Character Sheet button navigates to `/dev/characterSheet` and that the AI creator exposes only Image and Video tabs when a UI test harness is introduced.
+- Verify Character Sheet `CreateImage` end-to-end with an authenticated session (reference upload into ImageArray input, `characterType`/`characterName`/`characterDescription`, prompt-length limits).
   > > > > > > > sepehr
 - Add component/browser coverage confirming the constrained AI `MediaLibrary` requests the next image and video cursors when its internal list reaches the end, including independent cursors and duplicate prevention, when a UI test harness is introduced.
 - Add component coverage for the AI generated-media helper, including localized null/boolean metadata values, invalid JSON fallback, shared timestamp output, and image/video modal close ownership when a UI test harness is introduced.

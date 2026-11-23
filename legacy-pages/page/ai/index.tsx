@@ -10,6 +10,7 @@ import Loading from "brancy/components/notOk/loading";
 import NotFeature from "brancy/components/notOk/notFeature";
 import MediaLibrary from "brancy/components/page/ai/MediaLibrary";
 import MediaCreator, { type MediaTab } from "brancy/components/page/ai/mediaCreator";
+import CharacterSheet from "brancy/components/page/ai/CharacterSheet";
 import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import convertFirstLetterToLowerCase from "brancy/helper/convertFirstLetterToLowerCase";
@@ -32,7 +33,7 @@ import { t } from "i18next";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import router from "next/router";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import styles from "./pageAI.module.css";
 import GeneratedImageModal from "brancy/components/page/ai/popup/GeneratedImageModal";
 import GeneratedVideoModal from "brancy/components/page/ai/popup/GeneratedVideoModal";
@@ -52,7 +53,13 @@ const creatorTabByMediaType: Record<PendingGeneration["mediaType"], MediaTab> = 
 };
 const SUCCESS_MEDIA_STATUS = 2;
 const VIDEO_THUMBNAIL_DELAY_MS = 1000;
-export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
+export default function PageAI({
+  initialType,
+  characterSheet = false,
+}: {
+  initialType?: AiQueryType;
+  characterSheet?: boolean;
+}) {
   const { data: session } = useSession({
     required: true,
     onUnauthenticated() {
@@ -505,7 +512,29 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
       }
     };
   }, [handleGetNotif]);
-  const modelCreators = activeTab === "image" ? imageCreators : activeTab === "video" ? videoCreators : audioCreators;
+  const characterSheetCreators = useMemo(
+    () =>
+      imageCreators
+        .map((creator) => ({
+          ...creator,
+          inputModels: creator.inputModels.filter(
+            (model) =>
+              !(model.displayName ?? model.name)
+                .toLowerCase()
+                .replace(/[^a-z0-9]/g, "")
+                .includes("texttoimage"),
+          ),
+        }))
+        .filter((creator) => creator.inputModels.length > 0),
+    [imageCreators],
+  );
+  const modelCreators = characterSheet
+    ? characterSheetCreators
+    : activeTab === "image"
+      ? imageCreators
+      : activeTab === "video"
+        ? videoCreators
+        : audioCreators;
   const modelSelection =
     activeTab === "image" ? imageModelSelection : activeTab === "video" ? videoModelSelection : audioModelSelection;
   const handleModelSelectionChange = useCallback(
@@ -546,23 +575,34 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
           />
         </div>
 
-        {(activeTab === "image" || activeTab === "video" || activeTab === "audio") && (
-          <MediaCreator
-            creators={modelCreators}
-            error={error}
-            onRetry={
-              activeTab === "video" ? loadVideoCreators : activeTab === "audio" ? loadAudioCreators : loadCreators
-            }
+        {characterSheet ? (
+          <CharacterSheet
+            creators={characterSheetCreators}
             onCreateMedia={onCreateMedia}
             createMediaLoading={createMediaLoading}
-            setActiveTab={setActiveTab}
-            activeTab={creatorTab}
-            modelSelection={modelSelection}
-            onModelSelectionChange={handleModelSelectionChange}
+            modelSelection={imageModelSelection}
+            onModelSelectionChange={setImageModelSelection}
             onOpenModelList={openModelList}
-            onOpenImagePrompts={() => setShowImagePrompts(true)}
-            promptToUse={promptToUse}
           />
+        ) : (
+          (activeTab === "image" || activeTab === "video" || activeTab === "audio") && (
+            <MediaCreator
+              creators={modelCreators}
+              error={error}
+              onRetry={
+                activeTab === "video" ? loadVideoCreators : activeTab === "audio" ? loadAudioCreators : loadCreators
+              }
+              onCreateMedia={onCreateMedia}
+              createMediaLoading={createMediaLoading}
+              setActiveTab={setActiveTab}
+              activeTab={creatorTab}
+              modelSelection={modelSelection}
+              onModelSelectionChange={handleModelSelectionChange}
+              onOpenModelList={openModelList}
+              onOpenImagePrompts={() => setShowImagePrompts(true)}
+              promptToUse={promptToUse}
+            />
+          )
         )}
       </main>
       <Modal
