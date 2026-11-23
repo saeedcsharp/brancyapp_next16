@@ -17,7 +17,7 @@ Partner accounts are restricted by `PartnerRole`; non-partner users are broadly 
 
 ## Country And Payments
 
-Pricing and redirect behavior use country headers. Iranian-only payment domains are blocked for visitors outside `IR` and the codes listed in `IRAN_EXTRA_COUNTRY_CODES` in `app/redirectInterface/page.tsx`; a client timer reloads the blocked page every second. Allowed redirects are performed client-side via `ClientRedirect` with `Referrer-Policy: origin`, so gateways see the brancy.app origin as Referer (a server 3xx would forward the previous page's Referer). Inside Instagram/Facebook in-app browsers the target is moved into the path (`/redirectInterface/<base64url>`) before the escape-to-system-browser screen, since Instagram iOS drops query strings when opening externally; the path route applies the same allowlist.
+Pricing and redirect behavior use country headers. Iranian-only payment domains are blocked for visitors outside `IR` and the codes listed in `IRAN_EXTRA_COUNTRY_CODES` in `app/redirectInterface/page.tsx`; a client timer probes the page with `fetch` every second and only reloads once the response no longer contains the `data-vpn-block` marker (a blind reload during the VPN switch makes Safari show "The network connection was lost"). Allowed redirects are performed client-side via `ClientRedirect` with `Referrer-Policy: origin`, so gateways see the brancy.app origin as Referer (a server 3xx would forward the previous page's Referer). Inside Instagram/Facebook in-app browsers the target is moved into the path (`/redirectInterface/<base64url>`) before the escape-to-system-browser screen, since Instagram iOS drops query strings when opening externally; the path route applies the same allowlist.
 
 ---
 

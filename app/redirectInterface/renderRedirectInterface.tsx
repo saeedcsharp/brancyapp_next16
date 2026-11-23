@@ -110,6 +110,7 @@ export async function renderRedirectInterface(redirectUrl: string | undefined, i
   if (!isIran && isIranOnlyDomain(redirectUrl)) {
     return (
       <div
+        data-vpn-block=""
         style={{
           display: "flex",
           alignItems: "center",
