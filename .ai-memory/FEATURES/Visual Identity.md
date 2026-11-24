@@ -17,6 +17,7 @@ High when backend contracts exist; prototype only today.
 - `components/page/ai/CharacterSheet.tsx`
 - `components/page/ai/CharacterSheet.module.css`
 - `components/page/ai/mediaCreator.tsx`
+- `components/page/ai/popup/CharacterSheetPicker.tsx`
 - `app/dev/characterSheet/page.tsx`
 - `app/dev/page.tsx`
 - `app/feature/featureCatalog.ts`
@@ -32,6 +33,12 @@ The Dev Panel links to `/dev/characterSheet`, which renders `PageAI` (`legacy-pa
 - 02 Add reference images: the limit and accepted file types come from the selected model's first `InputType.ImageArray` input (`maxArrayLength`, `fileTypes`) from `GetImageCreators`, like the AI creator. Files upload immediately via `UploadFile` (progress shown); Advanced mode groups uploads into type-specific slots. If the model has no image input, the section says references are not accepted.
 
 Prompt and output settings are the AI creator's own prompt textarea and dynamic model settings, rendered inside the Character Sheet accordions 03 Write the prompt and 04 Configure the output through the `MediaCreator` render props `renderPromptSection` and `renderSettingsSection` (when `renderSettingsSection` is set, MediaCreator's own settings header/collapse is hidden and fields are always expanded inside the accordion). The reference input is hidden from the settings and filled from `externalMediaValues`; `requestExtras` adds `characterType` (`CharacterType`: All=-1, Human=0, Product=1, Object=2, Animal=3, Custom=4), `characterName`, and `characterDescription` (`null` when empty) to both `GetImageUsage` and `CreateImage`. The selected type's prompt template is applied through `promptToUse` whenever the type or model changes. Identity type, mode, name, description, and open sections persist in localStorage (`character-sheet-local-draft-v2`).
+
+In character-sheet mode the page is image-only: `MediaLibrary` receives `hideFilters` (no Images/Videos/Voices switch, so videos/voices are never fetched) and the image history (`PageAI.fetchImages`, first page and infinite scroll) always sends `characterType=-1` (`CharacterType.All`) to `GetImages`; the regular AI page does not send it.
+
+Push results: `IGetMedia.characterType` (optional, not in Swagger) is non-null for character sheet generations. `PageAI.handleGetNotif` skips adding such `AIImageSuccess` results to the image list on the regular AI creator route (it still clears the pending card); in character-sheet mode they are added.
+
+Reusing character sheets: in the regular AI creator, every image `InputType.ImageArray` input (reference images) shows a "Character sheet" button beside the upload box (disabled when the input is full). It opens `CharacterSheetPicker` in a `popupLarge` modal (portaled to `document.body`), which calls `GET Instagramer/MediaAi/GetImages` with `mediaCreationStatus=2`, `nextMaxId`, and `characterType=-1` (`CharacterType.All`, the only value sent for now) and supports "Load more". Selecting an item appends its `thumbnailUrl` to the input value (sent as the JSON array value of e.g. `referenceImages`) and shows it as a preview; already-selected items are disabled. The button is not shown inside `CharacterSheet`, whose reference input is supplied by `externalMediaValues`.
 
 The previous attributes, custom prompt/negative/rules, style/lighting/view settings, prompt preview, and undo/redo were removed.
 

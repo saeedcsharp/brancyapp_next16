@@ -24,6 +24,7 @@ type MediaLibraryProps = {
   setSelectedAudio: (audio: IGetMedia) => void;
   pendingGenerations: PendingGeneration[];
   containerRef: RefObject<HTMLDivElement | null>;
+  hideFilters?: boolean;
 };
 type MediaItem = {
   media: IGetMedia;
@@ -92,6 +93,7 @@ export default function MediaLibrary({
   setSelectedAudio,
   pendingGenerations,
   containerRef,
+  hideFilters = false,
 }: MediaLibraryProps) {
   const { t } = useTranslation();
   const pendingMedia = pendingGenerations
@@ -108,17 +110,19 @@ export default function MediaLibrary({
     <>
       <div className="headerparent">
         <div className="title">{t("pageTools_popup_history")} </div>
-        <div style={{ maxWidth: "50%", width: "100%" }}>
-          <DragDrop
-            data={mediaFilterOptions.map((option) => (
-              <div id={String(option.id)} key={option.id}>
-                {t(option.label)}
-              </div>
-            ))}
-            item={filterValue}
-            handleOptionSelect={(value) => onFilterChange(filterById[Number(value)] ?? "image")}
-          />
-        </div>
+        {!hideFilters && (
+          <div style={{ maxWidth: "50%", width: "100%" }}>
+            <DragDrop
+              data={mediaFilterOptions.map((option) => (
+                <div id={String(option.id)} key={option.id}>
+                  {t(option.label)}
+                </div>
+              ))}
+              item={filterValue}
+              handleOptionSelect={(value) => onFilterChange(filterById[Number(value)] ?? "image")}
+            />
+          </div>
+        )}
       </div>
       {loading ? (
         <div className={styles.loadingContainer}>

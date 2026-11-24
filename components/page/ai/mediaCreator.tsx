@@ -12,7 +12,13 @@ import { getTotalFeatureCount } from "brancy/helper/checkFeature";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { convertDigitsToEnglish, formatEnglishNumber } from "brancy/helper/numberFormater";
 import { InputType, PsgFeatureType } from "brancy/models/enums";
-import { IGetImageUsageRequest, IMediaCreator, IMediaCreatorInput, IMediaCreatorModel } from "brancy/models/interfaces";
+import {
+  IGetImageUsageRequest,
+  IGetMedia,
+  IMediaCreator,
+  IMediaCreatorInput,
+  IMediaCreatorModel,
+} from "brancy/models/interfaces";
 import { useSession } from "next-auth/react";
 import { ChangeEvent, CSSProperties, Dispatch, ReactNode, SetStateAction, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -20,6 +26,10 @@ import styles from "./mediaCreator.module.css";
 import Loading from "brancy/components/notOk/loading";
 import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
 import AiModelList from "brancy/components/page/ai/popup/AiModelList";
+import CharacterSheetPicker from "brancy/components/page/ai/popup/CharacterSheetPicker";
+import Modal from "brancy/components/design/modal";
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
+import { createPortal } from "react-dom";
 type InputValue = string | number | boolean | string[];
 export type MediaTab = "image" | "video" | "audio" | "createimage" | "createvideo" | "createaudio";
 interface UploadedMediaPreview {
@@ -406,6 +416,7 @@ export default function MediaCreator({
   const [uploadProgress, setUploadProgress] = useState(0);
   const [draggingSide, setDraggingSide] = useState<RangeSide | null>(null);
   const [dragStart, setDragStart] = useState<{ coordinate: number; value: number } | null>(null);
+  const [characterSheetInput, setCharacterSheetInput] = useState<IMediaCreatorInput | null>(null);
   const squareRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     let mounted = true;
@@ -590,6 +601,24 @@ export default function MediaCreator({
       setUploadProgress(0);
     }
     setUploadingInputKey(null);
+  };
+  const addCharacterSheet = (input: IMediaCreatorInput, media: IGetMedia) => {
+    const current = Array.isArray(values[input.key]) ? (values[input.key] as string[]) : [];
+    if (current.includes(media.thumbnailUrl)) return;
+    if (current.length >= (input.maxArrayLength || 1)) {
+      internalNotify(InternalResponseType.ExceedPermittedUploadMedia, NotifType.Warning);
+      return;
+    }
+    setValues((currentValues) => ({ ...currentValues, [input.key]: [...current, media.thumbnailUrl] }));
+    setPreviews((currentPreviews) => ({
+      ...currentPreviews,
+      [input.key]: [
+        ...(currentPreviews[input.key] ?? []),
+        { fileName: media.thumbnailUrl, showUrl: getClientMediaBaseUrl() + media.thumbnailUrl },
+      ],
+    }));
+    invalidateUsage();
+    setCharacterSheetInput(null);
   };
   const resetForm = () => {
     setPrompt("");
@@ -791,6 +820,31 @@ export default function MediaCreator({
                               onChange={(event) => handleFiles(event, input, mediaValue)}
                             />
                           </label>
+                          {!isVideo && !isAudio && (
+                            <button
+                              type="button"
+                              className={styles.characterSheetBox}
+                              disabled={!session || mediaValue.length >= maximum}
+                              title={t("Character sheet")}
+                              aria-label={t("Character sheet")}
+                              onClick={() => setCharacterSheetInput(input)}>
+                              <svg
+                                width="28"
+                                height="28"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                aria-hidden="true">
+                                <rect x="3" y="3" width="18" height="18" rx="4" />
+                                <circle cx="12" cy="10" r="3" />
+                                <path d="M6.5 18c.8-2.3 2.8-3.5 5.5-3.5s4.7 1.2 5.5 3.5" />
+                              </svg>
+                              <span className={styles.characterSheetLabel}>{t("Character sheet")}</span>
+                            </button>
+                          )}
                           {mediaValue.length > 0 && (
                             <div className={styles.fileList}>
                               {mediaValue.map((fileName, fileIndex) => {
@@ -1173,6 +1227,25 @@ export default function MediaCreator({
           {createMediaLoading ? <RingLoader /> : t(`Create ${creatorLabel.toLowerCase()}`)}
         </button>
       </footer>
+      {typeof document !== "undefined" &&
+        createPortal(
+          <Modal
+            closePopup={() => setCharacterSheetInput(null)}
+            classNamePopup="popupLarge"
+            showContent={characterSheetInput !== null}>
+            {characterSheetInput && (
+              <CharacterSheetPicker
+                session={session}
+                selectedUrls={
+                  Array.isArray(values[characterSheetInput.key]) ? (values[characterSheetInput.key] as string[]) : []
+                }
+                onSelect={(media) => addCharacterSheet(characterSheetInput, media)}
+                onClose={() => setCharacterSheetInput(null)}
+              />
+            )}
+          </Modal>,
+          document.body,
+        )}
     </form>
   );
 }

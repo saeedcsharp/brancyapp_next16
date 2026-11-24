@@ -89,6 +89,8 @@ The active AI components use direct i18next keys for visible creator, library, m
 
 The Character Sheet at `/dev/characterSheet` renders `PageAI` with `characterSheet`: `MediaLibrary` plus `CharacterSheet`, which wraps `MediaCreator` (tabs hidden) and adds two sections, subject type (with identity name/description) and reference images limited by the selected model's ImageArray input from `GetImageCreators`. Prompt and settings are the AI creator's; `GetImageUsage`/`CreateImage` receive `characterType`, `characterName`, and `characterDescription`. See FEATURES/Visual Identity.md.
 
+Image `InputType.ImageArray` inputs in `MediaCreator` also show a "Character sheet" button that opens `popup/CharacterSheetPicker.tsx` (`GetImages` with `characterType=All`); the selected item's `thumbnailUrl` is appended to the input value. See FEATURES/Visual Identity.md.
+
 When the AI feature check reports that generation is unavailable, `MediaCreator` renders the shared `NotFeature` upgrade state directly inside that empty state panel; the page no longer opens a separate feature-unavailable modal. A normal creator request still renders the shared `Loading` component until data arrives.
 
 `MediaCreator` renders the media tabs, provider selection, and model selection at the top of one settings panel. Each provider is an expandable branch with its models nested below it; selecting a provider opens its branch and selects its first model. Empty or error states keep the same single-panel layout, with the media tabs above the localized state content.

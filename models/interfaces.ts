@@ -501,6 +501,8 @@ export interface IGetMedia {
   audioUrl?: string | null;
   text?: string | null;
   tokenUsage?: number | null;
+  // Not documented in Swagger; non-null for character sheet generations.
+  characterType?: CharacterType | null;
 }
 export type PendingMediaType = "image" | "video" | "audio";
 export interface PendingGeneration {

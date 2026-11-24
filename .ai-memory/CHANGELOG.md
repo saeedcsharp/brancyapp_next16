@@ -1,6 +1,12 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+
+- 2026-11-24: Added optional `IGetMedia.characterType` (`CharacterType | null`, not documented in Swagger). In the regular AI creator (`PageAI` without `characterSheet`), `AIImageSuccess` pushes with a non-null `characterType` clear the pending card but are not added to the image list; `/dev/characterSheet` still adds them.
+- 2026-11-24: `/dev/characterSheet` is image-only: `MediaLibrary` got a `hideFilters` prop (set from `PageAI.characterSheet`) that hides the Images/Videos/Voices filter, so video and voice history are never loaded there.
+- 2026-11-24: In character-sheet mode (`/dev/characterSheet`), `PageAI.fetchImages` always sends `characterType=-1` (`CharacterType.All`) to `GetImages`, including infinite-scroll pages.
+- 2026-11-24: AI creator image reference inputs (`InputType.ImageArray`) got a "Character sheet" button that opens `CharacterSheetPicker` (`components/page/ai/popup/CharacterSheetPicker.tsx`). It calls `GetImages` with `mediaCreationStatus=2`, `nextMaxId`, and the Swagger-documented `characterType` query (currently `CharacterType.All`); the selected item's `thumbnailUrl` is appended to the input value (e.g. `referenceImages`).
+- 2026-11-24: Fixed Character Sheet accordion sections (01–04) being squashed/clipped on short viewports: `.accordionSection` now has `flex-shrink: 0` inside the scrollable `.mediaCreatorContainer`.
 - 2026-11-15: Added optional `IGetMedia.tokenUsage` (number, not documented in Swagger — `GetImages`/`GetVideos`/`GetAudios` have no response schema). Generated image/video/voice modals show it as "Token usage" in the details grid only when present; added en/fa `Token usage` key.
 - 2026-11-15: Character Sheet restored the 03 Write the prompt and 04 Configure the output accordions; they wrap `MediaCreator`'s prompt and model settings via new `renderPromptSection`/`renderSettingsSection` props.
 - 2026-11-15: Character Sheet now wraps `MediaCreator` (new props `hideMediaTabs`, `headerContent`, `externalMediaValues`, `requestExtras`). Only Subject type and Reference images sections remain; the reference limit/file types come from the selected model's ImageArray input (`GetImageCreators`), references upload immediately, and prompt/settings are the AI creator's. Attributes, custom prompt/settings, prompt preview, and undo/redo were removed.
@@ -13,17 +19,15 @@
 - 2026-11-15: `GeneratedAudioModal` also renders `metadata.input_lyrics` in the same styled, copyable lyrics block ("Input lyrics") instead of the metadata grid; added en/fa `Input lyrics` key.
 - 2026-11-15: `GeneratedAudioModal` shows lyrics-only voice results (`mediaUrl: null`) by parsing `metadata.output_lyrics` into a styled, copyable "Lyrics" block (section tags like `[Verse]` rendered as chips); `output_lyrics` is excluded from the metadata grid. Added en/fa `Lyrics`/`Copy lyrics` keys.
 - 2026-11-15: AI voice results now read the mp3 path from `IGetMedia.mediaUrl` (observed in backend `GetAudios` response, e.g. `aim/<guid>.mp3`) in `GeneratedAudioModal`, with `audioUrl` kept as fallback.
-- 2026-11-14: AI creator (`/Ai/creator`) now has a third Voices mode next to Images/Videos (`type=3`): `GetAudioCreators`, `GetAudioUsage`, `CreateAudio`, and paginated `GetAudios` (route-map entries added), voice history cards in `MediaLibrary`, and the new `GeneratedAudioModal` that plays/downloads mp3 output or shows/copies text output. Added `PushResponseType.AIAudioSuccess`/`AIAudioFailed`, optional `IGetMedia.audioUrl`/`text`, `PendingMediaType` `"audio"`, and en/fa voice keys.
-=======
-=======
-=======
+- # 2026-11-14: AI creator (`/Ai/creator`) now has a third Voices mode next to Images/Videos (`type=3`): `GetAudioCreators`, `GetAudioUsage`, `CreateAudio`, and paginated `GetAudios` (route-map entries added), voice history cards in `MediaLibrary`, and the new `GeneratedAudioModal` that plays/downloads mp3 output or shows/copies text output. Added `PushResponseType.AIAudioSuccess`/`AIAudioFailed`, optional `IGetMedia.audioUrl`/`text`, `PendingMediaType` `"audio"`, and en/fa voice keys.
+  # =======
 - 2026-11-23: `redirectInterface`: redirects to `ig.me` from Iran-equivalent countries (`IR` + `IRAN_EXTRA_COUNTRY_CODES`) now show a "turn on your VPN" page (same `data-vpn-block` + `ReloadTimer` mechanism) and redirect automatically once the VPN is on.
->>>>>>> saeed
+  > > > > > > > saeed
 - 2026-11-23: `redirectInterface` VPN-block page: `ReloadTimer` no longer calls `location.reload()` blindly every second (Safari showed "The network connection was lost" when the VPN dropped mid-reload and the timer died). It now probes the current URL with `fetch` (no-store), swallows network errors, and reloads only when the response lacks the `data-vpn-block` marker.
->>>>>>> saeed
+  > > > > > > > saeed
 - 2026-11-23: `redirectInterface` in-app-browser flow now carries the target in the path: in-app requests to `/redirectInterface?redirectUrl=...` are redirected to `/redirectInterface/<base64url(redirectUrl)>` (new route `app/redirectInterface/[target]/page.tsx`), and that path URL is what the external browser opens, because Instagram iOS "Open in external browser" drops the query string. Shared logic lives in `app/redirectInterface/renderRedirectInterface.tsx`.
 - 2026-11-23: `redirectInterface` in-app-browser escape now builds the reopened page query as `redirectUrl=${encodeURIComponent(redirectUrl)}` (strict URI encoding instead of `URLSearchParams` form encoding) so the full target URL survives the Android `intent://` / external-browser handoff.
->>>>>>> saeed
+  > > > > > > > saeed
 - 2026-11-14: Feature search (`components/search/featureSearchIndex.ts`) now lists the moved Message sections individually: Quick chat start button, Persistent Direct Menu, and Automatic Reply open `/message/tools`; Advance Settings, Customization, and Phone Numbers open `/message/Properties` (route casing fixed from `/message/properties`). Labels and extra keywords come from the existing locale keys.
 - 2026-11-14: Split Message Properties Advance Settings: `messagePanel.tsx` keeps auto-like story replies, automatic reply control, and default direct language; Custom FollowUp Template and Custom Initial Engagement Message moved to the new `components/messages/properties/customization.tsx` card titled `messagesetting_Customization` (added in all eight locales). Handlers and state stay in `legacy-pages/message/Properties.tsx`; no API changes.
 - 2026-11-14: Fixed the Smart default popup (`specialPayLoad.tsx`, used by Ice Breaker/Persistent Menu on `/message/tools`) "create AI/Flow" empty-state buttons that pushed to the non-existent `/message/AIAndFlow`; they now open `/Ai/FlowandAgent`. The `responseRules` catalog entry lists both `/message/tools` and `/message/Properties` (follower/initial-engagement templates and language stay in Properties).

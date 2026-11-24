@@ -19,7 +19,7 @@ import { handleDecompress } from "brancy/helper/pako";
 import { getHubConnection } from "brancy/helper/pushNotif";
 import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
 import { LanguageKey } from "brancy/i18n";
-import { PsgFeatureType, PushResponseType } from "brancy/models/enums";
+import { CharacterType, PsgFeatureType, PushResponseType } from "brancy/models/enums";
 import {
   IGetImageUsageRequest,
   IGetMedia,
@@ -115,6 +115,7 @@ export default function PageAI({
         queries: [
           { key: "mediaCreationStatus", value: SUCCESS_MEDIA_STATUS.toString() },
           { key: "nextMaxId", value: cursor ?? "" },
+          ...(characterSheet ? [{ key: "characterType", value: CharacterType.All.toString() }] : []),
         ],
       });
       if (!response.succeeded) {
@@ -125,7 +126,7 @@ export default function PageAI({
       setNextMaxId(response.value?.nextMaxId || null);
       return items;
     },
-    [session],
+    [session, characterSheet],
   );
   const fetchVideos = useCallback(
     async (cursor: string | null): Promise<IGetMedia[]> => {
@@ -398,46 +399,65 @@ export default function PageAI({
       if (!loadedAudioCreators) loadAudioCreators();
     }
   }, [activeTab, loadedImageCreators, loadedVideoCreators, loadedAudioCreators, session]);
-  const handleGetNotif = useCallback((notif: string) => {
-    try {
-      const decombNotif = handleDecompress(notif);
-      if (!decombNotif) return;
-      const notifObj = JSON.parse(decombNotif) as PushNotif;
-      if (!notifObj.Message) return;
-      console.log("notifObj", notifObj);
-      const rawGeneratedMedia = JSON.parse(notifObj.Message) as Record<string, unknown>;
-      const newPostPush = convertFirstLetterToLowerCase(rawGeneratedMedia) as IGetMedia & {
-        ClientContext?: string;
-        client_context?: string;
-      };
-      const generatedClientContext =
-        newPostPush.clientContext || newPostPush.ClientContext || newPostPush.client_context;
-      if (!generatedClientContext) return;
-      const generatedImage = { ...newPostPush, clientContext: generatedClientContext } as IGetMedia;
-      const pendingGeneration = pendingGenerationsRef.current.find(
-        (item) => item.clientContext.toLowerCase() === generatedClientContext.toLowerCase(),
-      );
-      console.log("TEMP signalR result", notifObj.ResponseType, generatedImage);
-      if (notifObj.ResponseType === PushResponseType.AIImageSuccess) {
-        console.log("generatedImage", generatedImage);
-        setCreateMediaLoading(false);
-        setImages((current) => {
-          const alreadyAdded = current.some(
-            (item) =>
-              item.id === generatedImage.id ||
-              item.clientContext?.toLowerCase() === generatedClientContext.toLowerCase(),
-          );
-          return alreadyAdded ? current : [generatedImage, ...current];
-        });
-        pendingGenerationsRef.current = pendingGenerationsRef.current.filter(
-          (item) => item.clientContext !== generatedClientContext,
+  const handleGetNotif = useCallback(
+    (notif: string) => {
+      try {
+        const decombNotif = handleDecompress(notif);
+        if (!decombNotif) return;
+        const notifObj = JSON.parse(decombNotif) as PushNotif;
+        if (!notifObj.Message) return;
+        console.log("notifObj", notifObj);
+        const rawGeneratedMedia = JSON.parse(notifObj.Message) as Record<string, unknown>;
+        const newPostPush = convertFirstLetterToLowerCase(rawGeneratedMedia) as IGetMedia & {
+          ClientContext?: string;
+          client_context?: string;
+        };
+        const generatedClientContext =
+          newPostPush.clientContext || newPostPush.ClientContext || newPostPush.client_context;
+        if (!generatedClientContext) return;
+        const generatedImage = { ...newPostPush, clientContext: generatedClientContext } as IGetMedia;
+        const pendingGeneration = pendingGenerationsRef.current.find(
+          (item) => item.clientContext.toLowerCase() === generatedClientContext.toLowerCase(),
         );
-        setPendingGenerations(pendingGenerationsRef.current);
-      } else if (notifObj.ResponseType === PushResponseType.AIVideoSuccess) {
-        console.log("generatedVideo", generatedImage);
-        setCreateMediaLoading(false);
-        setTimeout(() => {
-          setVideos((current) => {
+        console.log("TEMP signalR result", notifObj.ResponseType, generatedImage);
+        if (notifObj.ResponseType === PushResponseType.AIImageSuccess) {
+          console.log("generatedImage", generatedImage);
+          setCreateMediaLoading(false);
+          const isHiddenCharacterSheet = !characterSheet && generatedImage.characterType != null;
+          if (!isHiddenCharacterSheet) {
+            setImages((current) => {
+              const alreadyAdded = current.some(
+                (item) =>
+                  item.id === generatedImage.id ||
+                  item.clientContext?.toLowerCase() === generatedClientContext.toLowerCase(),
+              );
+              return alreadyAdded ? current : [generatedImage, ...current];
+            });
+          }
+          pendingGenerationsRef.current = pendingGenerationsRef.current.filter(
+            (item) => item.clientContext !== generatedClientContext,
+          );
+          setPendingGenerations(pendingGenerationsRef.current);
+        } else if (notifObj.ResponseType === PushResponseType.AIVideoSuccess) {
+          console.log("generatedVideo", generatedImage);
+          setCreateMediaLoading(false);
+          setTimeout(() => {
+            setVideos((current) => {
+              const alreadyAdded = current.some(
+                (item) =>
+                  item.id === generatedImage.id ||
+                  item.clientContext?.toLowerCase() === generatedClientContext.toLowerCase(),
+              );
+              return alreadyAdded ? current : [generatedImage, ...current];
+            });
+            pendingGenerationsRef.current = pendingGenerationsRef.current.filter(
+              (item) => item.clientContext !== generatedClientContext,
+            );
+            setPendingGenerations(pendingGenerationsRef.current);
+          }, VIDEO_THUMBNAIL_DELAY_MS);
+        } else if (notifObj.ResponseType === PushResponseType.AIAudioSuccess) {
+          setCreateMediaLoading(false);
+          setAudios((current) => {
             const alreadyAdded = current.some(
               (item) =>
                 item.id === generatedImage.id ||
@@ -449,44 +469,31 @@ export default function PageAI({
             (item) => item.clientContext !== generatedClientContext,
           );
           setPendingGenerations(pendingGenerationsRef.current);
-        }, VIDEO_THUMBNAIL_DELAY_MS);
-      } else if (notifObj.ResponseType === PushResponseType.AIAudioSuccess) {
-        setCreateMediaLoading(false);
-        setAudios((current) => {
-          const alreadyAdded = current.some(
-            (item) =>
-              item.id === generatedImage.id ||
-              item.clientContext?.toLowerCase() === generatedClientContext.toLowerCase(),
+        } else if (
+          notifObj.ResponseType === PushResponseType.AIImageFailed ||
+          notifObj.ResponseType === PushResponseType.AIVideoFailed ||
+          notifObj.ResponseType === PushResponseType.AIAudioFailed
+        ) {
+          if (!pendingGeneration) return;
+          console.log("generatedImagefailed", generatedImage);
+          setCreateMediaLoading(false);
+          pendingGenerationsRef.current = pendingGenerationsRef.current.filter(
+            (item) => item.clientContext !== generatedClientContext,
           );
-          return alreadyAdded ? current : [generatedImage, ...current];
-        });
-        pendingGenerationsRef.current = pendingGenerationsRef.current.filter(
-          (item) => item.clientContext !== generatedClientContext,
-        );
-        setPendingGenerations(pendingGenerationsRef.current);
-      } else if (
-        notifObj.ResponseType === PushResponseType.AIImageFailed ||
-        notifObj.ResponseType === PushResponseType.AIVideoFailed ||
-        notifObj.ResponseType === PushResponseType.AIAudioFailed
-      ) {
-        if (!pendingGeneration) return;
-        console.log("generatedImagefailed", generatedImage);
-        setCreateMediaLoading(false);
-        pendingGenerationsRef.current = pendingGenerationsRef.current.filter(
-          (item) => item.clientContext !== generatedClientContext,
-        );
-        setPendingGenerations(pendingGenerationsRef.current);
-        const failedMetaData = (generatedImage as IGetMedia & { metaData?: { Error?: string | null } }).metaData;
-        internalNotify(
-          InternalResponseType.InvalidMetaData,
-          NotifType.Warning,
-          failedMetaData?.Error || generatedImage.metadata || t(", Media generation failed."),
-        );
+          setPendingGenerations(pendingGenerationsRef.current);
+          const failedMetaData = (generatedImage as IGetMedia & { metaData?: { Error?: string | null } }).metaData;
+          internalNotify(
+            InternalResponseType.InvalidMetaData,
+            NotifType.Warning,
+            failedMetaData?.Error || generatedImage.metadata || t(", Media generation failed."),
+          );
+        }
+      } catch (error) {
+        notify(ResponseType.Unexpected, NotifType.Error);
       }
-    } catch (error) {
-      notify(ResponseType.Unexpected, NotifType.Error);
-    }
-  }, []);
+    },
+    [characterSheet],
+  );
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
     const setupSignalR = () => {
@@ -572,6 +579,7 @@ export default function PageAI({
             setSelectedAudio={setSelectedAudio}
             pendingGenerations={pendingGenerations}
             containerRef={containerRef}
+            hideFilters={characterSheet}
           />
         </div>
 
