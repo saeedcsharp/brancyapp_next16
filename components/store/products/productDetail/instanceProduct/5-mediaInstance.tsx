@@ -38,7 +38,7 @@ const restrictToHorizontalAxis: Modifier = ({ transform }) => ({
 
 // Only saved custom media (has id) or newly uploaded media can become the product cover.
 function canBeCover(item: IMediaInstanceInfo): boolean {
-  if (item.isUploading) return false;
+  if (item.isUploading || item.isHidden) return false;
   if (item.uploadMedia) return true;
   return !!item.customMedia && !item.customMedia.isSuggested && item.customMedia.id > 0;
 }
@@ -54,7 +54,6 @@ function getMediaSrc(item: IMediaInstanceInfo): string {
 function SortableItem({
   item,
   index,
-  onView,
   onReplace,
   onDelete,
   onToggleVisibility,
@@ -63,7 +62,6 @@ function SortableItem({
 }: {
   item: IMediaInstanceInfo;
   index: number;
-  onView: (url: string) => void;
   onReplace: (index: number) => void;
   onDelete: (index: number) => void;
   onToggleVisibility: (index: number) => void;
@@ -134,7 +132,7 @@ function SortableItem({
         )}
 
         {/* تنظیمات thumbnail */}
-        <div className={`${styles.thumbnailmediasetting} ${item.isHidden && "fadeDiv"}`}>
+        <div className={styles.thumbnailmediasetting}>
           <div className={styles.thumbnailmediatop}>
             <img
               className={styles.thumbnailicon}
@@ -154,20 +152,14 @@ function SortableItem({
             {/* اگر در حال آپلود است، دکمه‌ها را نمایش نده */}
             {!isUploading && (
               <>
-                <img
-                  className={styles.thumbnailiconstg}
-                  title="ℹ️ view large"
-                  src="/icon-view.svg"
-                  onClick={() =>
-                    onView(
-                      item.uploadMedia
-                        ? item.uploadMedia.base64Url
-                        : item.childMedia
-                          ? basePictureUrl + item.childMedia.thumbnailMediaUrl
-                          : basePictureUrl + item.customMedia!.thumbnailMediaUrl,
-                    )
-                  }
-                />
+                {!item.uploadMedia && (
+                  <img
+                    className={styles.thumbnailiconstg}
+                    title={item.isHidden ? "ℹ️ show" : "ℹ️ hide"}
+                    src={item.isHidden ? "/hide.svg" : "/icon-view.svg"}
+                    onClick={() => onToggleVisibility(item.index)}
+                  />
+                )}
                 {item.uploadMedia && (
                   <>
                     <img
@@ -268,18 +260,26 @@ export default function MediaInstance({
   );
 
   function handleSpanClick(index: number) {
-    setProductMediaInfo((prev) => prev.map((x) => (x.index !== index ? x : { ...x, isHidden: !x.isHidden })));
+    const target = productMediaInfo.find((x) => x.index === index);
+    if (target && !target.isHidden && target.isCover) setUsePostCover(true);
+    setProductMediaInfo((prev) =>
+      prev.map((x) =>
+        x.index !== index ? x : { ...x, isHidden: !x.isHidden, isCover: !x.isHidden ? false : x.isCover },
+      ),
+    );
   }
 
   const [usePostCover, setUsePostCover] = useState<boolean>(initialUsePostCover);
 
   function handleSetCover(index: number) {
-    setUsePostCover(false);
+    const target = productMediaInfo.find((x) => x.index === index);
+    // Deselecting the cover media falls back to the post thumbnail, so exactly one cover is always selected.
+    setUsePostCover(!!target?.isCover);
     setProductMediaInfo((prev) => prev.map((x) => ({ ...x, isCover: x.index === index ? !x.isCover : false })));
   }
 
   function handleSetPostCover() {
-    setUsePostCover((prev) => !prev);
+    setUsePostCover(true);
     setProductMediaInfo((prev) => prev.map((x) => ({ ...x, isCover: false })));
   }
 
@@ -619,7 +619,6 @@ export default function MediaInstance({
                       key={index}
                       item={item}
                       index={index}
-                      onView={setPopupImage}
                       onReplace={handleReplaceImage}
                       onDelete={handleDeleteCustomeMedia}
                       onToggleVisibility={handleSpanClick}

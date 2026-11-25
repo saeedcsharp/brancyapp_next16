@@ -53,7 +53,14 @@ const restrictToHorizontalAxis: Modifier = ({ transform }) => ({
 
 // Only newly uploaded media can become the product cover in the create flow.
 function canBeCover(media: IProduct_Media): boolean {
-  return !media.isDefault && !media.key && !media.fromSuggestion && !media.isUploading && !!media.thumbnailMediaUrl;
+  return (
+    !media.isDefault &&
+    !media.key &&
+    !media.fromSuggestion &&
+    !media.isUploading &&
+    !media.isHidden &&
+    !!media.thumbnailMediaUrl
+  );
 }
 
 interface MediaProps {
@@ -64,25 +71,12 @@ interface MediaProps {
   upadteCteateFromMeida: (isNext: boolean, media: IProduct_Media[]) => void;
 }
 
-interface ImagePopupProps {
-  imageSrc: string;
-  onClose: () => void;
-}
-
-const ImagePopup = React.memo(({ imageSrc, onClose }: ImagePopupProps) => (
-  <div className="dialogBg" onClick={onClose} role="dialog" aria-label="Image Preview">
-    <img className={styles.popupContent} src={imageSrc} alt="Enlarged product image" role="img" />
-  </div>
-));
-ImagePopup.displayName = "ImagePopup";
-
 // Sortable item component
 function SortableItem({
   media,
   index,
   onDelete,
   onReplace,
-  onView,
   onToggleVisibility,
   onSetCover,
 }: {
@@ -90,7 +84,6 @@ function SortableItem({
   index: number;
   onDelete: (index: number) => void;
   onReplace: (index: number) => void;
-  onView: (src: string) => void;
   onToggleVisibility: (index: number) => void;
   onSetCover: (index: number) => void;
 }) {
@@ -133,7 +126,7 @@ function SortableItem({
         )}
 
         {/* ✅ SETTINGS */}
-        <div className={`${styles.thumbnailmediasetting} ${media.isHidden && "fadeDiv"}`}>
+        <div className={styles.thumbnailmediasetting}>
           <div className={styles.thumbnailmediatop}>
             <img
               className={styles.thumbnailicon}
@@ -150,16 +143,16 @@ function SortableItem({
             )}
           </div>
 
-          {!media.isDefault && !isUploading && (
+          {!isUploading && (
             <div className={styles.thumbnailmediabtn}>
               <img
                 className={styles.thumbnailiconstg}
-                title="ℹ️ view large"
-                src="/icon-view.svg"
-                onClick={() => onView(media.base64Url)}
+                title={media.isHidden ? "ℹ️ show" : "ℹ️ hide"}
+                src={media.isHidden ? "/hide.svg" : "/icon-view.svg"}
+                onClick={() => onToggleVisibility(media.index)}
               />
 
-              {!media.key && !media.fromSuggestion && (
+              {!media.isDefault && !media.key && !media.fromSuggestion && (
                 <img
                   onClick={() => onReplace(media.index)}
                   className={styles.thumbnailiconstg}
@@ -168,12 +161,14 @@ function SortableItem({
                 />
               )}
 
-              <img
-                className={styles.thumbnailiconstg}
-                onClick={() => onDelete(media.index)}
-                title="ℹ️ delete"
-                src="/deletemedia.svg"
-              />
+              {!media.isDefault && (
+                <img
+                  className={styles.thumbnailiconstg}
+                  onClick={() => onDelete(media.index)}
+                  title="ℹ️ delete"
+                  src="/deletemedia.svg"
+                />
+              )}
             </div>
           )}
         </div>
@@ -230,7 +225,6 @@ export default function Media({
   const [productMediaInfo, setProductMediaInfo] = useState<IProduct_Media[]>(productMedia);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [selectedSuggestions, setSelectedSuggestions] = useState<string[]>([]);
-  const [popupImage, setPopupImage] = useState<string | null>(null);
 
   // Configure DnD sensors
   const sensors = useSensors(
@@ -258,7 +252,11 @@ export default function Media({
     return window.btoa(binary);
   }
   const handleSpanClick = useCallback((index: number): void => {
-    setProductMediaInfo((prev) => prev.map((x) => (x.index !== index ? x : { ...x, isHidden: !x.isHidden })));
+    setProductMediaInfo((prev) =>
+      prev.map((x) =>
+        x.index !== index ? x : { ...x, isHidden: !x.isHidden, isCover: !x.isHidden ? false : x.isCover },
+      ),
+    );
   }, []);
 
   const handleSetCover = useCallback((index: number): void => {
@@ -519,7 +517,6 @@ export default function Media({
   return (
     <>
       <div className={styles.Media} role="region" aria-label="Product Media Management">
-        {popupImage && <ImagePopup imageSrc={popupImage} onClose={() => setPopupImage(null)} />}
         <div className="headerandinput">
           <div className="title" role="heading" aria-level={2}>
             {t(LanguageKey.product_mediatitle)}
@@ -570,7 +567,6 @@ export default function Media({
                       index={index}
                       onDelete={handleDeleteCustomeMedia}
                       onReplace={handleReplaceImage}
-                      onView={(src) => setPopupImage(src)}
                       onToggleVisibility={handleSpanClick}
                       onSetCover={handleSetCover}
                     />

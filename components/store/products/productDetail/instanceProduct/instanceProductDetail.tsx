@@ -113,6 +113,17 @@ export default function InstanceProductDetail({
   );
   const [deActiveSubProducts, setDeActiveSubProducts] = useState<number[]>([]);
   const [specificationInfo, setSpecificationInfo] = useState(fullProduct.specifications);
+  const currentThumbnail = fullProduct.shortProduct.thumbnailMediaUrl;
+  // The current cover is the custom media whose url matches shortProduct.thumbnailMediaUrl; otherwise the post thumbnail.
+  const initialCoverMediaId =
+    fullProduct.medias.find(
+      (x) =>
+        x.childMedia?.orderId !== 0 &&
+        x.customMedia &&
+        !x.customMedia.isSuggested &&
+        !x.isHidden &&
+        (x.customMedia.thumbnailMediaUrl === currentThumbnail || x.customMedia.mediaUrl === currentThumbnail),
+    )?.customMedia?.id ?? null;
   const [mediaInfo, setMediaInfo] = useState<IMediaInstanceInfo[]>(
     fullProduct.medias
       .filter((y) => y.childMedia?.orderId !== 0)
@@ -124,10 +135,11 @@ export default function InstanceProductDetail({
         mediaType: x.mediaType,
         uploadMedia: null,
         key: null,
+        isCover: initialCoverMediaId !== null && x.customMedia?.id === initialCoverMediaId,
       })),
   );
   const [suggestedMediaList, setSuggestedMediaList] = useState<ISuggestedMedia>({ medias: [] });
-  const [usePostCover, setUsePostCover] = useState(false);
+  const [usePostCover, setUsePostCover] = useState(initialCoverMediaId === null);
   const [setting, setSetting] = useState<IProduct_Setting>({
     availabilityStatus: fullProduct.shortProduct.availabilityStatus,
     gauranteeStatus: fullProduct.secondaryInfo.gaurantee,
@@ -524,7 +536,7 @@ export default function InstanceProductDetail({
       if (!updateSepOrderRes.succeeded) notify(updateSepOrderRes.info.responseType, NotifType.Warning);
       const coverMedia = mediaInfo.find((x) => x.isCover);
       if (usePostCover) {
-        await handleChangeThumbnail(null);
+        if (initialCoverMediaId !== null) await handleChangeThumbnail(null);
       } else if (coverMedia) {
         let coverMediaId: number | null = null;
         if (coverMedia.uploadMedia) {
@@ -533,7 +545,7 @@ export default function InstanceProductDetail({
         } else if (coverMedia.customMedia && coverMedia.customMedia.id > 0) {
           coverMediaId = coverMedia.customMedia.id;
         }
-        if (coverMediaId) await handleChangeThumbnail(coverMediaId);
+        if (coverMediaId && coverMediaId !== initialCoverMediaId) await handleChangeThumbnail(coverMediaId);
       }
       // if (!suggestedMediaRes.succeeded)
       //   notify(suggestedMediaRes.info.responseType, NotifType.Warning);
