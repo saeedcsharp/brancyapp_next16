@@ -31,7 +31,15 @@ import Modal from "brancy/components/design/modal";
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { createPortal } from "react-dom";
 type InputValue = string | number | boolean | string[];
-export type MediaTab = "image" | "video" | "audio" | "createimage" | "createvideo" | "createaudio";
+export type MediaTab =
+  | "image"
+  | "video"
+  | "audio"
+  | "charactersheet"
+  | "createimage"
+  | "createvideo"
+  | "createaudio"
+  | "createcharactersheet";
 interface UploadedMediaPreview {
   fileName: string;
   showUrl: string;
@@ -57,6 +65,7 @@ interface MediaCreatorProps {
   headerContent?: ReactNode;
   externalMediaValues?: Record<string, string[]>;
   requestExtras?: Pick<IGetImageUsageRequest, "characterType" | "characterName" | "characterDescription">;
+  extraFieldsAreValid?: boolean;
   renderPromptSection?: (content: ReactNode) => ReactNode;
   renderSettingsSection?: (content: ReactNode) => ReactNode;
 }
@@ -383,6 +392,7 @@ export default function MediaCreator({
   headerContent,
   externalMediaValues,
   requestExtras,
+  extraFieldsAreValid = true,
   renderPromptSection,
   renderSettingsSection,
 }: MediaCreatorProps) {
@@ -394,9 +404,11 @@ export default function MediaCreator({
     { id: 0, label: t("Images") },
     { id: 1, label: t("Videos") },
     { id: 2, label: t("Voices") },
+    { id: 3, label: t("Character sheet") },
   ];
-  const selectedMediaTab = isAudioCreator ? 2 : isVideoCreator ? 1 : 0;
-  const handleMediaTabChange = (tab: number) => setActiveTab(tab === 2 ? "audio" : tab === 1 ? "video" : "image");
+  const selectedMediaTab = activeTab === "createcharactersheet" ? 3 : isAudioCreator ? 2 : isVideoCreator ? 1 : 0;
+  const handleMediaTabChange = (tab: number) =>
+    setActiveTab(tab === 3 ? "charactersheet" : tab === 2 ? "audio" : tab === 1 ? "video" : "image");
   const creatorLabel = isAudioCreator ? "Voice" : isVideoCreator ? "Video" : "Image";
   const [isSettingsOpen, setIsSettingsOpen] = useState(true);
   const availableCreators = creators
@@ -504,11 +516,13 @@ export default function MediaCreator({
     prompt,
     ...requestExtras,
   });
-  const requiredInputsAreValid = model.inputModelTypes.every((input) => {
-    if (!input.isRequired || allowsEmptyValue(input)) return true;
-    const value = resolveValue(input.key);
-    return Array.isArray(value) ? value.length >= input.minArrayLength : value !== "" && value !== undefined;
-  });
+  const requiredInputsAreValid =
+    extraFieldsAreValid &&
+    model.inputModelTypes.every((input) => {
+      if (!input.isRequired || allowsEmptyValue(input)) return true;
+      const value = resolveValue(input.key);
+      return Array.isArray(value) ? value.length >= input.minArrayLength : value !== "" && value !== undefined;
+    });
   const getImageUsage = async (): Promise<number | null> => {
     if (!session || !promptIsValid || !requiredInputsAreValid) return null;
     const request = buildRequest();

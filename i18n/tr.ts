@@ -3619,6 +3619,12 @@ export default {
     "Untitled generation": "Adsız üretim",
     "No images yet": "Henüz görsel yok",
     "No videos yet": "Henüz video yok",
+    "Character sheet": "Karakter sayfası",
+    "No character sheets yet": "Henüz karakter sayfası yok",
+    "Your successful character sheet generations will appear here.":
+      "Başarıyla oluşturulan karakter sayfalarınız burada görünecek.",
+    "Generating character sheet": "Karakter sayfası oluşturuluyor",
+    "Character sheet generation request sent.": "Karakter sayfası oluşturma isteği gönderildi.",
     "Your successful image generations will appear here.": "Başarılı görsel üretimleriniz burada görünecek.",
     "Your successful video generations will appear here.": "Başarılı video üretimleriniz burada görünecek.",
     "Create your first image": "İlk görselinizi oluşturun",

@@ -59,7 +59,7 @@
 
 =======
 
-- Add a route smoke test confirming the Dev Panel Character Sheet button navigates to `/dev/characterSheet` and that the AI creator exposes only Image and Video tabs when a UI test harness is introduced.
+- Add a route smoke test confirming the Dev Panel Character Sheet button navigates to `/dev/characterSheet` and that the AI creator exposes Image, Video, Voice, and Character sheet tabs and history filters when a UI test harness is introduced.
 - Verify with the backend that `thumbnailUrl` values from the Character sheet picker are accepted in `referenceImages` (uploaded files send `UploadFile` file names), and whether `GetImages` returns only character sheets when `characterType=-1`.
 - Verify Character Sheet `CreateImage` end-to-end with an authenticated session (reference upload into ImageArray input, `characterType`/`characterName`/`characterDescription`, prompt-length limits).
   > > > > > > > sepehr

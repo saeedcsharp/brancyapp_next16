@@ -3585,6 +3585,12 @@ export default {
     "Untitled generation": "Adsız yaradılış",
     "No images yet": "Hələ şəkil yoxdur",
     "No videos yet": "Hələ video yoxdur",
+    "Character sheet": "Personaj vərəqi",
+    "No character sheets yet": "Hələ personaj vərəqi yoxdur",
+    "Your successful character sheet generations will appear here.":
+      "Uğurla yaradılmış personaj vərəqləriniz burada görünəcək.",
+    "Generating character sheet": "Personaj vərəqi yaradılır",
+    "Character sheet generation request sent.": "Personaj vərəqi yaratma sorğusu göndərildi.",
     "Your successful image generations will appear here.": "Uğurlu şəkil yaradılışlarınız burada görünəcək.",
     "Your successful video generations will appear here.": "Uğurlu video yaradılışlarınız burada görünəcək.",
     "Create your first image": "İlk şəklinizi yaradın",

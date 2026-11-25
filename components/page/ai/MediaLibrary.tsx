@@ -15,10 +15,12 @@ type MediaLibraryProps = {
   images: IGetMedia[];
   videos: IGetMedia[];
   audios: IGetMedia[];
+  characterSheets: IGetMedia[];
   loading: boolean;
   isLoadingMore: boolean;
   isLoadingMoreVideos: boolean;
   isLoadingMoreAudios: boolean;
+  isLoadingMoreCharacterSheets: boolean;
   setSelectedImage: (image: IGetMedia) => void;
   setSelectedVideo: (video: IGetMedia) => void;
   setSelectedAudio: (audio: IGetMedia) => void;
@@ -34,24 +36,33 @@ const mediaFilterOptions = [
   { id: 0, label: "Images" },
   { id: 1, label: "Videos" },
   { id: 2, label: "Voices" },
+  { id: 3, label: "Character sheet" },
 ];
-const filterById: PendingMediaType[] = ["image", "video", "audio"];
+const filterById: PendingMediaType[] = ["image", "video", "audio", "charactersheet"];
 const emptyTitle: Record<PendingMediaType, string> = {
   image: "No images yet",
   video: "No videos yet",
   audio: "No voices yet",
+  charactersheet: "No character sheets yet",
 };
 const emptyDescription: Record<PendingMediaType, string> = {
   image: "Your successful image generations will appear here.",
   video: "Your successful video generations will appear here.",
   audio: "Your successful voice generations will appear here.",
+  charactersheet: "Your successful character sheet generations will appear here.",
 };
 const generatingLabel: Record<PendingMediaType, string> = {
   image: "Generating image",
   video: "Generating video",
   audio: "Generating voice",
+  charactersheet: "Generating character sheet",
 };
-const typeLabel: Record<PendingMediaType, string> = { image: "photo", video: "video", audio: "voice" };
+const typeLabel: Record<PendingMediaType, string> = {
+  image: "photo",
+  video: "video",
+  audio: "voice",
+  charactersheet: "Character sheet",
+};
 function AudioCardIcon() {
   return (
     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -84,10 +95,12 @@ export default function MediaLibrary({
   images,
   videos,
   audios,
+  characterSheets,
   loading,
   isLoadingMore,
   isLoadingMoreVideos,
   isLoadingMoreAudios,
+  isLoadingMoreCharacterSheets,
   setSelectedImage,
   setSelectedVideo,
   setSelectedAudio,
@@ -99,13 +112,23 @@ export default function MediaLibrary({
   const pendingMedia = pendingGenerations
     .filter((pending) => pending.mediaType === filter)
     .map((pending) => ({ pending }));
-  const mediaItems: MediaItem[] = (filter === "image" ? images : filter === "video" ? videos : audios)
+  const mediaByFilter: Record<PendingMediaType, IGetMedia[]> = {
+    image: images,
+    video: videos,
+    audio: audios,
+    charactersheet: characterSheets,
+  };
+  const mediaItems: MediaItem[] = mediaByFilter[filter]
     .map((media) => ({ media, type: filter }))
     .sort((first, second) => second.media.createdTime - first.media.createdTime);
   const hasMedia = mediaItems.length > 0 || pendingMedia.length > 0;
   const filterValue = filterById.indexOf(filter);
-  const loadingMore =
-    filter === "image" ? isLoadingMore : filter === "video" ? isLoadingMoreVideos : isLoadingMoreAudios;
+  const loadingMore = {
+    image: isLoadingMore,
+    video: isLoadingMoreVideos,
+    audio: isLoadingMoreAudios,
+    charactersheet: isLoadingMoreCharacterSheets,
+  }[filter];
   return (
     <>
       <div className="headerparent">
@@ -159,11 +182,11 @@ export default function MediaLibrary({
                 className={styles.imageCard}
                 key={`${type}-${media.id}`}
                 onClick={() =>
-                  type === "image"
-                    ? setSelectedImage(media)
-                    : type === "video"
-                      ? setSelectedVideo(media)
-                      : setSelectedAudio(media)
+                  type === "video"
+                    ? setSelectedVideo(media)
+                    : type === "audio"
+                      ? setSelectedAudio(media)
+                      : setSelectedImage(media)
                 }>
                 {type === "audio" ? (
                   <div className={styles.imagePreview}>
@@ -172,7 +195,7 @@ export default function MediaLibrary({
                 ) : (
                   <img
                     className={styles.imagePreview}
-                    src={getClientMediaBaseUrl() + (type === "image" ? media.thumbnailUrl : media.imageUrl)}
+                    src={getClientMediaBaseUrl() + (type === "video" ? media.imageUrl : media.thumbnailUrl)}
                     onError={(e) => {
                       (e.target as HTMLImageElement).src = "/cover.svg";
                     }}

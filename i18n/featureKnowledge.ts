@@ -211,12 +211,13 @@ const recordsEn = {
   },
   automationTemplatesPrototype: {
     title: "Sample Flow and AI templates",
-    description: "The dashboard template carousel is a labeled, non-interactive preview. Template numbers and difficulty/trending badges are sample presentation, not backend records or working automation presets.",
+    description:
+      "The dashboard template carousel is a labeled, non-interactive preview. Template numbers and difficulty/trending badges are sample presentation, not backend records or working automation presets.",
   },
   visualIdentityPrototype: {
     title: "Visual Identity and Character Sheet",
     description:
-      "A local-only UI prototype for defining reusable human, product, object, animal, or custom identities. Its references, locks, constraints, consistency controls, and sheet preview are not connected to persistence, analysis, generation, or provider APIs.",
+      "A Character sheet tab in the AI creator for defining reusable human, product, object, animal, or custom identities from reference images and a prompt. It generates images through the AI image creator, and its results appear in a separate Character sheet history filter.",
   },
   advertisingLifecyclePrototype: {
     title: "Advertising calendar, lists, and reports",
@@ -818,12 +819,13 @@ export const featureKnowledgeFa = {
     },
     automationTemplatesPrototype: {
       title: "قالب‌های نمونه فلو و هوش مصنوعی",
-      description: "قالب‌های بالای داشبورد فقط پیش‌نمایش با برچسب نمونه هستند. شماره، سطح و نشان پرطرفدار آن‌ها نمایشی است و با زدن آن‌ها فلو یا دستور واقعی ساخته نمی‌شود.",
+      description:
+        "قالب‌های بالای داشبورد فقط پیش‌نمایش با برچسب نمونه هستند. شماره، سطح و نشان پرطرفدار آن‌ها نمایشی است و با زدن آن‌ها فلو یا دستور واقعی ساخته نمی‌شود.",
     },
     visualIdentityPrototype: {
       title: "هویت بصری و شناسنامه تصویری",
       description:
-        "این بخش فعلاً یک نمونه رابط کاربری محلی برای تعریف هویت انسان، محصول، شیء، حیوان یا سوژه سفارشی است. تصویرهای مرجع، قفل‌ها، محدودیت‌ها، تنظیمات هماهنگی و پیش‌نمایش آن هنوز به ذخیره‌سازی، تحلیل یا ساخت واقعی وصل نیستند.",
+        "تب «کاراکتر شیت» در سازنده هوش مصنوعی برای تعریف هویت قابل استفاده مجدد انسان، محصول، شیء، حیوان یا سوژه سفارشی با تصویرهای مرجع و پرامپت است. تصویر از طریق سازنده تصویر هوش مصنوعی ساخته می‌شود و نتیجه‌ها در فیلتر جداگانه «کاراکتر شیت» در تاریخچه نمایش داده می‌شوند.",
     },
     advertisingLifecyclePrototype: {
       title: "تقویم و گزارش تبلیغات",

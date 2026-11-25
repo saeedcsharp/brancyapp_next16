@@ -3665,6 +3665,12 @@ export default {
     "Untitled generation": "Создание без названия",
     "No images yet": "Изображений пока нет",
     "No videos yet": "Видео пока нет",
+    "Character sheet": "Лист персонажа",
+    "No character sheets yet": "Листов персонажей пока нет",
+    "Your successful character sheet generations will appear here.":
+      "Здесь появятся успешно созданные листы персонажей.",
+    "Generating character sheet": "Создание листа персонажа",
+    "Character sheet generation request sent.": "Запрос на создание листа персонажа отправлен.",
     "Your successful image generations will appear here.": "Успешно созданные изображения появятся здесь.",
     "Your successful video generations will appear here.": "Успешно созданные видео появятся здесь.",
     "Create your first image": "Создайте первое изображение",

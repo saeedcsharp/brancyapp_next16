@@ -3635,6 +3635,12 @@ export default {
     "No videos yet": "No videos yet",
     Voices: "Voices",
     "No voices yet": "No voices yet",
+    "Character sheet": "Character sheet",
+    "No character sheets yet": "No character sheets yet",
+    "Your successful character sheet generations will appear here.":
+      "Your successful character sheet generations will appear here.",
+    "Generating character sheet": "Generating character sheet",
+    "Character sheet generation request sent.": "Character sheet generation request sent.",
     "Your successful voice generations will appear here.": "Your successful voice generations will appear here.",
     "Generating voice": "Generating voice",
     "Create voice": "Create voice",

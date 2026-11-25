@@ -3605,6 +3605,12 @@ export default {
     "No videos yet": "هنوز ویدیویی وجود ندارد",
     Voices: "صداها",
     "No voices yet": "هنوز صدایی وجود ندارد",
+    "Character sheet": "کاراکتر شیت",
+    "No character sheets yet": "هنوز کاراکتر شیتی وجود ندارد",
+    "Your successful character sheet generations will appear here.":
+      "کاراکتر شیت‌های ساخته‌شده شما اینجا نمایش داده می‌شوند.",
+    "Generating character sheet": "در حال ساخت کاراکتر شیت",
+    "Character sheet generation request sent.": "درخواست ساخت کاراکتر شیت ارسال شد.",
     "Your successful voice generations will appear here.": "صداهای ساخته‌شده شما اینجا نمایش داده می‌شوند.",
     "Generating voice": "در حال ساخت صدا",
     "Create voice": "ساخت صدا",

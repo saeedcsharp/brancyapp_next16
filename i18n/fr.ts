@@ -3728,6 +3728,12 @@ export default {
     "Untitled generation": "Création sans titre",
     "No images yet": "Aucune image pour le moment",
     "No videos yet": "Aucune vidéo pour le moment",
+    "Character sheet": "Fiche de personnage",
+    "No character sheets yet": "Aucune fiche de personnage pour le moment",
+    "Your successful character sheet generations will appear here.":
+      "Vos fiches de personnage générées avec succès apparaîtront ici.",
+    "Generating character sheet": "Génération de la fiche de personnage",
+    "Character sheet generation request sent.": "Demande de génération de fiche de personnage envoyée.",
     "Your successful image generations will appear here.": "Vos images générées avec succès apparaîtront ici.",
     "Your successful video generations will appear here.": "Vos vidéos générées avec succès apparaîtront ici.",
     "Create your first image": "Créez votre première image",

@@ -504,7 +504,7 @@ export interface IGetMedia {
   // Not documented in Swagger; non-null for character sheet generations.
   characterType?: CharacterType | null;
 }
-export type PendingMediaType = "image" | "video" | "audio";
+export type PendingMediaType = "image" | "video" | "audio" | "charactersheet";
 export interface PendingGeneration {
   clientContext: string;
   mediaType: PendingMediaType;

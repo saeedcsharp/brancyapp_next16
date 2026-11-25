@@ -2,12 +2,12 @@ import InputBox from "brancy/components/design/inputBox/inputBox";
 import SwitchButton from "brancy/components/design/switchButton/switchButton";
 import TextArea from "brancy/components/design/textArea/textArea";
 import { internalNotify, InternalResponseType, NotifType } from "brancy/components/notifications/notificationBox";
-import MediaCreator, { getUniqueModels } from "brancy/components/page/ai/mediaCreator";
+import MediaCreator, { getUniqueModels, type MediaTab } from "brancy/components/page/ai/mediaCreator";
 import { UploadFile } from "brancy/helper/api";
 import { CharacterType, InputType } from "brancy/models/enums";
 import { IGetImageUsageRequest, IMediaCreator } from "brancy/models/interfaces";
 import { useSession } from "next-auth/react";
-import { ChangeEvent, ReactNode, useEffect, useMemo, useRef, useState } from "react";
+import { ChangeEvent, Dispatch, ReactNode, SetStateAction, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./CharacterSheet.module.css";
 
@@ -38,6 +38,7 @@ interface CharacterSheetProps {
   modelSelection: { creatorKey: string; modelName: string };
   onModelSelectionChange: (selection: { creatorKey: string; modelName: string }) => void;
   onOpenModelList: () => void;
+  setActiveTab?: Dispatch<SetStateAction<MediaTab>>;
 }
 
 const CHARACTER_SHEET_DRAFT_KEY = "character-sheet-local-draft-v2";
@@ -229,6 +230,7 @@ export default function CharacterSheet({
   modelSelection,
   onModelSelectionChange,
   onOpenModelList,
+  setActiveTab,
 }: CharacterSheetProps) {
   const { t } = useTranslation();
   const { data: session } = useSession();
@@ -567,13 +569,14 @@ export default function CharacterSheet({
       openSections={openSections}
       onToggle={toggleSection}>
       <label className={styles.labeledControl}>
-        <span>{t("Identity name")}</span>
+        <span>{t("Identity name")} *</span>
         <InputBox
           value={identityName}
           handleInputChange={(event) => setIdentityName(event.target.value)}
           placeholder={t("Example: Alex or Brancy Phone")}
           clearable={false}
           ariaLabel={t("Identity name")}
+          aria-required
         />
       </label>
       <label className={styles.labeledControl}>
@@ -609,16 +612,17 @@ export default function CharacterSheet({
       creators={creators}
       onCreateMedia={onCreateMedia}
       createMediaLoading={createMediaLoading}
-      setActiveTab={() => undefined}
-      activeTab="createimage"
+      setActiveTab={setActiveTab ?? (() => undefined)}
+      activeTab="createcharactersheet"
       modelSelection={modelSelection}
       onModelSelectionChange={onModelSelectionChange}
       onOpenModelList={onOpenModelList}
       promptToUse={promptToUse}
-      hideMediaTabs
+      hideMediaTabs={!setActiveTab}
       headerContent={headerContent}
       externalMediaValues={externalMediaValues}
       requestExtras={requestExtras}
+      extraFieldsAreValid={identityName.trim().length > 0}
       renderPromptSection={renderPromptSection}
       renderSettingsSection={renderSettingsSection}
     />

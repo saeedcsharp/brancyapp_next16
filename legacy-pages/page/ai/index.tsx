@@ -40,16 +40,30 @@ import GeneratedVideoModal from "brancy/components/page/ai/popup/GeneratedVideoM
 import GeneratedAudioModal from "brancy/components/page/ai/popup/GeneratedAudioModal";
 import ImagePromptSuggestions, { ImagePromptDetail } from "brancy/components/page/ai/popup/imagePromptSuggestions";
 import { AiModelListContent } from "brancy/components/page/ai/popup/AiModelList";
-type AiQueryType = "1" | "2" | "3";
+type AiQueryType = "1" | "2" | "3" | "4";
 const mediaTypeByQuery: Record<AiQueryType, PendingGeneration["mediaType"]> = {
   "1": "image",
   "2": "video",
   "3": "audio",
+  "4": "charactersheet",
 };
 const creatorTabByMediaType: Record<PendingGeneration["mediaType"], MediaTab> = {
   image: "createimage",
   video: "createvideo",
   audio: "createaudio",
+  charactersheet: "createcharactersheet",
+};
+const createEndpointByMediaType: Record<PendingGeneration["mediaType"], string> = {
+  image: "CreateImage",
+  video: "CreateVideo",
+  audio: "CreateAudio",
+  charactersheet: "CreateImage",
+};
+const requestSentMessage: Record<PendingGeneration["mediaType"], string> = {
+  image: "Image generation request sent.",
+  video: "Video generation request sent.",
+  audio: "Voice generation request sent.",
+  charactersheet: "Character sheet generation request sent.",
 };
 const SUCCESS_MEDIA_STATUS = 2;
 const VIDEO_THUMBNAIL_DELAY_MS = 1000;
@@ -66,7 +80,11 @@ export default function PageAI({
       router.push("/");
     },
   });
-  const initialLibrary = initialType ? mediaTypeByQuery[initialType] : "image";
+  const initialLibrary: PendingGeneration["mediaType"] = characterSheet
+    ? "charactersheet"
+    : initialType
+      ? mediaTypeByQuery[initialType]
+      : "image";
   const [activeTab, setActiveTab] = useState<MediaTab>(initialLibrary);
   const [creatorTab, setCreatorTab] = useState<MediaTab>(creatorTabByMediaType[initialLibrary]);
   const [images, setImages] = useState<IGetMedia[]>([]);
@@ -75,14 +93,18 @@ export default function PageAI({
   const [nextVideoMaxId, setNextVideoMaxId] = useState<string | null>(null);
   const [audios, setAudios] = useState<IGetMedia[]>([]);
   const [nextAudioMaxId, setNextAudioMaxId] = useState<string | null>(null);
+  const [characterSheets, setCharacterSheets] = useState<IGetMedia[]>([]);
+  const [nextCharacterSheetMaxId, setNextCharacterSheetMaxId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [createMediaLoading, setCreateMediaLoading] = useState(false);
   const [loadedImages, setLoadedImages] = useState(false);
   const [loadedVideos, setLoadedVideos] = useState(false);
   const [loadedAudios, setLoadedAudios] = useState(false);
+  const [loadedCharacterSheets, setLoadedCharacterSheets] = useState(false);
   const [imageHistoryLoading, setImageHistoryLoading] = useState(true);
   const [videoHistoryLoading, setVideoHistoryLoading] = useState(true);
   const [audioHistoryLoading, setAudioHistoryLoading] = useState(true);
+  const [characterSheetHistoryLoading, setCharacterSheetHistoryLoading] = useState(true);
   const [showFeaturePopup, setShowFeaturePopup] = useState(false);
   const [selectedImage, setSelectedImage] = useState<IGetMedia | null>(null);
   const [selectedVideo, setSelectedVideo] = useState<IGetMedia | null>(null);
@@ -104,6 +126,7 @@ export default function PageAI({
   const [imageModelSelection, setImageModelSelection] = useState({ creatorKey: "", modelName: "" });
   const [videoModelSelection, setVideoModelSelection] = useState({ creatorKey: "", modelName: "" });
   const [audioModelSelection, setAudioModelSelection] = useState({ creatorKey: "", modelName: "" });
+  const [characterSheetModelSelection, setCharacterSheetModelSelection] = useState({ creatorKey: "", modelName: "" });
   const [showModelList, setShowModelList] = useState(false);
   const fetchImages = useCallback(
     async (cursor: string | null): Promise<IGetMedia[]> => {
@@ -115,7 +138,6 @@ export default function PageAI({
         queries: [
           { key: "mediaCreationStatus", value: SUCCESS_MEDIA_STATUS.toString() },
           { key: "nextMaxId", value: cursor ?? "" },
-          ...(characterSheet ? [{ key: "characterType", value: CharacterType.All.toString() }] : []),
         ],
       });
       if (!response.succeeded) {
@@ -126,7 +148,29 @@ export default function PageAI({
       setNextMaxId(response.value?.nextMaxId || null);
       return items;
     },
-    [session, characterSheet],
+    [session],
+  );
+  const fetchCharacterSheets = useCallback(
+    async (cursor: string | null): Promise<IGetMedia[]> => {
+      if (!session) return [];
+      const response = await clientFetchApi<null, IGetMedias>("/api/mediaai/GetImages", {
+        session,
+        methodType: MethodType.get,
+        queries: [
+          { key: "mediaCreationStatus", value: SUCCESS_MEDIA_STATUS.toString() },
+          { key: "nextMaxId", value: cursor ?? "" },
+          { key: "characterType", value: CharacterType.All.toString() },
+        ],
+      });
+      if (!response.succeeded) {
+        notify(response.info?.responseType ?? ResponseType.Unexpected, NotifType.Error, response.errorMessage);
+        return [];
+      }
+      const items = Array.isArray(response.value?.items) ? response.value.items : [];
+      setNextCharacterSheetMaxId(response.value?.nextMaxId || null);
+      return items;
+    },
+    [session],
   );
   const fetchVideos = useCallback(
     async (cursor: string | null): Promise<IGetMedia[]> => {
@@ -194,8 +238,14 @@ export default function PageAI({
     }
     const requestClientContext = crypto.randomUUID();
     const mediaType: PendingGeneration["mediaType"] =
-      creatorTab === "createvideo" ? "video" : creatorTab === "createaudio" ? "audio" : "image";
-    const createEndpoint = { image: "CreateImage", video: "CreateVideo", audio: "CreateAudio" }[mediaType];
+      creatorTab === "createvideo"
+        ? "video"
+        : creatorTab === "createaudio"
+          ? "audio"
+          : creatorTab === "createcharactersheet"
+            ? "charactersheet"
+            : "image";
+    const createEndpoint = createEndpointByMediaType[mediaType];
     const pendingGeneration = { clientContext: requestClientContext, mediaType, prompt: request.prompt };
     pendingGenerationsRef.current = [...pendingGenerationsRef.current, pendingGeneration];
     setPendingGenerations(pendingGenerationsRef.current);
@@ -216,15 +266,7 @@ export default function PageAI({
       setCreateMediaLoading(false);
       return false;
     }
-    internalNotify(
-      InternalResponseType.Success,
-      NotifType.Success,
-      mediaType === "video"
-        ? t("Video generation request sent.")
-        : mediaType === "audio"
-          ? t("Voice generation request sent.")
-          : t("Image generation request sent."),
-    );
+    internalNotify(InternalResponseType.Success, NotifType.Success, t(requestSentMessage[mediaType]));
     setCreateMediaLoading(false);
     return true;
   };
@@ -237,7 +279,6 @@ export default function PageAI({
     if (response.succeeded && Array.isArray(response.value)) {
       setImageCreators(response.value);
       setLoadedImageCreators(true);
-      setCreatorTab("createimage");
     } else {
       notify(response.info?.responseType, NotifType.Warning);
     }
@@ -252,7 +293,6 @@ export default function PageAI({
     if (response.succeeded && Array.isArray(response.value)) {
       setVideoCreators(response.value);
       setLoadedVideoCreators(true);
-      setCreatorTab("createvideo");
     } else {
       notify(response.info?.responseType, NotifType.Warning);
     }
@@ -266,7 +306,6 @@ export default function PageAI({
     if (response.succeeded && Array.isArray(response.value)) {
       setAudioCreators(response.value);
       setLoadedAudioCreators(true);
-      setCreatorTab("createaudio");
     } else {
       notify(response.info?.responseType, NotifType.Warning);
     }
@@ -281,7 +320,7 @@ export default function PageAI({
     if (!router.isReady) return;
     const queryType = router.query?.type;
     const type = Array.isArray(queryType) ? queryType[0] : queryType;
-    if (type === "1" || type === "2" || type === "3") {
+    if (type === "1" || type === "2" || type === "3" || type === "4") {
       setActiveTab(mediaTypeByQuery[type]);
       setLibraryTab(mediaTypeByQuery[type]);
     }
@@ -325,8 +364,22 @@ export default function PageAI({
         setAudioHistoryLoading(false);
       });
   }, [fetchAudios, libraryTab, loadedAudios, session]);
-  const libraryHistoryLoading =
-    libraryTab === "image" ? imageHistoryLoading : libraryTab === "video" ? videoHistoryLoading : audioHistoryLoading;
+  useEffect(() => {
+    if (!session || libraryTab !== "charactersheet" || loadedCharacterSheets) return;
+    setLoadedCharacterSheets(true);
+    setCharacterSheetHistoryLoading(true);
+    fetchCharacterSheets(null)
+      .then(setCharacterSheets)
+      .finally(() => {
+        setCharacterSheetHistoryLoading(false);
+      });
+  }, [fetchCharacterSheets, libraryTab, loadedCharacterSheets, session]);
+  const libraryHistoryLoading = {
+    image: imageHistoryLoading,
+    video: videoHistoryLoading,
+    audio: audioHistoryLoading,
+    charactersheet: characterSheetHistoryLoading,
+  }[libraryTab];
   useEffect(() => {
     if (!libraryHistoryLoading) setInitialLibraryLoading(false);
   }, [libraryHistoryLoading]);
@@ -380,6 +433,25 @@ export default function PageAI({
     containerRef,
     fetchDelay: 0,
   });
+  const fetchMoreCharacterSheets = useCallback(
+    () => fetchCharacterSheets(nextCharacterSheetMaxId),
+    [fetchCharacterSheets, nextCharacterSheetMaxId],
+  );
+  const handleCharacterSheetsFetched = useCallback((newItems: IGetMedia[]) => {
+    setCharacterSheets((current) => [...current, ...newItems]);
+  }, []);
+  const { isLoadingMore: isLoadingMoreCharacterSheets } = useInfiniteScroll<IGetMedia>({
+    hasMore: Boolean(nextCharacterSheetMaxId),
+    fetchMore: fetchMoreCharacterSheets,
+    onDataFetched: handleCharacterSheetsFetched,
+    getItemId: (item) => item.id,
+    currentData: characterSheets,
+    isLoading: characterSheetHistoryLoading,
+    enabled: libraryTab === "charactersheet",
+    useContainerScroll: true,
+    containerRef,
+    fetchDelay: 0,
+  });
   const openImageCreator = async () => {
     await loadCreators();
   };
@@ -397,67 +469,52 @@ export default function PageAI({
     } else if (activeTab === "audio") {
       setCreatorTab("createaudio");
       if (!loadedAudioCreators) loadAudioCreators();
+    } else if (activeTab === "charactersheet") {
+      setCreatorTab("createcharactersheet");
+      if (!loadedImageCreators) openImageCreator();
     }
   }, [activeTab, loadedImageCreators, loadedVideoCreators, loadedAudioCreators, session]);
-  const handleGetNotif = useCallback(
-    (notif: string) => {
-      try {
-        const decombNotif = handleDecompress(notif);
-        if (!decombNotif) return;
-        const notifObj = JSON.parse(decombNotif) as PushNotif;
-        if (!notifObj.Message) return;
-        console.log("notifObj", notifObj);
-        const rawGeneratedMedia = JSON.parse(notifObj.Message) as Record<string, unknown>;
-        const newPostPush = convertFirstLetterToLowerCase(rawGeneratedMedia) as IGetMedia & {
-          ClientContext?: string;
-          client_context?: string;
-        };
-        const generatedClientContext =
-          newPostPush.clientContext || newPostPush.ClientContext || newPostPush.client_context;
-        if (!generatedClientContext) return;
-        const generatedImage = { ...newPostPush, clientContext: generatedClientContext } as IGetMedia;
-        const pendingGeneration = pendingGenerationsRef.current.find(
-          (item) => item.clientContext.toLowerCase() === generatedClientContext.toLowerCase(),
-        );
-        console.log("TEMP signalR result", notifObj.ResponseType, generatedImage);
-        if (notifObj.ResponseType === PushResponseType.AIImageSuccess) {
-          console.log("generatedImage", generatedImage);
-          setCreateMediaLoading(false);
-          const isHiddenCharacterSheet = !characterSheet && generatedImage.characterType != null;
-          if (!isHiddenCharacterSheet) {
-            setImages((current) => {
-              const alreadyAdded = current.some(
-                (item) =>
-                  item.id === generatedImage.id ||
-                  item.clientContext?.toLowerCase() === generatedClientContext.toLowerCase(),
-              );
-              return alreadyAdded ? current : [generatedImage, ...current];
-            });
-          }
-          pendingGenerationsRef.current = pendingGenerationsRef.current.filter(
-            (item) => item.clientContext !== generatedClientContext,
+  const handleGetNotif = useCallback((notif: string) => {
+    try {
+      const decombNotif = handleDecompress(notif);
+      if (!decombNotif) return;
+      const notifObj = JSON.parse(decombNotif) as PushNotif;
+      if (!notifObj.Message) return;
+      console.log("notifObj", notifObj);
+      const rawGeneratedMedia = JSON.parse(notifObj.Message) as Record<string, unknown>;
+      const newPostPush = convertFirstLetterToLowerCase(rawGeneratedMedia) as IGetMedia & {
+        ClientContext?: string;
+        client_context?: string;
+      };
+      const generatedClientContext =
+        newPostPush.clientContext || newPostPush.ClientContext || newPostPush.client_context;
+      if (!generatedClientContext) return;
+      const generatedImage = { ...newPostPush, clientContext: generatedClientContext } as IGetMedia;
+      const pendingGeneration = pendingGenerationsRef.current.find(
+        (item) => item.clientContext.toLowerCase() === generatedClientContext.toLowerCase(),
+      );
+      console.log("TEMP signalR result", notifObj.ResponseType, generatedImage);
+      if (notifObj.ResponseType === PushResponseType.AIImageSuccess) {
+        console.log("generatedImage", generatedImage);
+        setCreateMediaLoading(false);
+        const setTargetList = generatedImage.characterType != null ? setCharacterSheets : setImages;
+        setTargetList((current) => {
+          const alreadyAdded = current.some(
+            (item) =>
+              item.id === generatedImage.id ||
+              item.clientContext?.toLowerCase() === generatedClientContext.toLowerCase(),
           );
-          setPendingGenerations(pendingGenerationsRef.current);
-        } else if (notifObj.ResponseType === PushResponseType.AIVideoSuccess) {
-          console.log("generatedVideo", generatedImage);
-          setCreateMediaLoading(false);
-          setTimeout(() => {
-            setVideos((current) => {
-              const alreadyAdded = current.some(
-                (item) =>
-                  item.id === generatedImage.id ||
-                  item.clientContext?.toLowerCase() === generatedClientContext.toLowerCase(),
-              );
-              return alreadyAdded ? current : [generatedImage, ...current];
-            });
-            pendingGenerationsRef.current = pendingGenerationsRef.current.filter(
-              (item) => item.clientContext !== generatedClientContext,
-            );
-            setPendingGenerations(pendingGenerationsRef.current);
-          }, VIDEO_THUMBNAIL_DELAY_MS);
-        } else if (notifObj.ResponseType === PushResponseType.AIAudioSuccess) {
-          setCreateMediaLoading(false);
-          setAudios((current) => {
+          return alreadyAdded ? current : [generatedImage, ...current];
+        });
+        pendingGenerationsRef.current = pendingGenerationsRef.current.filter(
+          (item) => item.clientContext !== generatedClientContext,
+        );
+        setPendingGenerations(pendingGenerationsRef.current);
+      } else if (notifObj.ResponseType === PushResponseType.AIVideoSuccess) {
+        console.log("generatedVideo", generatedImage);
+        setCreateMediaLoading(false);
+        setTimeout(() => {
+          setVideos((current) => {
             const alreadyAdded = current.some(
               (item) =>
                 item.id === generatedImage.id ||
@@ -469,31 +526,44 @@ export default function PageAI({
             (item) => item.clientContext !== generatedClientContext,
           );
           setPendingGenerations(pendingGenerationsRef.current);
-        } else if (
-          notifObj.ResponseType === PushResponseType.AIImageFailed ||
-          notifObj.ResponseType === PushResponseType.AIVideoFailed ||
-          notifObj.ResponseType === PushResponseType.AIAudioFailed
-        ) {
-          if (!pendingGeneration) return;
-          console.log("generatedImagefailed", generatedImage);
-          setCreateMediaLoading(false);
-          pendingGenerationsRef.current = pendingGenerationsRef.current.filter(
-            (item) => item.clientContext !== generatedClientContext,
+        }, VIDEO_THUMBNAIL_DELAY_MS);
+      } else if (notifObj.ResponseType === PushResponseType.AIAudioSuccess) {
+        setCreateMediaLoading(false);
+        setAudios((current) => {
+          const alreadyAdded = current.some(
+            (item) =>
+              item.id === generatedImage.id ||
+              item.clientContext?.toLowerCase() === generatedClientContext.toLowerCase(),
           );
-          setPendingGenerations(pendingGenerationsRef.current);
-          const failedMetaData = (generatedImage as IGetMedia & { metaData?: { Error?: string | null } }).metaData;
-          internalNotify(
-            InternalResponseType.InvalidMetaData,
-            NotifType.Warning,
-            failedMetaData?.Error || generatedImage.metadata || t(", Media generation failed."),
-          );
-        }
-      } catch (error) {
-        notify(ResponseType.Unexpected, NotifType.Error);
+          return alreadyAdded ? current : [generatedImage, ...current];
+        });
+        pendingGenerationsRef.current = pendingGenerationsRef.current.filter(
+          (item) => item.clientContext !== generatedClientContext,
+        );
+        setPendingGenerations(pendingGenerationsRef.current);
+      } else if (
+        notifObj.ResponseType === PushResponseType.AIImageFailed ||
+        notifObj.ResponseType === PushResponseType.AIVideoFailed ||
+        notifObj.ResponseType === PushResponseType.AIAudioFailed
+      ) {
+        if (!pendingGeneration) return;
+        console.log("generatedImagefailed", generatedImage);
+        setCreateMediaLoading(false);
+        pendingGenerationsRef.current = pendingGenerationsRef.current.filter(
+          (item) => item.clientContext !== generatedClientContext,
+        );
+        setPendingGenerations(pendingGenerationsRef.current);
+        const failedMetaData = (generatedImage as IGetMedia & { metaData?: { Error?: string | null } }).metaData;
+        internalNotify(
+          InternalResponseType.InvalidMetaData,
+          NotifType.Warning,
+          failedMetaData?.Error || generatedImage.metadata || t(", Media generation failed."),
+        );
       }
-    },
-    [characterSheet],
-  );
+    } catch (error) {
+      notify(ResponseType.Unexpected, NotifType.Error);
+    }
+  }, []);
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
     const setupSignalR = () => {
@@ -535,20 +605,28 @@ export default function PageAI({
         .filter((creator) => creator.inputModels.length > 0),
     [imageCreators],
   );
-  const modelCreators = characterSheet
-    ? characterSheetCreators
-    : activeTab === "image"
-      ? imageCreators
+  const modelCreators =
+    activeTab === "charactersheet"
+      ? characterSheetCreators
       : activeTab === "video"
         ? videoCreators
-        : audioCreators;
+        : activeTab === "audio"
+          ? audioCreators
+          : imageCreators;
   const modelSelection =
-    activeTab === "image" ? imageModelSelection : activeTab === "video" ? videoModelSelection : audioModelSelection;
+    activeTab === "charactersheet"
+      ? characterSheetModelSelection
+      : activeTab === "video"
+        ? videoModelSelection
+        : activeTab === "audio"
+          ? audioModelSelection
+          : imageModelSelection;
   const handleModelSelectionChange = useCallback(
     (selection: { creatorKey: string; modelName: string }) => {
-      if (activeTab === "image") setImageModelSelection(selection);
+      if (activeTab === "charactersheet") setCharacterSheetModelSelection(selection);
       else if (activeTab === "video") setVideoModelSelection(selection);
-      else setAudioModelSelection(selection);
+      else if (activeTab === "audio") setAudioModelSelection(selection);
+      else setImageModelSelection(selection);
     },
     [activeTab],
   );
@@ -570,10 +648,12 @@ export default function PageAI({
             images={images}
             videos={videos}
             audios={audios}
+            characterSheets={characterSheets}
             loading={libraryHistoryLoading}
             isLoadingMore={isLoadingMore}
             isLoadingMoreVideos={isLoadingMoreVideos}
             isLoadingMoreAudios={isLoadingMoreAudios}
+            isLoadingMoreCharacterSheets={isLoadingMoreCharacterSheets}
             setSelectedImage={setSelectedImage}
             setSelectedVideo={setSelectedVideo}
             setSelectedAudio={setSelectedAudio}
@@ -583,14 +663,15 @@ export default function PageAI({
           />
         </div>
 
-        {characterSheet ? (
+        {activeTab === "charactersheet" ? (
           <CharacterSheet
             creators={characterSheetCreators}
             onCreateMedia={onCreateMedia}
             createMediaLoading={createMediaLoading}
-            modelSelection={imageModelSelection}
-            onModelSelectionChange={setImageModelSelection}
+            modelSelection={characterSheetModelSelection}
+            onModelSelectionChange={setCharacterSheetModelSelection}
             onOpenModelList={openModelList}
+            setActiveTab={characterSheet ? undefined : setActiveTab}
           />
         ) : (
           (activeTab === "image" || activeTab === "video" || activeTab === "audio") && (

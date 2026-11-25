@@ -43,7 +43,7 @@ The shared creator component uses media-neutral submit/loading props and switche
 The `/page/ai` controller caches the AI entitlement result from `/api/feature/hasFeature` in `sessionStorage` per account and selected Instagramer index, so a browser reload does not repeat the `hasFeature` request. An in-flight promise ref also deduplicates concurrent checks during the initial creator mount.
 The creator's primary action is backed by a real form submit, allowing the page-owned `onCreateMedia` callback to run for valid image and video requests.
 
-The AI workspace keeps only the Images/Videos `mediaTabs` visible as the primary Create navigation. Both modes retain the selected creator, model controls, matching media library, independent creator loading, and existing request lifecycle. The local-only `CharacterSheet` Visual Identity prototype is no longer rendered by this page; it is available independently at `/dev/characterSheet`.
+The AI workspace `mediaTabs` show Images/Videos/Voices/Character sheet as the primary Create navigation, and `MediaLibrary` history has the same four filters (Character sheet history uses `GetImages` with `characterType=-1`). Each mode retains its own creator, model selection, matching media library, independent creator loading, and existing request lifecycle. The Character sheet tab renders `CharacterSheet`; `/dev/characterSheet` opens the page locked to that tab.
 
 The AI workspace uses a two-column layout above `840px`: the history panel stays at or below `400px` and the creator panel takes the remaining width. At `840px` and below, the creator panel moves above the history panel and both panels use the available page width.
 

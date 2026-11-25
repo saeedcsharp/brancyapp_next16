@@ -3713,6 +3713,12 @@ export default {
     "Untitled generation": "Unbenannte Erstellung",
     "No images yet": "Noch keine Bilder",
     "No videos yet": "Noch keine Videos",
+    "Character sheet": "Charakterblatt",
+    "No character sheets yet": "Noch keine Charakterblätter",
+    "Your successful character sheet generations will appear here.":
+      "Ihre erfolgreich erstellten Charakterblätter werden hier angezeigt.",
+    "Generating character sheet": "Charakterblatt wird erstellt",
+    "Character sheet generation request sent.": "Anfrage zur Erstellung des Charakterblatts gesendet.",
     "Your successful image generations will appear here.": "Ihre erfolgreich erstellten Bilder erscheinen hier.",
     "Your successful video generations will appear here.": "Ihre erfolgreich erstellten Videos erscheinen hier.",
     "Create your first image": "Erstellen Sie Ihr erstes Bild",
