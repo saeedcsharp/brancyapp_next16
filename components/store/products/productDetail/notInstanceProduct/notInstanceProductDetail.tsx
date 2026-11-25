@@ -142,6 +142,7 @@ export default function NotInstanceProductDetail({
   });
   const [productMedia, setProductMedia] = useState<IProduct_Media[]>([]);
   const [customMedia, setCustomMedia] = useState<IUploadMedia[]>([]);
+  const [coverMediaIndex, setCoverMediaIndex] = useState<number | null>(null);
   const [suggestedMedia, setSuggestedMedia] = useState<{ key: string; index: number }[]>([]);
   const [suggestedMediaList, setSuggestedMediaList] = useState<{
     medias: { url: string; key: string }[];
@@ -398,6 +399,7 @@ export default function NotInstanceProductDetail({
           thumbnailMediaUrl: x.thumbnailMediaUrl,
         })),
     );
+    setCoverMediaIndex(media.find((x) => x.isCover && !x.isDefault && !x.key)?.index ?? null);
     setDefaultMedia({
       items: media
         .filter((x) => x.isDefault)
@@ -464,7 +466,7 @@ export default function NotInstanceProductDetail({
   async function handleUploadMedia() {
     if (customMedia.length > 0) {
       const mediaUploadPromises = customMedia.map(async (media) =>
-        clientFetchApi<IUploadMedia, boolean>("shopper/Product/InsertProductMedia", {
+        clientFetchApi<IUploadMedia, number>("shopper/Product/InsertProductMedia", {
           methodType: MethodType.post,
           session: session,
           data: media,
@@ -604,6 +606,22 @@ export default function NotInstanceProductDetail({
       }
       for (let res of insertSuggestedMedia) {
         if (!res.succeeded) notify(res.info.responseType, NotifType.Warning);
+      }
+      if (coverMediaIndex !== null) {
+        const coverRes = insertMediaRes[customMedia.findIndex((x) => x.index === coverMediaIndex)];
+        if (coverRes?.succeeded && coverRes.value) {
+          const thumbRes = await clientFetchApi<boolean, boolean>("/api/product/ChangeThumbnail", {
+            methodType: MethodType.get,
+            session: session,
+            data: null,
+            queries: [
+              { key: "productId", value: productId.toString() },
+              { key: "mediaId", value: coverRes.value.toString() },
+            ],
+            onUploadProgress: undefined,
+          });
+          if (!thumbRes.succeeded) notify(thumbRes.info.responseType, NotifType.Warning);
+        }
       }
       router.push("/store/products");
     } catch (error) {

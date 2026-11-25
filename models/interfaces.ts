@@ -4673,6 +4673,7 @@ export interface IProduct_Media extends IUploadMedia {
   suggestedIndex?: number;
   isUploading: boolean;
   uploadProgress: number;
+  isCover?: boolean;
 }
 
 export interface IUploadMedia {
@@ -4694,6 +4695,7 @@ export interface IMediaInstanceInfo extends IMeidaInstance {
   uploadMedia: IUploadMedia | null;
   isUploading?: boolean;
   uploadProgress?: number;
+  isCover?: boolean;
 }
 
 export interface ICustomeMediaInstance {

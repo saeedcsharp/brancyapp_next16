@@ -51,6 +51,11 @@ const restrictToHorizontalAxis: Modifier = ({ transform }) => ({
   y: 0,
 });
 
+// Only newly uploaded media can become the product cover in the create flow.
+function canBeCover(media: IProduct_Media): boolean {
+  return !media.isDefault && !media.key && !media.fromSuggestion && !media.isUploading && !!media.thumbnailMediaUrl;
+}
+
 interface MediaProps {
   coverUrl: string;
   productMedia: IProduct_Media[];
@@ -79,6 +84,7 @@ function SortableItem({
   onReplace,
   onView,
   onToggleVisibility,
+  onSetCover,
 }: {
   media: IProduct_Media;
   index: number;
@@ -86,7 +92,9 @@ function SortableItem({
   onReplace: (index: number) => void;
   onView: (src: string) => void;
   onToggleVisibility: (index: number) => void;
+  onSetCover: (index: number) => void;
 }) {
+  const { t } = useTranslation();
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
     id: index.toString(),
   });
@@ -117,7 +125,7 @@ function SortableItem({
           </div>
         ) : (
           <img
-            className={`${styles.thumbnailmediapicture} ${media.isHidden && "fadeDiv"}`}
+            className={`${styles.thumbnailmediapicture} ${media.isHidden ? "fadeDiv" : ""} ${media.isCover ? styles.coverselected : ""}`}
             role="button"
             title="ℹ️ media picture"
             src={media.base64Url}
@@ -126,11 +134,21 @@ function SortableItem({
 
         {/* ✅ SETTINGS */}
         <div className={`${styles.thumbnailmediasetting} ${media.isHidden && "fadeDiv"}`}>
-          <img
-            className={styles.thumbnailicon}
-            title="ℹ️ photo type"
-            src={media.mediaType === MediaType.Image ? "/mediapicture.svg" : "/mediavideo.svg"}
-          />
+          <div className={styles.thumbnailmediatop}>
+            <img
+              className={styles.thumbnailicon}
+              title="ℹ️ photo type"
+              src={media.mediaType === MediaType.Image ? "/mediapicture.svg" : "/mediavideo.svg"}
+            />
+            {canBeCover(media) && (
+              <img
+                className={`${styles.thumbnailiconstg} ${media.isCover ? styles.coverbtnactive : styles.coverbtn}`}
+                onClick={() => onSetCover(media.index)}
+                title={media.isCover ? "ℹ️ selected as cover" : "ℹ️ change cover"}
+                src="/cover.svg"
+              />
+            )}
+          </div>
 
           {!media.isDefault && !isUploading && (
             <div className={styles.thumbnailmediabtn}>
@@ -181,7 +199,9 @@ function SortableItem({
             {index + 2}
           </div>
 
-          {media.isDefault ? (
+          {media.isCover ? (
+            <div className={styles.covertag}>{t(LanguageKey.cover)}</div>
+          ) : media.isDefault ? (
             <img style={{ width: "35px" }} title="ℹ️ Recently Uploaded" src="/instagram.svg" />
           ) : media.fromSuggestion ? (
             <img style={{ width: "35px" }} title="ℹ️ suggest picture" src="/new.svg" />
@@ -240,6 +260,12 @@ export default function Media({
   const handleSpanClick = useCallback((index: number): void => {
     setProductMediaInfo((prev) => prev.map((x) => (x.index !== index ? x : { ...x, isHidden: !x.isHidden })));
   }, []);
+
+  const handleSetCover = useCallback((index: number): void => {
+    setProductMediaInfo((prev) => prev.map((x) => ({ ...x, isCover: x.index === index ? !x.isCover : false })));
+  }, []);
+
+  const coverMedia = productMediaInfo.find((x) => x.isCover && canBeCover(x));
 
   const compressAndUpload = useCallback(
     async (file: File) => {
@@ -509,7 +535,7 @@ export default function Media({
                   className={styles.thumbnailmediapicture}
                   title="Cover Image"
                   alt="Product cover image"
-                  src={basePictureUrl + coverUrl}
+                  src={coverMedia ? coverMedia.base64Url : basePictureUrl + coverUrl}
                   role="img"
                 />
                 <div className={styles.thumbnailmediasetting}>
@@ -525,7 +551,11 @@ export default function Media({
                   <div className={styles.pictureorderfalse} title="ℹ️ pictures cover photo">
                     {t(LanguageKey.cover)}
                   </div>
-                  <img style={{ width: "35px" }} title="ℹ️ from instagram" src="/instagram.svg" />
+                  <img
+                    style={{ width: "35px" }}
+                    title={coverMedia ? "ℹ️ changed cover" : "ℹ️ from instagram"}
+                    src={coverMedia ? "/new.svg" : "/instagram.svg"}
+                  />
                 </div>
               </div>
 
@@ -542,6 +572,7 @@ export default function Media({
                       onReplace={handleReplaceImage}
                       onView={(src) => setPopupImage(src)}
                       onToggleVisibility={handleSpanClick}
+                      onSetCover={handleSetCover}
                     />
                   ))}
                 </div>
