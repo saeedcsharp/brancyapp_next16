@@ -15,6 +15,25 @@ import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { MethodType } from "brancy/helper/api";
 import { notify, NotifType, ResponseType } from "brancy/components/notifications/notificationBox";
 const TextEditor = dynamic(() => import("brancy/components/design/textEditor/TextEditor"), { ssr: false });
+
+// Server-provided description may be malformed JSON; fall back to empty values.
+function parseDescription(raw: string | null | undefined) {
+  const empty = { description: "", tableHtml: "", tableTitle: "" };
+  if (!raw) return empty;
+  try {
+    const parsed = JSON.parse(raw);
+    if (!parsed || typeof parsed !== "object") return empty;
+    return {
+      description: typeof parsed.description === "string" ? parsed.description : "",
+      tableHtml:
+        typeof parsed.sizeTable === "string" && parsed.sizeTable ? (handleDecompress(parsed.sizeTable) ?? "") : "",
+      tableTitle: typeof parsed.tableTitle === "string" ? parsed.tableTitle : "",
+    };
+  } catch {
+    return empty;
+  }
+}
+
 export default function Information({
   data,
   upadteCteateFromInformation,
@@ -31,15 +50,12 @@ export default function Information({
   const { t } = useTranslation();
   const { data: session } = useSession();
   const [loading, setLoading] = useState<boolean>(true);
-  const [description, setDescription] = useState(
-    data.description !== "" ? JSON.parse(data.description).description : "",
-  );
+  const [parsedDescription] = useState(() => parseDescription(data.description));
+  const [description, setDescription] = useState<string>(parsedDescription.description);
   const [showTableModal, setShowTableModal] = useState(false);
-  const [tableHtml, setTableHtml] = useState<string>(
-    data.description !== "" ? handleDecompress(JSON.parse(data.description).sizeTable)! : "",
-  );
+  const [tableHtml, setTableHtml] = useState<string>(parsedDescription.tableHtml);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
-  const [tableTitle, setTableTitle] = useState<string>(data.description ? JSON.parse(data.description).tableTitle : "");
+  const [tableTitle, setTableTitle] = useState<string>(parsedDescription.tableTitle);
   const [initialDoc] = useState<EditorDoc>(() => importHTML(description || ""));
   const handleSuggestedDescription = async (content: string) => {
     try {

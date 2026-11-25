@@ -17,6 +17,24 @@ import { notify, NotifType, ResponseType } from "brancy/components/notifications
 
 const TextEditor = dynamic(() => import("brancy/components/design/textEditor/TextEditor"), { ssr: false });
 
+// Server-provided description may be malformed JSON; fall back to empty values.
+function parseDescription(raw: string | null | undefined) {
+  const empty = { description: "", tableHtml: "", tableTitle: "" };
+  if (!raw) return empty;
+  try {
+    const parsed = JSON.parse(raw);
+    if (!parsed || typeof parsed !== "object") return empty;
+    return {
+      description: typeof parsed.description === "string" ? parsed.description : "",
+      tableHtml:
+        typeof parsed.sizeTable === "string" && parsed.sizeTable ? (handleDecompress(parsed.sizeTable) ?? "") : "",
+      tableTitle: typeof parsed.tableTitle === "string" ? parsed.tableTitle : "",
+    };
+  } catch {
+    return empty;
+  }
+}
+
 export default function InformationInstance({
   info,
   upadteCteateFromInformation,
@@ -33,17 +51,14 @@ export default function InformationInstance({
   const { t } = useTranslation();
   const { data: session } = useSession();
   const [loading, setLoading] = useState<boolean>(true);
-  const [description, setDescription] = useState(
-    info.description !== "" ? JSON.parse(info.description).description : "",
-  );
+  const [parsedDescription] = useState(() => parseDescription(info.description));
+  const [description, setDescription] = useState<string>(parsedDescription.description);
   useEffect(() => {
     console.log("description", description);
   }, [description]);
   const [showTableModal, setShowTableModal] = useState(false);
-  const [tableHtml, setTableHtml] = useState<string>(
-    info.description !== "" ? handleDecompress(JSON.parse(info.description).sizeTable)! : "",
-  );
-  const [tableTitle, setTableTitle] = useState<string>(info.description ? JSON.parse(info.description).tableTitle : "");
+  const [tableHtml, setTableHtml] = useState<string>(parsedDescription.tableHtml);
+  const [tableTitle, setTableTitle] = useState<string>(parsedDescription.tableTitle);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const [initialDoc] = useState<EditorDoc>(() => importHTML(description || ""));
 
