@@ -285,6 +285,7 @@ export const API_ROUTE_MAP: Record<string, string> = {
   // ── product ───────────────────────────────────────────
   "api/product/getSuggestedCategory": "shopper/Product/GetSuggestedCategory",
   "/api/product/changeAvailableProduct": "shopper/Product/ChangeAvailableProduct",
+  "/api/product/changeThumbnail": "shopper/Product/ChangeThumbnail",
   "/api/product/createProductInstance": "shopper/Product/CreateProductInstance",
   "/api/product/createProducts": "shopper/Product/CreateProducts",
   "/api/product/createSubProducts": "shopper/Product/CreateSubProducts",

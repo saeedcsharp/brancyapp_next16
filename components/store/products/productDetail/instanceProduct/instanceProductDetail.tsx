@@ -113,6 +113,17 @@ export default function InstanceProductDetail({
   );
   const [deActiveSubProducts, setDeActiveSubProducts] = useState<number[]>([]);
   const [specificationInfo, setSpecificationInfo] = useState(fullProduct.specifications);
+  const currentThumbnail = fullProduct.shortProduct.thumbnailMediaUrl;
+  // The current cover is the custom media whose url matches shortProduct.thumbnailMediaUrl; otherwise the post thumbnail.
+  const initialCoverMediaId =
+    fullProduct.medias.find(
+      (x) =>
+        x.childMedia?.orderId !== 0 &&
+        x.customMedia &&
+        !x.customMedia.isSuggested &&
+        !x.isHidden &&
+        (x.customMedia.thumbnailMediaUrl === currentThumbnail || x.customMedia.mediaUrl === currentThumbnail),
+    )?.customMedia?.id ?? null;
   const [mediaInfo, setMediaInfo] = useState<IMediaInstanceInfo[]>(
     fullProduct.medias
       .filter((y) => y.childMedia?.orderId !== 0)
@@ -124,9 +135,11 @@ export default function InstanceProductDetail({
         mediaType: x.mediaType,
         uploadMedia: null,
         key: null,
+        isCover: initialCoverMediaId !== null && x.customMedia?.id === initialCoverMediaId,
       })),
   );
   const [suggestedMediaList, setSuggestedMediaList] = useState<ISuggestedMedia>({ medias: [] });
+  const [usePostCover, setUsePostCover] = useState(initialCoverMediaId === null);
   const [setting, setSetting] = useState<IProduct_Setting>({
     availabilityStatus: fullProduct.shortProduct.availabilityStatus,
     gauranteeStatus: fullProduct.secondaryInfo.gaurantee,
@@ -214,9 +227,10 @@ export default function InstanceProductDetail({
     if (isNext) setCurrentStep(Steps.Media);
     else setCurrentStep(Steps.Properties);
   }
-  function upadteCteateFromMeida(isNext: boolean, media: IMediaInstanceInfo[]) {
+  function upadteCteateFromMeida(isNext: boolean, media: IMediaInstanceInfo[], usePostCover: boolean) {
     console.log("mediaaaaaaa", media);
     setMediaInfo(media);
+    setUsePostCover(usePostCover);
     if (isNext) setCurrentStep(Steps.Setting);
     else setCurrentStep(Steps.Specification);
   }
@@ -244,7 +258,7 @@ export default function InstanceProductDetail({
   async function handleUploadMedia(uploadMedias: IUploadMedia[]) {
     if (uploadMedias.length > 0) {
       const mediaUploadPromises = uploadMedias.map(async (media) =>
-        clientFetchApi<IUploadMedia, boolean>("/api/product/InsertProductMedia", {
+        clientFetchApi<IUploadMedia, number>("/api/product/InsertProductMedia", {
           methodType: MethodType.post,
           session: session,
           data: media,
@@ -260,6 +274,20 @@ export default function InstanceProductDetail({
       return await Promise.all(mediaUploadPromises);
     }
     return [];
+  }
+  // mediaId null = revert to the Instagram post thumbnail; an undefined query value is omitted (null on the backend).
+  async function handleChangeThumbnail(mediaId: number | null) {
+    const res = await clientFetchApi<boolean, boolean>("/api/product/ChangeThumbnail", {
+      methodType: MethodType.get,
+      session: session,
+      data: null,
+      queries: [
+        { key: "productId", value: fullProduct.productInstance.productId.toString() },
+        { key: "mediaId", value: mediaId !== null ? mediaId.toString() : undefined },
+      ],
+      onUploadProgress: undefined,
+    });
+    if (!res.succeeded) notify(res.info.responseType, NotifType.Warning);
   }
   async function handleUpdateCustomMedia(customMedias: ICustomMedia[]) {
     let result: IResult<boolean> = {
@@ -506,6 +534,19 @@ export default function InstanceProductDetail({
       if (!updateSettingRes.succeeded) notify(updateSettingRes.info.responseType, NotifType.Warning);
       if (!updateCustomMediaRes.succeeded) notify(updateCustomMediaRes.info.responseType, NotifType.Warning);
       if (!updateSepOrderRes.succeeded) notify(updateSepOrderRes.info.responseType, NotifType.Warning);
+      const coverMedia = mediaInfo.find((x) => x.isCover);
+      if (usePostCover) {
+        if (initialCoverMediaId !== null) await handleChangeThumbnail(null);
+      } else if (coverMedia) {
+        let coverMediaId: number | null = null;
+        if (coverMedia.uploadMedia) {
+          const uploadRes = uploadMediaRes[uploadMedias.findIndex((x) => x.index === coverMedia.index)];
+          if (uploadRes?.succeeded) coverMediaId = uploadRes.value;
+        } else if (coverMedia.customMedia && coverMedia.customMedia.id > 0) {
+          coverMediaId = coverMedia.customMedia.id;
+        }
+        if (coverMediaId && coverMediaId !== initialCoverMediaId) await handleChangeThumbnail(coverMediaId);
+      }
       // if (!suggestedMediaRes.succeeded)
       //   notify(suggestedMediaRes.info.responseType, NotifType.Warning);
       if (updateSettingRes.succeeded) router.push("/store/products");
@@ -770,7 +811,9 @@ export default function InstanceProductDetail({
         )}
         {currentStep === Steps.Media && (
           <MediaInstance
-            coverUrl={postInfo.thumbnailMediaUrl}
+            coverUrl={fullProduct.shortProduct.thumbnailMediaUrl}
+            postCoverUrl={postInfo.thumbnailMediaUrl}
+            initialUsePostCover={usePostCover}
             productMedia={mediaInfo}
             upadteCteateFromMeida={upadteCteateFromMeida}
             toggleNext={toggleNextButton.media}

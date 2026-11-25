@@ -36,24 +36,39 @@ const restrictToHorizontalAxis: Modifier = ({ transform }) => ({
   y: 0,
 });
 
+// Only saved custom media (has id) or newly uploaded media can become the product cover.
+function canBeCover(item: IMediaInstanceInfo): boolean {
+  if (item.isUploading || item.isHidden) return false;
+  if (item.uploadMedia) return true;
+  return !!item.customMedia && !item.customMedia.isSuggested && item.customMedia.id > 0;
+}
+
+function getMediaSrc(item: IMediaInstanceInfo): string {
+  if (item.uploadMedia) return item.uploadMedia.base64Url;
+  if (item.childMedia) return basePictureUrl + item.childMedia.thumbnailMediaUrl;
+  if (item.customMedia?.isSuggested) return basePictureUrl + item.customMedia.mediaUrl;
+  return basePictureUrl + (item.customMedia?.thumbnailMediaUrl ?? "");
+}
+
 // Sortable item component
 function SortableItem({
   item,
   index,
-  onView,
   onReplace,
   onDelete,
   onToggleVisibility,
   onDeleteSuggestion,
+  onSetCover,
 }: {
   item: IMediaInstanceInfo;
   index: number;
-  onView: (url: string) => void;
   onReplace: (index: number) => void;
   onDelete: (index: number) => void;
   onToggleVisibility: (index: number) => void;
   onDeleteSuggestion: (key: string) => void;
+  onSetCover: (index: number) => void;
 }) {
+  const { t } = useTranslation();
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
     id: index.toString(),
   });
@@ -65,6 +80,7 @@ function SortableItem({
 
   const isUploading = item.isUploading;
   const progress = item.uploadProgress ?? 0;
+  const pictureClass = `${styles.thumbnailmediapicture} ${item.isHidden ? "fadeDiv" : ""} ${item.isCover ? styles.coverselected : ""}`;
 
   return (
     <div ref={setNodeRef} style={style}>
@@ -87,7 +103,7 @@ function SortableItem({
           <>
             {item.childMedia && (
               <img
-                className={`${styles.thumbnailmediapicture} ${item.isHidden && "fadeDiv"}`}
+                className={pictureClass}
                 role="button"
                 title="ℹ️ media picture"
                 src={basePictureUrl + item.childMedia.thumbnailMediaUrl}
@@ -95,7 +111,7 @@ function SortableItem({
             )}
             {item.customMedia && !item.customMedia.isSuggested && (
               <img
-                className={`${styles.thumbnailmediapicture} ${item.isHidden && "fadeDiv"}`}
+                className={pictureClass}
                 role="button"
                 title="ℹ️ media picture"
                 src={basePictureUrl + item.customMedia.thumbnailMediaUrl}
@@ -103,48 +119,47 @@ function SortableItem({
             )}
             {item.customMedia && item.customMedia.isSuggested && (
               <img
-                className={`${styles.thumbnailmediapicture} ${item.isHidden && "fadeDiv"}`}
+                className={pictureClass}
                 role="button"
                 title="ℹ️ media picture"
                 src={basePictureUrl + item.customMedia.mediaUrl}
               />
             )}
             {item.uploadMedia && (
-              <img
-                className={`${styles.thumbnailmediapicture} ${item.isHidden && "fadeDiv"}`}
-                role="button"
-                title="ℹ️ media picture"
-                src={item.uploadMedia.base64Url}
-              />
+              <img className={pictureClass} role="button" title="ℹ️ media picture" src={item.uploadMedia.base64Url} />
             )}
           </>
         )}
 
         {/* تنظیمات thumbnail */}
-        <div className={`${styles.thumbnailmediasetting} ${item.isHidden && "fadeDiv"}`}>
-          <img
-            className={styles.thumbnailicon}
-            title="ℹ️ photo type"
-            src={item.mediaType === MediaType.Image ? "/mediapicture.svg" : "/mediavideo.svg"}
-          />
+        <div className={styles.thumbnailmediasetting}>
+          <div className={styles.thumbnailmediatop}>
+            <img
+              className={styles.thumbnailicon}
+              title="ℹ️ photo type"
+              src={item.mediaType === MediaType.Image ? "/mediapicture.svg" : "/mediavideo.svg"}
+            />
+            {canBeCover(item) && (
+              <img
+                className={`${styles.thumbnailiconstg} ${item.isCover ? styles.coverbtnactive : styles.coverbtn}`}
+                onClick={() => onSetCover(item.index)}
+                title={item.isCover ? "ℹ️ selected as cover" : "ℹ️ change cover"}
+                src="/cover.svg"
+              />
+            )}
+          </div>
           <div className={styles.thumbnailmediabtn}>
             {/* اگر در حال آپلود است، دکمه‌ها را نمایش نده */}
             {!isUploading && (
               <>
-                <img
-                  className={styles.thumbnailiconstg}
-                  title="ℹ️ view large"
-                  src="/icon-view.svg"
-                  onClick={() =>
-                    onView(
-                      item.uploadMedia
-                        ? item.uploadMedia.base64Url
-                        : item.childMedia
-                          ? basePictureUrl + item.childMedia.thumbnailMediaUrl
-                          : basePictureUrl + item.customMedia!.thumbnailMediaUrl,
-                    )
-                  }
-                />
+                {!item.uploadMedia && (
+                  <img
+                    className={styles.thumbnailiconstg}
+                    title={item.isHidden ? "ℹ️ show" : "ℹ️ hide"}
+                    src={item.isHidden ? "/hide.svg" : "/icon-view.svg"}
+                    onClick={() => onToggleVisibility(item.index)}
+                  />
+                )}
                 {item.uploadMedia && (
                   <>
                     <img
@@ -191,7 +206,10 @@ function SortableItem({
             {index + 2}
           </div>
 
-          {!isUploading && <img style={{ width: "35px" }} title="ℹ️ Recently Uploaded" src="/new.svg" />}
+          {item.isCover && <div className={styles.covertag}>{t(LanguageKey.cover)}</div>}
+          {!isUploading && !item.isCover && (
+            <img style={{ width: "35px" }} title="ℹ️ Recently Uploaded" src="/new.svg" />
+          )}
         </div>
       </div>
     </div>
@@ -200,16 +218,20 @@ function SortableItem({
 
 export default function MediaInstance({
   coverUrl,
+  postCoverUrl,
+  initialUsePostCover,
   productMedia,
   upadteCteateFromMeida,
   toggleNext,
   suggestedMedias,
 }: {
   coverUrl: string;
+  postCoverUrl: string;
+  initialUsePostCover: boolean;
   productMedia: IMediaInstanceInfo[];
   toggleNext: { toggle: boolean; isNext: boolean };
   suggestedMedias: ISuggestedMedia;
-  upadteCteateFromMeida: (isNext: boolean, media: IMediaInstanceInfo[]) => void;
+  upadteCteateFromMeida: (isNext: boolean, media: IMediaInstanceInfo[], usePostCover: boolean) => void;
 }) {
   const { data: session } = useSession();
   const [loading, setLoading] = useState<boolean>(true);
@@ -238,8 +260,31 @@ export default function MediaInstance({
   );
 
   function handleSpanClick(index: number) {
-    setProductMediaInfo((prev) => prev.map((x) => (x.index !== index ? x : { ...x, isHidden: !x.isHidden })));
+    const target = productMediaInfo.find((x) => x.index === index);
+    if (target && !target.isHidden && target.isCover) setUsePostCover(true);
+    setProductMediaInfo((prev) =>
+      prev.map((x) =>
+        x.index !== index ? x : { ...x, isHidden: !x.isHidden, isCover: !x.isHidden ? false : x.isCover },
+      ),
+    );
   }
+
+  const [usePostCover, setUsePostCover] = useState<boolean>(initialUsePostCover);
+
+  function handleSetCover(index: number) {
+    const target = productMediaInfo.find((x) => x.index === index);
+    // Deselecting the cover media falls back to the post thumbnail, so exactly one cover is always selected.
+    setUsePostCover(!!target?.isCover);
+    setProductMediaInfo((prev) => prev.map((x) => ({ ...x, isCover: x.index === index ? !x.isCover : false })));
+  }
+
+  function handleSetPostCover() {
+    setUsePostCover(true);
+    setProductMediaInfo((prev) => prev.map((x) => ({ ...x, isCover: false })));
+  }
+
+  const coverMedia = productMediaInfo.find((x) => x.isCover && canBeCover(x));
+  const coverSrc = coverMedia ? getMediaSrc(coverMedia) : basePictureUrl + (usePostCover ? postCoverUrl : coverUrl);
 
   function ImagePopup({ imageSrc, onClose }: { imageSrc: string; onClose: () => void }) {
     return (
@@ -499,7 +544,7 @@ export default function MediaInstance({
       setLoading(false);
       return;
     }
-    upadteCteateFromMeida(toggleNext.isNext, productMediaInfo);
+    upadteCteateFromMeida(toggleNext.isNext, productMediaInfo, usePostCover);
   }, [toggleNext]);
 
   return (
@@ -517,11 +562,7 @@ export default function MediaInstance({
             onDragEnd={handleDragEnd}>
             <div className={styles.medialist}>
               <div className={styles.thumbnailmedia}>
-                <img
-                  className={styles.thumbnailmediapicture}
-                  title="ℹ️ media picture"
-                  src={basePictureUrl + coverUrl}
-                />
+                <img className={styles.thumbnailmediapicture} title="ℹ️ media picture" src={coverSrc} />
                 <div className={styles.thumbnailmediasetting}>
                   <img className={styles.thumbnailicon} title="ℹ️ photo type" src="/mediavideo.svg" />
                 </div>
@@ -529,9 +570,45 @@ export default function MediaInstance({
                   <div className={styles.pictureorderfalse} title="ℹ️ pictures cover photo">
                     {t(LanguageKey.cover)}
                   </div>
-                  <img style={{ width: "35px" }} title="ℹ️ from instagram" src="/instagram.svg" />
+                  <img
+                    style={{ width: "35px" }}
+                    title={coverMedia ? "ℹ️ changed cover" : "ℹ️ current cover"}
+                    src={coverMedia ? "/new.svg" : "/instagram.svg"}
+                  />
                 </div>
               </div>
+
+              <div className={styles.thumbnailmedia}>
+                <img
+                  className={`${styles.thumbnailmediapicture} ${usePostCover ? styles.coverselected : ""}`}
+                  title="ℹ️ instagram post picture"
+                  src={basePictureUrl + postCoverUrl}
+                />
+                <div className={styles.thumbnailmediasetting}>
+                  <div className={styles.thumbnailmediatop}>
+                    <img className={styles.thumbnailicon} title="ℹ️ photo type" src="/mediapicture.svg" />
+                    <img
+                      className={`${styles.thumbnailiconstg} ${usePostCover ? styles.coverbtnactive : styles.coverbtn}`}
+                      onClick={handleSetPostCover}
+                      title={usePostCover ? "ℹ️ selected as cover" : "ℹ️ change cover"}
+                      src="/cover.svg"
+                    />
+                  </div>
+                  <div className={styles.thumbnailmediabtn}>
+                    <img
+                      className={styles.thumbnailiconstg}
+                      title="ℹ️ view large"
+                      src="/icon-view.svg"
+                      onClick={() => setPopupImage(basePictureUrl + postCoverUrl)}
+                    />
+                  </div>
+                </div>
+                <div className={styles.thumbnailmediainfo}>
+                  <img style={{ width: "35px" }} title="ℹ️ from instagram" src="/instagram.svg" />
+                  {usePostCover && <div className={styles.covertag}>{t(LanguageKey.cover)}</div>}
+                </div>
+              </div>
+              <div className={styles.coverdivider} />
 
               <div className={styles.test}>
                 <SortableContext
@@ -542,11 +619,11 @@ export default function MediaInstance({
                       key={index}
                       item={item}
                       index={index}
-                      onView={setPopupImage}
                       onReplace={handleReplaceImage}
                       onDelete={handleDeleteCustomeMedia}
                       onToggleVisibility={handleSpanClick}
                       onDeleteSuggestion={handleDeleteSuggestion}
+                      onSetCover={handleSetCover}
                     />
                   ))}
                 </SortableContext>

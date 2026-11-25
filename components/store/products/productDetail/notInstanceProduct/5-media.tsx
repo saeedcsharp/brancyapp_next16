@@ -51,6 +51,18 @@ const restrictToHorizontalAxis: Modifier = ({ transform }) => ({
   y: 0,
 });
 
+// Only newly uploaded media can become the product cover in the create flow.
+function canBeCover(media: IProduct_Media): boolean {
+  return (
+    !media.isDefault &&
+    !media.key &&
+    !media.fromSuggestion &&
+    !media.isUploading &&
+    !media.isHidden &&
+    !!media.thumbnailMediaUrl
+  );
+}
+
 interface MediaProps {
   coverUrl: string;
   productMedia: IProduct_Media[];
@@ -59,34 +71,23 @@ interface MediaProps {
   upadteCteateFromMeida: (isNext: boolean, media: IProduct_Media[]) => void;
 }
 
-interface ImagePopupProps {
-  imageSrc: string;
-  onClose: () => void;
-}
-
-const ImagePopup = React.memo(({ imageSrc, onClose }: ImagePopupProps) => (
-  <div className="dialogBg" onClick={onClose} role="dialog" aria-label="Image Preview">
-    <img className={styles.popupContent} src={imageSrc} alt="Enlarged product image" role="img" />
-  </div>
-));
-ImagePopup.displayName = "ImagePopup";
-
 // Sortable item component
 function SortableItem({
   media,
   index,
   onDelete,
   onReplace,
-  onView,
   onToggleVisibility,
+  onSetCover,
 }: {
   media: IProduct_Media;
   index: number;
   onDelete: (index: number) => void;
   onReplace: (index: number) => void;
-  onView: (src: string) => void;
   onToggleVisibility: (index: number) => void;
+  onSetCover: (index: number) => void;
 }) {
+  const { t } = useTranslation();
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
     id: index.toString(),
   });
@@ -117,7 +118,7 @@ function SortableItem({
           </div>
         ) : (
           <img
-            className={`${styles.thumbnailmediapicture} ${media.isHidden && "fadeDiv"}`}
+            className={`${styles.thumbnailmediapicture} ${media.isHidden ? "fadeDiv" : ""} ${media.isCover ? styles.coverselected : ""}`}
             role="button"
             title="ℹ️ media picture"
             src={media.base64Url}
@@ -125,23 +126,33 @@ function SortableItem({
         )}
 
         {/* ✅ SETTINGS */}
-        <div className={`${styles.thumbnailmediasetting} ${media.isHidden && "fadeDiv"}`}>
-          <img
-            className={styles.thumbnailicon}
-            title="ℹ️ photo type"
-            src={media.mediaType === MediaType.Image ? "/mediapicture.svg" : "/mediavideo.svg"}
-          />
+        <div className={styles.thumbnailmediasetting}>
+          <div className={styles.thumbnailmediatop}>
+            <img
+              className={styles.thumbnailicon}
+              title="ℹ️ photo type"
+              src={media.mediaType === MediaType.Image ? "/mediapicture.svg" : "/mediavideo.svg"}
+            />
+            {canBeCover(media) && (
+              <img
+                className={`${styles.thumbnailiconstg} ${media.isCover ? styles.coverbtnactive : styles.coverbtn}`}
+                onClick={() => onSetCover(media.index)}
+                title={media.isCover ? "ℹ️ selected as cover" : "ℹ️ change cover"}
+                src="/cover.svg"
+              />
+            )}
+          </div>
 
-          {!media.isDefault && !isUploading && (
+          {!isUploading && (
             <div className={styles.thumbnailmediabtn}>
               <img
                 className={styles.thumbnailiconstg}
-                title="ℹ️ view large"
-                src="/icon-view.svg"
-                onClick={() => onView(media.base64Url)}
+                title={media.isHidden ? "ℹ️ show" : "ℹ️ hide"}
+                src={media.isHidden ? "/hide.svg" : "/icon-view.svg"}
+                onClick={() => onToggleVisibility(media.index)}
               />
 
-              {!media.key && !media.fromSuggestion && (
+              {!media.isDefault && !media.key && !media.fromSuggestion && (
                 <img
                   onClick={() => onReplace(media.index)}
                   className={styles.thumbnailiconstg}
@@ -150,12 +161,14 @@ function SortableItem({
                 />
               )}
 
-              <img
-                className={styles.thumbnailiconstg}
-                onClick={() => onDelete(media.index)}
-                title="ℹ️ delete"
-                src="/deletemedia.svg"
-              />
+              {!media.isDefault && (
+                <img
+                  className={styles.thumbnailiconstg}
+                  onClick={() => onDelete(media.index)}
+                  title="ℹ️ delete"
+                  src="/deletemedia.svg"
+                />
+              )}
             </div>
           )}
         </div>
@@ -181,7 +194,9 @@ function SortableItem({
             {index + 2}
           </div>
 
-          {media.isDefault ? (
+          {media.isCover ? (
+            <div className={styles.covertag}>{t(LanguageKey.cover)}</div>
+          ) : media.isDefault ? (
             <img style={{ width: "35px" }} title="ℹ️ Recently Uploaded" src="/instagram.svg" />
           ) : media.fromSuggestion ? (
             <img style={{ width: "35px" }} title="ℹ️ suggest picture" src="/new.svg" />
@@ -210,7 +225,6 @@ export default function Media({
   const [productMediaInfo, setProductMediaInfo] = useState<IProduct_Media[]>(productMedia);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [selectedSuggestions, setSelectedSuggestions] = useState<string[]>([]);
-  const [popupImage, setPopupImage] = useState<string | null>(null);
 
   // Configure DnD sensors
   const sensors = useSensors(
@@ -238,8 +252,18 @@ export default function Media({
     return window.btoa(binary);
   }
   const handleSpanClick = useCallback((index: number): void => {
-    setProductMediaInfo((prev) => prev.map((x) => (x.index !== index ? x : { ...x, isHidden: !x.isHidden })));
+    setProductMediaInfo((prev) =>
+      prev.map((x) =>
+        x.index !== index ? x : { ...x, isHidden: !x.isHidden, isCover: !x.isHidden ? false : x.isCover },
+      ),
+    );
   }, []);
+
+  const handleSetCover = useCallback((index: number): void => {
+    setProductMediaInfo((prev) => prev.map((x) => ({ ...x, isCover: x.index === index ? !x.isCover : false })));
+  }, []);
+
+  const coverMedia = productMediaInfo.find((x) => x.isCover && canBeCover(x));
 
   const compressAndUpload = useCallback(
     async (file: File) => {
@@ -493,7 +517,6 @@ export default function Media({
   return (
     <>
       <div className={styles.Media} role="region" aria-label="Product Media Management">
-        {popupImage && <ImagePopup imageSrc={popupImage} onClose={() => setPopupImage(null)} />}
         <div className="headerandinput">
           <div className="title" role="heading" aria-level={2}>
             {t(LanguageKey.product_mediatitle)}
@@ -509,7 +532,7 @@ export default function Media({
                   className={styles.thumbnailmediapicture}
                   title="Cover Image"
                   alt="Product cover image"
-                  src={basePictureUrl + coverUrl}
+                  src={coverMedia ? coverMedia.base64Url : basePictureUrl + coverUrl}
                   role="img"
                 />
                 <div className={styles.thumbnailmediasetting}>
@@ -525,7 +548,11 @@ export default function Media({
                   <div className={styles.pictureorderfalse} title="ℹ️ pictures cover photo">
                     {t(LanguageKey.cover)}
                   </div>
-                  <img style={{ width: "35px" }} title="ℹ️ from instagram" src="/instagram.svg" />
+                  <img
+                    style={{ width: "35px" }}
+                    title={coverMedia ? "ℹ️ changed cover" : "ℹ️ from instagram"}
+                    src={coverMedia ? "/new.svg" : "/instagram.svg"}
+                  />
                 </div>
               </div>
 
@@ -540,8 +567,8 @@ export default function Media({
                       index={index}
                       onDelete={handleDeleteCustomeMedia}
                       onReplace={handleReplaceImage}
-                      onView={(src) => setPopupImage(src)}
                       onToggleVisibility={handleSpanClick}
+                      onSetCover={handleSetCover}
                     />
                   ))}
                 </div>

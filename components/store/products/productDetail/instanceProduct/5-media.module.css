@@ -208,6 +208,50 @@
 .thumbnailiconstg:hover {
   border: 1px solid var(--color-gray);
 }
+/* Top overlay row: media-type icon + change-cover button */
+.thumbnailmediatop {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--gap-5);
+}
+/* cover.svg is gray; brighten it so it reads on the dark button */
+.coverbtn {
+  filter: brightness(1.6);
+}
+.coverbtnactive {
+  background-color: var(--color-dark-blue);
+  filter: none;
+}
+.coverbtnactive:hover {
+  border: 1px solid var(--color-ffffff);
+}
+.coverselected {
+  border-color: var(--color-dark-blue) !important;
+}
+.covertag {
+  height: 30px;
+  display: flex;
+  align-items: center;
+  gap: var(--gap-5);
+  padding: var(--paddingtag);
+  border-radius: var(--br10);
+  background-color: var(--color-dark-blue);
+  color: var(--color-ffffff);
+  font-size: var(--font-12);
+  font-weight: var(--weight-600);
+  white-space: nowrap;
+  animation: var(--fadeIn2);
+}
+.coverdivider {
+  align-self: stretch;
+  width: 1px;
+  margin: var(--padding-10) var(--padding-5);
+  background-color: var(--color-gray30);
+  flex-shrink: 0;
+}
 .thumbnailmediabtn {
   width: 100%;
   display: flex;
