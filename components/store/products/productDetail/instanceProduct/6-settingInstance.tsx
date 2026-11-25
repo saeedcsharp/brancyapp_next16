@@ -176,7 +176,7 @@ function SettingInstance({
       router.push("/");
     },
   });
-  const [settingInfo, setSettingInfo] = useState<IProduct_Setting>(setting);
+  const [settingInfo, setSettingInfo] = useState<IProduct_Setting>({ ...setting, weight: setting.weight ?? 0 });
   const [loading, setLoading] = useState<boolean>(true);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [hoverData, setHoverData] = useState({
@@ -796,7 +796,7 @@ function SettingInstance({
                             }
                             placeHolder="Net Weight "
                             handleInputChange={handleNetWeightChange}
-                            value={settingInfo.weight!.toString()}
+                            value={(settingInfo.weight ?? 0).toString()}
                             numberType={true}
                             unit={t(LanguageKey.Storeproduct_gram)}
                           />
