@@ -76,7 +76,7 @@ export default function NotInstanceProductDetail({
     brandId: null,
     categoryId: 0,
     isLiquid: false,
-    isInsurance: false,
+    insurance: false,
     customTitleVariation: "",
     evat: 0,
     gauranteeStatus: GauranteeStatus.No,
@@ -167,7 +167,7 @@ export default function NotInstanceProductDetail({
     deliveryType: 0,
     envelopeAvailableCount: 0,
     isLiquid: false,
-    isInsurance: false,
+    insurance: false,
     maxSize: maxSize,
   });
   // لیست تصاویر کوچک
@@ -437,7 +437,7 @@ export default function NotInstanceProductDetail({
     newCreate.availabilityStatus = setting.availabilityStatus;
     newCreate.breakable = setting.breakable;
     newCreate.isLiquid = setting.isLiquid;
-    newCreate.isInsurance = setting.isInsurance;
+    newCreate.insurance = setting.insurance;
     newCreate.gauranteeLength = setting.guaranteeLenght;
     newCreate.gauranteeStatus = setting.gauranteeStatus;
     newCreate.maxInEachCard = setting.maxInEachCard;

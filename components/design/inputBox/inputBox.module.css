@@ -265,19 +265,19 @@
   top: 50%;
   right: 0;
   transform: translateY(-50%);
-  margin-inline-end: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  inline-size: clamp(30px, 30%, 50px);
+  display: block;
   box-sizing: border-box;
-  min-block-size: 32px;
+  inline-size: auto;
+  min-inline-size: 36px;
+  max-inline-size: clamp(40px, 35%, 80px);
+  padding-inline: 8px;
+  text-align: center;
   border-left: 1px solid var(--color-gray60);
   overflow: hidden;
   color: var(--text-h2);
   font-size: var(--font-12);
   font-weight: var(--weight-500);
-  line-height: 20px;
+  line-height: 32px;
   white-space: nowrap;
   text-overflow: ellipsis;
   pointer-events: none;
@@ -290,10 +290,10 @@ html[dir="rtl"] .unitLabel {
 }
 .hasUnit {
   padding-left: 12px;
-  padding-right: clamp(40px, 30%, 60px);
+  padding-right: clamp(48px, 35%, 88px);
 }
 
 html[dir="rtl"] .hasUnit {
-  padding-left: clamp(40px, 30%, 60px);
+  padding-left: clamp(48px, 35%, 88px);
   padding-right: 12px;
 }

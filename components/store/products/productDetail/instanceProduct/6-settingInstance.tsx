@@ -341,7 +341,7 @@ function SettingInstance({
   }
 
   function handleIsInsurance(id: any) {
-    setSettingInfo((prev) => ({ ...prev, isInsurance: id == 0 }));
+    setSettingInfo((prev) => ({ ...prev, insurance: id == 0 }));
   }
 
   function handleSackSelect(id: any) {
@@ -637,7 +637,7 @@ function SettingInstance({
                           <DragDrop
                             data={insuranceOptions}
                             handleOptionSelect={handleIsInsurance}
-                            item={settingInfo.isInsurance ? 0 : 1}
+                            item={settingInfo.insurance ? 0 : 1}
                           />
                         </div>
                         <div className={styles.customsize}>
@@ -795,7 +795,7 @@ function SettingInstance({
                         <DragDrop
                           data={insuranceOptions}
                           handleOptionSelect={handleIsInsurance}
-                          item={settingInfo.isInsurance ? 0 : 1}
+                          item={settingInfo.insurance ? 0 : 1}
                         />
                       </div>
                       <div className="headerandinput">
