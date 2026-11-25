@@ -1464,6 +1464,7 @@ export enum LanguageKey {
   Product_titleExplain = "Product_titleExplain",
   Product_Breakable = "Product_Breakable",
   Product_Luquid = "Product_Luquid",
+  Product_Insurance = "Product_Insurance",
   Product_Productweights = "Product_Productweights",
   Product_Productweightsexplian = "Product_Productweightsexplian",
   Product_packaging = "Product_packaging",

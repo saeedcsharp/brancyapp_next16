@@ -4349,6 +4349,7 @@ export interface IProduct_CreateInstance {
   };
   breakable: boolean;
   isLiquid: boolean;
+  isInsurance: boolean;
   availabilityStatus: AvailabilityStatus;
   gauranteeStatus: GauranteeStatus;
   orginalityStatus: OrginalityStatus;
@@ -4396,6 +4397,7 @@ export interface IProduct_Setting {
   readyForShipDayLong: number;
   guaranteeLenght: number;
   isLiquid: boolean;
+  isInsurance: boolean;
   orginalityStatus: OrginalityStatus;
   breakable: boolean;
   deliveryType: ParcelPocketDeliveryType;
@@ -4571,7 +4573,7 @@ export interface IProductInstance {
 export interface ISecondaryInfo {
   isBreakable: boolean;
   isLiquid: boolean;
-  insurance: boolean;
+  isInsurance: boolean;
   evat: number;
   maxInEachCard: number;
   readyForShipDays: number;
@@ -4760,6 +4762,7 @@ export interface IProduct_Update {
 export interface IProduct_SettingUpdate {
   isBreakable: boolean;
   isLiquid: boolean;
+  isInsurance: boolean;
   maxInEachCard: number;
   readyForShipDayLong: number;
   gauranteeStatus: GauranteeStatus;

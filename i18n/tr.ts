@@ -2496,6 +2496,7 @@ export default {
       "Önerilen başlıklar, ürününüzün özelliklerine ve pazardaki benzer başlıkların ortalamasına dayanarak aramalarda ve benzer ürünlerde görünürlüğünü artırmak için sağlanmaktadır.\n (Bu başlıklar hata içerebilir)",
     Product_Breakable: "Kırılabilir",
     Product_Luquid: "Sıvı",
+    Product_Insurance: "Sigorta",
     Product_sack: "Çuval / Torba",
     Product_sackExplain:
       "Ürününüz çuval, torba, poşet veya esnek ambalajlarla gönderiliyorsa bu seçeneği işaretleyin. Bu, yerleşim, taşıma ve paketleme sürecini daha iyi yönetmemize yardımcı olur.",

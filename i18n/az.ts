@@ -2453,6 +2453,7 @@ export default {
       "Tövsiyə olunan başlıqlar məhsul xüsusiyyətlərinə və bazardakı oxşar məhsulların orta başlıqlarına əsaslanır. Axtarışlarda və oxşar məhsullarda görünüşü artırır. (Bu başlıqlar səhv ola bilər)",
     Product_Breakable: "Qırılabilir",
     Product_Luquid: "Maye",
+    Product_Insurance: "Sığorta",
     Product_sack: "Çuval / Torba",
     Product_sackExplain:
       "Əgər məhsul torba, çuval, yumşaq və elastik qablaşdırmada göndərilirsə, bu seçimi seçin. Bu, qablaşdırma və göndərməni daha yaxşı idarə etməyə kömək edir.",

@@ -116,6 +116,7 @@ function SettingInstance({
   const breakable = [<div id="0">{t(LanguageKey.Yes)}</div>, <div id="1">{t(LanguageKey.No)}</div>];
   const liquid = [<div id="0">{t(LanguageKey.Yes)}</div>, <div id="1">{t(LanguageKey.No)}</div>];
   const sackOptions = [<div id="0">{t(LanguageKey.Yes)}</div>, <div id="1">{t(LanguageKey.No)}</div>];
+  const insuranceOptions = [<div id="0">{t(LanguageKey.Yes)}</div>, <div id="1">{t(LanguageKey.No)}</div>];
   const deliveryTypes = [
     <div id="-1">{t(LanguageKey.Pleaseselect)}</div>,
     <div id="0">{t(LanguageKey.Storeorder_bymyself)}</div>,
@@ -337,6 +338,10 @@ function SettingInstance({
 
   function handleIsLiquid(id: any) {
     setSettingInfo((prev) => ({ ...prev, isLiquid: id == 0 }));
+  }
+
+  function handleIsInsurance(id: any) {
+    setSettingInfo((prev) => ({ ...prev, isInsurance: id == 0 }));
   }
 
   function handleSackSelect(id: any) {
@@ -627,6 +632,14 @@ function SettingInstance({
                             />
                           </div>
                         </div>
+                        <div className="headerandinput">
+                          <div className="headertext">{t(LanguageKey.Product_Insurance)}</div>
+                          <DragDrop
+                            data={insuranceOptions}
+                            handleOptionSelect={handleIsInsurance}
+                            item={settingInfo.isInsurance ? 0 : 1}
+                          />
+                        </div>
                         <div className={styles.customsize}>
                           <div className="headerandinput">
                             <div className="headertext">
@@ -776,6 +789,14 @@ function SettingInstance({
                             item={settingInfo.isLiquid ? 0 : 1}
                           />
                         </div>
+                      </div>
+                      <div className="headerandinput">
+                        <div className="headertext">{t(LanguageKey.Product_Insurance)}</div>
+                        <DragDrop
+                          data={insuranceOptions}
+                          handleOptionSelect={handleIsInsurance}
+                          item={settingInfo.isInsurance ? 0 : 1}
+                        />
                       </div>
                       <div className="headerandinput">
                         <div className="headertext">

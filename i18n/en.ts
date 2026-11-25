@@ -2497,6 +2497,7 @@ export default {
       "Suggested titles are provided based on your product's features and the average titles in the market to increase its visibility in searches and similar products. \n(These titles may contain errors)",
     Product_Breakable: "Breakable",
     Product_Luquid: "Luquid",
+    Product_Insurance: "Insurance",
     Product_sack: "Sack / Bag",
     Product_sackExplain:
       "If your product is shipped in a sack, bag, tote, or other soft and flexible packaging, choose this option. This helps us better manage the layout, transport, and packaging process.",

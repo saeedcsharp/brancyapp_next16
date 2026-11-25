@@ -2556,6 +2556,7 @@ export default {
       "Vorgeschlagene Titel werden basierend auf den Merkmalen Ihres Produkts und den durchschnittlichen Titeln auf dem Markt bereitgestellt, um dessen Sichtbarkeit in Suchanfragen und ähnlichen Produkten zu erhöhen. \n(Diese Titel können Fehler enthalten)",
     Product_Breakable: "Zerbrechlich",
     Product_Luquid: "Flüssigkeit",
+    Product_Insurance: "Versicherung",
     Product_sack: "Sack / Beutel",
     Product_sackExplain:
       "Wenn Ihr Produkt in einem Sack, Beutel oder einer weichen, flexiblen Verpackung versendet wird, wählen Sie diese Option. Dies hilft uns, die Anordnung, den Transport und die Verpackung besser zu organisieren.",

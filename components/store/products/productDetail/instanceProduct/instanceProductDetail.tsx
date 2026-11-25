@@ -153,6 +153,7 @@ export default function InstanceProductDetail({
     deliveryType: fullProduct.secondaryInfo.deliveryInfo.deliveryType,
     envelopeAvailableCount: fullProduct.secondaryInfo.deliveryInfo.envelopeAvailableCount,
     isLiquid: fullProduct.secondaryInfo.isLiquid,
+    isInsurance: fullProduct.secondaryInfo.isInsurance ?? false,
     maxSize: maxSize,
   });
   function upadteCteateFromInformation(info: IProduct_Information, isNext: boolean) {
@@ -406,6 +407,7 @@ export default function InstanceProductDetail({
       gauranteeStatus: setting.gauranteeStatus,
       isBreakable: setting.breakable,
       isLiquid: setting.isLiquid,
+      isInsurance: setting.isInsurance,
       maxInEachCard: setting.maxInEachCard,
       availabilityStatus: setting.availabilityStatus,
       deliveryInfo: {

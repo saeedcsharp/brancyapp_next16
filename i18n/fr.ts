@@ -2573,6 +2573,7 @@ export default {
       "Les titres suggérés sont fournis en fonction des caractéristiques de votre produit et de la moyenne des titres similaires sur le marché afin d’augmenter leur visibilité dans les recherches et les produits similaires. \n(Ces titres peuvent contenir des erreurs)",
     Product_Breakable: "Fragile",
     Product_Luquid: "Liquide",
+    Product_Insurance: "Assurance",
     Product_sack: "Sachet / Sac",
     Product_sackExplain:
       "Si votre produit est expédié dans un sac, tote ou un emballage souple et flexible, sélectionnez cette option. Cela nous aide à mieux organiser la disposition, le transport et l’emballage.",
